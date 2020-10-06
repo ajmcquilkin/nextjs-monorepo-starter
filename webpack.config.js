@@ -66,6 +66,7 @@ module.exports = {
     }
   },
   plugins: [
+    new MiniCssExtractPlugin(),
     // new CleanWebpackPlugin([outputDirectory]),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
