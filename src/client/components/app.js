@@ -18,7 +18,7 @@ import SignOutPanel from '../containers/authentication/signOutPanel';
 import Dashboard from '../containers/dashboard';
 import VoxForm from '../containers/form';
 
-const Welcome = props => (
+const Welcome = (props) => (
   <div>
     <Navbar bg="light">
       <Navbar.Brand href="/">Vox</Navbar.Brand>
@@ -41,9 +41,9 @@ const Welcome = props => (
   </div>
 );
 
-const FallBack = props => <div>Uh oh... URL Not Found! Please contact the system administrator.</div>;
+const FallBack = (props) => <div>Uh oh... URL Not Found! Please contact the system administrator.</div>;
 
-const App = props => (
+const App = (props) => (
   <Router>
     <div>
       <Switch>
