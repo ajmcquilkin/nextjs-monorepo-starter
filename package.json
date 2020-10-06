@@ -10,6 +10,7 @@
     "server": "nodemon src/server/index.js --exec babel-node",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
+  "engines" : { "node" : ">=14.12" },
   "author": "Sandeep Raveesh",
   "license": "ISC",
   "dependencies": {
