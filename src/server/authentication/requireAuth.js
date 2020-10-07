@@ -1,11 +1,12 @@
 /* eslint-disable func-names */
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import dotenv from 'dotenv';
 
 import User from '../models/user_model';
 
-dotenv.config({ silent: true });
+const result = require('dotenv').config({ debug: process.env.DEBUG });
+
+console.assert(!result.error, JSON.stringify(result, null, '\t'));
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -19,11 +20,10 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
     // This logic can be modified to check for user attributes
     if (err) {
       return done(err, false); // Error return
-    } else if (user) {
+    } if (user) {
       return done(null, user); // Valid user return
-    } else {
-      return done(null, false); // Catch no valid user return
     }
+    return done(null, false); // Catch no valid user return
   });
 });
 
