@@ -10,8 +10,6 @@ import {
 
 import { requireAuth } from './authentication';
 
-import * as constants from './constants';
-
 // initialize
 const app = express();
 
@@ -26,7 +24,7 @@ app.use(express.static('dist'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const apiRouter = express.Router();
+const apiRouter = express();
 app.use('/api', apiRouter);
 // declare routers
 
@@ -38,7 +36,7 @@ apiRouter.use('/items', itemRouter); //
 apiRouter.use('/groups', groupRouter); //
 
 // default index route
-app.get('/', (req, res) => {
+apiRouter.get('/', (req, res) => {
   res.send('Welcome to backend!');
 });
 
@@ -50,7 +48,7 @@ const mongooseOptions = {
   loggerLevel: 'error',
 };
 // Connect the database
-mongoose.connect(constants.MONGODB_URI, mongooseOptions).then(() => {
+mongoose.connect(process.env.MONGODB_URI, mongooseOptions).then(() => {
   mongoose.Promise = global.Promise; // configures mongoose to use ES6 Promises
   console.log('Connected to Database');
 }).catch((err) => {
@@ -64,6 +62,6 @@ app.use((req, res) => {
 
 // START THE SERVER
 // =============================================================================
-app.listen(constants.PORT);
-
-console.log(`listening on: ${constants.PORT}`);
+const PORT = process.env.PORT || 9090;
+app.listen(PORT);
+console.log(`listening on: ${PORT}`);
