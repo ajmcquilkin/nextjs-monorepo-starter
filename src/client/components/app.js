@@ -24,7 +24,7 @@ const Welcome = (props) => (
       <Navbar.Brand href="/">Vox</Navbar.Brand>
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
-          <Nav.Link href="/signin">Sign In</Nav.Link>
+          <Nav.Link href="/api/login">Sign In</Nav.Link>
           <Nav.Link href="/signup">Sign Up</Nav.Link>
         </Nav>
       </Navbar.Collapse>
