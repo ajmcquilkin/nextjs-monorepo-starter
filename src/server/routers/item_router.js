@@ -7,15 +7,10 @@ const router = express();
 
 // find and return all resources
 router.route('/')
-
   // Get all resources
   .get((req, res) => {
     console.log(req.query);
-    Items.find(req.query).then((resources) => {
-      return res.json(resources);
-    }).catch((error) => {
-      return res.status(500).json(error);
-    });
+    Items.find(req.query).then((resources) => res.json(resources)).catch((error) => res.status(500).json(error));
   })
 
   // Create new resource (SECURE)
@@ -33,22 +28,14 @@ router.route('/')
     newItem.date_item_created = Date.now();
 
     newItem.save()
-      .then((savedItem) => {
-        return res.json(savedItem);
-      }).catch((error) => {
-        return res.status(500).json(error);
-      });
+      .then((savedItem) => res.json(savedItem)).catch((error) => res.status(500).json(error));
   })
 
   // Delete all resources (SECURE, TESTING ONLY)
   .delete(requireAuth, (req, res) => {
     Items.deleteMany({ })
-      .then(() => {
-        return res.json({ message: 'Successfully deleted all resources.' });
-      })
-      .catch((error) => {
-        return res.status(500).json(error);
-      });
+      .then(() => res.json({ message: 'Successfully deleted all resources.' }))
+      .catch((error) => res.status(500).json(error));
   });
 
 router.route('/:id')
@@ -56,15 +43,12 @@ router.route('/:id')
   // Get resource by id
   .get((req, res) => {
     Items.findById(req.params.id)
-      .then((resource) => {
-        return res.json(resource);
-      })
+      .then((resource) => res.json(resource))
       .catch((error) => {
         if (error.message && error.message.startsWith('Resource with id:')) {
           return res.status(404).json(error);
-        } else {
-          return res.status(500).json(error);
         }
+        return res.status(500).json(error);
       });
   })
 
@@ -73,17 +57,14 @@ router.route('/:id')
     Items.findById(req.params.id)
       .then((item) => {
         Items.updateOne({ _id: req.params.id }, req.body).then((edited) => {
-          Items.findById(req.params.id).then((found) => {
-            return res.json(found);
-          });
+          Items.findById(req.params.id).then((found) => res.json(found));
         });
       })
       .catch((error) => {
         if (error.message.startsWith('Resource with id:')) {
           return res.status(404).json({ message: error.message });
-        } else {
-          return res.status(500).json({ message: error.message });
         }
+        return res.status(500).json({ message: error.message });
       });
   });
 

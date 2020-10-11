@@ -7,20 +7,14 @@ import {
   authRouter, userRouter, resourceRouter, searchRouter, itemRouter, groupRouter,
 } from './routers';
 
-import { requireAuth } from './authentication';
 import { SELF_URL, APP_URL } from './constants';
 
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const CASAuthentication = require('node-cas-authentication');
 
 // initialize
 const app = express();
-
-app.use(session({
-  secret: 'super secret key',
-  resave: false,
-  saveUninitialized: true
-}));
 
 const returnURL = `http://${APP_URL}`;
 console.log(`Return ${returnURL}`);
@@ -34,6 +28,28 @@ const cas = new CASAuthentication({
 
 // enable/disable cross origin resource sharing if necessary
 app.use(cors({ credentials: true, origin: `http://${APP_URL}` }));
+
+// DB Setup
+const mongooseOptions = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  loggerLevel: 'error',
+};
+// Connect the database
+mongoose.connect(process.env.MONGODB_URI, mongooseOptions).then(() => {
+  mongoose.Promise = global.Promise; // configures mongoose to use ES6 Promises
+  console.log('Connected to Database');
+}).catch((err) => {
+  console.log('Not Connected to Database ERROR! ', err);
+});
+
+app.use(session({
+  secret: 'super secret key',
+  resave: false,
+  saveUninitialized: true,
+  // store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
 
 app.get('/api/login', cas.bounce, (req, res) => {
   console.log(req.session);
@@ -58,7 +74,7 @@ app.use('/api', apiRouter);
 // declare routers
 
 apiRouter.use('/auth', authRouter); // NOTE: Not secured
-apiRouter.use('/users', requireAuth, userRouter); // NOTE: Completely secured to users
+apiRouter.use('/users', userRouter); // NOTE: Completely secured to users
 apiRouter.use('/resources', resourceRouter); // NOTE: Partially secured to users
 apiRouter.use('/search', searchRouter); //
 apiRouter.use('/items', itemRouter); //
@@ -67,21 +83,6 @@ apiRouter.use('/groups', groupRouter); //
 // default index route
 apiRouter.get('/', (req, res) => {
   res.send('Welcome to backend!');
-});
-
-// DB Setup
-const mongooseOptions = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  loggerLevel: 'error',
-};
-// Connect the database
-mongoose.connect(process.env.MONGODB_URI, mongooseOptions).then(() => {
-  mongoose.Promise = global.Promise; // configures mongoose to use ES6 Promises
-  console.log('Connected to Database');
-}).catch((err) => {
-  console.log('Not Connected to Database ERROR! ', err);
 });
 
 // Custom 404 middleware
