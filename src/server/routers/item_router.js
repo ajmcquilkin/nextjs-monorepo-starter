@@ -1,20 +1,21 @@
 import express from 'express';
 
 import { Items } from '../models';
-import { requireAuth } from '../authentication';
+import { requireLogin } from '../authentication';
 
 const router = express();
 
 // find and return all resources
 router.route('/')
   // Get all resources
-  .get((req, res) => {
+  .get(requireLogin, (req, res) => {
     console.log(req.query);
-    Items.find(req.query).then((resources) => res.json(resources)).catch((error) => res.status(500).json(error));
+    Items.find(req.query).then((resources) => res.json(resources))
+      .catch((error) => res.status(500).json(error));
   })
 
   // Create new resource (SECURE)
-  .post(requireAuth, (req, res) => {
+  .post(requireLogin, (req, res) => {
     const newItem = new Items();
     newItem.submitter_netid = req.user.netid;
     newItem.from_name = req.user.full_name;
@@ -32,7 +33,7 @@ router.route('/')
   })
 
   // Delete all resources (SECURE, TESTING ONLY)
-  .delete(requireAuth, (req, res) => {
+  .delete(requireLogin, (req, res) => {
     Items.deleteMany({ })
       .then(() => res.json({ message: 'Successfully deleted all resources.' }))
       .catch((error) => res.status(500).json(error));
@@ -52,11 +53,11 @@ router.route('/:id')
       });
   })
 
-  .put(requireAuth, (req, res) => {
+  .put(requireLogin, (req, res) => {
     // TODO check role + ownership
     Items.findById(req.params.id)
-      .then((item) => {
-        Items.updateOne({ _id: req.params.id }, req.body).then((edited) => {
+      .then(() => {
+        Items.updateOne({ _id: req.params.id }, req.body).then(() => {
           Items.findById(req.params.id).then((found) => res.json(found));
         });
       })

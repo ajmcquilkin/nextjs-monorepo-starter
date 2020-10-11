@@ -4,7 +4,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import {
-  authRouter, userRouter, resourceRouter, searchRouter, itemRouter, groupRouter,
+  resourceRouter, searchRouter, itemRouter, groupRouter,
 } from './routers';
 
 import { SELF_URL, APP_URL } from './constants';
@@ -16,12 +16,12 @@ const CASAuthentication = require('node-cas-authentication');
 // initialize
 const app = express();
 
+console.log(`SELF: ${SELF_URL}, APP: ${APP_URL}`);
 const returnURL = `http://${APP_URL}`;
-console.log(`Return ${returnURL}`);
 
 const cas = new CASAuthentication({
   cas_url: 'https://login.dartmouth.edu/cas',
-  service_url: 'http://localhost:9090',
+  service_url: `http://${SELF_URL}`,
   session_info: 'info',
   return_to: returnURL
 });
@@ -36,6 +36,7 @@ const mongooseOptions = {
   useCreateIndex: true,
   loggerLevel: 'error',
 };
+
 // Connect the database
 mongoose.connect(process.env.MONGODB_URI, mongooseOptions).then(() => {
   mongoose.Promise = global.Promise; // configures mongoose to use ES6 Promises
@@ -45,21 +46,11 @@ mongoose.connect(process.env.MONGODB_URI, mongooseOptions).then(() => {
 });
 
 app.use(session({
-  secret: 'super secret key',
+  secret: process.env.AUTH_SECRET,
   resave: false,
   saveUninitialized: true,
-  // store: new MongoStore({ mongooseConnection: mongoose.connection })
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
-
-app.get('/api/login', cas.bounce, (req, res) => {
-  console.log(req.session);
-  res.status(200).send(req.session);
-});
-app.get('/api/auth', (req, res) => {
-  console.log(req.headers.cookie);
-  console.log(req.session.cas_user);
-  res.send(req.session);
-});
 
 // enable/disable http request logging
 app.use(morgan('dev'));
@@ -70,11 +61,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const apiRouter = express();
+
+app.get('/api/login', cas.bounce, (req, res) => {
+  console.log(req.session);
+  res.status(200).send(req.session);
+});
+
 app.use('/api', apiRouter);
 // declare routers
-
-apiRouter.use('/auth', authRouter); // NOTE: Not secured
-apiRouter.use('/users', userRouter); // NOTE: Completely secured to users
 apiRouter.use('/resources', resourceRouter); // NOTE: Partially secured to users
 apiRouter.use('/search', searchRouter); //
 apiRouter.use('/items', itemRouter); //
