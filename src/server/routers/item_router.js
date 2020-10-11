@@ -8,7 +8,7 @@ const router = express();
 // find and return all resources
 router.route('/')
   // Get all resources
-  .get(requireLogin, (req, res) => {
+  .get((req, res) => {
     console.log(req.query);
     Items.find(req.query).then((resources) => res.json(resources))
       .catch((error) => res.status(500).json(error));
@@ -17,9 +17,9 @@ router.route('/')
   // Create new resource (SECURE)
   .post(requireLogin, (req, res) => {
     const newItem = new Items();
-    newItem.submitter_netid = req.user.netid;
-    newItem.from_name = req.user.full_name;
-    newItem.from_address = req.user.email;
+    newItem.submitter_netid = req.session.info.netid;
+    newItem.from_name = req.session.info.name;
+    newItem.from_address = req.session.cas_user;
 
     newItem.brief_content = req.body.brief_content;
     newItem.full_content = req.body.full_content;

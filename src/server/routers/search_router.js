@@ -35,11 +35,7 @@ router.route('/')
     };
 
     // Call search() controller with generated parameters
-    searchController.search(queryObject, sort, page, numPerPage).then((results) => {
-      return res.json({ results, numResults: results.length });
-    }).catch((error) => {
-      return res.status(500).json(error);
-    });
+    searchController.search(queryObject, sort, page, numPerPage).then((results) => res.json({ results, numResults: results.length })).catch((error) => res.status(500).json(error));
   });
 
 export default router;
