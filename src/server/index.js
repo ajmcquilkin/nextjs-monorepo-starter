@@ -33,7 +33,7 @@ const cas = new CASAuthentication({
 });
 
 // enable/disable cross origin resource sharing if necessary
-app.use(cors());
+app.use(cors({ credentials: true, origin: `http://${APP_URL}` }));
 
 app.get('/api/login', cas.bounce, (req, res) => {
   console.log(req.session);

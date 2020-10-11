@@ -61,9 +61,6 @@ module.exports = {
     port: 8080,
     open: true,
     historyApiFallback: true,
-    proxy: {
-      '/api': 'http://localhost:8080'
-    }
   },
   plugins: [
     new MiniCssExtractPlugin(),

@@ -17,6 +17,7 @@ import SignOutPanel from '../containers/authentication/signOutPanel';
 
 import Dashboard from '../containers/dashboard';
 import VoxForm from '../containers/form';
+import { ROOT_URL } from '../constants';
 
 const Welcome = (props) => (
   <div>
@@ -24,7 +25,7 @@ const Welcome = (props) => (
       <Navbar.Brand href="/">Vox</Navbar.Brand>
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
-          <Nav.Link href="/api/login">Sign In</Nav.Link>
+          <Nav.Link href="/signin">Sign In</Nav.Link>
           <Nav.Link href="/signup">Sign Up</Nav.Link>
         </Nav>
       </Navbar.Collapse>
@@ -48,7 +49,15 @@ const App = (props) => (
     <div>
       <Switch>
         <Route exact path="/" component={Welcome} />
-        <Route exact path="/signin" component={SignInPanel} />
+        {/* <Route exact path="/signin" component={SignInPanel} /> */}
+        <Route
+          path="/signin"
+          component={() => {
+            window.location.href = `${ROOT_URL}/login`;
+            return null;
+          }}
+        />
+
         <Route exact path="/signup" component={SignUpPanel} />
         <Route exact path="/signout" component={SignOutPanel} />
         <Route path="/admin" component={requireAuth(AdminPanel, SignInPanel)} />

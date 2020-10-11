@@ -7,11 +7,13 @@ const router = express();
 
 // find and return all resources
 router.route('/')
-
   // Get all resources
-  .get((req, res) => Resources.find({})
-    .then((resources) => res.json(resources))
-    .catch((error) => res.status(500).json(error)))
+  .get((req, res) => {
+    console.log(req.session);
+    return Resources.find({})
+      .then((resources) => res.json(resources))
+      .catch((error) => res.status(500).json(error));
+  })
 
   // Create new resource (SECURE)
   .post(requireAuth, (req, res) => {

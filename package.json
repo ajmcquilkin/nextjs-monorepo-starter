@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "Boilerplate to build a full stack web application using React, Node.js, Express and Webpack.",
   "main": "src/server/index.js",
+  "productionURL":"itc-vox.herokuapp.com",
   "scripts": {
     "build": "webpack --mode production",
-    "start": "export NODE_ENV=production && yarn run build && nodemon src/server/index.js --exec babel-node",
+    "start": "NODE_ENV=production yarn run build ; nodemon src/server/index.js --exec babel-node",
+    "combined": "NODE_ENV=combined yarn run build ; nodemon src/server/index.js --exec babel-node",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
-    "server": "export NODE_ENV=development && nodemon src/server/index.js --exec babel-node",
+    "server": "NODE_ENV=development nodemon src/server/index.js --exec babel-node",
     "dev": "concurrently \"yarn run server\" \"yarn run client\""
   },
   "author": "Sandeep Raveesh",
