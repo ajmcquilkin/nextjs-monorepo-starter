@@ -3,7 +3,8 @@ import { ROOT_URL } from '../constants';
 import ActionTypes, { getBearerTokenHeader } from './index';
 
 /**
- * A function for fetching all resources loaded into backend (or a given number based on backend parameters)
+ * A function for fetching all resources loaded
+ * into backend (or a given number based on backend parameters)
  */
 export function fetchResources() {
   return (dispatch) => new Promise((resolve, reject) => {
