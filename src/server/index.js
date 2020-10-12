@@ -4,7 +4,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import {
-  resourceRouter, searchRouter, itemRouter, groupRouter,
+  resourceRouter, itemRouter, groupRouter,
 } from './routers';
 
 import { SELF_URL, APP_URL } from './constants';
@@ -70,7 +70,6 @@ app.get('/api/login', cas.bounce, (req, res) => {
 app.use('/api', apiRouter);
 // declare routers
 apiRouter.use('/resources', resourceRouter); // NOTE: Partially secured to users
-apiRouter.use('/search', searchRouter); //
 apiRouter.use('/items', itemRouter); //
 apiRouter.use('/groups', groupRouter); //
 

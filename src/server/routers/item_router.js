@@ -40,7 +40,6 @@ router.route('/')
   });
 
 router.route('/:id')
-
   // Get resource by id
   .get((req, res) => {
     Items.findById(req.params.id)
