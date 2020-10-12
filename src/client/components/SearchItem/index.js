@@ -6,9 +6,14 @@ function SearchItem(props) {
     <div>
       {
         // Displays whatever object is passed as displayObject prop
-        Object.entries(props.displayObject).map(([k, v]) => {
-          return <div key={k}>{k}: {v}</div>;
-        })
+        Object.entries(props.displayObject).map(([k, v]) => (
+          <div key={k}>
+            {k}
+            :
+            {' '}
+            {v}
+          </div>
+        ))
       }
       {/* To make things cleaner */}
       <br />
