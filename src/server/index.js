@@ -64,8 +64,12 @@ app.use(bodyParser.json());
 const apiRouter = express();
 
 app.get('/api/login', cas.bounce, (req, res) => {
-  console.log(req.session);
   res.status(200).send(req.session);
+});
+
+app.get('/api/logout', cas.logout, (req, res) => {
+  req.session.destroy();
+  res.status(200).json({ message: 'Session Destroyed' });
 });
 
 app.use('/api', apiRouter);
