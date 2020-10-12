@@ -7,6 +7,8 @@ import {
   INLINE_STYLE,
   ENTITY_TYPE
 } from 'draftail';
+import ImageSource from './entities/ImageSource';
+import ImageBlock from './entities/ImageBlock';
 
 function MyEditor() {
   const initial = JSON.parse(sessionStorage.getItem('draftail:content'));
@@ -19,7 +21,11 @@ function MyEditor() {
   ];
   const entityTypes = [
     { type: ENTITY_TYPE.LINK },
-    { type: ENTITY_TYPE.IMAGE }
+    {
+      type: ENTITY_TYPE.IMAGE,
+      source: ImageSource,
+      block: ImageBlock
+    }
   ];
 
   const onSave = (content) => {
