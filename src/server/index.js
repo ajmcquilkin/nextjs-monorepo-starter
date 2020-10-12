@@ -29,6 +29,7 @@ const cas = new CASAuthentication({
   cas_url: 'https://login.dartmouth.edu/cas',
   service_url: 'http://localhost:9090',
   session_info: 'info',
+  destroy_session: true,
   return_to: returnURL
 });
 
@@ -39,11 +40,7 @@ app.get('/api/login', cas.bounce, (req, res) => {
   console.log(req.session);
   res.status(200).send(req.session);
 });
-app.get('/api/auth', (req, res) => {
-  console.log(req.headers.cookie);
-  console.log(req.session.cas_user);
-  res.send(req.session);
-});
+app.get('/api/logout', cas.logout);
 
 // enable/disable http request logging
 app.use(morgan('dev'));

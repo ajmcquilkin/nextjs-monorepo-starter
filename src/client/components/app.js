@@ -23,6 +23,7 @@ const Welcome = () => (
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
           <Nav.Link href="/signin">Sign In</Nav.Link>
+          <Nav.Link href="/logout">Log Out</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
@@ -42,7 +43,7 @@ const FallBack = () => (
   </div>
 );
 
-const App = (props) => (
+const App = () => (
   <Router>
     <div>
       <Switch>
@@ -55,11 +56,17 @@ const App = (props) => (
             return null;
           }}
         />
+        <Route
+          path="/logout"
+          component={() => {
+            window.location.href = `${ROOT_URL}/logout`;
+            return null;
+          }}
+        />
 
         <Route path="/admin" component={requireAuth(AdminPanel)} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/form" component={VoxForm} />
-        <Route component={FallBack} />
         <Route component={FallBack} />
       </Switch>
     </div>

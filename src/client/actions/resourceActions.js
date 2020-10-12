@@ -10,7 +10,7 @@ export function fetchResources() {
   return (dispatch) => new Promise((resolve, reject) => {
     dispatch({ type: ActionTypes.FETCH_RESOURCES_REQUEST });
 
-    axios.get(`${ROOT_URL}/resources`, { withCredentials: true }).then((response) => {
+    axios.get(`${ROOT_URL}/items`, { withCredentials: true }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_RESOURCES_SUCCESS, payload: response.data });
       resolve();
     }).catch((error) => {

@@ -5,9 +5,7 @@ import { NavLink } from 'react-router-dom';
 import {
   fetchResources, createResource, fetchResourceByID, updateResourceByID, deleteResourceByID,
 } from '../../actions/resourceActions';
-import {
-  fetchUsers, createUser, fetchUserByID, updateUserByID, deleteUserByID,
-} from '../../actions/userActions';
+
 import SearchItem from '../../components/SearchItem';
 
 class AdminPanel extends React.Component {
@@ -333,9 +331,4 @@ export default connect(mapStateToProps, {
   fetchResourceByID,
   updateResourceByID,
   deleteResourceByID,
-  fetchUsers,
-  createUser,
-  fetchUserByID,
-  updateUserByID,
-  deleteUserByID,
 })(AdminPanel);
