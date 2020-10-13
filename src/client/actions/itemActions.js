@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ROOT_URL } from '../constants';
-import ActionTypes, { getBearerTokenHeader } from './index';
+import ActionTypes from './index';
 
 /**
  * A function for fetching all items loaded
@@ -25,7 +25,7 @@ export function createResource(title, description, value) {
   return (dispatch) => new Promise((resolve, reject) => {
     dispatch({ type: ActionTypes.FETCH_ITEM_REQUEST });
 
-    axios.post(`${ROOT_URL}/items`, { title, description, value }, { headers: getBearerTokenHeader() }).then((response) => {
+    axios.post(`${ROOT_URL}/items`, { title, description, value }, { withCredentials: true }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_ITEM_SUCCESS, payload: response.data });
       resolve();
     }).catch((error) => {
@@ -58,7 +58,7 @@ export function fetchResourceByID(id) {
     } else {
       dispatch({ type: ActionTypes.FETCH_ITEM_REQUEST });
 
-      axios.get(`${ROOT_URL}/items/${id}`).then((response) => {
+      axios.get(`${ROOT_URL}/items/${id}`, { withCredentials: true }).then((response) => {
         dispatch({ type: ActionTypes.FETCH_ITEM_SUCCESS, payload: response.data });
         resolve();
       }).catch((error) => {
@@ -74,7 +74,7 @@ export function updateResourceByID(id, update) {
   return (dispatch) => new Promise((resolve, reject) => {
     dispatch({ type: ActionTypes.FETCH_ITEM_REQUEST });
 
-    axios.put(`${ROOT_URL}/items/${id}`, update, { headers: getBearerTokenHeader() }).then((response) => {
+    axios.put(`${ROOT_URL}/items/${id}`, update, { withCredentials: true }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_ITEM_SUCCESS, payload: response.data });
       resolve();
     }).catch((error) => {
@@ -87,7 +87,7 @@ export function updateResourceByID(id, update) {
 // Delete (AUTH)
 export function deleteResourceByID(id) {
   return (dispatch) => new Promise((resolve, reject) => {
-    axios.delete(`${ROOT_URL}/items/${id}`, { headers: getBearerTokenHeader() }).then((response) => {
+    axios.delete(`${ROOT_URL}/items/${id}`, { withCredentials: true }).then((response) => {
       resolve();
     }).catch((error) => {
       reject(error);
