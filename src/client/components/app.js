@@ -5,8 +5,6 @@ import {
 } from 'react-router-dom';
 import { Nav, Navbar } from 'react-bootstrap';
 
-import { signInUser, signOutUser } from '../actions/authActions';
-
 import requireAuth from '../hocs/requireAuth';
 
 import AdminPanel from '../containers/adminPanel';
@@ -73,4 +71,4 @@ const App = () => (
   </Router>
 );
 
-export default connect(null, { signInUser, signOutUser })(App);
+export default connect(null, null)(App);

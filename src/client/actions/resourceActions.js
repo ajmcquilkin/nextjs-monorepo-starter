@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ROOT_URL } from '../constants';
-import ActionTypes, { getBearerTokenHeader } from './index';
+import ActionTypes from './index';
 
 /**
  * A function for fetching all resources loaded

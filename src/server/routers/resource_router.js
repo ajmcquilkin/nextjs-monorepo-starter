@@ -64,7 +64,7 @@ router.route('/:id')
   })
 
   // Update resource by id (SECURE)
-  .put(requireAuth, (req, res) => {
+  .put(requireLogin, (req, res) => {
     Resources.findOneAndUpdate(
       { _id: req.params.id }, req.body,
       { useFindAndModify: false, new: true }

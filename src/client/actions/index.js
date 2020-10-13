@@ -1,5 +1,4 @@
 const ActionTypes = {
-  // Auth user
 
   // Search
   SEARCH_REQUEST: 'SEARCH_REQUEST',

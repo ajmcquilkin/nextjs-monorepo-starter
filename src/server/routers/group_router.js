@@ -10,8 +10,8 @@ router.route('/')
 
   // Get all resources
   .get((req, res) => {
-    Groups.find({}).then((resources) => res.json(resources))
-      .catch((error) => res.status(500).json(error));
+    Groups.find({}).then((resources) => res.status(200).json(resources))
+      .catch((error) => res.status(500).json({ message: error.message }));
   })
 
   // Create new Group (SECURE)
@@ -23,14 +23,15 @@ router.route('/')
     newgroup.categories = req.body.categories;
 
     newgroup.save()
-      .then((saved) => res.json(saved)).catch((error) => res.status(500).json(error));
+      .then((saved) => res.status(200).json(saved))
+      .catch((error) => res.status(500).json({ message: error.message }));
   })
 
   // Delete all resources (SECURE, TESTING ONLY)
   .delete(requireLogin, (req, res) => {
     Groups.deleteMany({ })
-      .then(() => res.json({ message: 'Successfully deleted all resources.' }))
-      .catch((error) => res.status(500).json(error));
+      .then(() => res.status(200).json({ message: 'Successfully deleted all resources.' }))
+      .catch((error) => res.status(500).json({ message: error.message }));
   });
 
 router.route('/:id')
@@ -38,12 +39,12 @@ router.route('/:id')
   // Get resource by id
   .get((req, res) => {
     Groups.findById(req.params.id)
-      .then((group) => res.json(group))
+      .then((group) => res.status(200).json(group))
       .catch((error) => {
         if (error.message && error.message.startsWith('Resource with id:')) {
-          return res.status(404).json(error);
+          return res.status(404).json({ message: error.message });
         }
-        return res.status(500).json(error);
+        return res.status(500).json({ message: error.message });
       });
   })
 
@@ -53,7 +54,7 @@ router.route('/:id')
       .then(() => {
         // Fetch resource object and send
         Groups.findById(req.params.id)
-          .then((resource) => res.json(resource))
+          .then((resource) => res.status(200).json(resource))
           .catch((error) => {
             if (error.message.startsWith('Resource with id:')) {
               return res.status(404).json({ message: error.message });
@@ -61,14 +62,14 @@ router.route('/:id')
             return res.status(500).json({ message: error.message });
           });
       })
-      .catch((error) => res.status(500).json(error));
+      .catch((error) => res.status(500).json({ message: error.message }));
   })
 
   // Delete resource by id, SECURE
   .delete(requireLogin, (req, res) => {
     Groups.deleteOne({ _id: req.params.id })
-      .then(() => res.json({ message: `Resource with id: ${req.params.id} was successfully deleted` }))
-      .catch((error) => res.json(error));
+      .then(() => res.status(200).json({ message: `Resource with id: ${req.params.id} was successfully deleted` }))
+      .catch((error) => res.json({ message: error.message }));
   });
 
 export default router;
