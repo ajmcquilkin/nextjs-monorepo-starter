@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "description": "Boilerplate to build a full stack web application using React, Node.js, Express and Webpack.",
   "main": "src/server/index.js",
-  "productionURL":"itc-vox.herokuapp.com",
+  "productionURL": "itc-vox.herokuapp.com",
   "scripts": {
     "build": "webpack --mode production",
     "start": "NODE_ENV=production yarn run build ; nodemon src/server/index.js --exec babel-node",
     "combined": "NODE_ENV=combined yarn run build ; nodemon src/server/index.js --exec babel-node",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "NODE_ENV=development nodemon src/server/index.js --exec babel-node",
-    "dev": "concurrently \"yarn run server\" \"yarn run client\""
+    "dev": "concurrently \"yarn run server\" \"yarn run client\"",
+    "test": "NODE_ENV=test jest --verbose --runInBand --detectOpenHandles --passWithNoTests"
   },
   "author": "Sandeep Raveesh",
   "license": "ISC",
@@ -71,11 +72,16 @@
     "babel-eslint": "^10.1.0",
     "babel-node": "^0.0.1-security",
     "concurrently": "^5.3.0",
+    "debug": "^4.2.0",
     "eslint": "^7.10.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
+    "jest": "^26.5.3",
+    "jest-environment-node": "^26.5.2",
+    "mongodb-memory-server": "^6.9.2",
+    "supertest": "^5.0.0",
     "webpack-dev-server": "^3.11.0"
   }
 }
