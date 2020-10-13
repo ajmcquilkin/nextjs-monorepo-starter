@@ -11,7 +11,7 @@
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "NODE_ENV=development nodemon src/server/index.js --exec babel-node",
     "dev": "concurrently \"yarn run server\" \"yarn run client\"",
-    "test": "NODE_ENV=test jest --verbose --runInBand --detectOpenHandles --passWithNoTests"
+    "test": "jest --verbose --runInBand --detectOpenHandles --passWithNoTests"
   },
   "author": "Sandeep Raveesh",
   "license": "ISC",
@@ -70,6 +70,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.5.2",
     "babel-node": "^0.0.1-security",
     "concurrently": "^5.3.0",
     "debug": "^4.2.0",
