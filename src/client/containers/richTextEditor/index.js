@@ -1,45 +1,37 @@
-import React from 'react';
-import 'draft-js/dist/Draft.css';
-import 'draftail/dist/draftail.css';
-import {
-  DraftailEditor,
-  BLOCK_TYPE,
-  INLINE_STYLE,
-  ENTITY_TYPE
-} from 'draftail';
-import ImageSource from './entities/ImageSource';
-import ImageBlock from './entities/ImageBlock';
+import React, { useState } from 'react';
+import RichTextEditor from 'react-rte';
 
-function MyEditor() {
-  const initial = JSON.parse(sessionStorage.getItem('draftail:content'));
+function MyEditor(props) {
+  const [state, setState] = useState({
+    value: RichTextEditor.createEmptyValue()
+  });
 
-  const blockTypes = [{ type: BLOCK_TYPE.UNORDERED_LIST_ITEM }];
-  const inlineStyles = [
-    { type: INLINE_STYLE.BOLD },
-    { type: INLINE_STYLE.ITALIC },
-    { type: INLINE_STYLE.UNDERLINE }
-  ];
-  const entityTypes = [
-    { type: ENTITY_TYPE.LINK },
-    {
-      type: ENTITY_TYPE.IMAGE,
-      source: ImageSource,
-      block: ImageBlock
+  const toolbarConfig = {
+    display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'LINK_BUTTONS', 'IMAGE_BUTTON'],
+    INLINE_STYLE_BUTTONS: [
+      { label: 'Bold', style: 'BOLD', className: 'custom-css-class' },
+      { label: 'Italic', style: 'ITALIC' },
+      { label: 'Underline', style: 'UNDERLINE' }
+    ],
+    BLOCK_TYPE_BUTTONS: [
+      { label: 'UL', style: 'unordered-list-item' }
+    ]
+  };
+
+  const onChange = (value) => {
+    setState({ value });
+    if (props.onChange) {
+      props.onChange(
+        value.toString('html')
+      );
     }
-  ];
-
-  const onSave = (content) => {
-    console.log('saving', content);
-    sessionStorage.setItem('draftail:content', JSON.stringify(content));
   };
 
   return (
-    <DraftailEditor
-      rawContentState={initial || null}
-      onSave={onSave}
-      blockTypes={blockTypes}
-      inlineStyles={inlineStyles}
-      entityTypes={entityTypes}
+    <RichTextEditor
+      value={state.value}
+      onChange={onChange}
+      toolbarConfig={toolbarConfig}
     />
   );
 }
