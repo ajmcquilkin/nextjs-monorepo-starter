@@ -1,6 +1,6 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
-import './styles.css';
+import './styles.scss';
 import MyEditor from '../richTextEditor';
 
 function VoxForm() {
