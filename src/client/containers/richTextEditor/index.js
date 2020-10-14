@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import RichTextEditor from 'react-rte';
+import parse from 'html-react-parser';
+import './styles.css';
 
-function MyEditor(props) {
+function MyEditor() {
   const [state, setState] = useState({
     value: RichTextEditor.createEmptyValue()
   });
@@ -9,7 +11,7 @@ function MyEditor(props) {
   const toolbarConfig = {
     display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'LINK_BUTTONS', 'IMAGE_BUTTON'],
     INLINE_STYLE_BUTTONS: [
-      { label: 'Bold', style: 'BOLD', className: 'custom-css-class' },
+      { label: 'Bold', style: 'BOLD' },
       { label: 'Italic', style: 'ITALIC' },
       { label: 'Underline', style: 'UNDERLINE' }
     ],
@@ -18,21 +20,24 @@ function MyEditor(props) {
     ]
   };
 
-  const onChange = (value) => {
+  function onChange(value) {
     setState({ value });
-    if (props.onChange) {
-      props.onChange(
-        value.toString('html')
-      );
-    }
-  };
+  }
+
+  const content = parse(state.value.toString('html'));
 
   return (
-    <RichTextEditor
-      value={state.value}
-      onChange={onChange}
-      toolbarConfig={toolbarConfig}
-    />
+    <div>
+      <RichTextEditor
+        value={state.value}
+        onChange={onChange}
+        toolbarConfig={toolbarConfig}
+      />
+      <div className="content-div">
+        <h5>Content Preview:</h5>
+        {content}
+      </div>
+    </div>
   );
 }
 
