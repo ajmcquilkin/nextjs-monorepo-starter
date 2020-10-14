@@ -1,15 +1,16 @@
 import axios from 'axios';
 import { ROOT_URL } from '../constants';
-import ActionTypes, { getBearerTokenHeader } from './index';
+import ActionTypes from './index';
 
 /**
- * A function for fetching all resources loaded into backend (or a given number based on backend parameters)
+ * A function for fetching all resources loaded
+ * into backend (or a given number based on backend parameters)
  */
 export function fetchResources() {
   return (dispatch) => new Promise((resolve, reject) => {
     dispatch({ type: ActionTypes.FETCH_RESOURCES_REQUEST });
 
-    axios.get(`${ROOT_URL}/resources`, { withCredentials: true }).then((response) => {
+    axios.get(`${ROOT_URL}/items`, { withCredentials: true }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_RESOURCES_SUCCESS, payload: response.data });
       resolve();
     }).catch((error) => {
@@ -24,7 +25,7 @@ export function createResource(title, description, value) {
   return (dispatch) => new Promise((resolve, reject) => {
     dispatch({ type: ActionTypes.FETCH_RESOURCE_REQUEST });
 
-    axios.post(`${ROOT_URL}/resources`, { title, description, value }, { headers: getBearerTokenHeader() }).then((response) => {
+    axios.post(`${ROOT_URL}/resources`, { title, description, value }, { withCredentials: true }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_RESOURCE_SUCCESS, payload: response.data });
       resolve();
     }).catch((error) => {
@@ -57,7 +58,7 @@ export function fetchResourceByID(id) {
     } else {
       dispatch({ type: ActionTypes.FETCH_RESOURCE_REQUEST });
 
-      axios.get(`${ROOT_URL}/resources/${id}`).then((response) => {
+      axios.get(`${ROOT_URL}/resources/${id}`, { withCredentials: true }).then((response) => {
         dispatch({ type: ActionTypes.FETCH_RESOURCE_SUCCESS, payload: response.data });
         resolve();
       }).catch((error) => {
@@ -73,7 +74,7 @@ export function updateResourceByID(id, update) {
   return (dispatch) => new Promise((resolve, reject) => {
     dispatch({ type: ActionTypes.FETCH_RESOURCE_REQUEST });
 
-    axios.put(`${ROOT_URL}/resources/${id}`, update, { headers: getBearerTokenHeader() }).then((response) => {
+    axios.put(`${ROOT_URL}/resources/${id}`, update, { withCredentials: true }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_RESOURCE_SUCCESS, payload: response.data });
       resolve();
     }).catch((error) => {
@@ -86,7 +87,7 @@ export function updateResourceByID(id, update) {
 // Delete (AUTH)
 export function deleteResourceByID(id) {
   return (dispatch) => new Promise((resolve, reject) => {
-    axios.delete(`${ROOT_URL}/resources/${id}`, { headers: getBearerTokenHeader() }).then((response) => {
+    axios.delete(`${ROOT_URL}/resources/${id}`, { withCredentials: true }).then((response) => {
       resolve();
     }).catch((error) => {
       reject(error);

@@ -29,15 +29,23 @@ class SearchPane extends React.Component {
             ? (
               <>
                 {/* Number of results available for given query and filter options */}
-                {/* Check if there have been results loaded or if there is an array of resources in redux */}
+                {/* Check if there have been results loaded or if there is an array of resources */}
                 <p>
-                  {this.props.numResults || (this.props.results && this.props.results.length) ? this.props.numResults || this.props.results.length : 0}
+                  {this.props.numResults || (this.props.results
+                    && this.props.results.length)
+                    ? this.props.numResults || this.props.results.length : 0}
                   {' '}
                   results
                 </p>
 
                 {/* Go through passed data array and break into SearchItem elements */}
-                {this.props.results && this.props.results.length ? this.props.results.map((element) => <SearchItem key={element.id || element._id} displayObject={element} />) : null}
+                {this.props.results && this.props.results.length
+                  ? this.props.results.map((element) => (
+                    <SearchItem
+                      key={element.id || element._id}
+                      displayObject={element}
+                    />
+                  )) : null}
               </>
             )
             : this.props.isLoading ? <div>Searching...</div> : this.props.errorMessage}
