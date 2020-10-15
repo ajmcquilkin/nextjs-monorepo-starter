@@ -5,8 +5,6 @@ import {
 } from 'react-router-dom';
 import { Nav, Navbar } from 'react-bootstrap';
 
-import { signInUser, signOutUser } from '../actions/authActions';
-
 import requireLogin from '../hocs/requireLogin';
 
 import AdminPanel from '../containers/adminPanel';
@@ -64,9 +62,7 @@ const App = () => (
           }}
         />
 
-        <Route exact path="/signup" component={SignUpPanel} />
-        <Route exact path="/signout" component={SignOutPanel} />
-        <Route path="/admin" component={requireLogin(AdminPanel, SignInPanel)} />
+        <Route path="/admin" component={requireLogin(AdminPanel, Dashboard)} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/form" component={VoxForm} />
         <Route component={FallBack} />
