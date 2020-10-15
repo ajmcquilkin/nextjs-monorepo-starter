@@ -42,3 +42,19 @@ export const createErrorSelector = (actions) => (state) => {
     return accum;
   }, [])[0] || '';
 };
+
+/**
+ * Returns a function that can be added directly to a mapStateToProps object
+ * that will return the first error code associated with the array of actions (if any)
+ */
+export const createErrorCodeSelector = (actions) => (state) => {
+  // actions not passed as an array
+  if (!Array.isArray(actions)) { return () => ''; }
+
+  // Returns the first found error message
+  return actions.reduce((accum, action) => {
+    const code = state.request?.[action]?.code;
+    if (code < 200 || code >= 400) return [...accum, code];
+    return accum;
+  }, []) || [];
+};
