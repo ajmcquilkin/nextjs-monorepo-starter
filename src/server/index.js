@@ -4,46 +4,55 @@ import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import {
-  authRouter, userRouter, resourceRouter, searchRouter, itemRouter, groupRouter,
+  resourceRouter, itemRouter, groupRouter,
 } from './routers';
 
 import { requireLogin } from './authentication';
 import { SELF_URL, APP_URL } from './constants';
 
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const CASAuthentication = require('node-cas-authentication');
 
 // initialize
 const app = express();
 
-app.use(session({
-  secret: 'super secret key',
-  resave: false,
-  saveUninitialized: true
-}));
-
+console.log(`SELF: ${SELF_URL}, APP: ${APP_URL}`);
 const returnURL = `http://${APP_URL}`;
-console.log(`Return ${returnURL}`);
 
 const cas = new CASAuthentication({
   cas_url: 'https://login.dartmouth.edu/cas',
-  service_url: 'http://localhost:9090',
+  service_url: `http://${SELF_URL}`,
   session_info: 'info',
+  destroy_session: true,
   return_to: returnURL
 });
 
 // enable/disable cross origin resource sharing if necessary
 app.use(cors({ credentials: true, origin: `http://${APP_URL}` }));
 
-app.get('/api/login', cas.bounce, (req, res) => {
-  console.log(req.session);
-  res.status(200).send(req.session);
+// DB Setup
+const mongooseOptions = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  loggerLevel: 'error',
+};
+
+// Connect the database
+mongoose.connect(process.env.MONGODB_URI, mongooseOptions).then(() => {
+  mongoose.Promise = global.Promise; // configures mongoose to use ES6 Promises
+  console.log('Connected to Database');
+}).catch((err) => {
+  console.log('Not Connected to Database ERROR! ', err);
 });
-app.get('/api/auth', (req, res) => {
-  console.log(req.headers.cookie);
-  console.log(req.session.cas_user);
-  res.send(req.session);
-});
+
+app.use(session({
+  secret: process.env.AUTH_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
 
 // enable/disable http request logging
 app.use(morgan('dev'));
@@ -54,34 +63,28 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const apiRouter = express();
+
+app.get('/api/login', cas.bounce, (req, res) => {
+  res.status(200).send(req.session);
+});
+
+app.get('/api/logout', cas.logout, (req, res) => {
+  req.session.destroy();
+  res.status(200).json({ message: 'Session Destroyed' });
+});
+
 app.use('/api', apiRouter);
 // declare routers
 
 apiRouter.use('/auth', authRouter); // NOTE: Not secured
 apiRouter.use('/users', requireLogin, userRouter); // NOTE: Completely secured to users
 apiRouter.use('/resources', resourceRouter); // NOTE: Partially secured to users
-apiRouter.use('/search', searchRouter); //
 apiRouter.use('/items', itemRouter); //
 apiRouter.use('/groups', groupRouter); //
 
 // default index route
 apiRouter.get('/', (req, res) => {
   res.send('Welcome to backend!');
-});
-
-// DB Setup
-const mongooseOptions = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  loggerLevel: 'error',
-};
-// Connect the database
-mongoose.connect(process.env.MONGODB_URI, mongooseOptions).then(() => {
-  mongoose.Promise = global.Promise; // configures mongoose to use ES6 Promises
-  console.log('Connected to Database');
-}).catch((err) => {
-  console.log('Not Connected to Database ERROR! ', err);
 });
 
 // Custom 404 middleware

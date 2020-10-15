@@ -1,26 +1,43 @@
-import React from 'react';
-import 'draft-js/dist/Draft.css';
-import 'draftail/dist/draftail.css';
-import { DraftailEditor, BLOCK_TYPE, INLINE_STYLE } from 'draftail';
+import React, { useState } from 'react';
+import RichTextEditor from 'react-rte';
+import parse from 'html-react-parser';
+import './styles.scss';
 
 function MyEditor() {
-  const initial = JSON.parse(sessionStorage.getItem('draftail:content'));
+  const [state, setState] = useState({
+    value: RichTextEditor.createEmptyValue()
+  });
 
-  const onSave = (content) => {
-    // console.log('saving', content);
-    sessionStorage.setItem('draftail:content', JSON.stringify(content));
+  const toolbarConfig = {
+    display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'LINK_BUTTONS', 'IMAGE_BUTTON'],
+    INLINE_STYLE_BUTTONS: [
+      { label: 'Bold', style: 'BOLD' },
+      { label: 'Italic', style: 'ITALIC' },
+      { label: 'Underline', style: 'UNDERLINE' }
+    ],
+    BLOCK_TYPE_BUTTONS: [
+      { label: 'UL', style: 'unordered-list-item' }
+    ]
   };
 
+  function onChange(value) {
+    setState({ value });
+  }
+
+  const content = parse(state.value.toString('html'));
+
   return (
-    <DraftailEditor
-      rawContentState={initial || null}
-      onSave={onSave}
-      blockTypes={[
-        { type: BLOCK_TYPE.HEADER_THREE },
-        { type: BLOCK_TYPE.UNORDERED_LIST_ITEM },
-      ]}
-      inlineStyles={[{ type: INLINE_STYLE.BOLD }, { type: INLINE_STYLE.ITALIC }]}
-    />
+    <div>
+      <RichTextEditor
+        value={state.value}
+        onChange={onChange}
+        toolbarConfig={toolbarConfig}
+      />
+      <div className="content-div">
+        <h5>Content Preview:</h5>
+        {content}
+      </div>
+    </div>
   );
 }
 

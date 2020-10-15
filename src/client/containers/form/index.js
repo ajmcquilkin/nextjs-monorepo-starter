@@ -1,6 +1,6 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
-import './styles.css';
+import './styles.scss';
 import MyEditor from '../richTextEditor';
 
 function VoxForm() {
@@ -25,10 +25,9 @@ function VoxForm() {
         </Form.Group>
         <Form.Group>
           <Form.Label>Summary:</Form.Label>
-          <Form.Control as="textarea" rows="3" maxLength="500" />
+          <MyEditor />
         </Form.Group>
       </Form>
-      <MyEditor />
     </div>
   );
 }

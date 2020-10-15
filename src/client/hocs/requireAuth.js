@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -7,13 +8,11 @@ import { connect } from 'react-redux';
  * <FailureComp /> if the user is not authenticated
  */
 export default (SuccessComp, FailureComp) => {
-  const requireLoginHOC = (props) => {
-    return props.authenticated
-      ? <SuccessComp {...props} />
-      : <FailureComp {...props} />;
-  };
+  const requireLoginHOC = (props) => (props.authenticated
+    ? <SuccessComp {...props} />
+    : <FailureComp {...props} />);
 
-  const mapStateToProps = state => ({
+  const mapStateToProps = (state) => ({
     authenticated: state.auth.authenticated,
   });
 

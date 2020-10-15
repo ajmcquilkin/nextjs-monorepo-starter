@@ -5,9 +5,8 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import App from './components/app';
 
-import ActionTypes from './actions';
 import reducers from './reducers';
-import { authTokenName } from './constants';
+
 import './style.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
