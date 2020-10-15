@@ -1,4 +1,4 @@
-import requireAuth from './requireAuth';
+import requireLogin from './requireLogin';
 import requireSignin from './requireSignin';
 
-export { requireAuth, requireSignin };
+export { requireLogin, requireSignin };

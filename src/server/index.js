@@ -7,7 +7,7 @@ import {
   authRouter, userRouter, resourceRouter, searchRouter, itemRouter, groupRouter,
 } from './routers';
 
-import { requireAuth } from './authentication';
+import { requireLogin } from './authentication';
 import { SELF_URL, APP_URL } from './constants';
 
 const session = require('express-session');
@@ -58,7 +58,7 @@ app.use('/api', apiRouter);
 // declare routers
 
 apiRouter.use('/auth', authRouter); // NOTE: Not secured
-apiRouter.use('/users', requireAuth, userRouter); // NOTE: Completely secured to users
+apiRouter.use('/users', requireLogin, userRouter); // NOTE: Completely secured to users
 apiRouter.use('/resources', resourceRouter); // NOTE: Partially secured to users
 apiRouter.use('/search', searchRouter); //
 apiRouter.use('/items', itemRouter); //
