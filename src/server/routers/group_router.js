@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { Groups } from '../models';
-import { requireAuth } from '../authentication';
+import { requireLogin } from '../authentication';
 
 const router = express();
 
@@ -18,7 +18,7 @@ router.route('/')
   })
 
   // Create new Group (SECURE)
-  .post(requireAuth, (req, res) => {
+  .post(requireLogin, (req, res) => {
     const newgroup = new Groups();
 
     newgroup.name = req.body.name;
@@ -34,7 +34,7 @@ router.route('/')
   })
 
   // Delete all resources (SECURE, TESTING ONLY)
-  .delete(requireAuth, (req, res) => {
+  .delete(requireLogin, (req, res) => {
     Groups.deleteMany({ })
       .then(() => {
         return res.json({ message: 'Successfully deleted all resources.' });
@@ -62,7 +62,7 @@ router.route('/:id')
   })
 
   // Update resource by id (SECURE)
-  .put(requireAuth, (req, res) => {
+  .put(requireLogin, (req, res) => {
     Groups.updateOne({ _id: req.params.id }, req.body)
       .then(() => {
         // Fetch resource object and send
@@ -84,7 +84,7 @@ router.route('/:id')
   })
 
   // Delete resource by id, SECURE
-  .delete(requireAuth, (req, res) => {
+  .delete(requireLogin, (req, res) => {
     Groups.deleteOne({ _id: req.params.id })
       .then(() => {
         return res.json({ message: `Resource with id: ${req.params.id} was successfully deleted` });

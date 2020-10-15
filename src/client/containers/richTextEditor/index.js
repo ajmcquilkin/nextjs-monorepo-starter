@@ -7,7 +7,7 @@ function MyEditor() {
   const initial = JSON.parse(sessionStorage.getItem('draftail:content'));
 
   const onSave = (content) => {
-    console.log('saving', content);
+    // console.log('saving', content);
     sessionStorage.setItem('draftail:content', JSON.stringify(content));
   };
 

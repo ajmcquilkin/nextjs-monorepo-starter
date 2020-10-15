@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import supertest from 'supertest';
 import resourceRouter from '../resource_router';
 
@@ -16,8 +17,8 @@ const resourceData = {
 let validId = '';
 const invalidId = 'invalidId';
 
-// Mocks requireAuth server middleware
-jest.mock('../../authentication/requireAuth');
+// Mocks requireLogin server middleware
+jest.mock('../../authentication/requireLogin');
 
 describe('Working resource router', () => {
   beforeAll(async (done) => {

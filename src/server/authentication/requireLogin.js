@@ -30,7 +30,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
 passport.use(jwtLogin);
 
 // Create function to transmit result of authenticate() call to user or next middleware
-const requireAuth = function (req, res, next) {
+const requireLogin = function (req, res, next) {
   // eslint-disable-next-line prefer-arrow-callback
   passport.authenticate('jwt', { session: false }, function (err, user, info) {
   // Return any existing errors
@@ -45,4 +45,4 @@ const requireAuth = function (req, res, next) {
   })(req, res, next);
 };
 
-export default requireAuth;
+export default requireLogin;

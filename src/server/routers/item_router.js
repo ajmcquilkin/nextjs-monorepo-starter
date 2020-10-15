@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { Items } from '../models';
-import { requireAuth } from '../authentication';
+import { requireLogin } from '../authentication';
 
 const router = express();
 
@@ -19,7 +19,7 @@ router.route('/')
   })
 
   // Create new resource (SECURE)
-  .post(requireAuth, (req, res) => {
+  .post(requireLogin, (req, res) => {
     const newItem = new Items();
     newItem.submitter_netid = req.user.netid;
     newItem.from_name = req.user.full_name;
@@ -41,7 +41,7 @@ router.route('/')
   })
 
   // Delete all resources (SECURE, TESTING ONLY)
-  .delete(requireAuth, (req, res) => {
+  .delete(requireLogin, (req, res) => {
     Items.deleteMany({ })
       .then(() => {
         return res.json({ message: 'Successfully deleted all resources.' });
@@ -68,7 +68,7 @@ router.route('/:id')
       });
   })
 
-  .put(requireAuth, (req, res) => {
+  .put(requireLogin, (req, res) => {
     // TODO check role + ownership
     Items.findById(req.params.id)
       .then((item) => {

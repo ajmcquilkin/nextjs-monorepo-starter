@@ -7,7 +7,7 @@ import { Nav, Navbar } from 'react-bootstrap';
 
 import { signInUser, signOutUser } from '../actions/authActions';
 
-import requireAuth from '../hocs/requireAuth';
+import requireLogin from '../hocs/requireLogin';
 
 import AdminPanel from '../containers/adminPanel';
 import SearchPane from '../containers/search/searchPane';
@@ -60,7 +60,7 @@ const App = (props) => (
 
         <Route exact path="/signup" component={SignUpPanel} />
         <Route exact path="/signout" component={SignOutPanel} />
-        <Route path="/admin" component={requireAuth(AdminPanel, SignInPanel)} />
+        <Route path="/admin" component={requireLogin(AdminPanel, SignInPanel)} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/form" component={VoxForm} />
         <Route component={FallBack} />

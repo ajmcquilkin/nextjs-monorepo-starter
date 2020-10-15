@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 
 import { Resources } from '../models';
-import { requireAuth } from '../authentication';
+import { requireLogin } from '../authentication';
 
 const router = express();
 
@@ -21,7 +21,7 @@ router.route('/')
     .catch((error) => res.status(500).json(error)))
 
   // Create new resource (SECURE)
-  .post(requireAuth, (req, res) => {
+  .post(requireLogin, (req, res) => {
     const resource = new Resources();
 
     const {
@@ -43,7 +43,7 @@ router.route('/')
   })
 
   // Delete all resources (SECURE, TESTING ONLY)
-  .delete(requireAuth, (req, res) => {
+  .delete(requireLogin, (req, res) => {
     Resources.deleteMany({ })
       .then(() => res.json({ message: 'Successfully deleted all resources.' }))
       .catch((error) => res.status(500).json(error));
@@ -64,7 +64,7 @@ router.route('/:id')
   })
 
   // Update resource by id (SECURE)
-  .put(requireAuth, (req, res) => {
+  .put(requireLogin, (req, res) => {
     Resources.findOneAndUpdate(
       { _id: req.params.id }, req.body,
       { useFindAndModify: false, new: true }
@@ -79,7 +79,7 @@ router.route('/:id')
   })
 
   // Delete resource by id, SECURE
-  .delete(requireAuth, (req, res) => {
+  .delete(requireLogin, (req, res) => {
     Resources.deleteOne({ _id: req.params.id })
       .then(() => res.json({ message: `Resource with id: ${req.params.id} was successfully deleted` }))
       .catch((error) => {
