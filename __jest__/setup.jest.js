@@ -3,6 +3,8 @@
 /* eslint-disable global-require */
 /* eslint-disable new-cap */
 
+import 'babel-polyfill';
+
 const fs = require('fs');
 const { resolve, join } = require('path');
 const MongodbMemoryServer = require('mongodb-memory-server');
