@@ -7,6 +7,7 @@ import {
   resourceRouter, itemRouter, groupRouter,
 } from './routers';
 
+import { requireLogin } from './authentication';
 import { SELF_URL, APP_URL } from './constants';
 
 const session = require('express-session');
@@ -74,6 +75,9 @@ app.get('/api/logout', cas.logout, (req, res) => {
 
 app.use('/api', apiRouter);
 // declare routers
+
+apiRouter.use('/auth', authRouter); // NOTE: Not secured
+apiRouter.use('/users', requireLogin, userRouter); // NOTE: Completely secured to users
 apiRouter.use('/resources', resourceRouter); // NOTE: Partially secured to users
 apiRouter.use('/items', itemRouter); //
 apiRouter.use('/groups', groupRouter); //

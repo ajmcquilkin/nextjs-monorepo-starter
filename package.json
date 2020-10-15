@@ -73,6 +73,7 @@
     "webpack-cli": "^3.3.12"
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.2.3",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.5.2",
     "babel-node": "^0.0.1-security",
