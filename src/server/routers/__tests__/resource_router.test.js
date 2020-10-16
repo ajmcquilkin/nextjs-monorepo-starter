@@ -17,11 +17,7 @@ const resourceData = {
 let validId = '';
 const invalidId = 'invalidId';
 
-<<<<<<< HEAD
-// Mocks requireAuth server middleware
-=======
 // Mocks requireLogin server middleware
->>>>>>> main
 jest.mock('../../authentication/requireLogin');
 
 describe('Working resource router', () => {
