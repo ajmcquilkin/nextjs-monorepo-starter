@@ -19,7 +19,7 @@ router.route('/')
   // Get all resources
   .get((req, res) => {
     Items.find(req.query).then((resources) => res.json(resources))
-      .catch((error) => res.status(500).json(error));
+      .catch((error) => res.status(500).json({ message: error.message }));
   })
 
   // Create new resource (SECURE)
@@ -35,10 +35,12 @@ router.route('/')
 
     const newItem = new Items();
 
+    // Provided by session
     newItem.submitter_netid = req.session.info.netid;
     newItem.from_name = req.session.info.name;
     newItem.from_address = req.session.cas_user;
 
+    // Provided by user (required)
     newItem.brief_content = brief_content;
     newItem.full_content = full_content;
     newItem.requested_publication_date = requested_publication_date;
@@ -47,14 +49,14 @@ router.route('/')
     newItem.date_item_created = Date.now();
     newItem.save()
       .then((savedItem) => res.status(201).json(savedItem))
-      .catch((error) => res.status(500).json(error));
+      .catch((error) => res.status(500).json({ message: error.message }));
   })
 
   // Delete all resources (SECURE, TESTING ONLY)
   .delete(requireLogin, (req, res) => {
     Items.deleteMany({ })
       .then(() => res.json({ message: 'Successfully deleted all resources.' }))
-      .catch((error) => res.status(500).json(error));
+      .catch((error) => res.status(500).json({ message: error.message }));
   });
 
 router.route('/:id')
@@ -66,7 +68,7 @@ router.route('/:id')
         if (error.kind === 'ObjectId') {
           return res.status(404).json({ message: "Couldn't find item with given id" });
         }
-        return res.status(500).json(error);
+        return res.status(500).json({ message: error.message });
       });
   })
 
@@ -82,7 +84,7 @@ router.route('/:id')
         if (error.kind === 'ObjectId') {
           return res.status(404).json({ message: "Couldn't find item with given id" });
         }
-        return res.status(500).json(error);
+        return res.status(500).json({ message: error.message });
       });
   })
   .delete(requireLogin, (req, res) => {
@@ -92,7 +94,7 @@ router.route('/:id')
         if (error.kind === 'ObjectId') {
           return res.status(404).json({ message: "Couldn't find item with given id" });
         }
-        return res.json(error);
+        return res.json({ message: error.message });
       });
   });
 

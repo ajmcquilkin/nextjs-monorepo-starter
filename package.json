@@ -11,7 +11,7 @@
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "NODE_ENV=development nodemon src/server/index.js --exec babel-node",
     "dev": "concurrently \"yarn run server\" \"yarn run client\"",
-    "test": "jest --verbose false --runInBand --detectOpenHandles --passWithNoTests"
+    "test": "jest --verbose --runInBand --detectOpenHandles --passWithNoTests"
   },
   "author": "Sandeep Raveesh",
   "license": "ISC",

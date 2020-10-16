@@ -86,7 +86,7 @@ router.route('/:id')
         if (error.kind === 'ObjectId') {
           return res.status(404).json({ message: "Couldn't find resource with given id" });
         }
-        return res.json(error);
+        return res.json({ message: error.message });
       });
   });
 

@@ -51,7 +51,80 @@ describe('Working item router', () => {
         }
       });
 
-      // });
+      // * NOTE: Can require multiple checks depending on number of non-unique fields
+      describe('blocks creation of resource with non-unique field', () => {
+        it('blocks resource creation when missing brief_content', async (done) => {
+          try {
+            const res = await request.post('/')
+              .set('Cookie', 'Dummy Cookie')
+              .send({
+                full_content: itemData.full_content,
+                requested_publication_date: itemData.requested_publication_date,
+                recipient_groups: itemData.recipient_groups
+              });
+
+            expect(res.status).toBe(400);
+            expect(res.body.message).toBe('Missing required "brief_content" field');
+            done();
+          } catch (error) {
+            done(error);
+          }
+        });
+
+        it('blocks resource creation when missing full_content', async (done) => {
+          try {
+            const res = await request.post('/')
+              .set('Cookie', 'Dummy Cookie')
+              .send({
+                brief_content: itemData.brief_content,
+                requested_publication_date: itemData.requested_publication_date,
+                recipient_groups: itemData.recipient_groups
+              });
+
+            expect(res.status).toBe(400);
+            expect(res.body.message).toBe('Missing required "full_content" field');
+            done();
+          } catch (error) {
+            done(error);
+          }
+        });
+
+        it('blocks resource creation when missing requested_publication_date', async (done) => {
+          try {
+            const res = await request.post('/')
+              .set('Cookie', 'Dummy Cookie')
+              .send({
+                brief_content: itemData.brief_content,
+                full_content: itemData.full_content,
+                recipient_groups: itemData.recipient_groups
+              });
+
+            expect(res.status).toBe(400);
+            expect(res.body.message).toBe('Missing required "requested_publication_date" field');
+            done();
+          } catch (error) {
+            done(error);
+          }
+        });
+
+        it('blocks resource creation when missing recipient_groups', async (done) => {
+          try {
+            const res = await request.post('/')
+              .set('Cookie', 'Dummy Cookie')
+              .send({
+                brief_content: itemData.brief_content,
+                full_content: itemData.full_content,
+                requested_publication_date: itemData.requested_publication_date,
+              });
+
+            expect(res.status).toBe(400);
+            expect(res.body.message).toBe('Missing required "recipient_groups" field');
+            done();
+          } catch (error) {
+            done(error);
+          }
+        });
+      });
 
       // * NOTE: Can require multiple checks depending on number of non-unique fields
       it('succeeds', async (done) => {
