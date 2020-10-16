@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
-const mockUser = {
-  email: 'test@test.com',
-  password: 'password',
-  first_name: 'Joe',
-  last_name: 'Smith',
+const mockSession = {
+  cas_user: 'nathan.m.schneider.22@dartmouth.edu',
+  info: {
+    name: 'Nathan Schneider',
+    netid: 'F003F66'
+  }
 };
 
 async function connectDB(done) {
@@ -42,5 +43,5 @@ async function dropDB(done) {
 }
 
 module.exports = {
-  mockUser, connectDB, dropDB,
+  mockSession, connectDB, dropDB,
 };
