@@ -1,26 +1,26 @@
-/* eslint-disable no-underscore-dangle */
 import supertest from 'supertest';
-import resourceRouter from '../resource_router';
+import itemRouter from '../item_router';
 
 const {
   connectDB, dropDB,
 } = require('../../../../__jest__/helpers');
 
-const request = supertest(resourceRouter);
+const request = supertest(itemRouter);
 
-const resourceData = {
-  title: 'Test title',
-  description: 'This is a test description',
-  value: 3,
+const itemData = {
+  brief_content: 'Brief',
+  full_content: 'This is a test content',
+  requested_publication_date: Date.now(),
+  recipient_groups: []
 };
 
 let validId = '';
-const invalidId = 'invalidId';
+const invalidId = '54697c792qc729108';
 
-// Mocks requireLogin server middleware
+// Mocks requireAuth server middleware
 jest.mock('../../authentication/requireLogin');
 
-describe('Working resource router', () => {
+describe('Working item router', () => {
   beforeAll(async (done) => {
     try {
       connectDB(done);
@@ -43,8 +43,7 @@ describe('Working resource router', () => {
       it('requires valid permissions', async (done) => {
         try {
           const res = await request.post('/')
-            .send(resourceData);
-
+            .send({ body: itemData });
           expect(res.status).toBe(401);
           done();
         } catch (error) {
@@ -52,49 +51,74 @@ describe('Working resource router', () => {
         }
       });
 
-      // * NOTE: Can require multiple checks depending on number of required fields
-      // it('requires valid data', async (done) => {
-
-      // });
-
       // * NOTE: Can require multiple checks depending on number of non-unique fields
       describe('blocks creation of resource with non-unique field', () => {
-        it('blocks resource creation when missing title', async (done) => {
+        it('blocks resource creation when missing brief_content', async (done) => {
           try {
             const res = await request.post('/')
               .set('Cookie', 'Dummy Cookie')
-              .send({ description: resourceData.description, value: resourceData.value });
+              .send({
+                full_content: itemData.full_content,
+                requested_publication_date: itemData.requested_publication_date,
+                recipient_groups: itemData.recipient_groups
+              });
 
             expect(res.status).toBe(400);
-            expect(res.body.message).toBe('Missing required "title" field');
+            expect(res.body.message).toBe('Missing required "brief_content" field');
             done();
           } catch (error) {
             done(error);
           }
         });
 
-        it('blocks resource creation when missing description', async (done) => {
+        it('blocks resource creation when missing full_content', async (done) => {
           try {
             const res = await request.post('/')
               .set('Cookie', 'Dummy Cookie')
-              .send({ title: resourceData.title, value: resourceData.value });
+              .send({
+                brief_content: itemData.brief_content,
+                requested_publication_date: itemData.requested_publication_date,
+                recipient_groups: itemData.recipient_groups
+              });
 
             expect(res.status).toBe(400);
-            expect(res.body.message).toBe('Missing required "description" field');
+            expect(res.body.message).toBe('Missing required "full_content" field');
             done();
           } catch (error) {
             done(error);
           }
         });
 
-        it('blocks resource creation when missing value', async (done) => {
+        it('blocks resource creation when missing requested_publication_date', async (done) => {
           try {
             const res = await request.post('/')
               .set('Cookie', 'Dummy Cookie')
-              .send({ title: resourceData.title, description: resourceData.description });
+              .send({
+                brief_content: itemData.brief_content,
+                full_content: itemData.full_content,
+                recipient_groups: itemData.recipient_groups
+              });
 
             expect(res.status).toBe(400);
-            expect(res.body.message).toBe('Missing required "value" field');
+            expect(res.body.message).toBe('Missing required "requested_publication_date" field');
+            done();
+          } catch (error) {
+            done(error);
+          }
+        });
+
+        it('blocks resource creation when missing recipient_groups', async (done) => {
+          try {
+            const res = await request.post('/')
+              .set('Cookie', 'Dummy Cookie')
+              .send({
+                brief_content: itemData.brief_content,
+                full_content: itemData.full_content,
+                requested_publication_date: itemData.requested_publication_date,
+              });
+
+            expect(res.status).toBe(400);
+            expect(res.body.message).toBe('Missing required "recipient_groups" field');
             done();
           } catch (error) {
             done(error);
@@ -102,19 +126,19 @@ describe('Working resource router', () => {
         });
       });
 
+      // * NOTE: Can require multiple checks depending on number of non-unique fields
       it('succeeds', async (done) => {
         try {
           const res = await request.post('/')
             .set('Cookie', 'Dummy Cookie')
-            .send(resourceData);
+            .send(itemData);
 
           expect(res.status).toBe(201);
-
           // Resource exists with all required fields
-          expect(res.body.title).toBeDefined();
-          expect(res.body.description).toBeDefined();
-          expect(res.body.value).toBeDefined();
-          expect(res.body.date_resource_created).toBeDefined();
+          expect(res.body.brief_content).toBeDefined();
+          expect(res.body.full_content).toBeDefined();
+          expect(res.body.requested_publication_date).toBeDefined();
+          expect(res.body.recipient_groups).toBeDefined();
           expect(res.body._id).toBeDefined();
 
           validId = res.body._id;
@@ -131,11 +155,11 @@ describe('Working resource router', () => {
 
       // });
 
-      it('catches resource doesn\'t exist', async (done) => {
+      it('catches item doesn\'t exist', async (done) => {
         try {
           const res = await request.get(`/${invalidId}`);
           expect(res.status).toBe(404);
-          expect(res.body.message).toBe('Couldn\'t find resource with given id');
+          expect(res.body.message).toBe('Couldn\'t find item with given id');
           done();
         } catch (error) {
           done(error);
@@ -166,18 +190,18 @@ describe('Working resource router', () => {
       // });
 
       // * NOTE: Can require multiple checks depending on number of non-unique fields
-      // it('blocks creation of resource with non-unique field', async (done) => {
+      // it('blocks creation of item with non-unique field', async (done) => {
 
       // });
 
-      it('catches resource doesn\'t exist', async (done) => {
+      it('catches item doesn\'t exist', async (done) => {
         try {
           const res = await request.put(`/${invalidId}`)
             .set('Cookie', 'Dummy Cookie')
             .send({ title: 'New title' });
 
           expect(res.status).toBe(404);
-          expect(res.body.message).toBe('Couldn\'t find resource with given id');
+          expect(res.body.message).toBe('Couldn\'t find item with given id');
           done();
         } catch (error) {
           done(error);
@@ -188,10 +212,10 @@ describe('Working resource router', () => {
         try {
           const res = await request.put(`/${validId}`)
             .set('Cookie', 'Dummy Cookie')
-            .send({ title: 'New title' });
+            .send({ full_content: 'New content' });
 
           expect(res.status).toBe(200);
-          expect(res.body.title).toBe('New title');
+          expect(res.body.full_content).toBe('New content');
           done();
         } catch (error) {
           done(error);
@@ -205,13 +229,13 @@ describe('Working resource router', () => {
 
       // });
 
-      it('catches resource doesn\'t exist', async (done) => {
+      it('catches item doesn\'t exist', async (done) => {
         try {
           const res = await request.delete(`/${invalidId}`)
             .set('Cookie', 'Dummy Cookie');
 
           expect(res.status).toBe(404);
-          expect(res.body.message).toBe('Couldn\'t find resource with given id');
+          expect(res.body.message).toBe('Couldn\'t find item with given id');
           done();
         } catch (error) {
           done(error);
@@ -246,7 +270,7 @@ describe('Working resource router', () => {
     //   // });
 
     //   // * NOTE: Can require multiple checks depending on number of non-unique fields
-    //   // it('blocks creation of resource with non-unique field', async (done) => {
+    //   // it('blocks creation of item with non-unique field', async (done) => {
 
     //   // });
 
@@ -267,20 +291,20 @@ describe('Working resource router', () => {
       // });
 
       // * NOTE: Not needed with only GET ALL functionality
-      // it('catches resource doesn\'t exist', async (done) => {
+      // it('catches item doesn\'t exist', async (done) => {
 
       // });
 
       it('succeeds', async (done) => {
         try {
-          // Create two new resources
+          // Create two new items
           await request.post('/')
             .set('Cookie', 'Dummy Cookie')
-            .send(resourceData);
+            .send(itemData);
 
           await request.post('/')
             .set('Cookie', 'Dummy Cookie')
-            .send(resourceData);
+            .send(itemData);
 
           const res = await request.get('/');
           expect(res.status).toBe(200);
@@ -306,11 +330,11 @@ describe('Working resource router', () => {
     //   // });
 
     //   // * NOTE: Can require multiple checks depending on number of non-unique fields
-    //   // it('blocks creation of resource with non-unique field', async (done) => {
+    //   // it('blocks creation of item with non-unique field', async (done) => {
 
     //   // });
 
-    //   it('catches resource doesn\'t exist', async (done) => {
+    //   it('catches item doesn\'t exist', async (done) => {
 
     //   });
 
@@ -327,7 +351,7 @@ describe('Working resource router', () => {
     //   // });
 
     //   // * NOTE: Not needed with only DELETE ALL functionality
-    //   // it('catches resource doesn\'t exist', async (done) => {
+    //   // it('catches item doesn\'t exist', async (done) => {
 
     //   // });
 

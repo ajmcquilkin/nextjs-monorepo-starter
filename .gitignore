@@ -2,13 +2,13 @@
 node_modules
 dist
 *.log
-yarn.lock
 
 node_modules/
 .vscode/
 .env
 dist/
-    
 
 *.log
+globalConfig.json
 
+yarn.lock
