@@ -13,11 +13,16 @@ import SearchPane from '../containers/search/searchPane';
 import Dashboard from '../containers/dashboard';
 import VoxForm from '../containers/form';
 import { ROOT_URL } from '../constants';
+import './app.scss';
+import icon from '../../../public/dartmouthIcon.png';
 
 const Welcome = () => (
   <div>
-    <Navbar bg="light">
-      <Navbar.Brand href="/">Vox</Navbar.Brand>
+    <Navbar className="nav">
+      <Navbar.Brand href="/">
+        <img src={icon} alt="icon" />
+        VOX DAILY
+      </Navbar.Brand>
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
           <Nav.Link href="/signin">Sign In</Nav.Link>
