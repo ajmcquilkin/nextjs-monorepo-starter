@@ -14,15 +14,15 @@ if (process.env.NODE_ENV === 'test') {
   router.use(bodyParser.json());
 }
 
-// find and return all resources
+// find and return all items
 router.route('/')
-  // Get all resources
+  // Get all items
   .get((req, res) => {
-    Items.find(req.query).then((resources) => res.json(resources))
+    Items.find(req.query).then((items) => res.json(items))
       .catch((error) => res.status(500).json({ message: error.message }));
   })
 
-  // Create new resource (SECURE)
+  // Create new item (SECURE)
   .post(requireLogin, (req, res) => {
     const {
       brief_content, full_content, requested_publication_date, recipient_groups
@@ -52,18 +52,18 @@ router.route('/')
       .catch((error) => res.status(500).json({ message: error.message }));
   })
 
-  // Delete all resources (SECURE, TESTING ONLY)
+  // Delete all items (SECURE, TESTING ONLY)
   .delete(requireLogin, (req, res) => {
     Items.deleteMany({ })
-      .then(() => res.json({ message: 'Successfully deleted all resources.' }))
+      .then(() => res.json({ message: 'Successfully deleted all items.' }))
       .catch((error) => res.status(500).json({ message: error.message }));
   });
 
 router.route('/:id')
-  // Get resource by id
+  // Get item by id
   .get((req, res) => {
     Items.findById(req.params.id)
-      .then((resource) => res.json(resource))
+      .then((item) => res.json(item))
       .catch((error) => {
         if (error.kind === 'ObjectId') {
           return res.status(404).json({ message: "Couldn't find item with given id" });

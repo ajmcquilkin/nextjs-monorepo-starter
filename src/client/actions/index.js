@@ -12,9 +12,9 @@ import { requestTimeout } from '../constants';
 const ActionTypes = {
   SEARCH: 'SEARCH',
 
-  FETCH_RESOURCE: 'FETCH_RESOURCE',
-  FETCH_RESOURCES: 'FETCH_RESOURCES',
-  DELETE_RESOURCE: 'DELETE_RESOURCE',
+  FETCH_ITEM: 'FETCH_ITEM',
+  FETCH_ITEMS: 'FETCH_ITEMS',
+  DELETE_ITEM: 'DELETE_ITEM',
 };
 
 /**
@@ -64,7 +64,7 @@ export function generateFailurePayload(error, customParams = {}) {
  * Optional `config` fields:
  * * `successCallback` - Function called on success of request (passed request object)
  * * `failureCallback` - Function called on failure of request (passed error object)
- * * `additionalPayloadFields` - Additional fields to include on top level of success action payload (e.g. object id for deleting resource)
+ * * `additionalPayloadFields` - Additional fields to include on top level of success action payload (e.g. object id for deleting item)
  * * `responseSubfield` - Loads `response.data[subfield]` into success payload instead of `response.data`
  */
 export async function createAsyncActionCreator(dispatch, actionName, axiosConfig, config = {}) {

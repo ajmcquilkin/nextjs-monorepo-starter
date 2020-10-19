@@ -2,25 +2,25 @@ import ActionTypes, { createAsyncActionCreator } from '.';
 import { ROOT_URL } from '../constants';
 
 /**
- * A function for fetching all resources loaded into backend (or a given number based on backend parameters)
+ * A function for fetching all items loaded into backend (or a given number based on backend parameters)
  */
-export function fetchResources() {
+export function fetchItems() {
   return (dispatch) => createAsyncActionCreator(
-    dispatch, ActionTypes.FETCH_RESOURCES,
+    dispatch, ActionTypes.FETCH_ITEMS,
     {
       method: 'get',
-      url: `${ROOT_URL}/resources`,
+      url: `${ROOT_URL}/items`,
     },
   );
 }
 
-// New resource (AUTH)
-export function createResource(title, description, value) {
+// New item (AUTH)
+export function createItem(title, description, value) {
   return (dispatch) => createAsyncActionCreator(
-    dispatch, ActionTypes.FETCH_RESOURCE,
+    dispatch, ActionTypes.FETCH_ITEM,
     {
       method: 'post',
-      url: `${ROOT_URL}/resources`,
+      url: `${ROOT_URL}/items`,
       data: { title, description, value },
       // TODO: Add auth
     },
@@ -28,10 +28,10 @@ export function createResource(title, description, value) {
 }
 
 // // TODO: Add additional auth to call this
-// // Delete all resources (AUTH)
-// export function deleteAllResources() {
+// // Delete all items (AUTH)
+// export function deleteAllItems() {
 //   return dispatch => new Promise((resolve, reject) => {
-//     axios.delete(`${ROOT_URL}/resources`, { timeout: requestTimeout }).then((response) => {
+//     axios.delete(`${ROOT_URL}/items`, { timeout: requestTimeout }).then((response) => {
 //       resolve();
 //     }).catch((error) => {
 //       reject();
@@ -42,23 +42,23 @@ export function createResource(title, description, value) {
 // :id
 
 // Get
-export function fetchResourceByID(id) {
+export function fetchItemByID(id) {
   return (dispatch) => createAsyncActionCreator(
-    dispatch, ActionTypes.FETCH_RESOURCE,
+    dispatch, ActionTypes.FETCH_ITEM,
     {
       method: 'get',
-      url: `${ROOT_URL}/resources/${id}`,
+      url: `${ROOT_URL}/items/${id}`,
     },
   );
 }
 
 // Update (AUTH)
-export function updateResourceByID(id, update) {
+export function updateItemByID(id, update) {
   return (dispatch) => createAsyncActionCreator(
-    dispatch, ActionTypes.FETCH_RESOURCE,
+    dispatch, ActionTypes.FETCH_ITEM,
     {
       method: 'put',
-      url: `${ROOT_URL}/resources/${id}`,
+      url: `${ROOT_URL}/items/${id}`,
       data: update,
       // TODO: Add auth
     },
@@ -66,12 +66,12 @@ export function updateResourceByID(id, update) {
 }
 
 // Delete (AUTH)
-export function deleteResourceByID(id) {
+export function deleteItemByID(id) {
   return (dispatch) => createAsyncActionCreator(
-    dispatch, ActionTypes.DELETE_RESOURCE,
+    dispatch, ActionTypes.DELETE_ITEM,
     {
       method: 'delete',
-      url: `${ROOT_URL}/resources/${id}`,
+      url: `${ROOT_URL}/items/${id}`,
       // TODO: Add auth
     },
     {

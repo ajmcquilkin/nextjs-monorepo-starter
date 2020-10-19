@@ -7,9 +7,6 @@ import { Nav, Navbar } from 'react-bootstrap';
 
 import requireLogin from '../hocs/requireLogin';
 
-import AdminPanel from '../containers/adminPanel';
-import SearchPane from '../containers/search/searchPane';
-
 import Dashboard from '../containers/dashboard';
 import VoxForm from '../containers/form';
 import { ROOT_URL } from '../constants';
@@ -36,7 +33,6 @@ const Welcome = () => (
     <br />
     <NavLink to="/form">Form</NavLink>
     <br />
-    <SearchPane />
   </div>
 );
 
@@ -67,7 +63,6 @@ const App = () => (
           }}
         />
 
-        <Route path="/admin" component={requireLogin(AdminPanel, Dashboard)} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/form" component={VoxForm} />
         <Route component={FallBack} />
