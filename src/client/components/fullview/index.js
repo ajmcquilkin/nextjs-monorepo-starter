@@ -16,21 +16,21 @@ class Fullview extends React.Component {
 
   render() {
     const id = this.props.match.params.itemID;
-    console.log(this.props.itemIsLoading);
+    const item = this.props.items[id] || {};
+    console.log(this.props.items);
     return (
       <div className="item">
-        <p>Hello</p>
-        {/* <h4>{this.props.items[id].brief_content}</h4>
+        <h4>{item.brief_content}</h4>
 
         <h5>
-          {this.props.items[id].from_name}
+          {item.from_name}
           {' '}
-          {this.props.items[id].from_address}
+          {item.from_address}
         </h5>
 
         <p>
-          {this.props.items[id].full_content}
-        </p> */}
+          {item.full_content}
+        </p>
       </div>
 
     );
