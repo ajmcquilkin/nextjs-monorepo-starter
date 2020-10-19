@@ -24,7 +24,8 @@ function MyEditor() {
     setState({ value });
   }
 
-  const content = parse(state.value.toString('html'));
+  const content = state.value.toString('html');
+  const contentNoTags = content.replace(/(<([^>]+)>)/ig, '');
 
   return (
     <div>
@@ -33,9 +34,13 @@ function MyEditor() {
         onChange={onChange}
         toolbarConfig={toolbarConfig}
       />
+      <h6 style={{ color: contentNoTags.length > 500 ? 'red' : null }}>
+        {contentNoTags.length}
+        /500
+      </h6>
       <div className="content-div">
         <h5>Content Preview:</h5>
-        {content}
+        {parse(content)}
       </div>
     </div>
   );
