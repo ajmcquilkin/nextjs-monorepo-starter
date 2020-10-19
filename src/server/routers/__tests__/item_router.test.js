@@ -1,5 +1,6 @@
 import supertest from 'supertest';
 import itemRouter from '../item_router';
+import 'babel-polyfill';
 
 const {
   connectDB, dropDB,
