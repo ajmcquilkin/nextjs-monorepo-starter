@@ -46,9 +46,7 @@ class SearchBar extends React.Component {
   // eslint-disable-next-line class-methods-use-this
   handleSubmit(e) {
     this.props.search(this.state.query, this.state.filters,
-      this.state.sort, this.state.page, this.state.numPerPage).then().catch((error) => {
-      // Handle error
-    });
+      this.state.sort, this.state.page, this.state.numPerPage);
     e.preventDefault(); // Pres reloading on form submit
   }
 

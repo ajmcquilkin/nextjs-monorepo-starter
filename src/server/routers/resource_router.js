@@ -37,7 +37,7 @@ router.route('/')
     resource.value = value;
     resource.date_account_created = Date.now();
 
-    resource.save()
+    return resource.save()
       .then((savedResource) => res.status(201).json(savedResource))
       .catch((error) => res.status(500).json(error));
   })

@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import withLoading from '../../../hocs/withLoading';
 
 import { fetchResources, updateResourceByID } from '../../../actions/resourceActions';
-import { createErrorSelector } from '../../../actions/errorActions';
-import { createLoadingSelector } from '../../../actions/loadingActions';
+import { createErrorSelector, createLoadingSelector } from '../../../actions/requestActions';
 
 import SearchItem from '../../../components/SearchItem';
 import SearchBar from '../searchBar';
@@ -61,8 +60,8 @@ const loadingSelector = createLoadingSelector(loadActions);
 const errorSelector = createErrorSelector(loadActions);
 
 const mapStateToProps = (state) => ({
-  results: state.data.resources,
-  numResults: state.data.numResults,
+  results: state.resource.resources,
+  numResults: state.resource.numResults,
   isLoading: loadingSelector(state),
   errorMessage: errorSelector(state),
 });

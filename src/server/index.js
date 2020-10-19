@@ -5,7 +5,7 @@ import morgan from 'morgan';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import {
-  resourceRouter, itemRouter, groupRouter,
+  resourceRouter, itemRouter, groupRouter, searchRouter,
 } from './routers';
 
 import { SELF_URL, APP_URL } from './constants';
@@ -81,6 +81,7 @@ app.use('/api', apiRouter);
 apiRouter.use('/resources', resourceRouter); // NOTE: Partially secured to users
 apiRouter.use('/items', itemRouter); //
 apiRouter.use('/groups', groupRouter); //
+apiRouter.use('/search', searchRouter);
 
 // default index route
 apiRouter.get('/', (req, res) => {

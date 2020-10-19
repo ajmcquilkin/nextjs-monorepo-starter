@@ -10,3 +10,5 @@ dist/
 
 *.log
 globalConfig.json
+
+yarn.lock
