@@ -12,13 +12,14 @@ import VoxForm from '../containers/form';
 import { ROOT_URL } from '../constants';
 import './app.scss';
 import icon from '../../../public/dartmouthIcon.png';
+import Webview from '../containers/webview';
+import Fullview from './fullview';
 
-const Welcome = () => (
+const Navigation = () => (
   <div>
     <Navbar className="nav">
       <Navbar.Brand href="/">
-        <img src={icon} alt="icon" />
-        VOX DAILY
+        DARTMOUTH VOX DAILY
       </Navbar.Brand>
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
@@ -45,9 +46,9 @@ const FallBack = () => (
 const App = () => (
   <Router>
     <div>
+      <Navigation />
       <Switch>
-        <Route exact path="/" component={Welcome} />
-        {/* <Route exact path="/signin" component={SignInPanel} /> */}
+        <Route exact path="/" component={Webview} />
         <Route
           path="/signin"
           component={() => {
@@ -62,8 +63,8 @@ const App = () => (
             return null;
           }}
         />
-
         <Route path="/dashboard" component={Dashboard} />
+        <Route path="/items/:itemID" component={Fullview} />
         <Route path="/form" component={VoxForm} />
         <Route component={FallBack} />
       </Switch>
