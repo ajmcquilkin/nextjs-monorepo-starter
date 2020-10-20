@@ -32,7 +32,7 @@ const Navigation = () => (
     <br />
     <NavLink to="/submissions">Submissions</NavLink>
     <br />
-    <NavLink to="/form">Form</NavLink>
+    <NavLink to="/form/new">Form</NavLink>
     <br />
   </div>
 );
@@ -65,7 +65,7 @@ const App = () => (
         />
         <Route path="/submissions" component={Submissions} />
         <Route path="/items/:itemID" component={Fullview} />
-        <Route path="/form" component={VoxForm} />
+        <Route path="/form/:itemID" component={VoxForm} />
         <Route component={FallBack} />
       </Switch>
     </div>

@@ -34,7 +34,13 @@ class Submissions extends React.Component {
       if (item.brief_content.toLowerCase().includes(this.state.filter.toLowerCase())) containsFilter = true;
       if (item.full_content.toLowerCase().includes(this.state.filter.toLowerCase())) containsFilter = true;
 
-      if (containsFilter) return <WebviewItem key={item._id} item={item} />;
+      if (containsFilter) {
+        return (
+          <NavLink to={`/form/${item._id}`}>
+            <WebviewItem key={item._id} item={item} />
+          </NavLink>
+        );
+      }
       return <div />;
     });
 
@@ -44,6 +50,12 @@ class Submissions extends React.Component {
         <div className="filter-container">
           <input type="text" placeholder="Search" value={this.state.filter} onChange={(e) => this.updateFilter(e)} />
           <br />
+        </div>
+        <div className="button-container">
+          <NavLink to="/form">
+            <button type="button"> NEW </button>
+          </NavLink>
+
         </div>
         <div className="item-container">
           {rendered}
