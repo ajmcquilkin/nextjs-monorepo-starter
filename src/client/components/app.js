@@ -39,7 +39,7 @@ const Navigation = () => (
 
 const FallBack = () => (
   <div>
-    Uh oh... URL Not Found! Please contact the system administrator.
+    URL Not Found
   </div>
 );
 

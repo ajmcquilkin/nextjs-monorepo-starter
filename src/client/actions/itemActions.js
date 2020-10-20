@@ -14,6 +14,32 @@ export function fetchItems() {
   );
 }
 
+/**
+ * A function for fetching all items loaded into backend (or a given number based on backend parameters)
+ */
+export function fetchApproved() {
+  return (dispatch) => createAsyncActionCreator(
+    dispatch, ActionTypes.FETCH_ITEMS,
+    {
+      method: 'get',
+      url: `${ROOT_URL}/items?status=approved`,
+    },
+  );
+}
+
+/**
+ * A function for fetching all items loaded into backend (or a given number based on backend parameters)
+ */
+export function fetchSubmissions() {
+  return (dispatch) => createAsyncActionCreator(
+    dispatch, ActionTypes.FETCH_ITEMS,
+    {
+      method: 'get',
+      url: `${ROOT_URL}/items/submissions`,
+    },
+  );
+}
+
 // New item (AUTH)
 export function createItem(title, description, value) {
   return (dispatch) => createAsyncActionCreator(

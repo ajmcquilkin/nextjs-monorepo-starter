@@ -6,7 +6,7 @@ import ActionTypes from '../../actions';
 import { createErrorSelector, createLoadingSelector } from '../../actions/requestActions';
 
 import {
-  fetchItems, createItem, fetchItemByID
+  fetchItems, createItem, fetchItemByID, fetchApproved
 } from '../../actions/itemActions';
 import WebviewItem from '../../components/webviewItem';
 
@@ -22,7 +22,7 @@ class Webview extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchItems();
+    this.props.fetchApproved();
   }
 
   updateFilter = (e) => {
@@ -64,5 +64,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  fetchItems, createItem, fetchItemByID,
+  fetchItems, createItem, fetchItemByID, fetchApproved
 })(Webview);

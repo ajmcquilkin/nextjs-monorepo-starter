@@ -14,11 +14,17 @@ if (process.env.NODE_ENV === 'test') {
   router.use(bodyParser.json());
 }
 
+router.get('/submissions', requireLogin, (req, res) => {
+  const { netid } = req.session.info;
+  Items.find({ submitter_netid: netid }).then((items) => res.status(200).json(items))
+    .catch((error) => res.status(500).json({ message: error.message }));
+});
+
 // find and return all items
 router.route('/')
   // Get all items
   .get((req, res) => {
-    Items.find(req.query).then((items) => res.json(items))
+    Items.find(req.query).then((items) => res.status(200).json(items))
       .catch((error) => res.status(500).json({ message: error.message }));
   })
 

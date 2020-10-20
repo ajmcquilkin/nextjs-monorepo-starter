@@ -6,7 +6,7 @@ import { createErrorSelector, createLoadingSelector } from '../../actions/reques
 import ActionTypes from '../../actions';
 
 import {
-  fetchItems, createItem, fetchItemByID
+  fetchItems, createItem, fetchItemByID, fetchApproved
 } from '../../actions/itemActions';
 
 class Fullview extends React.Component {
@@ -21,7 +21,6 @@ class Fullview extends React.Component {
     return (
       <div className="item">
         <h4>{item.brief_content}</h4>
-
         <h5>
           {item.from_name}
           {' '}
@@ -32,7 +31,6 @@ class Fullview extends React.Component {
           {item.full_content}
         </p>
       </div>
-
     );
   }
 }
@@ -46,5 +44,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  fetchItems, createItem, fetchItemByID,
+  fetchItems, createItem, fetchItemByID, fetchApproved
 })(Fullview);
