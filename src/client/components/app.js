@@ -7,7 +7,7 @@ import { Nav, Navbar } from 'react-bootstrap';
 
 import requireLogin from '../hocs/requireLogin';
 
-import Dashboard from '../containers/dashboard';
+import Submissions from '../containers/submissions';
 import VoxForm from '../containers/form';
 import { ROOT_URL } from '../constants';
 import './app.scss';
@@ -30,7 +30,7 @@ const Navigation = () => (
     </Navbar>
     <NavLink to="/signin">Sign In</NavLink>
     <br />
-    <NavLink to="/dashboard">Dashboard</NavLink>
+    <NavLink to="/submissions">Submissions</NavLink>
     <br />
     <NavLink to="/form">Form</NavLink>
     <br />
@@ -63,7 +63,7 @@ const App = () => (
             return null;
           }}
         />
-        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/submissions" component={Submissions} />
         <Route path="/items/:itemID" component={Fullview} />
         <Route path="/form" component={VoxForm} />
         <Route component={FallBack} />

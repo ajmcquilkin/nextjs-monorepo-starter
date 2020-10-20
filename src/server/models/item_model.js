@@ -10,7 +10,7 @@ const ItemSchema = new Schema({
   type: String,
   requested_publication_date: { type: Date, default: Date.now() },
   recipient_groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
-  status: { type: String, default: 'new' },
+  status: { type: String, default: 'draft' },
   date_item_created: { type: Date, default: Date.now() },
 });
 

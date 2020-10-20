@@ -26,7 +26,10 @@ export function fetchApproved() {
     },
   );
 }
-
+const redirect = (error) => {
+  console.log('ERROR CALLBACK');
+  window.location.href = `${ROOT_URL}/login`;
+};
 /**
  * A function for fetching all items loaded into backend (or a given number based on backend parameters)
  */
@@ -36,10 +39,10 @@ export function fetchSubmissions() {
     {
       method: 'get',
       url: `${ROOT_URL}/items/submissions`,
-    },
+      withCredentials: true
+    }, { failureCallback: redirect }
   );
 }
-
 // New item (AUTH)
 export function createItem(title, description, value) {
   return (dispatch) => createAsyncActionCreator(

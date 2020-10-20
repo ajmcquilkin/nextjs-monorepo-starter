@@ -9,7 +9,11 @@ const WebviewItem = (props) => (
       <h4>{props.item.brief_content}</h4>
 
     </NavLink>
-
+    <h4>
+      Status:
+      {' '}
+      {props.item.status}
+    </h4>
     <h5>
       {props.item.from_name}
       {' '}

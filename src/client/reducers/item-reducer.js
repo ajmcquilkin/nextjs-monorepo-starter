@@ -14,7 +14,7 @@ const reducer = (state = initialState, action) => {
     case `${ActionTypes.FETCH_ITEM}_SUCCESS`: // Load item into { id: element } mapping
       return { ...state, items: { ...state.items, [action.payload.data._id]: action.payload.data } };
     case `${ActionTypes.FETCH_ITEMS}_SUCCESS`: // Load items into { id: element } mapping
-      return { ...state, items: { ...state.items, ...action.payload.data.reduce((accum, e) => ({ ...accum, [e._id]: e }), {}) } };
+      return { ...state, items: { ...action.payload.data.reduce((accum, e) => ({ ...accum, [e._id]: e }), {}) } };
     case `${ActionTypes.DELETE_ITEM}_SUCCESS`: // Delete item from state
       return { ...state, items: omit(state.items, action.payload.id) };
     default:

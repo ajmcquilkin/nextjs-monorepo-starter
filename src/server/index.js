@@ -67,7 +67,7 @@ app.use(bodyParser.json());
 const apiRouter = express();
 
 app.get('/api/login', cas.bounce, (req, res) => {
-  res.status(200).send(req.session);
+  res.redirect(returnURL);
 });
 
 app.get('/api/logout', cas.logout, (req, res) => {

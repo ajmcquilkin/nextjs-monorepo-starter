@@ -15,7 +15,6 @@ import './styles.scss';
 class Webview extends React.Component {
   constructor(props) {
     super(props);
-    // Don't call this.setState() here!
     this.state = {
       filter: ''
     };

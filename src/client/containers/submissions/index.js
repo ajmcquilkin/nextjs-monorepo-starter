@@ -6,23 +6,22 @@ import ActionTypes from '../../actions';
 import { createErrorSelector, createLoadingSelector } from '../../actions/requestActions';
 
 import {
-  fetchItems, createItem, fetchItemByID, fetchApproved
+  fetchItems, createItem, fetchItemByID, fetchApproved, fetchSubmissions
 } from '../../actions/itemActions';
 import WebviewItem from '../../components/webviewItem';
 
 import './styles.scss';
 
-class Dashboard extends React.Component {
+class Submissions extends React.Component {
   constructor(props) {
     super(props);
-    // Don't call this.setState() here!
     this.state = {
       filter: ''
     };
   }
 
   componentDidMount() {
-    this.props.fetchItems();
+    this.props.fetchSubmissions();
   }
 
   updateFilter = (e) => {
@@ -41,11 +40,11 @@ class Dashboard extends React.Component {
 
     return (
       <div className="webview">
+
         <div className="filter-container">
           <input type="text" placeholder="Search" value={this.state.filter} onChange={(e) => this.updateFilter(e)} />
           <br />
         </div>
-
         <div className="item-container">
           {rendered}
         </div>
@@ -64,5 +63,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  fetchItems, createItem, fetchItemByID, fetchApproved
-})(Dashboard);
+  fetchItems, createItem, fetchItemByID, fetchApproved, fetchSubmissions
+})(Submissions);
