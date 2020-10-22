@@ -56,8 +56,7 @@ const itemSelectorActions = [ActionTypes.FETCH_RESOURCE, ActionTypes.FETCH_RESOU
 const mapStateToProps = (state) => ({
   itemIsLoading: createLoadingSelector(itemSelectorActions)(state),
   itemErrorMessage: createErrorSelector(itemSelectorActions)(state),
-
-  items: state.item.items,
+  items: (state.item.items) ? state.item.items : state.item.items.filter((item) => item.status === 'approved')
 });
 
 export default connect(mapStateToProps, {
