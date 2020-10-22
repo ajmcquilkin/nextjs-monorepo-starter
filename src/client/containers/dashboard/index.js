@@ -1,8 +1,13 @@
 import React from 'react';
+import Submission from '../../components/submission';
 
 function Dashboard() {
   return (
-    <h1>This is the dashboard.</h1>
+    <div>
+      <Submission submStatus="pending" />
+      <Submission submStatus="approved" />
+      <Submission submStatus="draft" />
+    </div>
   );
 }
 
