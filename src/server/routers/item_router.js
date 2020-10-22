@@ -31,7 +31,7 @@ router.route('/')
   // Create new item (SECURE)
   .post(requireLogin, (req, res) => {
     const {
-      brief_content, full_content, requested_publication_date, recipient_groups
+      brief_content, full_content, requested_publication_date, recipient_groups, type, url
     } = req.body;
 
     if (!brief_content) { return res.status(400).json({ message: 'Missing required "brief_content" field' }); }
@@ -51,6 +51,8 @@ router.route('/')
     newItem.full_content = full_content;
     newItem.requested_publication_date = requested_publication_date;
     newItem.recipient_groups = recipient_groups;
+    newItem.type = type;
+    newItem.url = url;
 
     newItem.date_item_created = Date.now();
     newItem.save()
@@ -79,7 +81,6 @@ router.route('/:id')
   })
 
   .put(requireLogin, (req, res) => {
-    // TODO check role + ownership
     Items.findById(req.params.id)
       .then(() => {
         Items.updateOne({ _id: req.params.id }, req.body).then(() => {

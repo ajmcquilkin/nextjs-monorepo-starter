@@ -1,7 +1,8 @@
 import React from 'react';
-import './styles.scss';
+import '../styles/submission.scss';
+import { NavLink } from 'react-router-dom';
 
-function Submission(props) {
+function Submission({ item }) {
   function color(submStatus) {
     switch (submStatus) {
       case 'pending':
@@ -17,15 +18,16 @@ function Submission(props) {
     }
   }
 
-  const colorKey = { borderLeftColor: color(props.submStatus) };
+  const colorKey = { borderLeftColor: color(item.status) };
 
   return (
     <div className="submission" style={colorKey}>
       <div className="content">
-        <h3>HR Workshop on Making Friends with Coworkers</h3>
-        {/* eslint-disable-next-line react/no-unescaped-entities */}
-        <p>Come learn how to befriend your colleagues so you don't have to sit in the faculty lunch room alone!</p>
-        <a href="https://home.dartmouth.edu/">https://home.dartmouth.edu/</a>
+        <NavLink to={`/form/${item._id}`}>
+          <h3>{item.brief_content}</h3>
+        </NavLink>
+        <p>{item.full_content}</p>
+        <a href={item.url}>{item.url}</a>
       </div>
     </div>
   );

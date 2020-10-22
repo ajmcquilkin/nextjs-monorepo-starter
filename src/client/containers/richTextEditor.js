@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import RichTextEditor from 'react-rte';
 import parse from 'html-react-parser';
-import './styles.scss';
+import '../styles/richTextEditor.scss';
 
 function MyEditor(props) {
   const [state, setState] = useState({

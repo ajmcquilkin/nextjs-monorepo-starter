@@ -1,5 +1,5 @@
 import React from 'react';
-import Submission from '../../components/submission';
+import Submission from '../components/submission';
 
 function Dashboard() {
   return (

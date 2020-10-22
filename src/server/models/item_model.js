@@ -8,6 +8,7 @@ const ItemSchema = new Schema({
   brief_content: String,
   full_content: String,
   type: String,
+  url: String,
   requested_publication_date: { type: Date, default: Date.now() },
   recipient_groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
   status: { type: String, default: 'draft' },

@@ -1,13 +1,13 @@
 import React from 'react';
-import './styles.scss';
-import { NavLink } from 'react-router-dom';
+import '../styles/fullview.scss';
+// import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { createErrorSelector, createLoadingSelector } from '../../actions/requestActions';
-import ActionTypes from '../../actions';
+import { createErrorSelector, createLoadingSelector } from '../actions/requestActions';
+import ActionTypes from '../actions';
 
 import {
   fetchItems, createItem, fetchItemByID, fetchApproved
-} from '../../actions/itemActions';
+} from '../actions/itemActions';
 
 class Fullview extends React.Component {
   componentDidMount() {

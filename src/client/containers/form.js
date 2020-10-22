@@ -1,15 +1,15 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
-import './styles.scss';
+import '../styles/form.scss';
 import { connect } from 'react-redux';
-import MyEditor from '../richTextEditor';
+import MyEditor from './richTextEditor';
 
-import { createErrorSelector, createLoadingSelector } from '../../actions/requestActions';
-import ActionTypes from '../../actions';
+import { createErrorSelector, createLoadingSelector } from '../actions/requestActions';
+import ActionTypes from '../actions';
 
 import {
   fetchItems, createItem, fetchItemByID, fetchApproved
-} from '../../actions/itemActions';
+} from '../actions/itemActions';
 
 class VoxForm extends React.Component {
   constructor(props) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles.scss';
+import '../styles/webviewItem.scss';
 import { NavLink } from 'react-router-dom';
 
 const WebviewItem = (props) => (
