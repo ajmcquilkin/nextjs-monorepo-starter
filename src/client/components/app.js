@@ -26,7 +26,7 @@ const Welcome = () => (
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
           <Nav.Link href="/signin">Sign In</Nav.Link>
-          <Nav.Link href="/logout">Log Out</Nav.Link>
+          <Nav.Link href="/logout">Sign Out</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
