@@ -4,12 +4,10 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import ActionTypes from '../../actions';
 import { createErrorSelector, createLoadingSelector } from '../../actions/requestActions';
-
 import {
   fetchItems, createItem, fetchItemByID, fetchApproved
 } from '../../actions/itemActions';
 import WebviewItem from '../../components/webviewItem';
-
 import './styles.scss';
 
 class Webview extends React.Component {

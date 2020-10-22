@@ -9,7 +9,6 @@ import {
   fetchItems, createItem, fetchItemByID, fetchApproved, fetchSubmissions
 } from '../../actions/itemActions';
 import WebviewItem from '../../components/webviewItem';
-
 import './styles.scss';
 
 class Submissions extends React.Component {
@@ -46,16 +45,14 @@ class Submissions extends React.Component {
 
     return (
       <div className="webview">
-
         <div className="filter-container">
           <input type="text" placeholder="Search" value={this.state.filter} onChange={(e) => this.updateFilter(e)} />
           <br />
         </div>
         <div className="button-container">
-          <NavLink to="/form">
+          <NavLink to="/form/new">
             <button type="button"> NEW </button>
           </NavLink>
-
         </div>
         <div className="item-container">
           {rendered}
