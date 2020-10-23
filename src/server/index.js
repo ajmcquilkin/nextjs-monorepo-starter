@@ -4,6 +4,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import path from 'path';
 import {
   itemRouter, groupRouter,
 } from './routers';
@@ -84,6 +85,10 @@ apiRouter.use('/groups', groupRouter); //
 // default index route
 apiRouter.get('/', (req, res) => {
   res.send('Welcome to backend!');
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(`${__dirname}/../../dist/index.html`));
 });
 
 // Custom 404 middleware
