@@ -44,14 +44,14 @@ export function fetchSubmissions() {
   );
 }
 // New item (AUTH)
-export function createItem(title, description, value) {
+export function createItem(newItem) {
   return (dispatch) => createAsyncActionCreator(
     dispatch, ActionTypes.FETCH_ITEM,
     {
       method: 'post',
       url: `${ROOT_URL}/items`,
-      data: { title, description, value },
-      // TODO: Add auth
+      data: newItem,
+      withCredentials: true
     },
   );
 }
@@ -82,15 +82,15 @@ export function fetchItemByID(id, successCallback) {
 }
 
 // Update (AUTH)
-export function updateItemByID(id, update) {
+export function updateItemByID(id, update, successCallback) {
   return (dispatch) => createAsyncActionCreator(
     dispatch, ActionTypes.FETCH_ITEM,
     {
       method: 'put',
       url: `${ROOT_URL}/items/${id}`,
       data: update,
-      // TODO: Add auth
-    },
+      withCredentials: true
+    }, { successCallback }
   );
 }
 

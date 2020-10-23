@@ -19,11 +19,6 @@ function MyEditor({ onChange, value }) {
   const content = value.toString('html');
   const contentNoTags = content.replace(/(<([^>]+)>)/ig, '');
 
-  // messy fix for initializing state from props without constructor
-  // if (contentNoTags === '' && props.content) {
-  //   setState({ value: RichTextEditor.createValueFromString(props.content, 'html') });
-  // }
-
   return (
     <div>
       <RichTextEditor
