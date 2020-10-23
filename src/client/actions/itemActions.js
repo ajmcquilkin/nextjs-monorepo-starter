@@ -28,7 +28,7 @@ export function fetchApproved() {
 }
 const redirect = () => {
   console.log('AUTH CALLBACK');
-  // window.location.href = `${ROOT_URL}/login`;
+  window.location.href = `${ROOT_URL}/login`;
 };
 /**
  * A function for fetching all items loaded into backend (or a given number based on backend parameters)
@@ -101,7 +101,7 @@ export function deleteItemByID(id) {
     {
       method: 'delete',
       url: `${ROOT_URL}/items/${id}`,
-      // TODO: Add auth
+      withCredentials: true
     },
     {
       additionalPayloadFields: { id },

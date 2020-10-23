@@ -1,13 +1,35 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+.header{
+  text-align: center;
+}
 .form-div {
     margin: auto;
     margin-top: 5%;
     display: flex;
     flex-direction: column;
-    width: 700px;
-    min-width: 100px;
-    min-height: 500px;
+    width: 70%;
     padding: 20px 40px 40px 40px;
     border-radius: 6px;
     box-shadow: 0px 8px 36px #222;
     background-color: #fefefe;
+
   }
+
+.preview-header{
+  margin-top:20px;
+}
+.preview{
+  font-family: Ruzicka, serif;
+  padding:20px;
+  margin-top:20px;
+  border-style: solid;
+  border-width: 6px;
+  font-size: 12pt;
+  border-color: rgb(0, 105, 62);
+  background-color: #fffbec;
+
+}

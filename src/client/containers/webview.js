@@ -33,7 +33,7 @@ class Webview extends React.Component {
       if (item.full_content.toLowerCase().includes(this.state.filter.toLowerCase())) containsFilter = true;
 
       if (containsFilter) return <WebviewItem key={item._id} item={item} />;
-      return <div />;
+      return null;
     });
 
     return (

@@ -81,6 +81,7 @@ router.route('/:id')
   })
 
   .put(requireLogin, (req, res) => {
+    req.body.last_edited = Date.now();
     Items.findById(req.params.id)
       .then(() => {
         Items.updateOne({ _id: req.params.id }, req.body).then(() => {
