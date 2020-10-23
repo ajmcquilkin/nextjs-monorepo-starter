@@ -42,7 +42,7 @@ class Submissions extends React.Component {
     });
 
     return (
-      <div className="webview">
+      <div className="submissions">
         <div className="filter-container">
           <input type="text" placeholder="Search" value={this.state.filter} onChange={(e) => this.updateFilter(e)} />
           <br />
@@ -52,7 +52,7 @@ class Submissions extends React.Component {
             <button type="button"> NEW </button>
           </NavLink>
         </div>
-        <div className="item-container">
+        <div className="submissions-container">
           {rendered}
         </div>
       </div>

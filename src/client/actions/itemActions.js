@@ -26,9 +26,9 @@ export function fetchApproved() {
     },
   );
 }
-const redirect = (error) => {
-  console.log('ERROR CALLBACK');
-  window.location.href = `${ROOT_URL}/login`;
+const redirect = () => {
+  console.log('AUTH CALLBACK');
+  // window.location.href = `${ROOT_URL}/login`;
 };
 /**
  * A function for fetching all items loaded into backend (or a given number based on backend parameters)
@@ -71,13 +71,13 @@ export function createItem(title, description, value) {
 // :id
 
 // Get
-export function fetchItemByID(id) {
+export function fetchItemByID(id, successCallback) {
   return (dispatch) => createAsyncActionCreator(
     dispatch, ActionTypes.FETCH_ITEM,
     {
       method: 'get',
       url: `${ROOT_URL}/items/${id}`,
-    },
+    }, { successCallback }
   );
 }
 

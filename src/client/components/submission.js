@@ -19,7 +19,7 @@ function Submission({ item }) {
   }
 
   const colorKey = { borderLeftColor: color(item.status) };
-
+  const type = item.type.charAt(0).toUpperCase() + item.type.slice(1);
   return (
     <div className="submission" style={colorKey}>
       <div className="content">
@@ -28,6 +28,21 @@ function Submission({ item }) {
         </NavLink>
         <p>{item.full_content}</p>
         <a href={item.url}>{item.url}</a>
+      </div>
+      <div className="control">
+        <b>
+          <p>
+            {type}
+            {' '}
+            &middot; Status:
+            {' '}
+            <span style={{ color: color(item.status) }}>
+              {' '}
+              {item.status}
+            </span>
+
+          </p>
+        </b>
       </div>
     </div>
   );

@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import RichTextEditor from 'react-rte';
 import parse from 'html-react-parser';
 import '../styles/richTextEditor.scss';
 
-function MyEditor(props) {
-  const [state, setState] = useState({
-    value: RichTextEditor.createEmptyValue(),
-  });
-
+function MyEditor({ onChange, value }) {
   const toolbarConfig = {
     display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'LINK_BUTTONS', 'IMAGE_BUTTON'],
     INLINE_STYLE_BUTTONS: [
@@ -20,22 +16,18 @@ function MyEditor(props) {
     ]
   };
 
-  function onChange(value) {
-    setState({ value });
-  }
-
-  const content = state.value.toString('html');
+  const content = value.toString('html');
   const contentNoTags = content.replace(/(<([^>]+)>)/ig, '');
 
   // messy fix for initializing state from props without constructor
-  if (contentNoTags === '' && props.content) {
-    setState({ value: RichTextEditor.createValueFromString(props.content, 'html') });
-  }
+  // if (contentNoTags === '' && props.content) {
+  //   setState({ value: RichTextEditor.createValueFromString(props.content, 'html') });
+  // }
 
   return (
     <div>
       <RichTextEditor
-        value={state.value}
+        value={value}
         onChange={onChange}
         toolbarConfig={toolbarConfig}
       />

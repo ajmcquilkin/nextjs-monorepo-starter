@@ -1,16 +1,17 @@
-.webview{
+.submissions{
     border-style: dotted;
     display: flex;
     align-items: center;
     flex-direction: column;
-
+    margin:0px;
 }
 
-.item-container{
+.submissions-container{
 
     border-style: dotted;
-    width: 70%;
+    width: 95%;
     display: flex;
     align-items: center;
     flex-direction: column;
+    padding:5px;
 }
