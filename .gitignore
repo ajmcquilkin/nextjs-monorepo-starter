@@ -12,3 +12,4 @@ dist/
 globalConfig.json
 
 yarn.lock
+package-lock.json
