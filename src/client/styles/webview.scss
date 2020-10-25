@@ -1,15 +1,11 @@
-.webview{
-
+.webview {
     display: flex;
     align-items: center;
     flex-direction: column;
-
 }
 
 .item-container{
-
-
-    width: 70%;
+    max-width: 800px;
     display: flex;
     align-items: center;
     flex-direction: column;

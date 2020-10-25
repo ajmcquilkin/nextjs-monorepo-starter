@@ -1,12 +1,26 @@
 
-.item{
+.item {
+  width: 100%;
   border-style: dotted;
-}
 
-.item a, .item h4 {
-  font-family: National2-Bold, sans-serif
-}
+  .item-content {
+    padding-left: 48px;
+    margin-top: 17px;
+  }
 
-.item p {
-  font-family: National2-Reg, sans-serif
+  .item-title {
+    margin-bottom: -8px;
+  }
+
+  h5 {
+    font-size: 16px;
+  }
+
+  a, h4, h5 {
+    font-family: National2-Bold, sans-serif
+  }
+  
+  p {
+    font-family: National2-Reg, sans-serif
+  }
 }
