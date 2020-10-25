@@ -12,3 +12,5 @@ dist/
 globalConfig.json
 
 yarn.lock
+package-lock.json
+.DS_Store

@@ -1,16 +1,28 @@
-.webview{
-    border-style: dotted;
+.submissions{
+
     display: flex;
     align-items: center;
     flex-direction: column;
-
+    margin:0px;
+}
+.top-bar{
+    margin: 20px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16pt;
+}
+.new-button{
+    background-color: rgb(0, 102, 63);
+    color: white;
+    width: 280px;
 }
 
-.item-container{
+.submissions-container{
 
-    border-style: dotted;
-    width: 70%;
+    width: 95%;
     display: flex;
     align-items: center;
     flex-direction: column;
+    padding:5px;
 }

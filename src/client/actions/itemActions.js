@@ -26,8 +26,8 @@ export function fetchApproved() {
     },
   );
 }
-const redirect = (error) => {
-  console.log('ERROR CALLBACK');
+const redirect = () => {
+  console.log('AUTH CALLBACK');
   window.location.href = `${ROOT_URL}/login`;
 };
 /**
@@ -44,14 +44,14 @@ export function fetchSubmissions() {
   );
 }
 // New item (AUTH)
-export function createItem(title, description, value) {
+export function createItem(newItem) {
   return (dispatch) => createAsyncActionCreator(
     dispatch, ActionTypes.FETCH_ITEM,
     {
       method: 'post',
       url: `${ROOT_URL}/items`,
-      data: { title, description, value },
-      // TODO: Add auth
+      data: newItem,
+      withCredentials: true
     },
   );
 }
@@ -71,26 +71,26 @@ export function createItem(title, description, value) {
 // :id
 
 // Get
-export function fetchItemByID(id) {
+export function fetchItemByID(id, successCallback) {
   return (dispatch) => createAsyncActionCreator(
     dispatch, ActionTypes.FETCH_ITEM,
     {
       method: 'get',
       url: `${ROOT_URL}/items/${id}`,
-    },
+    }, { successCallback }
   );
 }
 
 // Update (AUTH)
-export function updateItemByID(id, update) {
+export function updateItemByID(id, update, successCallback) {
   return (dispatch) => createAsyncActionCreator(
     dispatch, ActionTypes.FETCH_ITEM,
     {
       method: 'put',
       url: `${ROOT_URL}/items/${id}`,
       data: update,
-      // TODO: Add auth
-    },
+      withCredentials: true
+    }, { successCallback }
   );
 }
 
@@ -101,7 +101,7 @@ export function deleteItemByID(id) {
     {
       method: 'delete',
       url: `${ROOT_URL}/items/${id}`,
-      // TODO: Add auth
+      withCredentials: true
     },
     {
       additionalPayloadFields: { id },

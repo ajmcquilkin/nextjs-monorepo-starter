@@ -36,8 +36,8 @@ router.route('/')
 
     if (!brief_content) { return res.status(400).json({ message: 'Missing required "brief_content" field' }); }
     if (!full_content) { return res.status(400).json({ message: 'Missing required "full_content" field' }); }
-    if (!recipient_groups) { return res.status(400).json({ message: 'Missing required "recipient_groups" field' }); }
-    if (!requested_publication_date) { return res.status(400).json({ message: 'Missing required "requested_publication_date" field' }); }
+    // if (!recipient_groups) { return res.status(400).json({ message: 'Missing required "recipient_groups" field' }); }
+    // if (!requested_publication_date) { return res.status(400).json({ message: 'Missing required "requested_publication_date" field' }); }
 
     const newItem = new Items();
 
@@ -81,6 +81,7 @@ router.route('/:id')
   })
 
   .put(requireLogin, (req, res) => {
+    req.body.last_edited = Date.now();
     Items.findById(req.params.id)
       .then(() => {
         Items.updateOne({ _id: req.params.id }, req.body).then(() => {
