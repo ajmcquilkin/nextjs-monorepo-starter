@@ -10,11 +10,11 @@
   .item-padding-container {
     padding-left: 48px;
 
-    * :not(b), a {
+    * :not(b, strong), a {
       font-family: National2-Reg, sans-serif;
     }
 
-    b {
+    b, strong {
       font-family: National2-Bold, sans-serif;
     }
 

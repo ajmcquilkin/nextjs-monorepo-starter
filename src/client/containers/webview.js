@@ -11,8 +11,6 @@ import ItemSection from './ItemSection';
 import '../styles/webview.scss';
 
 const Webview = ({ items = [], fetchApproved: fetchApprovedAction }) => {
-  const [filter, setFilter] = React.useState('');
-
   React.useEffect(() => {
     fetchApprovedAction();
   });
@@ -21,9 +19,7 @@ const Webview = ({ items = [], fetchApproved: fetchApprovedAction }) => {
 
   return (
     <div className="webview">
-      <div className="filter-container">
-        <input type="text" placeholder="Filter" value={filter} onChange={(e) => setFilter(e.target.value)} />
-      </div>
+      Add other things here lol (from Adam)
 
       <div className="webview-sections-container">
         <ItemSection
