@@ -1,55 +1,50 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-// import { NavLink } from 'react-router-dom';
 import ActionTypes from '../actions';
 import { createErrorSelector, createLoadingSelector } from '../actions/requestActions';
 import {
   fetchItems, createItem, fetchItemByID, fetchApproved
 } from '../actions/itemActions';
-import WebviewItem from '../components/webviewItem';
+import ItemSection from './ItemSection';
+
 import '../styles/webview.scss';
 
-class Webview extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: ''
-    };
-  }
+const Webview = ({ items = [], fetchApproved: fetchApprovedAction }) => {
+  const [filter, setFilter] = React.useState('');
 
-  componentDidMount() {
-    this.props.fetchApproved();
-  }
+  React.useEffect(() => {
+    fetchApprovedAction();
+  });
 
-  updateFilter = (e) => {
-    this.setState({ filter: e.target.value });
-  }
+  const itemArray = React.useMemo(() => Object.values(items), [items]);
 
-  render() {
-    const rendered = Object.values(this.props.items).map((item) => {
-      let containsFilter = false;
-      if (item.brief_content.toLowerCase().includes(this.state.filter.toLowerCase())) containsFilter = true;
-      if (item.full_content.toLowerCase().includes(this.state.filter.toLowerCase())) containsFilter = true;
-
-      if (containsFilter) return <WebviewItem key={item._id} item={item} />;
-      return null;
-    });
-
-    return (
-      <div className="webview">
-        <div className="filter-container">
-          <input type="text" placeholder="Filter" value={this.state.filter} onChange={(e) => this.updateFilter(e)} />
-          <br />
-        </div>
-
-        <div className="item-container">
-          {rendered}
-        </div>
+  return (
+    <div className="webview">
+      <div className="filter-container">
+        <input type="text" placeholder="Filter" value={filter} onChange={(e) => setFilter(e.target.value)} />
       </div>
-    );
-  }
-}
+
+      <div className="webview-sections-container">
+        <ItemSection
+          title="news"
+          subtitle="from the office of communications"
+          itemList={itemArray.filter((item) => item.type === 'news')}
+        />
+
+        <ItemSection
+          title="announcements"
+          itemList={itemArray.filter((item) => item.type === 'announcement')}
+        />
+
+        <ItemSection
+          title="events"
+          itemList={itemArray.filter((item) => item.type === 'event')}
+        />
+      </div>
+    </div>
+  );
+};
 
 const itemSelectorActions = [ActionTypes.FETCH_RESOURCE, ActionTypes.FETCH_RESOURCES, ActionTypes.DELETE_RESOURCE];
 

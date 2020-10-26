@@ -2,33 +2,34 @@ import React from 'react';
 import '../styles/webviewItem.scss';
 import sanitizeHtml from 'sanitize-html';
 
-const WebviewItem = (props) => {
-  const cleanHTML = sanitizeHtml(props.item.full_content);
-  console.table(props.item);
+const WebviewItem = ({ item }) => {
+  const cleanHTML = sanitizeHtml(item.full_content);
+  console.table(item);
 
   return (
     <div className="item">
       <div className="item-title">
-        <h4>{props.item.brief_content}</h4>
+        <h4>{item.brief_content}</h4>
       </div>
 
       {
-        props.item.type === 'announcement'
+        item.type === 'announcement'
           ? (
             <h5>
-              {props.item.from_name}
+              {item.from_name}
               {' '}
-              {props.item.from_address}
+              {item.from_address}
             </h5>
           )
           : null
       }
 
-      <div className="item-content">
+      <div className="item-padding-container">
         {/* eslint-disable-next-line react/no-danger */}
-        <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />
-      </div>
+        <div className="item-content" dangerouslySetInnerHTML={{ __html: cleanHTML }} />
 
+        <a href={item.url}>{item.url}</a>
+      </div>
     </div>
   );
 };

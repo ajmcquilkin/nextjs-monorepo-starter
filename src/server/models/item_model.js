@@ -7,7 +7,7 @@ const ItemSchema = new Schema({
   from_address: String,
   brief_content: String,
   full_content: String,
-  type: String,
+  type: String, // news | announcement | event
   url: String,
   requested_publication_date: { type: Date, default: Date.now },
   recipient_groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
