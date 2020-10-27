@@ -10,7 +10,7 @@ import { createErrorSelector, createLoadingSelector } from '../actions/requestAc
 import ActionTypes from '../actions';
 
 import {
-  fetchItems, createItem, fetchItemByID, fetchApproved, updateItemByID
+  createItem, fetchItemByID, fetchApproved, updateItemByID
 } from '../actions/itemActions';
 
 class VoxForm extends React.Component {
@@ -200,5 +200,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  fetchItems, createItem, fetchItemByID, fetchApproved, updateItemByID
+  createItem, fetchItemByID, fetchApproved, updateItemByID
 })(VoxForm);

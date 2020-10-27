@@ -4,19 +4,6 @@ import { ROOT_URL } from '../constants';
 /**
  * A function for fetching all items loaded into backend (or a given number based on backend parameters)
  */
-export function fetchItems() {
-  return (dispatch) => createAsyncActionCreator(
-    dispatch, ActionTypes.FETCH_ITEMS,
-    {
-      method: 'get',
-      url: `${ROOT_URL}/items`,
-    },
-  );
-}
-
-/**
- * A function for fetching all items loaded into backend (or a given number based on backend parameters)
- */
 export function fetchApproved() {
   return (dispatch) => createAsyncActionCreator(
     dispatch, ActionTypes.FETCH_ITEMS,
