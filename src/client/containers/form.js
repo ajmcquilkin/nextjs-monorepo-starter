@@ -6,7 +6,7 @@ import RichTextEditor from 'react-rte';
 import sanitizeHtml from 'sanitize-html';
 import MyEditor from './richTextEditor';
 
-import { createErrorSelector, createLoadingSelector } from '../actions/requestActions';
+import { createErrorSelector, createLoadingSelector, setError } from '../actions/requestActions';
 import ActionTypes from '../actions';
 
 import {
@@ -30,8 +30,7 @@ class VoxForm extends React.Component {
     }
   }
 
-  submit = () => {
-    console.log('Submitting:');
+  submit = async () => {
     const content = this.state.full_content.toString('html');
     const newItem = {
       full_content: content,
@@ -41,12 +40,18 @@ class VoxForm extends React.Component {
       status: 'pending'
     };
     const isNew = this.props.match.params.itemID === 'new';
-    if (isNew) this.props.createItem(newItem);
-    else {
-      const id = this.props.match.params.itemID;
-      this.props.updateItemByID(id, newItem, this.loadSaved);
+
+    try {
+      // Runs the appropriate request and THEN pushes to /submissions
+      if (isNew) await this.props.createItem(newItem);
+      else await this.props.updateItemByID(this.props.match.params.itemID, newItem, this.loadSaved);
+
+      // Only run after createItem OR updateItemByID succeeds
+      this.props.history.push('/submissions');
+    } catch (error) {
+      // Logs error to console if an action creator rejects
+      console.error(error);
     }
-    this.props.history.push('/submissions');
   }
 
   save = () => {
@@ -56,6 +61,7 @@ class VoxForm extends React.Component {
     };
 
     const isNew = this.props.match.params.itemID === 'new';
+
     if (isNew) {
       this.props.createItem(newItem).then(() => this.props.history.push(`/form/${this.props.item._id}`));
     } else {
@@ -173,6 +179,9 @@ class VoxForm extends React.Component {
             </Form.Group>
             {buttons}
           </Form>
+
+          {this.props.itemErrorMessage ? `Error: ${this.props.itemErrorMessage}` : ''}
+
           <h3 className="preview-header">Content Preview</h3>
           <div className="preview">
             {/* eslint-disable-next-line react/no-danger */}
@@ -180,17 +189,14 @@ class VoxForm extends React.Component {
             <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />
             <p>For more information:</p>
             <a href={this.state.url}>{this.state.url}</a>
-
           </div>
-
         </div>
-
       </div>
     );
   }
 }
 
-const itemSelectorActions = [ActionTypes.FETCH_RESOURCE, ActionTypes.FETCH_RESOURCES, ActionTypes.DELETE_RESOURCE];
+const itemSelectorActions = [ActionTypes.FETCH_ITEM, ActionTypes.FETCH_ITEMS, ActionTypes.DELETE_ITEM];
 
 const mapStateToProps = (state) => ({
   itemIsLoading: createLoadingSelector(itemSelectorActions)(state),
