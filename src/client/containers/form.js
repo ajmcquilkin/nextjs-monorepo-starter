@@ -31,6 +31,8 @@ class VoxForm extends React.Component {
   }
 
   submit = () => {
+    // validation code here
+
     console.log('Submitting:');
     const content = this.state.full_content.toString('html');
     const newItem = {
@@ -51,16 +53,22 @@ class VoxForm extends React.Component {
 
   save = () => {
     const content = this.state.full_content.toString('html');
-    const newItem = {
-      full_content: content, brief_content: this.state.brief_content, type: this.state.type, url: this.state.url
-    };
+    const contentNoTags = content.replace(/(<([^>]+)>)/ig, '');
 
-    const isNew = this.props.match.params.itemID === 'new';
-    if (isNew) {
-      this.props.createItem(newItem).then(() => this.props.history.push(`/form/${this.props.item._id}`));
+    if (contentNoTags.length > 500 || !this.state.type || !this.state.brief_content || !this.state.full_content) {
+      alert('Error');
     } else {
-      const id = this.props.match.params.itemID;
-      this.props.updateItemByID(id, newItem, this.loadSaved);
+      const newItem = {
+        full_content: content, brief_content: this.state.brief_content, type: this.state.type, url: this.state.url
+      };
+
+      const isNew = this.props.match.params.itemID === 'new';
+      if (isNew) {
+        this.props.createItem(newItem).then(() => this.props.history.push(`/form/${this.props.item._id}`));
+      } else {
+        const id = this.props.match.params.itemID;
+        this.props.updateItemByID(id, newItem, this.loadSaved);
+      }
     }
   }
 

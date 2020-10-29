@@ -4,7 +4,7 @@ import '../styles/richTextEditor.scss';
 
 function MyEditor({ onChange, value }) {
   const toolbarConfig = {
-    display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'LINK_BUTTONS'],
+    display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS'],
     INLINE_STYLE_BUTTONS: [
       { label: 'Bold', style: 'BOLD' },
       { label: 'Italic', style: 'ITALIC' },
@@ -27,7 +27,7 @@ function MyEditor({ onChange, value }) {
       />
       <h6 style={{ color: contentNoTags.length > 500 ? 'red' : null }}>
         {contentNoTags.length}
-        /500
+        /500 characters
       </h6>
 
     </div>
