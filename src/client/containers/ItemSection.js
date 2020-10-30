@@ -4,7 +4,7 @@ import '../styles/itemSection.scss';
 
 const ItemSection = ({ title, subtitle, itemList = [] }) => (
   <div className="item-section-container">
-    <div className="item-section-bar" />
+    <div className="section-bar" />
 
     <div className="item-section-title-container">
       <h3>{title}</h3>

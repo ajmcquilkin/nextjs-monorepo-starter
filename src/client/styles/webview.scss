@@ -1,12 +1,38 @@
-.webview {
+#webview-container {
     display: flex;
     align-items: center;
     flex-direction: column;
-}
 
-.item-container{
-    max-width: 800px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+    #webview-header-content-container {
+        max-width: 400px;
+
+        #webview-title-container {
+            margin: 24px auto;
+    
+            #webview-title-text-container {
+                padding: 24px 0;
+    
+                h2 {
+                    font-family: National2-Bold, sans-serif;
+                }
+                
+                p {
+                    font-family: National2-Reg, sans-serif;
+                }
+                
+                * {
+                    text-align: center;
+                    margin: 0 auto;
+                } 
+            }
+        }
+    
+        #webview-sections-container {
+            max-width: 900px;
+        }
+
+        img {
+            width: 100%;
+        }
+    }
 }

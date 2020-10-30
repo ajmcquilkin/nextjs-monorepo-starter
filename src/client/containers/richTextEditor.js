@@ -1,5 +1,6 @@
 import React from 'react';
 import RichTextEditor from 'react-rte';
+import { maxContentLength } from '../constants';
 import '../styles/richTextEditor.scss';
 
 function MyEditor({ onChange, value }) {
@@ -25,9 +26,12 @@ function MyEditor({ onChange, value }) {
         onChange={onChange}
         toolbarConfig={toolbarConfig}
       />
-      <h6 style={{ color: contentNoTags.length > 500 ? 'red' : null }}>
+      <h6 style={{ color: contentNoTags.length > maxContentLength ? 'red' : null }}>
         {contentNoTags.length}
-        /500 characters
+        /
+        {maxContentLength}
+        {' '}
+        characters
       </h6>
 
     </div>

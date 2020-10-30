@@ -1,20 +1,67 @@
-.nav {
+header#app-main-header {
     background-color: #00693E;
+    display: flex;
+    flex-direction: row;
+
+    & > div {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #app-brand-container {
+        margin: auto auto auto 24px;
+
+        h1 {
+            font-family: National2-Reg, sans-serif;
+            font-size: 20px;
+            margin: auto 0 auto 12px;
+            color: #FFFFFF;
+        }
+    }
+    
+    nav#app-links-container {
+        margin: auto 24px 0px 0px;
+
+        a {
+            font-size: 20px;
+            font-family: National2-Reg, sans-serif;
+            text-align: center;
+            
+            padding: 9px 24px;
+            margin: 0px 6px;
+            border-radius: 10px 10px 0px 0px;
+
+            color: #FFFFFF;
+            background: none;
+            
+            &.active {
+                font-family: National2-Bold, sans-serif;
+                color: #00693E;
+                background: #FFFFFF;
+            }
+        }
+    }
+
+    #app-signout-container {
+        flex-direction: column;
+        font-family: National2-Reg, sans-serif;
+        color: #FFFFFF
+    }
 }
 
-.nav-link {
-    color: white !important;
-    font-size: 18pt;
-}
+// .nav-link {
+//     color: white !important;
+//     font-size: 18pt;
+// }
 
-.navbar-brand {
-    color: white !important;
-    font-size: 30px !important;
-    font-family: Ruzicka, serif;
-}
+// .navbar-brand {
+//     color: white !important;
+//     font-size: 30px !important;
+//     font-family: Ruzicka, serif;
+// }
 
-.navbar-brand img {
-    padding: 10px;
-    padding-bottom: 20px;
-    margin-right: 10px;
-}
+// .navbar-brand img {
+//     padding: 10px;
+//     padding-bottom: 20px;
+//     margin-right: 10px;
+// }

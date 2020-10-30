@@ -18,3 +18,5 @@ export const requestTimeout = 1000;
 export function generateFrontendErrorMessage(message) {
   return message ? `Error: "${message}"` : '';
 }
+
+export const maxContentLength = 500;

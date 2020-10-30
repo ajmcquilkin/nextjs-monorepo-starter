@@ -1,13 +1,13 @@
+.section-bar {
+  background-color: #00693E;
+  height: 15px;
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 63px;
+}
+
 .item-section-container {
   max-width: 900px;
-
-  .item-section-bar {
-    background-color: #00693E;
-    height: 15px;
-    width: 100%;
-    border-radius: 6px;
-    margin-bottom: 63px;
-  }
 
   .item-section-title-container {
     display: flex;
