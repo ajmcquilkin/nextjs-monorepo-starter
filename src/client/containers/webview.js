@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ActionTypes from '../actions';
 import { createErrorSelector, createLoadingSelector } from '../actions/requestActions';
 import {
-  fetchItems, createItem, fetchItemByID, fetchApproved
+   createItem, fetchItemByID, fetchApproved
 } from '../actions/itemActions';
 import ItemSection from './ItemSection';
 
@@ -51,5 +51,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  fetchItems, createItem, fetchItemByID, fetchApproved
+   createItem, fetchItemByID, fetchApproved
 })(Webview);
