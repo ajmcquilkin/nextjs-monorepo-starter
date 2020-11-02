@@ -4,19 +4,22 @@ body, html {
     // margin: 0;
 }
 
- @font-face {
-    font-family: 'Ruzicka';
-    src: local('Ruzicka'), url('./fonts/DartmouthRuzicka-Regular.ttf') format('truetype');
- }
+// @font-face {
+//    font-family: 'Ruzicka';
+//    src: local('Ruzicka'), url('./fonts/DartmouthRuzicka-Regular.ttf') format('truetype');
+// }
 
- @font-face {
-    font-family: 'National2-Reg';
-    src: local('National2-Reg'), url('./fonts/National2-Regular.otf') format('opentype');
- }
+@font-face {
+   font-family: 'National2-Reg';
+   src: local('National2-Reg'), url('./fonts/National2-Regular.otf') format('opentype');
+}
 
- @font-face {
-    font-family: 'National2-Bold';
-    font-weight: 500;
-    src: local('National2-Bold'), url('./fonts/National2-Bold.otf') format('opentype');
- }
+@font-face {
+   font-family: 'National2-Bold';
+   font-weight: 500;
+   src: local('National2-Bold'), url('./fonts/National2-Bold.otf') format('opentype');
+}
 
+$dartmouth-regular: National2-Reg, sans-serif;
+$dartmouth-bold: National2-Bold, sans-serif;
+// $dartmouth-ruzicka: Ruzicka, serif;

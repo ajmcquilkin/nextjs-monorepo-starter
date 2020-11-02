@@ -1,3 +1,5 @@
+@import '../style.scss';
+
 #webview-container {
     display: flex;
     align-items: center;
@@ -5,6 +7,7 @@
 
     #webview-header-content-container {
         max-width: 400px;
+        margin-bottom: 72px;
 
         #webview-title-container {
             margin: 24px auto;
@@ -13,11 +16,11 @@
                 padding: 24px 0;
     
                 h2 {
-                    font-family: National2-Bold, sans-serif;
+                    font-family: $dartmouth-bold;
                 }
                 
                 p {
-                    font-family: National2-Reg, sans-serif;
+                    font-family: $dartmouth-regular;
                 }
                 
                 * {
@@ -27,12 +30,31 @@
             }
         }
     
-        #webview-sections-container {
-            max-width: 900px;
-        }
-
+        
         img {
             width: 100%;
         }
     }
+
+    #webview-main-content-container {
+        max-width: 900px;
+        
+        #webview-featured-story-container {
+            h3 {
+                // font-family: $dartmouth-ruzicka;
+                font-family: Ruzicka, serif;
+                color: red;
+                // font-weight: bold;
+            }
+
+            p {
+                font-family: $dartmouth-regular;
+            }
+        }
+    
+        #webview-sections-container {
+
+        }
+    }
+    
 }

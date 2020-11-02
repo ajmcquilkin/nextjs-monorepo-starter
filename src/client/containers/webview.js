@@ -25,10 +25,7 @@ const Webview = ({ items = [], fetchApproved: fetchApprovedAction }) => {
 
   return (
     <div id="webview-container">
-      Add other things here lol (from Adam)
-
       <div id="webview-header-content-container">
-
         <div id="webview-title-container">
           <div className="section-bar" />
           <div id="webview-title-text-container">
@@ -44,22 +41,36 @@ const Webview = ({ items = [], fetchApproved: fetchApprovedAction }) => {
         />
       </div>
 
-      <div id="webview-sections-container">
-        <ItemSection
-          title="news"
-          subtitle="from the office of communications"
-          itemList={itemArray.filter((item) => item.type === 'news')}
-        />
+      <div id="webview-main-content-container">
 
-        <ItemSection
-          title="announcements"
-          itemList={itemArray.filter((item) => item.type === 'announcement')}
-        />
+        <div id="webview-featured-story-container">
+          <h3>Featured Story</h3>
+          <p>
+            Dartmouth College is committed to providing a safe, equitable, and respectful environment for all
+            members of the Dartmouth Community. The College&apos;s goal is to integrate these values into all we do
+            at Dartmouth -- teaching, research, public service, student activities, and business operations.
+            To guide us toward this goal, the College has developed programs and tools, which are described on our
+            Compliance Resources web page. More text to reach 500 words. This is how much 500 characters looks like.
+          </p>
+        </div>
 
-        <ItemSection
-          title="events"
-          itemList={itemArray.filter((item) => item.type === 'event')}
-        />
+        <div id="webview-sections-container">
+          <ItemSection
+            title="news"
+            subtitle="from the office of communications"
+            itemList={itemArray.filter((item) => item.type === 'news')}
+          />
+
+          <ItemSection
+            title="announcements"
+            itemList={itemArray.filter((item) => item.type === 'announcement')}
+          />
+
+          <ItemSection
+            title="events"
+            itemList={itemArray.filter((item) => item.type === 'event')}
+          />
+        </div>
       </div>
     </div>
   );
