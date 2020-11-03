@@ -1,4 +1,4 @@
-@import '../style.scss';
+// @import '../style.scss';
 
 #webview-container {
     display: flex;
@@ -16,11 +16,11 @@
                 padding: 24px 0;
     
                 h2 {
-                    font-family: $dartmouth-bold;
+                    font-family: National2-Bold, sans-serif;
                 }
                 
                 p {
-                    font-family: $dartmouth-regular;
+                    font-family: National2-Reg, sans-serif;
                 }
                 
                 * {
@@ -41,20 +41,18 @@
         
         #webview-featured-story-container {
             h3 {
-                // font-family: $dartmouth-ruzicka;
                 font-family: Ruzicka, serif;
-                color: red;
-                // font-weight: bold;
+                font-weight: bold;
             }
 
             p {
-                font-family: $dartmouth-regular;
+                font-family: National2-Reg, sans-serif;
             }
         }
     
-        #webview-sections-container {
+        // #webview-sections-container {
 
-        }
+        // }
     }
     
 }

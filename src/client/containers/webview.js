@@ -36,7 +36,7 @@ const Webview = ({ items = [], fetchApproved: fetchApprovedAction }) => {
         </div>
 
         <img
-          src="https://c1.staticflickr.com/1/660/22036655429_172dbd93b4_b.jpg"
+          src="https://www.insubuy.com/assets/img/schools/dartmouth-college.jpg"
           alt="dartmouth college in the fall"
         />
       </div>

@@ -4,10 +4,10 @@ body, html {
     // margin: 0;
 }
 
-// @font-face {
-//    font-family: 'Ruzicka';
-//    src: local('Ruzicka'), url('./fonts/DartmouthRuzicka-Regular.ttf') format('truetype');
-// }
+@font-face {
+   font-family: 'Ruzicka';
+   src: local('Ruzicka'), url('./fonts/DartmouthRuzicka-Regular.ttf') format('truetype');
+}
 
 @font-face {
    font-family: 'National2-Reg';
@@ -20,6 +20,3 @@ body, html {
    src: local('National2-Bold'), url('./fonts/National2-Bold.otf') format('opentype');
 }
 
-$dartmouth-regular: National2-Reg, sans-serif;
-$dartmouth-bold: National2-Bold, sans-serif;
-// $dartmouth-ruzicka: Ruzicka, serif;
