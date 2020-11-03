@@ -1,5 +1,6 @@
 import supertest from 'supertest';
 import itemRouter from '../item_router';
+import 'babel-polyfill';
 
 const {
   connectDB, dropDB,
@@ -52,8 +53,8 @@ describe('Working item router', () => {
       });
 
       // * NOTE: Can require multiple checks depending on number of non-unique fields
-      describe('blocks creation of resource with non-unique field', () => {
-        it('blocks resource creation when missing brief_content', async (done) => {
+      describe('blocks creation of item with non-unique field', () => {
+        it('blocks item creation when missing brief_content', async (done) => {
           try {
             const res = await request.post('/')
               .set('Cookie', 'Dummy Cookie')
@@ -71,7 +72,7 @@ describe('Working item router', () => {
           }
         });
 
-        it('blocks resource creation when missing full_content', async (done) => {
+        it('blocks item creation when missing full_content', async (done) => {
           try {
             const res = await request.post('/')
               .set('Cookie', 'Dummy Cookie')
@@ -89,7 +90,7 @@ describe('Working item router', () => {
           }
         });
 
-        it('blocks resource creation when missing requested_publication_date', async (done) => {
+        it('blocks item creation when missing requested_publication_date', async (done) => {
           try {
             const res = await request.post('/')
               .set('Cookie', 'Dummy Cookie')
@@ -107,7 +108,7 @@ describe('Working item router', () => {
           }
         });
 
-        it('blocks resource creation when missing recipient_groups', async (done) => {
+        it('blocks item creation when missing recipient_groups', async (done) => {
           try {
             const res = await request.post('/')
               .set('Cookie', 'Dummy Cookie')
@@ -134,7 +135,7 @@ describe('Working item router', () => {
             .send(itemData);
 
           expect(res.status).toBe(201);
-          // Resource exists with all required fields
+          // Item exists with all required fields
           expect(res.body.brief_content).toBeDefined();
           expect(res.body.full_content).toBeDefined();
           expect(res.body.requested_publication_date).toBeDefined();

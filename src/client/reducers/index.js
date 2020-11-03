@@ -2,11 +2,11 @@
 // this defines what your store state will look like
 import { combineReducers } from 'redux';
 
-import ResourceReducer from './resource-reducer';
+import ItemReducer from './item-reducer';
 import RequestReducer from './request-reducer';
 
 const rootReducer = combineReducers({
-  resource: ResourceReducer,
+  item: ItemReducer,
   request: RequestReducer,
 });
 

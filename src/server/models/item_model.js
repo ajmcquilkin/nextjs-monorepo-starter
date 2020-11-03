@@ -8,10 +8,12 @@ const ItemSchema = new Schema({
   brief_content: String,
   full_content: String,
   type: String,
-  requested_publication_date: { type: Date, default: Date.now() },
+  url: String,
+  requested_publication_date: { type: Date, default: Date.now },
   recipient_groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
-  status: { type: String, default: 'new' },
-  date_item_created: { type: Date, default: Date.now() },
+  status: { type: String, default: 'draft' },
+  date_item_created: { type: Date, default: Date.now },
+  last_edited: { type: Date, default: Date.now }
 });
 
 const ItemModel = mongoose.model('Item', ItemSchema);

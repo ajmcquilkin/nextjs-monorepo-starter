@@ -5,15 +5,6 @@ An overview of the basic route layout of this server
 ```
 server (/)
 │
-├── /resources
-│   ├── /
-│   │   ├── GET -> get all resources (x)
-│   │   ├── POST -> create a resource (x)
-│   │
-│   ├── /:id                                       // advanced (inquiries with token and id management)
-│   │   ├── GET -> get specific resource (x)
-│   │   ├── PUT -> update specific resource (x)
-│   │   ├── DELETE -> delete specific resource (x)
 ```
 
 ## Authentication Flow

@@ -4,8 +4,9 @@ import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import path from 'path';
 import {
-  resourceRouter, itemRouter, groupRouter, searchRouter,
+  itemRouter, groupRouter,
 } from './routers';
 
 import { SELF_URL, APP_URL } from './constants';
@@ -67,7 +68,7 @@ app.use(bodyParser.json());
 const apiRouter = express();
 
 app.get('/api/login', cas.bounce, (req, res) => {
-  res.status(200).send(req.session);
+  res.redirect(returnURL);
 });
 
 app.get('/api/logout', cas.logout, (req, res) => {
@@ -78,14 +79,16 @@ app.get('/api/logout', cas.logout, (req, res) => {
 app.use('/api', apiRouter);
 // declare routers
 
-apiRouter.use('/resources', resourceRouter); // NOTE: Partially secured to users
 apiRouter.use('/items', itemRouter); //
 apiRouter.use('/groups', groupRouter); //
-apiRouter.use('/search', searchRouter);
 
 // default index route
 apiRouter.get('/', (req, res) => {
   res.send('Welcome to backend!');
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(`${__dirname}/../../dist/index.html`));
 });
 
 // Custom 404 middleware
