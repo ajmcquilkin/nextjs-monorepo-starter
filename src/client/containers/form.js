@@ -76,8 +76,11 @@ class VoxForm extends React.Component {
         if (isNew) await this.props.createItem(newItem);
         else await this.props.updateItemByID(this.props.match.params.itemID, newItem, this.loadSaved);
 
+        const editingOwn = this.props.item?.submitter_netid === this.props.netid;
+
         // Only run after createItem OR updateItemByID succeeds
-        this.props.history.push('/submissions');
+        if (editingOwn) this.props.history.push('/submissions');
+        else this.props.history.push('/review');
       } catch (error) {
       // Logs error to console if an action creator rejects
         console.error(error);
