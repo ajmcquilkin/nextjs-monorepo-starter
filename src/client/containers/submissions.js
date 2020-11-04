@@ -20,7 +20,10 @@ class Submissions extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchSubmissions();
+    if (this.props.authenticated) this.props.fetchSubmissions();
+    else {
+      this.props.history.push('/signin');
+    }
   }
 
   updateFilter = (e) => {
@@ -75,19 +78,21 @@ class Submissions extends React.Component {
 
 const itemSelectorActions = [ActionTypes.FETCH_RESOURCE, ActionTypes.FETCH_RESOURCES, ActionTypes.DELETE_RESOURCE];
 
-const filter = (items) => {
+const filter = (items, netid) => {
   if (!items) return null;
-  const filtered = Object.values(items).filter((item) => item.status === 'draft' || item.status === 'pending');
+  const filtered = Object.values(items).filter((item) => item.submitter_netid === netid);
 
   filtered.sort((a, b) => new Date(b.last_edited).getTime() - new Date(a.last_edited).getTime());
   return filtered;
 };
 
 const mapStateToProps = (state) => ({
+  authenticated: state.auth.authenticated,
+  netid: state.auth.netid,
+
   itemIsLoading: createLoadingSelector(itemSelectorActions)(state),
   itemErrorMessage: createErrorSelector(itemSelectorActions)(state),
-  items: filter(state.item.items)
-
+  items: filter(state.item.items, state.auth.netid),
 });
 
 export default connect(mapStateToProps, {

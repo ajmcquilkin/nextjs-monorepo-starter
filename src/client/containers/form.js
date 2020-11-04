@@ -25,8 +25,12 @@ class VoxForm extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.match.params.itemID !== 'new') {
-      this.props.fetchItemByID(this.props.match.params.itemID, this.loadSaved);
+    if (this.props.authenticated) {
+      if (this.props.match.params.itemID !== 'new') {
+        this.props.fetchItemByID(this.props.match.params.itemID, this.loadSaved);
+      }
+    } else {
+      this.props.history.push('/signin');
     }
   }
 
@@ -184,8 +188,8 @@ class VoxForm extends React.Component {
 
           <h3 className="preview-header">Content Preview</h3>
           <div className="preview">
-            {/* eslint-disable-next-line react/no-danger */}
             <h3>{this.state.brief_content}</h3>
+            {/* eslint-disable-next-line react/no-danger */}
             <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />
             <p>For more information:</p>
             <a href={this.state.url}>{this.state.url}</a>
@@ -203,6 +207,7 @@ const mapStateToProps = (state) => ({
   itemErrorMessage: createErrorSelector(itemSelectorActions)(state),
 
   item: state.item.selected,
+  authenticated: state.auth.authenticated
 });
 
 export default connect(mapStateToProps, {
