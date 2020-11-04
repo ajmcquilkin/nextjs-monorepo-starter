@@ -1,6 +1,5 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
-import '../styles/form.scss';
 import { connect } from 'react-redux';
 import RichTextEditor from 'react-rte';
 import sanitizeHtml from 'sanitize-html';
@@ -8,10 +7,13 @@ import MyEditor from './richTextEditor';
 
 import { createErrorSelector, createLoadingSelector, setError } from '../actions/requestActions';
 import ActionTypes from '../actions';
-
 import {
   createItem, fetchItemByID, fetchApproved, updateItemByID
 } from '../actions/itemActions';
+
+import { maxContentLength, generateFrontendErrorMessage } from '../constants';
+
+import '../styles/form.scss';
 
 class VoxForm extends React.Component {
   constructor(props) {
@@ -20,7 +22,12 @@ class VoxForm extends React.Component {
       brief_content: '',
       full_content: RichTextEditor.createEmptyValue(),
       url: '',
-      type: ''
+      type: '',
+
+      briefContentError: '',
+      fullContentError: '',
+      typeError: '',
+      // toError: ''
     };
   }
 
@@ -34,6 +41,24 @@ class VoxForm extends React.Component {
     }
   }
 
+  validSubmission = (content) => {
+    let isValid = true;
+    const contentNoTags = content.replace(/(<([^>]+)>)/ig, '');
+
+    if (!contentNoTags.length) { this.setState({ fullContentError: 'content is a required field' }); isValid = false; }
+    if (contentNoTags.length > maxContentLength) {
+      this.setState({
+        fullContentError: `content has a max length of ${maxContentLength} characters, current length is ${contentNoTags.length} characters`
+      });
+      isValid = false;
+    }
+    // if (!this.state.(recipients)) { this.setState({ toError: 'please select recipients' }) } // TODO: Update and save "to" field
+    if (!this.state.type) { this.setState({ typeError: 'type is a required field' }); isValid = false; }
+    if (!this.state.brief_content) { this.setState({ briefContentError: 'brief content is a required field' }); isValid = false; }
+
+    return isValid;
+  }
+
   submit = async () => {
     const content = this.state.full_content.toString('html');
     const newItem = {
@@ -45,32 +70,36 @@ class VoxForm extends React.Component {
     };
     const isNew = this.props.match.params.itemID === 'new';
 
-    try {
+    if (this.validSubmission(content)) {
+      try {
       // Runs the appropriate request and THEN pushes to /submissions
-      if (isNew) await this.props.createItem(newItem);
-      else await this.props.updateItemByID(this.props.match.params.itemID, newItem, this.loadSaved);
+        if (isNew) await this.props.createItem(newItem);
+        else await this.props.updateItemByID(this.props.match.params.itemID, newItem, this.loadSaved);
 
-      // Only run after createItem OR updateItemByID succeeds
-      this.props.history.push('/submissions');
-    } catch (error) {
+        // Only run after createItem OR updateItemByID succeeds
+        this.props.history.push('/submissions');
+      } catch (error) {
       // Logs error to console if an action creator rejects
-      console.error(error);
+        console.error(error);
+      }
     }
   }
 
   save = () => {
     const content = this.state.full_content.toString('html');
-    const newItem = {
-      full_content: content, brief_content: this.state.brief_content, type: this.state.type, url: this.state.url
-    };
 
-    const isNew = this.props.match.params.itemID === 'new';
+    if (this.validSubmission(content)) {
+      const newItem = {
+        full_content: content, brief_content: this.state.brief_content, type: this.state.type, url: this.state.url
+      };
 
-    if (isNew) {
-      this.props.createItem(newItem).then(() => this.props.history.push(`/form/${this.props.item._id}`));
-    } else {
-      const id = this.props.match.params.itemID;
-      this.props.updateItemByID(id, newItem, this.loadSaved);
+      const isNew = this.props.match.params.itemID === 'new';
+      if (isNew) {
+        this.props.createItem(newItem).then(() => this.props.history.push(`/form/${this.props.item._id}`));
+      } else {
+        const id = this.props.match.params.itemID;
+        this.props.updateItemByID(id, newItem, this.loadSaved);
+      }
     }
   }
 
@@ -138,7 +167,7 @@ class VoxForm extends React.Component {
                 <Form.Check inline type="checkbox" label="Group 2" />
                 <Form.Check inline type="checkbox" label="Group 3" />
               </Form.Group>
-              <Form.Label>Type:</Form.Label>
+              <Form.Label>Type: *</Form.Label>
               <Form.Group>
                 <Form.Check
                   inline
@@ -168,14 +197,17 @@ class VoxForm extends React.Component {
                   checked={this.state.type === 'news'}
                 />
               </Form.Group>
+              <div className="form-error-container">{generateFrontendErrorMessage(this.state.typeError)}</div>
             </Form.Group>
             <Form.Group>
-              <Form.Label>Brief Description:</Form.Label>
+              <Form.Label>Brief Description: *</Form.Label>
               <Form.Control type="text" value={this.state.brief_content} onChange={this.updateBrief} />
+              <div className="form-error-container">{generateFrontendErrorMessage(this.state.briefContentError)}</div>
             </Form.Group>
             <Form.Group>
-              <Form.Label>Summary:</Form.Label>
+              <Form.Label>Summary: *</Form.Label>
               <MyEditor value={this.state.full_content} onChange={this.updateFull} />
+              <div className="form-error-container">{generateFrontendErrorMessage(this.state.fullContentError)}</div>
             </Form.Group>
             <Form.Group>
               <Form.Label>URL:</Form.Label>
@@ -184,7 +216,7 @@ class VoxForm extends React.Component {
             {buttons}
           </Form>
 
-          {this.props.itemErrorMessage ? `Error: ${this.props.itemErrorMessage}` : ''}
+          {generateFrontendErrorMessage(this.props.itemErrorMessage)}
 
           <h3 className="preview-header">Content Preview</h3>
           <div className="preview">

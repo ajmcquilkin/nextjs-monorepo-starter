@@ -1,19 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  BrowserRouter as Router, Route, NavLink, Switch,
+  BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
+<<<<<<< HEAD
 import { Button, Nav, Navbar } from 'react-bootstrap';
 import withLoading from '../hocs/withLoading';
 // import requireLogin from '../hocs/requireLogin';
+=======
+>>>>>>> main
 
 import Submissions from '../containers/submissions';
 import VoxForm from '../containers/form';
-import { ROOT_URL } from '../constants';
-import '../styles/app.scss';
-// import icon from '../../../public/dartmouthIcon.png';
+
 import Webview from '../containers/webview';
 import Fullview from './fullview';
+<<<<<<< HEAD
 import {
   checkUser
 } from '../actions/authActions';
@@ -36,6 +38,11 @@ const Navigation = () => (
     </Navbar>
   </div>
 );
+=======
+import Navigation from './Navigation';
+import { ROOT_URL } from '../constants';
+import '../styles/app.scss';
+>>>>>>> main
 
 const FallBack = () => (
   <div>

@@ -1,4 +1,38 @@
+.item {
+  width: 100%;
+  padding: 54px 0px;
+  border-bottom: 3px #E2E2E2 solid;
 
-.item{
+  &:first-child {
+    border-top: 3px #E2E2E2 solid;
+  }
+  
+  .item-padding-container {
+    // padding-left: 48px;
 
+    * {
+      font-family: National2-Reg, sans-serif;
+    }
+
+    b, strong {
+      font-family: National2-Bold, sans-serif;
+    }
+
+    .item-content {
+      margin-top: 17px;
+    }
+  }
+
+
+  .item-title {
+    margin-bottom: -8px;
+  }
+
+  h5 {
+    font-size: 16px;
+  }
+
+  h4, h5 {
+    font-family: National2-Bold, sans-serif;
+  }
 }
