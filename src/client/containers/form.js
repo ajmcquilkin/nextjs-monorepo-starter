@@ -56,8 +56,6 @@ class VoxForm extends React.Component {
   }
 
   submit = async () => {
-    console.info('submitting');
-
     const content = this.state.full_content.toString('html');
     const newItem = {
       full_content: content,

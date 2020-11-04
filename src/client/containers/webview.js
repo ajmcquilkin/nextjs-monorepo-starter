@@ -13,7 +13,6 @@ import '../styles/webview.scss';
 const Webview = ({ items = [], fetchApproved: fetchApprovedAction }) => {
   React.useEffect(() => {
     fetchApprovedAction();
-    console.log('fetched stuff');
   }, []);
 
   const itemArray = React.useMemo(() => Object.values(items), [items]);
