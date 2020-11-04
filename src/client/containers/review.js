@@ -20,8 +20,9 @@ class Review extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.authenticated) this.props.fetchReview();
-    else {
+    if (this.props.authenticated) {
+      if (this.props.reviewer) this.props.fetchReview();
+    } else {
       this.props.history.push('/signin');
     }
   }
@@ -61,6 +62,17 @@ class Review extends React.Component {
     const approved = this.keywordFilter(this.props.approved);
     const published = this.keywordFilter(this.props.published);
 
+    if (!this.props.reviewer) {
+      return (
+        <div>
+          <h1 className="unauthorized">Not authorized as a reviewer</h1>
+          <NavLink to="/">
+            <h1 className="unauthorized">Home</h1>
+          </NavLink>
+
+        </div>
+      );
+    }
     return (
       <div className="submissions">
         <div className="top-bar">

@@ -27,8 +27,9 @@ router.get('/logout', cas.logout, (req, res) => {
 
 router.get('/user', (req, res) => {
   const authenticated = req.session.cas_user != null;
-  const reviewer = authenticated && req.session.info.netid === 'f003f66';
+
   const netid = authenticated ? req.session.info.netid : null;
+  const reviewer = authenticated && isNaN(netid.indexOf(netid.length - 1));
 
   res.status(200).json({ authenticated, reviewer, netid });
 });

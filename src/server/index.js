@@ -44,7 +44,7 @@ app.use(session({
   secret: process.env.AUTH_SECRET,
   resave: false,
   saveUninitialized: true,
-  // store: new MongoStore({ mongooseConnection: mongoose.connection })
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
 // enable/disable http request logging

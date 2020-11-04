@@ -128,7 +128,11 @@ class VoxForm extends React.Component {
 
   render() {
     const isNew = this.props.match.params.itemID === 'new';
-    const editable = isNew || (this.props.item && this.props.item.status === 'draft');
+    const editingOwn = this.props.item?.submitter_netid === this.props.netid;
+    const reviewerEdit = this.props.reviewer;
+    const edititableStatus = this.props.item?.status === 'draft' || this.props.item?.status === 'rejected';
+    const editable = isNew || (editingOwn && edititableStatus) || reviewerEdit;
+    console.log(isNew, editingOwn, edititableStatus, reviewerEdit, editable);
     let buttons = <div />;
     if (editable) {
       buttons = (
@@ -163,9 +167,9 @@ class VoxForm extends React.Component {
             <Form.Group>
               <Form.Label>To:</Form.Label>
               <Form.Group>
-                <Form.Check inline type="checkbox" label="Group 1" />
-                <Form.Check inline type="checkbox" label="Group 2" />
-                <Form.Check inline type="checkbox" label="Group 3" />
+                <Form.Check inline type="checkbox" disabled={!editable} label="Group 1" />
+                <Form.Check inline type="checkbox" disabled={!editable} label="Group 2" />
+                <Form.Check inline type="checkbox" disabled={!editable} label="Group 3" />
               </Form.Group>
               <Form.Label>Type: *</Form.Label>
               <Form.Group>
@@ -177,6 +181,7 @@ class VoxForm extends React.Component {
                   id="event"
                   onChange={this.updateType}
                   checked={this.state.type === 'event'}
+                  disabled={!editable}
                 />
                 <Form.Check
                   inline
@@ -186,6 +191,7 @@ class VoxForm extends React.Component {
                   id="announcement"
                   onChange={this.updateType}
                   checked={this.state.type === 'announcement'}
+                  disabled={!editable}
                 />
                 <Form.Check
                   inline
@@ -195,23 +201,33 @@ class VoxForm extends React.Component {
                   id="news"
                   onChange={this.updateType}
                   checked={this.state.type === 'news'}
+                  disabled={!editable}
                 />
               </Form.Group>
               <div className="form-error-container">{generateFrontendErrorMessage(this.state.typeError)}</div>
             </Form.Group>
             <Form.Group>
               <Form.Label>Brief Description: *</Form.Label>
-              <Form.Control type="text" value={this.state.brief_content} onChange={this.updateBrief} />
+              <Form.Control
+                type="text"
+                value={this.state.brief_content}
+                onChange={this.updateBrief}
+                disabled={!editable}
+              />
               <div className="form-error-container">{generateFrontendErrorMessage(this.state.briefContentError)}</div>
             </Form.Group>
             <Form.Group>
               <Form.Label>Summary: *</Form.Label>
-              <MyEditor value={this.state.full_content} onChange={this.updateFull} />
+              <MyEditor
+                value={this.state.full_content}
+                onChange={this.updateFull}
+                readOnly={!editable}
+              />
               <div className="form-error-container">{generateFrontendErrorMessage(this.state.fullContentError)}</div>
             </Form.Group>
             <Form.Group>
               <Form.Label>URL:</Form.Label>
-              <Form.Control type="text" value={this.state.url} onChange={this.updateUrl} />
+              <Form.Control type="text" value={this.state.url} disabled={!editable ? true : null} onChange={this.updateUrl} />
             </Form.Group>
             {buttons}
           </Form>
@@ -239,7 +255,9 @@ const mapStateToProps = (state) => ({
   itemErrorMessage: createErrorSelector(itemSelectorActions)(state),
 
   item: state.item.selected,
-  authenticated: state.auth.authenticated
+  authenticated: state.auth.authenticated,
+  netid: state.auth.netid,
+  reviewer: state.auth.reviewer
 });
 
 export default connect(mapStateToProps, {

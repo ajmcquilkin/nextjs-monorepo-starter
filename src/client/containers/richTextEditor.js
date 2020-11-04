@@ -3,7 +3,7 @@ import RichTextEditor from 'react-rte';
 import { maxContentLength } from '../constants';
 import '../styles/richTextEditor.scss';
 
-function MyEditor({ onChange, value }) {
+function MyEditor({ onChange, value, readOnly }) {
   const toolbarConfig = {
     display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS'],
     INLINE_STYLE_BUTTONS: [
@@ -25,6 +25,7 @@ function MyEditor({ onChange, value }) {
         value={value}
         onChange={onChange}
         toolbarConfig={toolbarConfig}
+        readOnly={readOnly}
       />
       <h6 style={{ color: contentNoTags.length > maxContentLength ? 'red' : null }}>
         {contentNoTags.length}
