@@ -13,7 +13,8 @@ const ItemSchema = new Schema({
   recipient_groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
   status: { type: String, default: 'draft' },
   date_item_created: { type: Date, default: Date.now },
-  last_edited: { type: Date, default: Date.now }
+  last_edited: { type: Date, default: Date.now },
+  review_comment: { type: String, default: null }
 });
 
 const ItemModel = mongoose.model('Item', ItemSchema);

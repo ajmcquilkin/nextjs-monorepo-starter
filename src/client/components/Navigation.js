@@ -1,34 +1,39 @@
+/* eslint-disable no-restricted-globals */
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const Navigation = ({ location }) => {
-  console.table(location);
-  return (
-    <header id="app-main-header">
-      <div id="app-brand-container">
-        {/* <VoxTreeIcon /> */}
-        <p>IMAGE HERE</p>
-        <h1>VOX DAILY</h1>
-      </div>
+import { authenticate } from 'passport';
+import ActionTypes from '../actions';
 
-      <nav id="app-links-container">
-        <a href="/" className="active">Home</a>
-        <a href="/form/new">Submit</a>
-        <a href="/submissions">Review</a>
-        <a href="/">Compile</a>
-        {/* <NavLink to="/home" className="active">Home</NavLink>
+const Navigation = ({ authenticated }) => (
+  <header id="app-main-header">
+    <div id="app-brand-container">
+      {/* <VoxTreeIcon /> */}
+      <p>IMAGE HERE</p>
+      <h1>VOX DAILY</h1>
+    </div>
+
+    <nav id="app-links-container">
+
+      <a href="/" className={location.pathname === '/' ? 'active' : ''}>Home </a>
+      <a href="/form/new" className={location.pathname.includes('/form') ? 'active' : ''}>Submit</a>
+      <a href="/submissions" className={location.pathname === '/submissions' ? 'active' : ''}>Submissions</a>
+      <a href="/review" className={location.pathname === '/review' ? 'active' : ''}>Review</a>
+      {/* <NavLink to="/home" className="active">Home</NavLink>
         <NavLink to="/form/new">Submit</NavLink>
         <NavLink to="/submissions">Review</NavLink>
         <NavLink to="">Compile</NavLink> */}
-      </nav>
+      {authenticated ? <a href="/logout">Log Out</a> : <a href="/signin">Log in</a>}
 
-      <div id="app-signout-container">
-        {/* <SignOutIcon /> */}
-        <p>IMAGE HERE</p>
-        Sign Out
-      </div>
-    </header>
-  );
-};
+    </nav>
+  </header>
 
-export default Navigation;
+);
+
+const mapStateToProps = (state) => ({
+
+  authenticated: state.auth.authenticated
+});
+
+export default connect(mapStateToProps, null)(Navigation);

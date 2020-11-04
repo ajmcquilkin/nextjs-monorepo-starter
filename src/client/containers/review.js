@@ -6,12 +6,12 @@ import ActionTypes from '../actions';
 import { createErrorSelector, createLoadingSelector } from '../actions/requestActions';
 
 import {
-  createItem, fetchItemByID, fetchApproved, fetchSubmissions, deleteItemByID
+  createItem, fetchItemByID, fetchApproved, fetchSubmissions, deleteItemByID, fetchReview, updateItemByID
 } from '../actions/itemActions';
-import Submission from '../components/submissionItem';
+import ReviewItem from '../components/reviewItem';
 import '../styles/submissions.scss';
 
-class Submissions extends React.Component {
+class Review extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,7 +20,7 @@ class Submissions extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.authenticated) this.props.fetchSubmissions();
+    if (this.props.authenticated) this.props.fetchReview();
     else {
       this.props.history.push('/signin');
     }
@@ -30,12 +30,14 @@ class Submissions extends React.Component {
     this.setState({ filter: e.target.value });
   }
 
-  delete = (id) => {
-    this.props.deleteItemByID(id);
+  reject = (item) => {
+    const newItem = { ...item, status: 'rejected' };
+    this.props.updateItemByID(item._id, newItem, this.loadSaved);
   }
 
-  duplicate = (item) => {
-    this.props.createItem(item);
+  approve = (item) => {
+    const newItem = { ...item, status: 'approved' };
+    this.props.updateItemByID(item._id, newItem, this.loadSaved);
   }
 
   keywordFilter = (items) => {
@@ -46,7 +48,7 @@ class Submissions extends React.Component {
 
       if (containsFilter) {
         return (
-          <Submission key={item._id} item={item} deleteItem={() => this.delete(item._id)} duplicate={() => this.duplicate(item)} />
+          <ReviewItem key={item._id} item={item} reject={() => this.reject(item)} approve={() => this.approve(item)} />
         );
       }
       return <div />;
@@ -55,8 +57,6 @@ class Submissions extends React.Component {
   }
 
   render() {
-    const rejected = this.keywordFilter(this.props.rejected);
-    const drafts = this.keywordFilter(this.props.drafts);
     const pending = this.keywordFilter(this.props.pending);
     const approved = this.keywordFilter(this.props.approved);
     const published = this.keywordFilter(this.props.published);
@@ -79,10 +79,7 @@ class Submissions extends React.Component {
 
         </div>
         <div className="submissions-container">
-          <h3>{`Rejected (${rejected.length})`}</h3>
-          {rejected}
-          <h3>{`Drafts (${drafts.length})`}</h3>
-          {drafts}
+
           <h3>{`Pending (${pending.length})`}</h3>
           {pending}
           <h3>{`Approved (${approved.length})`}</h3>
@@ -97,9 +94,9 @@ class Submissions extends React.Component {
 
 const itemSelectorActions = [ActionTypes.FETCH_RESOURCE, ActionTypes.FETCH_RESOURCES, ActionTypes.DELETE_RESOURCE];
 
-const filter = (items, netid) => {
+const filter = (items) => {
   if (!items) return null;
-  const filtered = Object.values(items).filter((item) => item.submitter_netid === netid);
+  const filtered = Object.values(items).filter((item) => item.status === 'pending' || item.status === 'approved' || item.status === 'rejected');
 
   filtered.sort((a, b) => new Date(b.last_edited).getTime() - new Date(a.last_edited).getTime());
   return filtered;
@@ -111,16 +108,14 @@ const mapStateToProps = (state) => ({
 
   itemIsLoading: createLoadingSelector(itemSelectorActions)(state),
   itemErrorMessage: createErrorSelector(itemSelectorActions)(state),
-  items: filter(state.item.items, state.auth.netid),
+  items: filter(state.item.items),
 
-  drafts: filter(state.item.items, state.auth.netid).filter((item) => item.status === 'draft'),
-  pending: filter(state.item.items, state.auth.netid).filter((item) => item.status === 'pending'),
-  approved: filter(state.item.items, state.auth.netid).filter((item) => item.status === 'approved'),
-  rejected: filter(state.item.items, state.auth.netid).filter((item) => item.status === 'rejected'),
-  published: filter(state.item.items, state.auth.netid).filter((item) => item.status === 'published'),
-
+  pending: filter(state.item.items).filter((item) => item.status === 'pending'),
+  approved: filter(state.item.items).filter((item) => item.status === 'approved'),
+  published: filter(state.item.items).filter((item) => item.status === 'published'),
+  rejected: filter(state.item.items).filter((item) => item.status === 'rejected')
 });
 
 export default connect(mapStateToProps, {
-  createItem, fetchItemByID, fetchApproved, fetchSubmissions, deleteItemByID
-})(Submissions);
+  createItem, fetchItemByID, fetchApproved, fetchSubmissions, deleteItemByID, fetchReview, updateItemByID
+})(Review);

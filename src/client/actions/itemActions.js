@@ -26,6 +26,18 @@ export function fetchSubmissions() {
     }, { failureCallback: null }
   );
 }
+
+export function fetchReview() {
+  return (dispatch) => createAsyncActionCreator(
+    dispatch, ActionTypes.FETCH_ITEMS,
+    {
+      method: 'get',
+      url: `${ROOT_URL}/items/review`,
+      withCredentials: true
+    }, { failureCallback: null }
+  );
+}
+
 // New item (AUTH)
 export function createItem(newItem) {
   return (dispatch) => createAsyncActionCreator(
