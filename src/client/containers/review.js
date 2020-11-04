@@ -106,6 +106,7 @@ const filter = (items) => {
 const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
   netid: state.auth.netid,
+  reviewer: state.auth.reviewer,
 
   itemIsLoading: createLoadingSelector(itemSelectorActions)(state),
   itemErrorMessage: createErrorSelector(itemSelectorActions)(state),
