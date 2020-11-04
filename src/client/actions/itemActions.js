@@ -15,7 +15,7 @@ export function fetchApproved() {
 }
 const redirect = () => {
   console.log('AUTH CALLBACK');
-  window.location.href = `${ROOT_URL}/login`;
+  window.location.href = `${ROOT_URL}/auth/login`;
 };
 /**
  * A function for fetching all items loaded into backend (or a given number based on backend parameters)

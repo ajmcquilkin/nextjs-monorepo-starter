@@ -9,4 +9,4 @@ server (/)
 
 ## Authentication Flow
 
-Users when receiving a 401 unauthenticated will be redirected to /api/login, which will redirect them to CAS. They will then have a session cookie which is passed to the frontend and backend for all requests. 
+Users when receiving a 401 unauthenticated will be redirected to /api/auth/login, which will redirect them to CAS. They will then have a session cookie which is passed to the frontend and backend for all requests. 

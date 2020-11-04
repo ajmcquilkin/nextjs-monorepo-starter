@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import {
   BrowserRouter as Router, Route, NavLink, Switch,
 } from 'react-router-dom';
-import { Nav, Navbar } from 'react-bootstrap';
-
+import { Button, Nav, Navbar } from 'react-bootstrap';
+import withLoading from '../hocs/withLoading';
 // import requireLogin from '../hocs/requireLogin';
 
 import Submissions from '../containers/submissions';
@@ -14,6 +14,10 @@ import '../styles/app.scss';
 // import icon from '../../../public/dartmouthIcon.png';
 import Webview from '../containers/webview';
 import Fullview from './fullview';
+import {
+  checkUser
+} from '../actions/authActions';
+import ActionTypes from '../actions';
 
 const Navigation = () => (
   <div>
@@ -39,7 +43,7 @@ const FallBack = () => (
   </div>
 );
 
-const App = () => (
+const App = (props) => (
   <Router>
     <div>
       <Navigation />
@@ -48,14 +52,14 @@ const App = () => (
         <Route
           path="/signin"
           component={() => {
-            window.location.href = `${ROOT_URL}/login`;
+            window.location.href = `${ROOT_URL}/auth/login`;
             return null;
           }}
         />
         <Route
           path="/logout"
           component={() => {
-            window.location.href = `${ROOT_URL}/logout`;
+            window.location.href = `${ROOT_URL}/auth/logout`;
             return null;
           }}
         />
@@ -68,4 +72,6 @@ const App = () => (
   </Router>
 );
 
-export default connect(null, null)(App);
+export default withLoading(connect(null, {
+  checkUser
+})(App), [ActionTypes.AUTH_USER]);

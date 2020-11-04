@@ -6,7 +6,7 @@ import ActionTypes from '../actions';
 import { createErrorSelector, createLoadingSelector } from '../actions/requestActions';
 
 import {
-   createItem, fetchItemByID, fetchApproved, fetchSubmissions, deleteItemByID
+  createItem, fetchItemByID, fetchApproved, fetchSubmissions, deleteItemByID
 } from '../actions/itemActions';
 import Submission from '../components/submission';
 import '../styles/submissions.scss';
@@ -76,7 +76,7 @@ class Submissions extends React.Component {
 const itemSelectorActions = [ActionTypes.FETCH_RESOURCE, ActionTypes.FETCH_RESOURCES, ActionTypes.DELETE_RESOURCE];
 
 const filter = (items) => {
-  if (!items) return items;
+  if (!items) return null;
   const filtered = Object.values(items).filter((item) => item.status === 'draft' || item.status === 'pending');
 
   filtered.sort((a, b) => new Date(b.last_edited).getTime() - new Date(a.last_edited).getTime());
@@ -91,5 +91,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-   createItem, fetchItemByID, fetchApproved, fetchSubmissions, deleteItemByID
+  createItem, fetchItemByID, fetchApproved, fetchSubmissions, deleteItemByID
 })(Submissions);
