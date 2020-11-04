@@ -1,37 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  BrowserRouter as Router, Route, NavLink, Switch,
+  BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
-import { Nav, Navbar } from 'react-bootstrap';
-
-// import requireLogin from '../hocs/requireLogin';
 
 import Submissions from '../containers/submissions';
 import VoxForm from '../containers/form';
-import { ROOT_URL } from '../constants';
-import '../styles/app.scss';
-// import icon from '../../../public/dartmouthIcon.png';
+
 import Webview from '../containers/webview';
 import Fullview from './fullview';
-
-const Navigation = () => (
-  <div>
-    <Navbar className="nav">
-      <Navbar.Brand href="/">
-        DARTMOUTH VOX DAILY
-      </Navbar.Brand>
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="ml-auto">
-          <Nav.Link href="/submissions">Dashboard</Nav.Link>
-          <Nav.Link href="/form/new">Submit</Nav.Link>
-          <Nav.Link href="/signin">Sign In</Nav.Link>
-          <Nav.Link href="/logout">Sign Out</Nav.Link>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
-  </div>
-);
+import Navigation from './Navigation';
+import { ROOT_URL } from '../constants';
+import '../styles/app.scss';
 
 const FallBack = () => (
   <div>
