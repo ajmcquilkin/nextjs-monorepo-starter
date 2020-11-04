@@ -35,7 +35,7 @@ router.get('/user', (req, res) => {
     netid = authenticated ? req.session.info.netid : null;
   }
 
-  const reviewer = authenticated && isNaN(netid.indexOf(netid.length - 1));
+  const reviewer = true;
 
   res.status(200).json({ authenticated, reviewer, netid });
 });
