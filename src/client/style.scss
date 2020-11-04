@@ -1,7 +1,7 @@
 body, html {
-    font-family: "Roboto", sans-serif;
-    height: 100%;
-    // margin: 0;
+   font-family: "Roboto", sans-serif;
+   height: 100%;
+   margin: 0;
 }
 
 @font-face {
@@ -20,3 +20,9 @@ body, html {
    src: local('National2-Bold'), url('./fonts/National2-Bold.otf') format('opentype');
 }
 
+.section-bar {
+   background-color: #00693E;
+   height: 8px;
+   width: 100%;
+   border-radius: 4px;
+ }
