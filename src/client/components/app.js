@@ -3,12 +3,6 @@ import { connect } from 'react-redux';
 import {
   BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
-<<<<<<< HEAD
-import { Button, Nav, Navbar } from 'react-bootstrap';
-import withLoading from '../hocs/withLoading';
-// import requireLogin from '../hocs/requireLogin';
-=======
->>>>>>> main
 
 import Submissions from '../containers/submissions';
 import VoxForm from '../containers/form';
