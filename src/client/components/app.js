@@ -15,34 +15,9 @@ import VoxForm from '../containers/form';
 
 import Webview from '../containers/webview';
 import Fullview from './fullview';
-<<<<<<< HEAD
-import {
-  checkUser
-} from '../actions/authActions';
-import ActionTypes from '../actions';
-
-const Navigation = () => (
-  <div>
-    <Navbar className="nav">
-      <Navbar.Brand href="/">
-        DARTMOUTH VOX DAILY
-      </Navbar.Brand>
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="ml-auto">
-          <Nav.Link href="/submissions">Dashboard</Nav.Link>
-          <Nav.Link href="/form/new">Submit</Nav.Link>
-          <Nav.Link href="/signin">Sign In</Nav.Link>
-          <Nav.Link href="/logout">Sign Out</Nav.Link>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
-  </div>
-);
-=======
 import Navigation from './Navigation';
 import { ROOT_URL } from '../constants';
 import '../styles/app.scss';
->>>>>>> main
 
 const FallBack = () => (
   <div>
