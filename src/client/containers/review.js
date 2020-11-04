@@ -68,15 +68,6 @@ class Review extends React.Component {
           <div className="filter-container">
             <input type="text" placeholder="Filter" value={this.state.filter} onChange={(e) => this.updateFilter(e)} />
           </div>
-          <div className="button-container">
-            <NavLink to="/form/new">
-              <button className="new-button" type="button">
-                <i className="fa fa-plus-square" />
-                {'   '}
-                New Submission
-              </button>
-            </NavLink>
-          </div>
 
         </div>
         <div className="submissions-container">
