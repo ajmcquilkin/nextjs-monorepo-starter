@@ -21,7 +21,7 @@ const FallBack = () => (
 
 const App = () => (
   <Router>
-    <div>
+    <div id="app-container">
       <Navigation />
       <Switch>
         <Route exact path="/" component={Webview} />
@@ -44,6 +44,23 @@ const App = () => (
         <Route path="/form/:itemID" component={VoxForm} />
         <Route component={FallBack} />
       </Switch>
+
+      <footer id="app-footer">
+        <div id="app-footer-content-container">
+          <div id="footer-content-left">
+            <p>Dartmouth College</p>
+            <p>Hanover, NH 03755</p>
+            <p>
+              Copyright
+              {' '}
+              {(new Date()).getFullYear()}
+            </p>
+          </div>
+          <div id="footer-content-right">
+            <p><a href="mailto:vox@dartmouth.edu">vox@dartmouth.edu</a></p>
+          </div>
+        </div>
+      </footer>
     </div>
   </Router>
 );

@@ -6,7 +6,9 @@ import { createErrorSelector, createLoadingSelector } from '../actions/requestAc
 import {
   createItem, fetchItemByID, fetchApproved
 } from '../actions/itemActions';
+
 import ItemSection from './ItemSection';
+import ItemSectionSummary from '../components/ItemSectionSummary';
 
 import '../styles/webview.scss';
 
@@ -42,7 +44,6 @@ const Webview = ({ items = [], fetchApproved: fetchApprovedAction }) => {
       </div>
 
       <div id="webview-main-content-container">
-
         <div id="webview-featured-story-container">
           <h3>Featured Story</h3>
           <p>
@@ -52,6 +53,14 @@ const Webview = ({ items = [], fetchApproved: fetchApprovedAction }) => {
             To guide us toward this goal, the College has developed programs and tools, which are described on our
             Compliance Resources web page. More text to reach 500 words. This is how much 500 characters looks like.
           </p>
+        </div>
+
+        <div id="webview-item-section-summary-container">
+          <div id="webview-item-section-summary-container-left">
+            <ItemSectionSummary title="News" items={itemArray.filter((item) => item.type === 'news')} hideFrom />
+            <ItemSectionSummary title="Announcements" items={itemArray.filter((item) => item.type === 'announcement')} />
+          </div>
+          <ItemSectionSummary title="Events" items={itemArray.filter((item) => item.type === 'event')} />
         </div>
 
         <div id="webview-sections-container">
