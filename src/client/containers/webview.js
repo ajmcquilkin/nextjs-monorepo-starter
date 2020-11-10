@@ -16,7 +16,7 @@ const Webview = ({ items = [], fetchApproved: fetchApprovedAction }) => {
   }, []);
 
   const itemArray = React.useMemo(() => Object.values(items), [items]);
-
+  itemArray.sort((a, b) => a.publish_order - b.publish_order);
   const currentDate = new Date();
   const day = currentDate.getDate();
   const month = currentDate.getMonth() + 1;

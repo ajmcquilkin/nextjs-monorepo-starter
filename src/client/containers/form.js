@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { connect } from 'react-redux';
 import RichTextEditor from 'react-rte';
 import sanitizeHtml from 'sanitize-html';
+import Modal from 'react-modal';
 import MyEditor from './richTextEditor';
 
 import { createErrorSelector, createLoadingSelector, setError } from '../actions/requestActions';
@@ -28,6 +29,8 @@ class VoxForm extends React.Component {
       fullContentError: '',
       typeError: '',
       // toError: ''
+      submitModal: false
+
     };
   }
 
@@ -59,7 +62,12 @@ class VoxForm extends React.Component {
     return isValid;
   }
 
+  checkSubmit = () => {
+    this.setState({ submitModal: true });
+  }
+
   submit = async () => {
+    this.setState({ submitModal: false });
     const content = this.state.full_content.toString('html');
     const newItem = {
       full_content: content,
@@ -125,7 +133,7 @@ class VoxForm extends React.Component {
       url: item.url,
       brief_content: item.brief_content,
       full_content: RichTextEditor.createValueFromString(item.full_content, 'html'),
-      type: item.type
+      type: item.type,
     });
   }
 
@@ -140,7 +148,7 @@ class VoxForm extends React.Component {
     if (editable) {
       buttons = (
         <div>
-          <button variant="primary" type="button" onClick={this.submit}>
+          <button variant="primary" type="button" onClick={this.checkSubmit}>
             Submit
           </button>
           <button variant="primary" type="button" onClick={this.save}>
@@ -162,10 +170,21 @@ class VoxForm extends React.Component {
 
     return (
       <div className="container">
+
         <div className="header">
           {header}
         </div>
         <div className="form-div">
+          <Modal
+            isOpen={this.state.submitModal}
+          >
+            <p>Are you sure about that</p>
+            <button variant="primary" type="button" onClick={this.submit}>
+              Submit
+            </button>
+
+          </Modal>
+
           <Form>
             <Form.Group>
               <Form.Label>To:</Form.Label>
@@ -230,7 +249,7 @@ class VoxForm extends React.Component {
             </Form.Group>
             <Form.Group>
               <Form.Label>URL:</Form.Label>
-              <Form.Control type="text" value={this.state.url} disabled={!editable ? true : null} onChange={this.updateUrl} />
+              <Form.Control type="text" value={this.state.url} disabled={!editable || this.state.submitModal ? true : null} onChange={this.updateUrl} />
             </Form.Group>
             {buttons}
           </Form>

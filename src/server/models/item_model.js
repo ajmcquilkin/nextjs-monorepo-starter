@@ -9,6 +9,7 @@ const ItemSchema = new Schema({
   full_content: String,
   type: String, // news | announcement | event
   url: String,
+  publish_order: { type: Number, default: -1 },
   requested_publication_date: { type: Date, default: Date.now },
   recipient_groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
   status: { type: String, default: 'draft' },

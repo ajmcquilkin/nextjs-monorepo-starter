@@ -20,6 +20,8 @@ const Navigation = ({ authenticated }) => (
       <a href="/form/new" className={location.pathname.includes('/form') ? 'active' : ''}>Submit</a>
       <a href="/submissions" className={location.pathname === '/submissions' ? 'active' : ''}>Submissions</a>
       <a href="/review" className={location.pathname === '/review' ? 'active' : ''}>Review</a>
+      <a href="/compile" className={location.pathname === '/compile' ? 'active' : ''}>Compile</a>
+
       {/* <NavLink to="/home" className="active">Home</NavLink>
         <NavLink to="/form/new">Submit</NavLink>
         <NavLink to="/submissions">Review</NavLink>
