@@ -7,13 +7,15 @@ function Submission({ deleteItem, item, duplicate }) {
   function color(submStatus) {
     switch (submStatus) {
       case 'pending':
-        return '#FF9B03';
+        return '#8A6996';
       case 'draft':
-        return '#E32D1C';
+        return '#7C7E80';
       case 'approved':
         return '#267ABA';
       case 'published':
         return '#424141';
+      case 'rejected':
+        return '#E32D1C';
       default:
         return null;
     }

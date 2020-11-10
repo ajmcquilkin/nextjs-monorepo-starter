@@ -6,17 +6,19 @@ import { createErrorSelector, createLoadingSelector } from '../actions/requestAc
 import ActionTypes from '../actions';
 
 import {
-  fetchItems, createItem, fetchItemByID, fetchApproved
+  createItem, fetchItemByID, fetchApproved
 } from '../actions/itemActions';
 
 class Fullview extends React.Component {
   componentDidMount() {
-    this.props.fetchItemByID(this.props.match.params.itemID);
+    if (!(this.props.item && this.props.item._id === this.props.match.params.itemID)) {
+      this.props.fetchItemByID(this.props.match.params.itemID);
+    }
   }
 
   render() {
-    const id = this.props.match.params.itemID;
-    const item = this.props.items[id] || {};
+    // const id = this.props.match.params.itemID;
+    const item = this.props.item || {};
     console.log(this.props.items);
     return (
       <div className="item">
@@ -41,8 +43,9 @@ const mapStateToProps = (state) => ({
   itemErrorMessage: createErrorSelector(itemSelectorActions)(state),
 
   items: state.item.items,
+  item: state.item.selected
 });
 
 export default connect(mapStateToProps, {
-  fetchItems, createItem, fetchItemByID, fetchApproved
+  createItem, fetchItemByID, fetchApproved
 })(Fullview);

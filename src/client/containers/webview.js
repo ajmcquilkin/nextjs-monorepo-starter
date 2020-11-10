@@ -1,55 +1,80 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-// import { NavLink } from 'react-router-dom';
 import ActionTypes from '../actions';
 import { createErrorSelector, createLoadingSelector } from '../actions/requestActions';
 import {
-  fetchItems, createItem, fetchItemByID, fetchApproved
+  createItem, fetchItemByID, fetchApproved
 } from '../actions/itemActions';
-import WebviewItem from '../components/webviewItem';
+import ItemSection from './ItemSection';
+
 import '../styles/webview.scss';
 
-class Webview extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: ''
-    };
-  }
+const Webview = ({ items = [], fetchApproved: fetchApprovedAction }) => {
+  React.useEffect(() => {
+    fetchApprovedAction();
+  }, []);
 
-  componentDidMount() {
-    this.props.fetchApproved();
-  }
+  const itemArray = React.useMemo(() => Object.values(items), [items]);
+  itemArray.sort((a, b) => a.publish_order - b.publish_order);
+  const currentDate = new Date();
+  const day = currentDate.getDate();
+  const month = currentDate.getMonth() + 1;
+  const year = currentDate.getFullYear();
+  const currentDateString = `${month}/${day}/${year}`;
 
-  updateFilter = (e) => {
-    this.setState({ filter: e.target.value });
-  }
-
-  render() {
-    const rendered = Object.values(this.props.items).map((item) => {
-      let containsFilter = false;
-      if (item.brief_content.toLowerCase().includes(this.state.filter.toLowerCase())) containsFilter = true;
-      if (item.full_content.toLowerCase().includes(this.state.filter.toLowerCase())) containsFilter = true;
-
-      if (containsFilter) return <WebviewItem key={item._id} item={item} />;
-      return null;
-    });
-
-    return (
-      <div className="webview">
-        <div className="filter-container">
-          <input type="text" placeholder="Filter" value={this.state.filter} onChange={(e) => this.updateFilter(e)} />
-          <br />
+  return (
+    <div id="webview-container">
+      <div id="webview-header-content-container">
+        <div id="webview-title-container">
+          <div className="section-bar" />
+          <div id="webview-title-text-container">
+            <h2>Vox Daily News</h2>
+            <p>{currentDateString}</p>
+          </div>
+          <div className="section-bar" />
         </div>
 
-        <div className="item-container">
-          {rendered}
+        <img
+          src="https://www.insubuy.com/assets/img/schools/dartmouth-college.jpg"
+          alt="dartmouth college in the fall"
+        />
+      </div>
+
+      <div id="webview-main-content-container">
+
+        <div id="webview-featured-story-container">
+          <h3>Featured Story</h3>
+          <p>
+            Dartmouth College is committed to providing a safe, equitable, and respectful environment for all
+            members of the Dartmouth Community. The College&apos;s goal is to integrate these values into all we do
+            at Dartmouth -- teaching, research, public service, student activities, and business operations.
+            To guide us toward this goal, the College has developed programs and tools, which are described on our
+            Compliance Resources web page. More text to reach 500 words. This is how much 500 characters looks like.
+          </p>
+        </div>
+
+        <div id="webview-sections-container">
+          <ItemSection
+            title="news"
+            subtitle="from the office of communications"
+            itemList={itemArray.filter((item) => item.type === 'news')}
+          />
+
+          <ItemSection
+            title="announcements"
+            itemList={itemArray.filter((item) => item.type === 'announcement')}
+          />
+
+          <ItemSection
+            title="events"
+            itemList={itemArray.filter((item) => item.type === 'event')}
+          />
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 const itemSelectorActions = [ActionTypes.FETCH_RESOURCE, ActionTypes.FETCH_RESOURCES, ActionTypes.DELETE_RESOURCE];
 
@@ -60,5 +85,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  fetchItems, createItem, fetchItemByID, fetchApproved
+  createItem, fetchItemByID, fetchApproved
 })(Webview);

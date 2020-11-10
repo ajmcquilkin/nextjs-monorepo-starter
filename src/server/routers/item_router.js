@@ -19,7 +19,11 @@ router.get('/submissions', requireLogin, (req, res) => {
   Items.find({ submitter_netid: netid }).then((items) => res.status(200).json(items))
     .catch((error) => res.status(500).json({ message: error.message }));
 });
-
+router.get('/review', requireLogin, (req, res) => {
+  const query = { $or: [{ status: 'pending' }, { status: 'approved' }, { status: 'rejected' }] };
+  Items.find(query).then((items) => res.status(200).json(items))
+    .catch((error) => res.status(500).json({ message: error.message }));
+});
 // find and return all items
 router.route('/')
   // Get all items

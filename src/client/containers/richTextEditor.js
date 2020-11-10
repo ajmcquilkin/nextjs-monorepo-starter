@@ -1,10 +1,11 @@
 import React from 'react';
 import RichTextEditor from 'react-rte';
+import { maxContentLength } from '../constants';
 import '../styles/richTextEditor.scss';
 
-function MyEditor({ onChange, value }) {
+function MyEditor({ onChange, value, readOnly }) {
   const toolbarConfig = {
-    display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'LINK_BUTTONS'],
+    display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS'],
     INLINE_STYLE_BUTTONS: [
       { label: 'Bold', style: 'BOLD' },
       { label: 'Italic', style: 'ITALIC' },
@@ -24,10 +25,14 @@ function MyEditor({ onChange, value }) {
         value={value}
         onChange={onChange}
         toolbarConfig={toolbarConfig}
+        readOnly={readOnly}
       />
-      <h6 style={{ color: contentNoTags.length > 500 ? 'red' : null }}>
+      <h6 style={{ color: contentNoTags.length > maxContentLength ? 'red' : null }}>
         {contentNoTags.length}
-        /500
+        /
+        {maxContentLength}
+        {' '}
+        characters
       </h6>
 
     </div>

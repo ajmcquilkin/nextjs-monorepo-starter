@@ -1,0 +1,15 @@
+
+
+.compile-container {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin:auto;
+}
+
+.compile-item{
+    border-style: solid;
+    border-color: black;
+    width:80%;
+    display: flex;
+}

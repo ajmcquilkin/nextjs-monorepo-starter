@@ -1,31 +1,37 @@
 import React from 'react';
 import '../styles/webviewItem.scss';
-import { NavLink } from 'react-router-dom';
+import sanitizeHtml from 'sanitize-html';
 
-const WebviewItem = (props) => (
-  <div className="item">
-    <NavLink to={`/items/${props.item._id}`}>
+const WebviewItem = ({ item }) => {
+  const cleanHTML = sanitizeHtml(item.full_content);
+  console.table(item);
 
-      <h4>{props.item.brief_content}</h4>
+  return (
+    <div className="item">
+      <div className="item-title">
+        <h4>{item.brief_content}</h4>
+      </div>
 
-    </NavLink>
-    <h4>
-      Status:
-      {' '}
-      {props.item.status}
-    </h4>
-    <h5>
-      {props.item.from_name}
-      {' '}
-      {props.item.from_address}
-    </h5>
+      {
+        item.type === 'announcement'
+          ? (
+            <h5>
+              {item.from_name}
+              {' '}
+              {item.from_address}
+            </h5>
+          )
+          : null
+      }
 
-    <p>
-      {props.item.full_content.substring(0, 300)}
-      {' '}
-      ...
-    </p>
-  </div>
-);
+      <div className="item-padding-container">
+        {/* eslint-disable-next-line react/no-danger */}
+        <div className="item-content" dangerouslySetInnerHTML={{ __html: cleanHTML }} />
+
+        <a href={item.url}>{item.url}</a>
+      </div>
+    </div>
+  );
+};
 
 export default WebviewItem;

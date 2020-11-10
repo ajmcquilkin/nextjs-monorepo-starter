@@ -4,19 +4,6 @@ import { ROOT_URL } from '../constants';
 /**
  * A function for fetching all items loaded into backend (or a given number based on backend parameters)
  */
-export function fetchItems() {
-  return (dispatch) => createAsyncActionCreator(
-    dispatch, ActionTypes.FETCH_ITEMS,
-    {
-      method: 'get',
-      url: `${ROOT_URL}/items`,
-    },
-  );
-}
-
-/**
- * A function for fetching all items loaded into backend (or a given number based on backend parameters)
- */
 export function fetchApproved() {
   return (dispatch) => createAsyncActionCreator(
     dispatch, ActionTypes.FETCH_ITEMS,
@@ -26,10 +13,6 @@ export function fetchApproved() {
     },
   );
 }
-const redirect = () => {
-  console.log('AUTH CALLBACK');
-  window.location.href = `${ROOT_URL}/login`;
-};
 /**
  * A function for fetching all items loaded into backend (or a given number based on backend parameters)
  */
@@ -40,9 +23,21 @@ export function fetchSubmissions() {
       method: 'get',
       url: `${ROOT_URL}/items/submissions`,
       withCredentials: true
-    }, { failureCallback: redirect }
+    }, { failureCallback: null }
   );
 }
+
+export function fetchReview() {
+  return (dispatch) => createAsyncActionCreator(
+    dispatch, ActionTypes.FETCH_ITEMS,
+    {
+      method: 'get',
+      url: `${ROOT_URL}/items/review`,
+      withCredentials: true
+    }, { failureCallback: null }
+  );
+}
+
 // New item (AUTH)
 export function createItem(newItem) {
   return (dispatch) => createAsyncActionCreator(
