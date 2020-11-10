@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import path from 'path';
 import {
-  itemRouter, groupRouter,
+  itemRouter, groupRouter, authRouter
 } from './routers';
 
 import { SELF_URL, APP_URL } from './constants';
@@ -15,21 +15,11 @@ dotenv.config();
 
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-const CASAuthentication = require('node-cas-authentication');
 
 // initialize
 const app = express();
 
 console.log(`SELF: ${SELF_URL}, APP: ${APP_URL}`);
-const returnURL = `http://${APP_URL}`;
-
-const cas = new CASAuthentication({
-  cas_url: 'https://login.dartmouth.edu/cas',
-  service_url: `http://${SELF_URL}`,
-  session_info: 'info',
-  destroy_session: true,
-  return_to: returnURL
-});
 
 // enable/disable cross origin resource sharing if necessary
 app.use(cors({ credentials: true, origin: `http://${APP_URL}` }));
@@ -67,18 +57,9 @@ app.use(bodyParser.json());
 
 const apiRouter = express();
 
-app.get('/api/login', cas.bounce, (req, res) => {
-  res.redirect(returnURL);
-});
-
-app.get('/api/logout', cas.logout, (req, res) => {
-  req.session.destroy();
-  res.status(200).json({ message: 'Session Destroyed' });
-});
-
 app.use('/api', apiRouter);
 // declare routers
-
+apiRouter.use('/auth', authRouter);
 apiRouter.use('/items', itemRouter); //
 apiRouter.use('/groups', groupRouter); //
 

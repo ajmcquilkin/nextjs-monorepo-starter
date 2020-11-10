@@ -2,17 +2,25 @@ import ActionTypes from '../actions';
 
 const initialState = {
   authenticated: false,
-  users: {},
+  user: {},
+  reviewer: false,
+  netid: ''
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case `${ActionTypes.FETCH_USER}_SUCCESS`: // Load user into { id: element } mapping
-      return { ...state, users: { ...state.users, [action.payload.data._id]: action.payload.data } };
     case `${ActionTypes.AUTH_USER}_SUCCESS`: // Update users if action provides user data
-      return { ...state, authenticated: true, users: action.payload.data ? { ...state.users, [action.payload.data._id]: action.payload.data } : state.users };
+      return {
+        ...state,
+        authenticated: action.payload.data.authenticated,
+        user: action.payload.data ? action.payload.data : state.user,
+        reviewer: action.payload.data.reviewer,
+        netid: action.payload.data.netid
+      };
     case `${ActionTypes.DEAUTH_USER}_SUCCESS`:
-      return { ...state, authenticated: false, users: {} };
+      return {
+        ...state, authenticated: false, users: {}, reviewer: false
+      };
     default:
       return state;
   }
