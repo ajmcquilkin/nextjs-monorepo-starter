@@ -80,5 +80,65 @@
                 }
             }
         }
+
+        #webview-quote-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 96px;
+
+            h4 {
+                color: #00693e;
+                font-family: National2-Bold, sans-serif;
+                font-size: 26px;
+                letter-spacing: 0.0679583px;
+                margin-bottom: 20px;
+            }
+
+            blockquote {
+                position: relative;
+                margin-bottom: 24px;
+
+                font-family: National2-Bold, sans-serif;
+                font-size: 22px;
+                text-align: center;
+                letter-spacing: 0.153225px;
+                line-height: 42px;
+
+                // $quote-margin: 9px;
+                $quote-margin: 3px;
+                @mixin quote-style {
+                    position: relative;
+                    // font-size: 60px;
+                    color: #00693e;
+                    // top: 18px;
+                }
+
+                &:before {
+                    @include quote-style;
+                    content: "“";
+                    margin-right: $quote-margin;
+                }
+
+                &:after {
+                    @include quote-style;
+                    content: "”";
+                    margin-left: $quote-margin;
+                }
+            }
+
+            div {
+                max-width: 600px;
+                color: #373f41;
+                font-size: 18px;
+                line-height: 36px;
+                
+                p {
+                    font-family: National2-Reg, sans-serif;
+                    text-align: center;
+                    margin: 0px;
+                }
+            }
+        }
     }
 }

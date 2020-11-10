@@ -63,23 +63,39 @@ const Webview = ({ items = [], fetchApproved: fetchApprovedAction }) => {
           <ItemSectionSummary title="Events" items={itemArray.filter((item) => item.type === 'event')} />
         </div>
 
-        <div id="webview-sections-container">
-          <ItemSection
-            title="news"
-            subtitle="from the office of communications"
-            itemList={itemArray.filter((item) => item.type === 'news')}
-          />
-
-          <ItemSection
-            title="announcements"
-            itemList={itemArray.filter((item) => item.type === 'announcement')}
-          />
-
-          <ItemSection
-            title="events"
-            itemList={itemArray.filter((item) => item.type === 'event')}
-          />
+        <div id="webview-quote-container">
+          <h4>QUOTE OF THE DAY</h4>
+          <blockquote>
+            Both political parties are thinking tactically at a time when we need a
+            strategy for rebuilding a governing coalition capable of passing legislation
+            without using a narrow majority to bludgeon the other side into submission.
+          </blockquote>
+          <div>
+            <p>Charles Wheelan &apos;88</p>
+            <p>
+              Senior lecturer and policy fellow and his co-author, Judd Gregg,
+              former N.H. governor and senator, in a CNN opinion piece.
+            </p>
+          </div>
         </div>
+      </div>
+
+      <div id="webview-sections-container">
+        <ItemSection
+          title="news"
+          subtitle="from the office of communications"
+          itemList={itemArray.filter((item) => item.type === 'news')}
+        />
+
+        <ItemSection
+          title="announcements"
+          itemList={itemArray.filter((item) => item.type === 'announcement')}
+        />
+
+        <ItemSection
+          title="events"
+          itemList={itemArray.filter((item) => item.type === 'event')}
+        />
       </div>
     </div>
   );

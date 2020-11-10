@@ -6,7 +6,7 @@ import ActionTypes from '../actions';
 import { createErrorSelector, createLoadingSelector } from '../actions/requestActions';
 
 import {
-   createItem, fetchItemByID, fetchApproved, fetchSubmissions, deleteItemByID
+  createItem, fetchItemByID, fetchApproved, fetchSubmissions, deleteItemByID
 } from '../actions/itemActions';
 import Submission from '../components/submission';
 import '../styles/submissions.scss';
@@ -91,5 +91,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-   createItem, fetchItemByID, fetchApproved, fetchSubmissions, deleteItemByID
+  createItem, fetchItemByID, fetchApproved, fetchSubmissions, deleteItemByID
 })(Submissions);
