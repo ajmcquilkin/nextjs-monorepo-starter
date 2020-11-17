@@ -12,7 +12,7 @@ import {
 } from '../actions/itemActions';
 import '../styles/compile.scss';
 
-const SortableItem = SortableElement(({ value, order }) => (
+const SortableItem = SortableElement(({ value }) => (
   <CompileItem item={value} />
 ));
 

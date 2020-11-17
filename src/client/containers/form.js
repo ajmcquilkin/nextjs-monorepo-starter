@@ -262,7 +262,7 @@ class VoxForm extends React.Component {
             {/* eslint-disable-next-line react/no-danger */}
             <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />
             <p>For more information:</p>
-            <a href={this.state.url}>{this.state.url}</a>
+            <a href={this.state.url.startsWith('http') ? this.state.url : `http://${this.state.url}`}>{this.state.url}</a>
           </div>
         </div>
       </div>

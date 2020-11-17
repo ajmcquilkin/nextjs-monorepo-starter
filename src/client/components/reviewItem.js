@@ -31,7 +31,7 @@ function ReviewItem({ reject, item, approve }) {
         <h3>{item.brief_content}</h3>
         {/* eslint-disable-next-line react/no-danger */}
         <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />
-        <a href={item.url}>{item.url}</a>
+        <a href={item.url.startsWith('http') ? item.url : `http://${item.url}`}>{item.url}</a>
       </div>
       <div className="control">
         <b>
