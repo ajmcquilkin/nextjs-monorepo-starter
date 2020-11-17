@@ -17,7 +17,6 @@ const Navigation = ({ authenticated, reviewer }) => (
     <nav id="app-links-container">
 
       <a href="/" className={location.pathname === '/' ? 'active' : ''}>Home </a>
-      <a href="/form/new" className={location.pathname.includes('/form') ? 'active' : ''}>Submit</a>
       <a href="/submissions" className={location.pathname === '/submissions' ? 'active' : ''}>Submissions</a>
       {reviewer && <a href="/review" className={location.pathname === '/review' ? 'active' : ''}>Review</a>}
       {reviewer && <a href="/compile" className={location.pathname === '/compile' ? 'active' : ''}>Compile</a>}
