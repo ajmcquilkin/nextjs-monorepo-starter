@@ -28,7 +28,7 @@ const WebviewItem = ({ item }) => {
         {/* eslint-disable-next-line react/no-danger */}
         <div className="item-content" dangerouslySetInnerHTML={{ __html: cleanHTML }} />
 
-        <a href={item.url.startsWith('http') ? item.url : `http://${item.url}`}>{item.url}</a>
+        <a target="_blank" rel="noreferrer" href={item.url.startsWith('http') ? item.url : `http://${item.url}`}>{item.url}</a>
       </div>
     </div>
   );
