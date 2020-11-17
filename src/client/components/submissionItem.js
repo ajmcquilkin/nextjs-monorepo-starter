@@ -25,6 +25,8 @@ function Submission({ deleteItem, item, duplicate }) {
   const type = item.type.charAt(0).toUpperCase() + item.type.slice(1);
 
   const cleanHTML = sanitizeHtml(item.full_content);
+  const editable = item.status === 'draft' || item.status === 'pending' || item.status === 'rejected';
+
   return (
     <div className="submission" style={colorKey}>
       <div className="content">
@@ -45,11 +47,13 @@ function Submission({ deleteItem, item, duplicate }) {
               {item.status}
             </span>
           </p>
-          <button type="button" onClick={deleteItem}>Delete</button>
+          {editable && <button type="button" onClick={deleteItem}>Delete</button>}
           <button type="button" onClick={duplicate}>Duplicate</button>
+          {editable && (
           <NavLink to={`/form/${item._id}`}>
             <button type="button">Edit</button>
           </NavLink>
+          )}
 
         </b>
       </div>
