@@ -60,13 +60,14 @@
             flex: 1;
 
             .item-summary-container {
-                flex: 1;
+                flex: 2;
             }
 
             #webview-item-section-summary-container-left {
                 display: flex;
                 flex-direction: column;
                 margin-right: 60px;
+                flex: 3;
 
                 .item-summary-container {
                     &:first-child {
@@ -85,7 +86,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 96px;
+            margin: 0 auto 96px;
+            max-width: 800px;
 
             h4 {
                 color: #00693e;
@@ -94,36 +96,40 @@
                 letter-spacing: 0.0679583px;
                 margin-bottom: 20px;
             }
-
+            
             blockquote {
                 position: relative;
                 margin-bottom: 24px;
-
+                
                 font-family: National2-Bold, sans-serif;
                 font-size: 22px;
                 text-align: center;
                 letter-spacing: 0.153225px;
                 line-height: 42px;
-
-                // $quote-margin: 9px;
-                $quote-margin: 3px;
+    
+                $quote-margin-top: 42%;
+                $quote-margin-sides: 9%;
+    
                 @mixin quote-style {
-                    position: relative;
-                    // font-size: 60px;
+                    position: absolute;
+                    font-size: 420px;
                     color: #00693e;
-                    // top: 18px;
+                    opacity: 0.12;
+                    z-index: -1;
                 }
-
+    
                 &:before {
                     @include quote-style;
                     content: "“";
-                    margin-right: $quote-margin;
+                    top: $quote-margin-top;
+                    left: calc(-1 * #{$quote-margin-sides});
                 }
-
+    
                 &:after {
                     @include quote-style;
                     content: "”";
-                    margin-left: $quote-margin;
+                    bottom: calc(-1 * #{$quote-margin-top});
+                    right: calc(-1 * #{$quote-margin-sides});
                 }
             }
 

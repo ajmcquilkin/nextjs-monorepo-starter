@@ -1,8 +1,10 @@
 import React from 'react';
-import Form from 'react-bootstrap/Form';
+// import Form from 'react-bootstrap/Form';
 import { connect } from 'react-redux';
 import RichTextEditor from 'react-rte';
 import sanitizeHtml from 'sanitize-html';
+
+import FormSection from './FormSection';
 import MyEditor from './richTextEditor';
 
 import { createErrorSelector, createLoadingSelector, setError } from '../actions/requestActions';
@@ -125,92 +127,96 @@ class VoxForm extends React.Component {
   render() {
     const isNew = this.props.match.params.itemID === 'new';
     const editable = isNew || (this.props.item && this.props.item.status === 'draft');
-    let buttons = <div />;
-    if (editable) {
-      buttons = (
-        <div>
-          <button variant="primary" type="button" onClick={this.submit}>
-            Submit
-          </button>
-          <button variant="primary" type="button" onClick={this.save}>
-            Save
-          </button>
-        </div>
-      );
-    } else {
-      buttons = (
-        <div>
-          <p>Submitted, not editable</p>
-        </div>
-      );
-    }
 
     const cleanHTML = sanitizeHtml(this.state.full_content.toString('html'));
-
-    const header = isNew ? <h1>New Submission</h1> : <h1>Edit Submission</h1>;
-
     return (
-      <div className="container">
-        <div className="header">
-          {header}
-        </div>
-        <div className="form-div">
-          <Form>
+      <div className="form-container">
+        <h1>{isNew ? 'New Submission' : 'Edit Submission'}</h1>
+        <form>
+          <FormSection title="Recipients">
+            <p>Hello, world</p>
+          </FormSection>
+
+          <FormSection title="Publish Date">
+            <p>Hello, world</p>
+          </FormSection>
+
+          <FormSection title="Type">
+            <p>Hello, world</p>
+          </FormSection>
+
+          <FormSection title="Body">
+            <p>Hello, world</p>
+          </FormSection>
+
+          {/* <FormSection title="Graphics">
+            <p>Hello, world</p>
+          </FormSection> */}
+
+          {/* <Form.Group>
+            <Form.Label>To:</Form.Label>
             <Form.Group>
-              <Form.Label>To:</Form.Label>
-              <Form.Group>
-                <Form.Check inline type="checkbox" label="Group 1" />
-                <Form.Check inline type="checkbox" label="Group 2" />
-                <Form.Check inline type="checkbox" label="Group 3" />
-              </Form.Group>
-              <Form.Label>Type: *</Form.Label>
-              <Form.Group>
-                <Form.Check
-                  inline
-                  name="type"
-                  type="radio"
-                  label="Event"
-                  id="event"
-                  onChange={this.updateType}
-                  checked={this.state.type === 'event'}
-                />
-                <Form.Check
-                  inline
-                  name="type"
-                  type="radio"
-                  label="Announcement"
-                  id="announcement"
-                  onChange={this.updateType}
-                  checked={this.state.type === 'announcement'}
-                />
-                <Form.Check
-                  inline
-                  name="type"
-                  type="radio"
-                  label="News"
-                  id="news"
-                  onChange={this.updateType}
-                  checked={this.state.type === 'news'}
-                />
-              </Form.Group>
-              <div className="form-error-container">{generateFrontendErrorMessage(this.state.typeError)}</div>
+              <Form.Check inline type="checkbox" label="Group 1" />
+              <Form.Check inline type="checkbox" label="Group 2" />
+              <Form.Check inline type="checkbox" label="Group 3" />
             </Form.Group>
+            <Form.Label>Type: *</Form.Label>
             <Form.Group>
-              <Form.Label>Brief Description: *</Form.Label>
-              <Form.Control type="text" value={this.state.brief_content} onChange={this.updateBrief} />
-              <div className="form-error-container">{generateFrontendErrorMessage(this.state.briefContentError)}</div>
+              <Form.Check
+                inline
+                name="type"
+                type="radio"
+                label="Event"
+                id="event"
+                onChange={this.updateType}
+                checked={this.state.type === 'event'}
+              />
+              <Form.Check
+                inline
+                name="type"
+                type="radio"
+                label="Announcement"
+                id="announcement"
+                onChange={this.updateType}
+                checked={this.state.type === 'announcement'}
+              />
+              <Form.Check
+                inline
+                name="type"
+                type="radio"
+                label="News"
+                id="news"
+                onChange={this.updateType}
+                checked={this.state.type === 'news'}
+              />
             </Form.Group>
-            <Form.Group>
-              <Form.Label>Summary: *</Form.Label>
-              <MyEditor value={this.state.full_content} onChange={this.updateFull} />
-              <div className="form-error-container">{generateFrontendErrorMessage(this.state.fullContentError)}</div>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>URL:</Form.Label>
-              <Form.Control type="text" value={this.state.url} onChange={this.updateUrl} />
-            </Form.Group>
-            {buttons}
-          </Form>
+            <div className="form-error-container">{generateFrontendErrorMessage(this.state.typeError)}</div>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Brief Description: *</Form.Label>
+            <Form.Control type="text" value={this.state.brief_content} onChange={this.updateBrief} />
+            <div className="form-error-container">{generateFrontendErrorMessage(this.state.briefContentError)}</div>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Summary: *</Form.Label>
+            <MyEditor value={this.state.full_content} onChange={this.updateFull} />
+            <div className="form-error-container">{generateFrontendErrorMessage(this.state.fullContentError)}</div>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>URL:</Form.Label>
+            <Form.Control type="text" value={this.state.url} onChange={this.updateUrl} />
+          </Form.Group> */}
+          {editable
+            ? (
+              <div>
+                <button type="button" onClick={this.submit}>Submit</button>
+                <button type="button" onClick={this.save}>Save</button>
+              </div>
+            ) : (
+              <div>
+                <p>Submitted, not editable</p>
+              </div>
+            )}
 
           {generateFrontendErrorMessage(this.props.itemErrorMessage)}
 
@@ -222,7 +228,7 @@ class VoxForm extends React.Component {
             <p>For more information:</p>
             <a href={this.state.url}>{this.state.url}</a>
           </div>
-        </div>
+        </form>
       </div>
     );
   }

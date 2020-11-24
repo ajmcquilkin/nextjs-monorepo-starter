@@ -7,9 +7,11 @@ import '../styles/submission.scss';
 function Submission({ deleteItem, item, duplicate }) {
   function color(submStatus) {
     switch (submStatus) {
-      case 'pending':
-        return '#FF9B03';
       case 'draft':
+        return '#7c7e80';
+      case 'pending':
+        return '#8a6996';
+      case 'rejected':
         return '#E32D1C';
       case 'approved':
         return '#267ABA';
