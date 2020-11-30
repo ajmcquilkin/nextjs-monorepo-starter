@@ -1,4 +1,4 @@
-.form-container{
+.form-container {
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -18,11 +18,11 @@
     // box-shadow: 0px 8px 36px #222;
     // background-color: #fefefe;
   
-    .preview-header{
+    .preview-header {
       margin-top:20px;
     }
   
-    .preview{
+    .preview {
       font-family: Ruzicka, serif;
       padding:20px;
       margin-top:20px;
@@ -35,9 +35,114 @@
   }
 }
 
-
-
 .form-error-container {
   font-size: 12px;
   color: red;
+}
+
+// Styled below because of FormSection implementation
+#form-from-container {
+  margin-top: 24px;
+
+  label > input {
+    margin-top: 12px;
+    padding: 3px 18px 6px;
+    width: 400px;
+  
+    background-color: #E8E8E8;
+    border-radius: 10px;
+    border: none;
+    
+    &::placeholder {
+      color: #424141;
+      font-family: National2-Reg, sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.13px;
+      vertical-align: middle;
+    }
+  }
+}
+
+#form-to-container {
+  margin-top: 48px;
+
+  #form-lists-checkbox-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin-top: 18px;
+
+    .form-checkbox-column-container {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+
+      h3 {
+        font-size: 18px;
+        font-family: "Roboto", sans-serif;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      label > input {
+        margin: 6px 12px 6px auto;
+      }
+
+      button {
+        margin-right: auto;
+        margin-top: 24px;
+        padding: 7px 30px;
+        border-radius: 5px;
+        text-transform: uppercase;
+        cursor: pointer;
+
+        background: #00693E;
+        border: none;
+        color: white;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+      }
+    }
+  }
+}
+
+#form-type-radio-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  label {
+    margin-right: 30px;
+
+    input {
+      margin: 6px 9px 6px auto;
+    }
+  }
+}
+
+#form-publish-container {
+  margin-top: 36px;
+
+  label > input {
+    margin-top: 12px;
+    // TODO: Update this styling
+  }
+}
+
+.form-label-small {
+  font-family: National2-Reg, sans-serif;
+  font-size: 17px;
+  letter-spacing: 0.12px;
+  color: #424141;
+}
+
+.form-label-large {
+  font-family: National2-Reg, sans-serif;
+  font-size: 26px;
+  letter-spacing: 0.16px;
+  color: #424141;
+}
+
+.form-required-field {
+  color: #E32D1C;
 }

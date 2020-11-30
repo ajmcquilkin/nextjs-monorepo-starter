@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+// This warning can be ignored: nested labels and inputs are valid HTML
+
 import React from 'react';
-// import Form from 'react-bootstrap/Form';
 import { connect } from 'react-redux';
 import RichTextEditor from 'react-rte';
 import sanitizeHtml from 'sanitize-html';
@@ -134,15 +136,160 @@ class VoxForm extends React.Component {
         <h1>{isNew ? 'New Submission' : 'Edit Submission'}</h1>
         <form>
           <FormSection title="Recipients">
-            <p>Hello, world</p>
+            <div id="form-from-container">
+              <label className="form-label-large">
+                From
+                <span className="form-required-field">*</span>
+                <br />
+                <input placeholder="Type department or division name here" type="text" />
+              </label>
+            </div>
+
+            <div id="form-to-container">
+              <div className="form-label-large">
+                To
+                <span className="form-required-field">*</span>
+              </div>
+
+              <div id="form-lists-checkbox-container">
+                <div className="form-checkbox-column-container">
+                  <h3>Undergraduates</h3>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2021
+                  </label>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2022
+                  </label>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2023
+                  </label>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2024
+                  </label>
+
+                  <button type="button">All</button>
+                </div>
+
+                <div className="form-checkbox-column-container">
+                  <h3>Undergraduates</h3>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2021
+                  </label>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2022
+                  </label>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2023
+                  </label>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2024
+                  </label>
+
+                  <button type="button">All</button>
+                </div>
+
+                <div className="form-checkbox-column-container">
+                  <h3>Undergraduates</h3>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2021
+                  </label>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2022
+                  </label>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2023
+                  </label>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2024
+                  </label>
+
+                  <button type="button">All</button>
+                </div>
+
+                <div className="form-checkbox-column-container">
+                  <h3>Undergraduates</h3>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2021
+                  </label>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2022
+                  </label>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2023
+                  </label>
+
+                  <label className="form-label-small">
+                    <input type="checkbox" />
+                    Class of 2024
+                  </label>
+
+                  <button type="button">All</button>
+                </div>
+              </div>
+            </div>
           </FormSection>
 
           <FormSection title="Publish Date">
-            <p>Hello, world</p>
+            <label id="form-publish-container" className="form-label-large">
+              Select Publish Date
+              <br />
+              <input type="date" />
+            </label>
           </FormSection>
 
           <FormSection title="Type">
-            <p>Hello, world</p>
+            <div id="form-type-radio-container">
+              <label id="form-type-container" className="form-label-small">
+                <input type="radio" name="form-type" value="News" />
+                News
+              </label>
+
+              <label id="form-type-container" className="form-label-small">
+                <input type="radio" name="form-type" value="Announcement" />
+                Announcement
+              </label>
+
+              <label id="form-type-container" className="form-label-small">
+                <input type="radio" name="form-type" value="Event" />
+                Event
+              </label>
+            </div>
+
+            <label className="form-label-large">
+              Event Date
+              <br />
+              <input type="date" />
+            </label>
           </FormSection>
 
           <FormSection title="Body">
