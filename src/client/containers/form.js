@@ -5,9 +5,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import RichTextEditor from 'react-rte';
 import sanitizeHtml from 'sanitize-html';
+import merge from 'lodash.merge';
 
 import FormSection from './FormSection';
 import MyEditor from './richTextEditor';
+
+import ContentLengthChecker from '../components/ContentLengthChecker';
 
 import { createErrorSelector, createLoadingSelector, setError } from '../actions/requestActions';
 import ActionTypes from '../actions';
@@ -19,14 +22,40 @@ import { maxContentLength, generateFrontendErrorMessage } from '../constants';
 
 import '../styles/form.scss';
 
+// TODO: TESTING ONLY, REMOVE
+const tempSendList = [
+  'Class of 2021',
+  'Class of 2022',
+  'Class of 2023',
+  'Class of 2024',
+  'Class of 2025',
+];
+
+// TODO: TESTING ONLY, REMOVE
+const tempSendLists = [
+  { name: 'Undergraduates', list: tempSendList },
+  { name: 'Graduate Students', list: tempSendList },
+  { name: 'Faculty', list: tempSendList },
+  { name: 'Staff', list: tempSendList },
+];
+
+function getUniqueListElementName(listName, listElement) {
+  return `${listName} - ${listElement}`;
+}
+
 class VoxForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      from: '',
       brief_content: '',
       full_content: RichTextEditor.createEmptyValue(),
       url: '',
+      eventDate: '',
+      publishDate: '',
       type: '',
+
+      sendLists: {},
 
       briefContentError: '',
       fullContentError: '',
@@ -141,7 +170,12 @@ class VoxForm extends React.Component {
                 From
                 <span className="form-required-field">*</span>
                 <br />
-                <input placeholder="Type department or division name here" type="text" />
+                <input
+                  placeholder="Type department or division name here"
+                  type="text"
+                  value={this.state.from}
+                  onChange={(e) => this.setState({ from: e.target.value })}
+                />
               </label>
             </div>
 
@@ -152,109 +186,31 @@ class VoxForm extends React.Component {
               </div>
 
               <div id="form-lists-checkbox-container">
-                <div className="form-checkbox-column-container">
-                  <h3>Undergraduates</h3>
+                {/* TODO: UPDATE WITH LIVE DATA */}
+                {tempSendLists.map(({ name, list }) => (
+                  <div className="form-checkbox-column-container">
+                    <h3>{name}</h3>
 
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2021
-                  </label>
+                    {list.map((e) => (
+                      <label className="form-label-small">
+                        <input
+                          type="checkbox"
+                          checked={!!(this.state.sendLists?.[getUniqueListElementName(name, e)]) || false}
+                          value={e}
+                          onChange={() => this.setState((prevState) => merge(prevState,
+                            {
+                              sendLists: {
+                                [getUniqueListElementName(name, e)]: !(prevState.sendLists?.[getUniqueListElementName(name, e)] || false)
+                              }
+                            }))}
+                        />
+                        {e}
+                      </label>
+                    ))}
 
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2022
-                  </label>
-
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2023
-                  </label>
-
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2024
-                  </label>
-
-                  <button type="button">All</button>
-                </div>
-
-                <div className="form-checkbox-column-container">
-                  <h3>Undergraduates</h3>
-
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2021
-                  </label>
-
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2022
-                  </label>
-
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2023
-                  </label>
-
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2024
-                  </label>
-
-                  <button type="button">All</button>
-                </div>
-
-                <div className="form-checkbox-column-container">
-                  <h3>Undergraduates</h3>
-
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2021
-                  </label>
-
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2022
-                  </label>
-
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2023
-                  </label>
-
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2024
-                  </label>
-
-                  <button type="button">All</button>
-                </div>
-
-                <div className="form-checkbox-column-container">
-                  <h3>Undergraduates</h3>
-
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2021
-                  </label>
-
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2022
-                  </label>
-
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2023
-                  </label>
-
-                  <label className="form-label-small">
-                    <input type="checkbox" />
-                    Class of 2024
-                  </label>
-
-                  <button type="button">All</button>
-                </div>
+                    <button type="button">All</button>
+                  </div>
+                ))}
               </div>
             </div>
           </FormSection>
@@ -263,7 +219,11 @@ class VoxForm extends React.Component {
             <label id="form-publish-container" className="form-label-large">
               Select Publish Date
               <br />
-              <input type="date" />
+              <input
+                type="date"
+                value={this.state.publishDate}
+                onChange={(e) => this.setState({ publishDate: e.target.value })}
+              />
             </label>
           </FormSection>
 
@@ -284,97 +244,71 @@ class VoxForm extends React.Component {
                 Event
               </label>
             </div>
+            <div className="form-error-container">{generateFrontendErrorMessage(this.state.typeError)}</div>
 
             <label className="form-label-large">
               Event Date
               <br />
-              <input type="date" />
+              <input
+                type="date"
+                value={this.state.eventDate}
+                onChange={(e) => this.setState({ eventDate: e.target.value })}
+              />
             </label>
           </FormSection>
 
           <FormSection title="Body">
-            <p>Hello, world</p>
+            <div id="form-content-container">
+              <label className="form-label-small">
+                Headline
+                <br />
+                <input
+                  type="text"
+                  placeholder="Enter headline text"
+                  value={this.state.brief_content}
+                  onChange={(e) => this.setState({ brief_content: e.target.value })}
+                />
+                <ContentLengthChecker contentLength={this.state.brief_content.length} maxContentLength={50} />
+                <div className="form-error-container">{generateFrontendErrorMessage(this.state.briefContentError)}</div>
+              </label>
+
+              <label className="form-label-small" htmlFor="form-editor-container">Summary</label>
+              <div id="form-editor-container">
+                <MyEditor value={this.state.full_content} onChange={this.updateFull} />
+                <div className="form-error-container">{generateFrontendErrorMessage(this.state.fullContentError)}</div>
+              </div>
+
+              <label className="form-label-small">
+                URL
+                {' '}
+                <br />
+                <input type="text" placeholder="Enter post URL" />
+              </label>
+            </div>
           </FormSection>
 
-          {/* <FormSection title="Graphics">
-            <p>Hello, world</p>
-          </FormSection> */}
-
-          {/* <Form.Group>
-            <Form.Label>To:</Form.Label>
-            <Form.Group>
-              <Form.Check inline type="checkbox" label="Group 1" />
-              <Form.Check inline type="checkbox" label="Group 2" />
-              <Form.Check inline type="checkbox" label="Group 3" />
-            </Form.Group>
-            <Form.Label>Type: *</Form.Label>
-            <Form.Group>
-              <Form.Check
-                inline
-                name="type"
-                type="radio"
-                label="Event"
-                id="event"
-                onChange={this.updateType}
-                checked={this.state.type === 'event'}
-              />
-              <Form.Check
-                inline
-                name="type"
-                type="radio"
-                label="Announcement"
-                id="announcement"
-                onChange={this.updateType}
-                checked={this.state.type === 'announcement'}
-              />
-              <Form.Check
-                inline
-                name="type"
-                type="radio"
-                label="News"
-                id="news"
-                onChange={this.updateType}
-                checked={this.state.type === 'news'}
-              />
-            </Form.Group>
-            <div className="form-error-container">{generateFrontendErrorMessage(this.state.typeError)}</div>
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Brief Description: *</Form.Label>
-            <Form.Control type="text" value={this.state.brief_content} onChange={this.updateBrief} />
-            <div className="form-error-container">{generateFrontendErrorMessage(this.state.briefContentError)}</div>
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Summary: *</Form.Label>
-            <MyEditor value={this.state.full_content} onChange={this.updateFull} />
-            <div className="form-error-container">{generateFrontendErrorMessage(this.state.fullContentError)}</div>
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>URL:</Form.Label>
-            <Form.Control type="text" value={this.state.url} onChange={this.updateUrl} />
-          </Form.Group> */}
-          {editable
-            ? (
-              <div>
-                <button type="button" onClick={this.submit}>Submit</button>
-                <button type="button" onClick={this.save}>Save</button>
-              </div>
-            ) : (
-              <div>
+          <section id="form-buttons-container">
+            {editable
+              ? (
+                <>
+                  <button type="button" id="form-submit-button" onClick={this.submit}>Submit</button>
+                  <button type="button" id="form-save-button" onClick={this.save}>Save Draft</button>
+                  <button type="button" id="form-cancel-button">Cancel</button>
+                </>
+              ) : (
                 <p>Submitted, not editable</p>
-              </div>
-            )}
+              )}
+          </section>
 
           {generateFrontendErrorMessage(this.props.itemErrorMessage)}
 
-          <h3 className="preview-header">Content Preview</h3>
+          {/* <h3 className="preview-header">Content Preview</h3>
           <div className="preview">
             <h3>{this.state.brief_content}</h3>
-            {/* eslint-disable-next-line react/no-danger */}
             <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />
             <p>For more information:</p>
             <a href={this.state.url}>{this.state.url}</a>
-          </div>
+          </div> */}
         </form>
       </div>
     );

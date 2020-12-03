@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import VoxTree from '../../../public/voxTree.svg';
+import HeaderLogo from '../../../public/dPineWhite.svg';
 import SignOutIcon from '../../../public/signOut.svg';
 
 const Navigation = () => (
   <header id="app-main-header">
     <div id="app-brand-container">
-      <VoxTree />
+      <HeaderLogo />
       <h1>VOX DAILY</h1>
     </div>
 

@@ -1,7 +1,12 @@
 import React from 'react';
 import RichTextEditor from 'react-rte';
+
+import ContentLengthChecker from '../components/ContentLengthChecker';
 import { maxContentLength } from '../constants';
+
 import '../styles/richTextEditor.scss';
+
+// RTE Reference: https://github.com/sstur/react-rte/blob/master/src/EditorDemo.js
 
 function MyEditor({ onChange, value }) {
   const toolbarConfig = {
@@ -20,20 +25,21 @@ function MyEditor({ onChange, value }) {
   const contentNoTags = content.replace(/(<([^>]+)>)/ig, '');
 
   return (
-    <div>
+    <div className="rte-container">
       <RichTextEditor
         value={value}
         onChange={onChange}
         toolbarConfig={toolbarConfig}
+        className="rte-embedded-container"
+        toolbarClassName="rte-toolbar-container"
+        editorClassName="rte-editor-container"
       />
-      <h6 style={{ color: contentNoTags.length > maxContentLength ? 'red' : null }}>
-        {contentNoTags.length}
-        /
-        {maxContentLength}
-        {' '}
-        characters
-      </h6>
 
+      <ContentLengthChecker
+        contentLength={contentNoTags.length}
+        maxContentLength={maxContentLength}
+        className="rte-char-count"
+      />
     </div>
   );
 }

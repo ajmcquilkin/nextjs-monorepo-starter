@@ -85,8 +85,12 @@
         text-transform: uppercase;
       }
 
-      label > input {
-        margin: 6px 12px 6px auto;
+      label {
+        line-height: 26px;
+
+        input {
+          margin: 6px 12px 6px auto;
+        }
       }
 
       button {
@@ -129,11 +133,57 @@
   }
 }
 
+#form-content-container {
+  display: flex;
+  flex-direction: column;
+
+  label > input {
+    padding: 3px 18px 6px;
+    width: 400px;
+
+    background-color: #E8E8E8;
+    border-radius: 10px;
+    border: none;
+  }
+}
+
+// TODO: Use Montserrat
+#form-buttons-container {
+  margin-top: 60px;
+  
+  button {
+    margin-right: 14px;
+    padding: 8px 30px;
+    font-family: National2-Reg, sans-serif;
+    font-size: 20px;
+    border-radius: 9px;
+    border: none;
+    cursor: pointer;
+  }
+
+  #form-submit-button {
+    background-color: #00693E;
+    color: white;
+  }
+  
+  #form-save-button {
+    background-color: #F0F6E1;
+    color: #00693E;
+  }
+
+  #form-cancel-button {
+    background-color: white;
+    color: gray;
+    border: 1.09969px solid gray;
+  }
+}
+
 .form-label-small {
   font-family: National2-Reg, sans-serif;
   font-size: 17px;
   letter-spacing: 0.12px;
   color: #424141;
+  line-height: 42px;
 }
 
 .form-label-large {
