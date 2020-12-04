@@ -5,12 +5,13 @@ import { connect } from 'react-redux';
 
 import { authenticate } from 'passport';
 import ActionTypes from '../actions';
+import HeaderLogo from '../../../public/dPineWhite.svg';
+import SignOutIcon from '../../../public/signOut.svg';
 
 const Navigation = ({ authenticated, reviewer }) => (
   <header id="app-main-header">
     <div id="app-brand-container">
-      {/* <VoxTreeIcon /> */}
-      <p>IMAGE HERE</p>
+      <HeaderLogo />
       <h1>VOX DAILY</h1>
     </div>
 

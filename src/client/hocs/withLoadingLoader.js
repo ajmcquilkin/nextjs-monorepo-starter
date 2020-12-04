@@ -9,7 +9,7 @@ const WithLoadingLoader = ({ loading, children }) => (
     {loading ? (
       <LoadingIcon />
     ) : (
-      { ...children }
+      <>{children}</>
     )}
   </>
 );
