@@ -14,7 +14,7 @@
     "test": "jest --verbose --runInBand --detectOpenHandles --passWithNoTests"
   },
   "engines": {
-    "node": "13.1.0"
+    "node": "14.13.0"
   },
   "author": "Sandeep Raveesh",
   "license": "ISC",
