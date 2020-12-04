@@ -45,11 +45,13 @@ function ReviewItem({ reject, item, approve }) {
               {item.status}
             </span>
           </p>
-          <button type="button" onClick={reject}>Reject</button>
-          <button type="button" onClick={approve}>Approve</button>
-          <NavLink to={`/form/${item._id}`}>
-            <button type="button">Edit</button>
-          </NavLink>
+          <div className="submission-control-button-container">
+            <button type="button" onClick={reject}>Reject</button>
+            <button type="button" onClick={approve}>Approve</button>
+            <NavLink to={`/form/${item._id}`}>
+              <button type="button">Edit</button>
+            </NavLink>
+          </div>
         </b>
       </div>
     </div>

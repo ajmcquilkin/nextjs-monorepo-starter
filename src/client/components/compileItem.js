@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/compile.scss';
+import '../styles/submission.scss';
 import { NavLink } from 'react-router-dom';
 import sanitizeHtml from 'sanitize-html';
 // import { render } from 'node-sass';
@@ -31,15 +32,17 @@ class CompileItem extends React.Component {
               <p>
                 {type}
               </p>
-              <NavLink to={`/form/${item._id}`}>
-                <button type="button">Edit</button>
-              </NavLink>
-              <button
-                type="button"
-                onClick={() => this.setState((prevState) => ({ expanded: !prevState.expanded }))}
-              >
-                {this.state.expanded ? 'less' : 'more'}
-              </button>
+              <div className="compile-control-button-container">
+                <NavLink to={`/form/${item._id}`}>
+                  <button type="button">Edit</button>
+                </NavLink>
+                <button
+                  type="button"
+                  onClick={() => this.setState((prevState) => ({ expanded: !prevState.expanded }))}
+                >
+                  {this.state.expanded ? 'less' : 'more'}
+                </button>
+              </div>
             </b>
           </div>
         </div>
@@ -51,20 +54,22 @@ class CompileItem extends React.Component {
         <div className="content">
           <h3>{item.brief_content}</h3>
         </div>
-        <div className="control">
+        <div className="compile-control-container">
           <b>
             <p>
               {type}
             </p>
-            <NavLink to={`/form/${item._id}`}>
-              <button type="button">Edit</button>
-            </NavLink>
-            <button
-              type="button"
-              onClick={() => this.setState((prevState) => ({ expanded: !prevState.expanded }))}
-            >
-              {this.state.expanded ? 'less' : 'more'}
-            </button>
+            <div className="compile-control-button-container">
+              <NavLink to={`/form/${item._id}`}>
+                <button type="button">Edit</button>
+              </NavLink>
+              <button
+                type="button"
+                onClick={() => this.setState((prevState) => ({ expanded: !prevState.expanded }))}
+              >
+                {this.state.expanded ? 'less' : 'more'}
+              </button>
+            </div>
           </b>
         </div>
       </div>

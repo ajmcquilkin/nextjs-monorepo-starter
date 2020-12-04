@@ -49,14 +49,15 @@ function Submission({ deleteItem, item, duplicate }) {
             </span>
           </b>
         </p>
-        {editable && <button type="button" onClick={deleteItem}>Delete</button>}
-        <button type="button" onClick={duplicate}>Duplicate</button>
-        {editable && (
+        <div className="submission-control-button-container">
+          {editable && <button type="button" onClick={deleteItem}>Delete</button>}
+          <button type="button" onClick={duplicate}>Duplicate</button>
+          {editable && (
           <NavLink to={`/form/${item._id}`}>
             <button type="button">Edit</button>
           </NavLink>
-        )}
-
+          )}
+        </div>
       </div>
     </div>
   );
