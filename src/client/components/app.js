@@ -9,7 +9,7 @@ import VoxForm from '../containers/form';
 
 import Webview from '../containers/webview';
 import Fullview from './fullview';
-import Navigation from './navigation';
+import Navigation from './navigationBar';
 import { ROOT_URL } from '../constants';
 import '../styles/app.scss';
 import withLoading from '../hocs/withLoading';
