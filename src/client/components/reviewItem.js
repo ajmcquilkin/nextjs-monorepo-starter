@@ -26,14 +26,14 @@ function ReviewItem({ reject, item, approve }) {
 
   const cleanHTML = sanitizeHtml(item.full_content);
   return (
-    <div className="submission" style={colorKey}>
-      <div className="content">
+    <div className="submission-container" style={colorKey}>
+      <div className="submission-content-container">
         <h3>{item.brief_content}</h3>
         {/* eslint-disable-next-line react/no-danger */}
         <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />
         <a target="_blank" rel="noreferrer" href={item.url.startsWith('http') ? item.url : `http://${item.url}`}>{item.url}</a>
       </div>
-      <div className="control">
+      <div className="submission-control-container">
         <b>
           <p>
             {type}

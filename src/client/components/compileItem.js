@@ -12,9 +12,6 @@ class CompileItem extends React.Component {
     };
   }
 
-  //   toggleExpanded () => {
-
-  //   }
   render() {
     const { item } = this.props;
     const type = item.type.charAt(0).toUpperCase() + item.type.slice(1);
@@ -23,7 +20,7 @@ class CompileItem extends React.Component {
     if (this.state.expanded) {
       return (
         <div className="compile-item">
-          <div className="content">
+          <div className="compile-item-content">
             <h3>{item.brief_content}</h3>
             {/* eslint-disable-next-line react/no-danger */}
             <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />
