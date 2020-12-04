@@ -13,7 +13,9 @@
     "dev": "concurrently \"yarn run server\" \"yarn run client\"",
     "test": "jest --verbose --runInBand --detectOpenHandles --passWithNoTests"
   },
-  "engines" : { "node" : ">=11" },
+  "engines": {
+    "node": "13.1.0"
+  },
   "author": "Sandeep Raveesh",
   "license": "ISC",
   "dependencies": {
