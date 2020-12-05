@@ -1,27 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-import { NavLink } from 'react-router-dom';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
+
 import ActionTypes from '../actions';
-import { createErrorSelector, createLoadingSelector } from '../actions/requestActions';
-import CompileItem from '../components/compileItem';
 import {
   createItem, fetchItemByID, fetchApproved, fetchSubmissions, deleteItemByID, updateItemByID
 } from '../actions/itemActions';
+import { createErrorSelector, createLoadingSelector } from '../actions/requestActions';
+
+import CompileItem from '../components/CompileItem';
+
+import { getFullDate } from '../constants';
+
 import '../styles/compile.scss';
 
-const SortableItem = SortableElement(({ value, order }) => (
-  <CompileItem item={value} />
-));
+const SortableList = SortableContainer(({ items }) => items.map((value, index) => (
+  <SortableItem
+    key={`item-${value._id}`}
+    index={index}
+    order={value.publish_order}
+    value={value}
+  />
+)));
 
-const SortableList = SortableContainer(({ items }) => (
-  <ul>
-    {items.map((value, index) => (
-      <SortableItem key={`item-${value._id}`} index={index} order={value.publish_order} value={value} />
-    ))}
-  </ul>
+const SortableItem = SortableElement(({ value }) => (
+  <CompileItem item={value} />
 ));
 
 class Compile extends React.Component {
@@ -31,7 +35,6 @@ class Compile extends React.Component {
       sortedAnnouncements: [],
       sortedNews: [],
       sortedEvents: []
-
     };
   }
 
@@ -69,7 +72,6 @@ class Compile extends React.Component {
   }
 
   publish = () => {
-    console.log('jere');
     const lists = [this.state.sortedAnnouncements, this.state.sortedEvents, this.state.sortedNews];
     lists.forEach((list) => {
       for (let index = 0; index < list.length; index += 1) {
@@ -82,27 +84,73 @@ class Compile extends React.Component {
 
   render() {
     return (
-      <div className="submissions">
-        <div className="top-bar">
-          <p>general info</p>
-        </div>
-        <div className="compile-container">
-          <div>
-            <h1>News</h1>
-            <SortableList items={this.state.sortedNews} onSortEnd={this.onSortEndNews} />
-          </div>
-          <div>
-            <h1>Announcements</h1>
-            <SortableList items={this.state.sortedAnnouncements} onSortEnd={this.onSortEndAnnouncements} />
-          </div>
-          <div>
-            <h1>Events</h1>
-            <SortableList items={this.state.sortedEvents} onSortEnd={this.onSortEndEvents} />
-          </div>
+      <form className="compile-container">
+        <h1>Compile</h1>
 
-        </div>
-        <button type="submit" onClick={this.publish}> Submit</button>
-      </div>
+        <section id="compile-header-container">
+          <h2>{getFullDate()}</h2>
+          <div id="compile-header-text-container">
+            <p>* Click on the dots on the left and drag and drop to re-order.</p>
+            <p>Auto-saved</p>
+          </div>
+        </section>
+
+        <section id="compile-subject-container">
+          <label>
+            <h2>Release Subject</h2>
+            <input type="text" placeholder="Enter subject of current release" />
+          </label>
+        </section>
+
+        <section id="compile-image-container">
+          <h2>Header Image (optional)</h2>
+          <label>
+            <p>Image</p>
+            <input type="file" alt="Select image to upload" />
+          </label>
+
+          <label>
+            <p>Image Caption</p>
+            <input type="text" placeholder="Enter image caption here" />
+          </label>
+        </section>
+
+        <section id="compile-qod-container">
+          <h2>Quote of the Day (optional)</h2>
+
+          <label>
+            <p>Headline</p>
+            <input type="text" placeholder="Enter subject of current release" />
+          </label>
+
+          <label>
+            <p>Content</p>
+            <input type="text" placeholder="Enter subject of current release" />
+          </label>
+        </section>
+
+        <section id="compile-featured-container">
+          <h2>Featured Story (optional)</h2>
+          <p>TODO: Add story selector here</p>
+        </section>
+
+        <section id="compile-news-container">
+          <h2>News</h2>
+          <SortableList items={this.state.sortedNews} onSortEnd={this.onSortEndNews} />
+        </section>
+
+        <section id="compile-announcements-container">
+          <h2>Announcements</h2>
+          <SortableList items={this.state.sortedAnnouncements} onSortEnd={this.onSortEndAnnouncements} />
+        </section>
+
+        <section id="compile-events-container">
+          <h2>Events</h2>
+          <SortableList items={this.state.sortedEvents} onSortEnd={this.onSortEndEvents} />
+        </section>
+
+        <button type="submit" onClick={this.publish}>Publish  (undesigned)</button>
+      </form>
     );
   }
 }
