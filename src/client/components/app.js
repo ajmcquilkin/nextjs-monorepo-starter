@@ -9,7 +9,7 @@ import VoxForm from '../containers/form';
 
 import Webview from '../containers/webview';
 import Fullview from './fullview';
-import Navigation from './navigation';
+import Navigation from './navigationBar';
 import { ROOT_URL } from '../constants';
 import '../styles/app.scss';
 import withLoading from '../hocs/withLoading';
@@ -26,7 +26,7 @@ const FallBack = () => (
 
 const App = () => (
   <Router>
-    <div>
+    <div id="app-container">
       <Navigation />
       <Switch>
         <Route exact path="/" component={Webview} />
@@ -52,6 +52,23 @@ const App = () => (
 
         <Route component={FallBack} />
       </Switch>
+
+      <footer id="app-footer">
+        <div id="app-footer-content-container">
+          <div id="footer-content-left">
+            <p>Dartmouth College</p>
+            <p>Hanover, NH 03755</p>
+            <p>
+              Copyright
+              {' '}
+              {(new Date()).getFullYear()}
+            </p>
+          </div>
+          <div id="footer-content-right">
+            <p><a href="mailto:vox@dartmouth.edu">vox@dartmouth.edu</a></p>
+          </div>
+        </div>
+      </footer>
     </div>
   </Router>
 );

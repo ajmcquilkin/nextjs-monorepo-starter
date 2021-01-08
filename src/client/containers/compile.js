@@ -12,7 +12,7 @@ import {
 } from '../actions/itemActions';
 import '../styles/compile.scss';
 
-const SortableItem = SortableElement(({ value, order }) => (
+const SortableItem = SortableElement(({ value }) => (
   <CompileItem item={value} />
 ));
 
@@ -54,18 +54,21 @@ class Compile extends React.Component {
     this.setState(({ sortedAnnouncements }) => ({
       sortedAnnouncements: arrayMove(sortedAnnouncements, oldIndex, newIndex),
     }));
+    this.publish();
   }
 
   onSortEndNews = ({ oldIndex, newIndex }) => {
     this.setState(({ sortedNews }) => ({
       sortedNews: arrayMove(sortedNews, oldIndex, newIndex),
     }));
+    this.publish();
   }
 
   onSortEndEvents = ({ oldIndex, newIndex }) => {
     this.setState(({ sortedEvents }) => ({
       sortedEvents: arrayMove(sortedEvents, oldIndex, newIndex),
     }));
+    this.publish();
   }
 
   publish = () => {

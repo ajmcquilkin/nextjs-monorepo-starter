@@ -35,7 +35,7 @@ router.route('/')
   // Create new item (SECURE)
   .post(requireLogin, (req, res) => {
     const {
-      brief_content, full_content, requested_publication_date, recipient_groups, type, url
+      brief_content, full_content, requested_publication_date, recipient_groups, type, url, status
     } = req.body;
 
     if (!brief_content) { return res.status(400).json({ message: 'Missing required "brief_content" field' }); }
@@ -57,6 +57,7 @@ router.route('/')
     newItem.recipient_groups = recipient_groups;
     newItem.type = type;
     newItem.url = url;
+    newItem.status = status;
 
     newItem.date_item_created = Date.now();
     newItem.save()

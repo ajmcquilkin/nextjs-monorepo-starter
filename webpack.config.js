@@ -18,42 +18,47 @@ module.exports = {
 
   },
   module: {
-    rules: [{
-      test: /\.(js|jsx)$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader'
-      }
-    },
-    {
-      test: /\.s?css/,
-      use: [
-        finalCSSLoader,
-        {
-          loader: 'css-loader',
-          options: {
-            sourceMap: true,
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
+      {
+        test: /\.s?css/,
+        use: [
+          finalCSSLoader,
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
           },
-        },
-        {
-          loader: 'postcss-loader',
-          options: {
-            plugins: () => [autoprefixer()],
-            sourceMap: true,
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [autoprefixer()],
+              sourceMap: true,
+            },
           },
-        },
-        {
-          loader: 'sass-loader',
-          options: {
-            sourceMap: true,
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+            },
           },
-        },
-      ],
-    },
-    {
-      test: /\.(png|woff|woff2|eot|ttf|otf|svg)$/,
-      loader: 'url-loader?limit=100000'
-    }
+        ],
+      },
+      {
+        test: /\.(png|woff|woff2|eot|ttf|otf)$/,
+        loader: 'url-loader?limit=100000'
+      },
+      {
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
+      },
     ]
   },
   resolve: {

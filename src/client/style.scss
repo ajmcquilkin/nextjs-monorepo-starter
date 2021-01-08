@@ -20,6 +20,16 @@ body, html {
    src: local('National2-Bold'), url('./fonts/National2-Bold.otf') format('opentype');
 }
 
+@font-face {
+   font-family: 'National2-Med';
+   src: local('National2-Med'), url('./fonts/National2-Medium.otf') format('opentype');
+}
+
+@font-face {
+   font-family: 'National2-Light';
+   src: local('National2-Light'), url('./fonts/National2-Light.otf') format('opentype');
+}
+
 .section-bar {
    background-color: #00693E;
    height: 8px;
