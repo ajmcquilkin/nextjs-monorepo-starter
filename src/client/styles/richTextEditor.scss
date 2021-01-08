@@ -1,5 +1,45 @@
-.content-div {
-    border-style: solid;
-    margin-top: 50px;
-    padding: 15px
+.rte-container {
+    .rte-embedded-container {
+        border-radius: 10px;
+        border: none;
+    }
+    
+    .rte-toolbar-container {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin: 0;
+        padding: 4px;
+        
+        background-color: #CACCCF;
+        border-radius: 10px 10px 0px 0px;
+        border: none;
+        
+        div {
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+            margin: 0;
+
+            div > button {
+                border: none;
+                background: none;
+                margin: auto 0;
+            }
+        }
+    }
+
+    .rte-editor-container {
+        background-color: #E8E8E8;
+        border-radius: 0px 0px 10px 10px;
+        border: none;
+        padding: 4px;
+        // height: 15em;
+        overflow: auto;
+    }
+
+    .rte-char-count {
+        margin-top: 10px;
+    }
 }
+

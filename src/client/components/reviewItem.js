@@ -26,14 +26,14 @@ function ReviewItem({ reject, item, approve }) {
 
   const cleanHTML = sanitizeHtml(item.full_content);
   return (
-    <div className="submission" style={colorKey}>
-      <div className="content">
+    <div className="submission-container" style={colorKey}>
+      <div className="submission-content-container">
         <h3>{item.brief_content}</h3>
         {/* eslint-disable-next-line react/no-danger */}
         <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />
-        <a href={item.url}>{item.url}</a>
+        <a target="_blank" rel="noreferrer" href={item.url.startsWith('http') ? item.url : `http://${item.url}`}>{item.url}</a>
       </div>
-      <div className="control">
+      <div className="submission-control-container">
         <b>
           <p>
             {type}
@@ -45,11 +45,13 @@ function ReviewItem({ reject, item, approve }) {
               {item.status}
             </span>
           </p>
-          <button type="button" onClick={reject}>Reject</button>
-          <button type="button" onClick={approve}>Approve</button>
-          <NavLink to={`/form/${item._id}`}>
-            <button type="button">Edit</button>
-          </NavLink>
+          <div className="submission-control-button-container">
+            <button type="button" onClick={reject}>Reject</button>
+            <button type="button" onClick={approve}>Approve</button>
+            <NavLink to={`/form/${item._id}`}>
+              <button type="button">Edit</button>
+            </NavLink>
+          </div>
         </b>
       </div>
     </div>

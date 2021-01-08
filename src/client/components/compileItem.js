@@ -1,5 +1,8 @@
 import React from 'react';
 import sanitizeHtml from 'sanitize-html';
+
+import '../styles/compile.scss';
+import '../styles/submission.scss';
 import '../styles/CompileItem.scss';
 
 const CompileItem = ({ item }) => {
@@ -26,7 +29,7 @@ const CompileItem = ({ item }) => {
           </div>
 
           <div className="compile-item-footer-container">
-            <a href={item.url}>{item.url}</a>
+            <a target="_blank" rel="noreferrer" href={item.url.startsWith('http') ? item.url : `http://${item.url}`}>{item.url}</a>
             <div className="compile-items-footer-button-container">
               <button
                 className="compile-edit-button"
