@@ -1,80 +1,53 @@
 import React from 'react';
+import sanitizeHtml from 'sanitize-html';
+
 import '../styles/compile.scss';
 import '../styles/submission.scss';
-import { NavLink } from 'react-router-dom';
-import sanitizeHtml from 'sanitize-html';
-// import { render } from 'node-sass';
+import '../styles/CompileItem.scss';
 
-class CompileItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      expanded: false
-    };
-  }
+const CompileItem = ({ item }) => {
+  const [expanded, setExpanded] = React.useState(false);
+  const cleanHTML = sanitizeHtml(item.full_content);
 
-  render() {
-    const { item } = this.props;
-    const type = item.type.charAt(0).toUpperCase() + item.type.slice(1);
+  return (
+    <div className="compile-item-container">
+      <div className="compile-item-header-container">
+        <h3>{item.brief_content}</h3>
+        {/* TODO: Add sender, send lists */}
+        <button type="button" onClick={() => setExpanded(!expanded)}>{expanded ? 'show less' : 'show more'}</button>
+      </div>
 
-    const cleanHTML = sanitizeHtml(item.full_content);
-    if (this.state.expanded) {
-      return (
-        <div className="compile-item">
-          <div className="compile-item-content">
+      { expanded ? (
+        <div className="compile-expanded-container">
+          <div className="compile-item-content-container">
             <h3>{item.brief_content}</h3>
-            {/* eslint-disable-next-line react/no-danger */}
-            <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />
-            <a target="_blank" rel="noreferrer" href={item.url.startsWith('http') ? item.url : `http://${item.url}`}>{item.url}</a>
+            <div className="compile-item-main-content-container">
+              {/* eslint-disable-next-line react/no-danger */}
+              <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />
+              <img src="" alt="TEST LOCATION" />
+            </div>
           </div>
-          <div className="control">
-            <b>
-              <p>
-                {type}
-              </p>
-              <div className="compile-control-button-container">
-                <NavLink to={`/form/${item._id}`}>
-                  <button type="button">Edit</button>
-                </NavLink>
-                <button
-                  type="button"
-                  onClick={() => this.setState((prevState) => ({ expanded: !prevState.expanded }))}
-                >
-                  {this.state.expanded ? 'less' : 'more'}
-                </button>
-              </div>
-            </b>
-          </div>
-        </div>
 
-      );
-    }
-    return (
-      <div className="compile-item">
-        <div className="content">
-          <h3>{item.brief_content}</h3>
-        </div>
-        <div className="compile-control-container">
-          <b>
-            <p>
-              {type}
-            </p>
-            <div className="compile-control-button-container">
-              <NavLink to={`/form/${item._id}`}>
-                <button type="button">Edit</button>
-              </NavLink>
+          <div className="compile-item-footer-container">
+            <a target="_blank" rel="noreferrer" href={item.url.startsWith('http') ? item.url : `http://${item.url}`}>{item.url}</a>
+            <div className="compile-items-footer-button-container">
               <button
+                className="compile-edit-button"
                 type="button"
-                onClick={() => this.setState((prevState) => ({ expanded: !prevState.expanded }))}
+                onClick={() => window.open(`/form/${item._id}`)}
               >
-                {this.state.expanded ? 'less' : 'more'}
+                Edit
+              </button>
+
+              <button className="compile-delete-button" type="button">
+                Delete
               </button>
             </div>
-          </b>
+          </div>
         </div>
-      </div>
-    );
-  }
-}
+      ) : null }
+    </div>
+  );
+};
 
 export default CompileItem;

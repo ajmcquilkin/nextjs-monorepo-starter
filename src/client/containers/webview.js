@@ -10,6 +10,8 @@ import {
 import ItemSection from './ItemSection';
 import ItemSectionSummary from '../components/ItemSectionSummary';
 
+import { getFullDate } from '../constants';
+
 import '../styles/webview.scss';
 
 const Webview = ({ items = [], fetchApproved: fetchApprovedAction }) => {
@@ -19,11 +21,6 @@ const Webview = ({ items = [], fetchApproved: fetchApprovedAction }) => {
 
   const itemArray = React.useMemo(() => Object.values(items), [items]);
   itemArray.sort((a, b) => a.publish_order - b.publish_order);
-  const currentDate = new Date();
-  const day = currentDate.getDate();
-  const month = currentDate.getMonth() + 1;
-  const year = currentDate.getFullYear();
-  const currentDateString = `${month}/${day}/${year}`;
 
   return (
     <div id="webview-container">
@@ -32,7 +29,7 @@ const Webview = ({ items = [], fetchApproved: fetchApprovedAction }) => {
           <div className="section-bar" />
           <div id="webview-title-text-container">
             <h2>Vox Daily News</h2>
-            <p>{currentDateString}</p>
+            <p>{getFullDate()}</p>
           </div>
           <div className="section-bar" />
         </div>

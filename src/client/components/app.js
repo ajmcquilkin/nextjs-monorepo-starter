@@ -4,19 +4,21 @@ import {
   BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
 
+import withLoading from '../hocs/withLoading';
+import { checkUser } from '../actions/authActions';
+
 import Submissions from '../containers/submissions';
 import VoxForm from '../containers/form';
-
 import Webview from '../containers/webview';
+import Compile from '../containers/compile';
+import Review from '../containers/review';
+
 import Fullview from './fullview';
+import ActionTypes from '../actions';
+
 import Navigation from './navigationBar';
 import { ROOT_URL } from '../constants';
 import '../styles/app.scss';
-import withLoading from '../hocs/withLoading';
-import { checkUser } from '../actions/authActions';
-import ActionTypes from '../actions';
-import Review from '../containers/review';
-import Compile from '../containers/compile';
 
 const FallBack = () => (
   <div>
