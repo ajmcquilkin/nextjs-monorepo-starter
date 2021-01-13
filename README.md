@@ -1,64 +1,36 @@
-# ITC VOX
+# Create Next App
 
-[Deployed Site](https://itc-vox.herokuapp.com)
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-This repository holds the code for the ITC Vox webapp, used for the creation, moderation, and publication of Vox daily information.  
+## Getting Started
 
-# Stack
-
-This app uses a React+Redux frontend served from a Node.js backend using Express + Mongoose, able to be deployed as a single server for Dartmouth ITC purposes. It is deployed through Heroku and uses a MongoDB database. 
-
-### Development mode
-
-In the development mode, we will have 2 servers running. The front end code will be served by the [webpack dev server](https://webpack.js.org/configuration/dev-server/) which helps with hot and live reloading. The server side Express code will be served by a node server using [nodemon](https://nodemon.io/) which helps in automatically restarting the server whenever server side code changes.
-
-### Production mode
-
-In the production mode, we will have only 1 server running. All the client side code will be bundled into static files using webpack and it will be served by the Node.js/Express application.
-
-### Deployment
-The app is deployed through heroku, where is it built and run with `yarn start`. 
-## Quick Start
+First, run the development server:
 
 ```bash
-# Clone the repository
-git clone https://github.com/dali-lab/itc-vox.git
-
-# Install dependencies
-yarn 
-
-# Add the .env file to the root directory
-
-# Start development server
-yarn dev 
-
-# Build for production
-yarn build 
-
-# Start production server
-yarn start 
+npm run dev
+# or
+yarn dev
 ```
 
-### Folder Structure
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-All the source code will be inside **src** directory. Inside src, there is client and server directory. All the frontend code (react, css, js and any other assets) will be in client directory. This holds actions, components, containers, hocs, reducers, and styles. 
+You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
- Backend Node.js/Express code will be in the server directory. This contains models, routers, and controllers, 
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
-### Authors
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-Fall 2020
- - Nathan Schneider '22
- - Ray Huang '21
- - Adam McQuilkin '22
-### Acknowledgments
+## Learn More
 
-Adam McQuilkin + DALI Lab CRUD Templates
+To learn more about Next.js, take a look at the following resources:
 
-https://github.com/dali-lab/crud-template-frontend
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-https://github.com/dali-lab/crud-template-backend
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-crsandeep's full-stack deployment on a single Node.js server
+## Deploy on Vercel
 
-https://github.com/crsandeep/simple-react-full-stack
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
