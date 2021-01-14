@@ -1,7 +1,12 @@
-import '../styles/globals.scss'
+import '../styles/globals.scss';
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+interface AppProps {
+  Component: JSX.Element,
+  pageProps: any
 }
 
-export default MyApp
+function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+  return <Component {...pageProps} />;
+}
+
+export default MyApp;

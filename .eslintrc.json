@@ -1,0 +1,37 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "airbnb",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest": true
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "react"
+  ],
+  "rules": {
+    "no-console": "off",
+    "comma-dangle": "off",
+    "linebreak-style": "off",
+    "react/destructuring-assignment": "off",
+    "no-underscore-dangle": "off",
+    "max-len": ["error", { "code": 200 }],
+
+    "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }],
+
+    // Disable prop-types as we use TypeScript for type checking
+    "react/prop-types": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-ts-ignore": "off",
+
+    // needed for NextJS's jsx without react import
+    "react/react-in-jsx-scope": "off"
+  }
+}
