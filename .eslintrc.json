@@ -21,7 +21,9 @@
     "react/destructuring-assignment": "off",
     "no-underscore-dangle": "off",
     "max-len": ["error", { "code": 200 }],
+    "jsx-a11y/anchor-is-valid": "off",
 
+    "import/extensions": "off",
     "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }],
 
     // Disable prop-types as we use TypeScript for type checking
@@ -33,5 +35,10 @@
 
     // needed for NextJS's jsx without react import
     "react/react-in-jsx-scope": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {} // this loads <rootdir>/tsconfig.json to eslint
+    }
   }
 }

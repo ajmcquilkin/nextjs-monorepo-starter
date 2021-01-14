@@ -5,8 +5,6 @@ interface AppProps {
   pageProps: any
 }
 
-function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-  return <Component {...pageProps} />;
-}
+const App = ({ Component, pageProps }: AppProps): JSX.Element => <Component {...pageProps} />;
 
-export default MyApp;
+export default App;
