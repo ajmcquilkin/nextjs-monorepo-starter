@@ -1,20 +1,19 @@
-import { getReducerSuccessSelector } from 'store/helpers';
-import { UserState, UserActionTypes } from 'types/user';
+import { UserState, UserActions } from 'types/user';
 
 const initialState: UserState = {
-  isAuthenticated: false,
+  users: {},
   user: null,
-  users: {}
+  isAuthenticated: false
 };
 
-// TODO: Update reducer to support single source of truth
+const userReducer = (state = initialState, action: UserActions): UserState => {
+  if (action.status !== 'SUCCESS') { return state; }
 
-const userReducer = (state = initialState, action): UserState => {
   switch (action.type) {
-    case getReducerSuccessSelector<UserActionTypes>(UserActionTypes.AUTH_USER): // Update users if action provides user data
+    case 'AUTH_USER':
       return { ...state, isAuthenticated: action.payload.data.authenticated, };
 
-    case getReducerSuccessSelector<UserActionTypes>(UserActionTypes.DEAUTH_USER):
+    case 'DEAUTH_USER':
       return {
         ...state, isAuthenticated: false, user: null, users: {}
       };

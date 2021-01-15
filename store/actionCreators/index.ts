@@ -1,58 +1,53 @@
+import { Dispatch } from 'redux';
 import { AxiosResponse, AxiosError } from 'axios';
-import { RequestStatus } from 'store/helpers';
-import { Code } from 'types/action';
+import { Action, ActionTypes, Code } from 'types/state';
 
-interface AsyncActionCreatorConfig {
-  successCallback?: (res: any) => void,
-  failureCallback?: (res: any) => void,
-  responseSubfield?: string,
-  additionalPayloadFields?: any
+type AsyncActionCreatorConfig<Data, AddlPayload> = {
+  successCallback?: (res: AxiosResponse<Data>) => void,
+  failureCallback?: (res: AxiosResponse<Data>) => void,
+  additionalPayloadFields?: AddlPayload
 }
 
-export type GenerateSuccessPayload = (
-  response: AxiosResponse,
-  customParams?: { [key: string]: any },
-  subField?: string
-) => {
-  data: any,
+export type SuccessPayload<Data> = {
+  data: Data,
   code: Code
 }
 
-export type GenerateFailurePayload = (
-  error: AxiosError
-) => {
-  message: string,
+export type FailurePayload<Data> = {
+  data: Data,
+  message?: string,
   code: Code
 }
 
-export type CreateAsyncActionCreator = (
-  dispatch: any,
-  actionName: any, // TODO: Update this
-  axiosFetchCallback: () => Promise<AxiosResponse>,
-  config?: AsyncActionCreatorConfig
-) => Promise<void>
+export const generateSuccessPayload = <Data, AddlPayload>(
+  response: AxiosResponse<Data>,
+  additionalPayloadFields: AddlPayload
+): SuccessPayload<Data> => ({
+    data: { ...response.data, ...additionalPayloadFields },
+    code: response.status || null
+  });
 
-export const generateSuccessPayload: GenerateSuccessPayload = (response, customParams = {}, subField = '') => ({
-  data: subField ? response.data[subField] : response.data,
-  code: response.status,
-  ...customParams
-});
+export const generateFailurePayload = <Data>(
+  error: AxiosError<Data>
+): FailurePayload<Data> => ({
+    data: undefined,
+    message: error.message || 'No message found',
+    code: error.response?.status || error.code || null,
+  });
 
-export const generateFailurePayload: GenerateFailurePayload = (error, customParams = {}) => ({
-  message: error.response?.data?.message || error.message || 'No message found',
-  code: error.response?.status || error.code || null,
-  ...customParams
-});
-
-// TODO: Make request and response "any" types more specific
-export const createAsyncActionCreator: CreateAsyncActionCreator = async (dispatch, actionName, axiosFetchCallback, config = {}) => {
+export const createAsyncActionCreator = async <Data, AddlPayload = any>(
+  dispatch: Dispatch<Action<ActionTypes, Data>>,
+  type: ActionTypes,
+  axiosFetchCallback: () => Promise<AxiosResponse<Data>>,
+  config: AsyncActionCreatorConfig<Data, AddlPayload> = {}
+): Promise<void> => {
   try {
-    dispatch({ type: `${actionName}_${RequestStatus.request}` });
+    dispatch({ type, status: 'REQUEST', payload: { data: undefined } });
     const response = await axiosFetchCallback();
-    dispatch({ type: `${actionName}_${RequestStatus.success}`, payload: generateSuccessPayload(response, config?.additionalPayloadFields || {}, config?.responseSubfield || '') });
+    dispatch({ type, status: 'SUCCESS', payload: generateSuccessPayload<Data, AddlPayload>(response, config.additionalPayloadFields) });
     if (config.successCallback) { config.successCallback(response); }
   } catch (error) {
-    dispatch({ type: `${actionName}_${RequestStatus.failure}`, payload: generateFailurePayload(error) });
+    dispatch({ type, status: 'FAILURE', payload: generateFailurePayload<Data>(error) });
     if (config.failureCallback) { config.failureCallback(error); }
   }
 };

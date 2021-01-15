@@ -1,18 +1,18 @@
-import { RequestState } from 'types/request';
-import { RequestStatus } from '../helpers';
+import {
+  RequestState, Action,
+} from 'types/state';
 
 const initialState: RequestState = {};
 
-const requestReducer = (state = initialState, action): RequestState => {
-  const matches = new RegExp(`(.*)_(${RequestStatus.request}|${RequestStatus.success}|${RequestStatus.failure}|${RequestStatus.clearError})`).exec(action.type);
-  if (!matches) { return state; }
+const requestReducer = (state = initialState, action: Action<string, any>): RequestState => {
+  const { type, status } = action;
+  if (!status) return state;
 
-  const [, requestName, requestState] = matches;
-  const updatedState: RequestState = { ...state, [requestName]: { isLoading: true } };
+  const updatedState: RequestState = { ...state, [type]: { isLoading: true, message: '', code: null } };
 
-  updatedState[requestName].isLoading = requestState === RequestStatus.request;
-  updatedState[requestName].message = requestState === RequestStatus.request ? '' : action?.payload?.message || '';
-  updatedState[requestName].code = action?.payload?.code || null;
+  updatedState[type].isLoading = status === 'REQUEST';
+  updatedState[type].message = status === 'REQUEST' ? '' : action.payload.message || '';
+  updatedState[type].code = action?.payload?.code || null;
 
   return updatedState;
 };

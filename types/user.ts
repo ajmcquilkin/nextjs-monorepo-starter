@@ -1,4 +1,7 @@
-import { Action } from './action';
+import { GenericPair } from './generic';
+import { Action } from './state';
+
+/* -------- Generic -------- */
 
 export interface User {
   netid: string,
@@ -7,13 +10,21 @@ export interface User {
   classYear: number
 }
 
+/* -------- State -------- */
+
 export interface UserState {
-  users: { [id: string]: User },
+  users: GenericPair<User>,
   user: string | null,
   isAuthenticated: boolean,
 }
 
-export enum UserActionTypes {
-  AUTH_USER = 'AUTH_USER',
-  DEAUTH_USER = 'DEAUTH_USER'
-}
+/* -------- Action Types -------- */
+
+export const AUTH_USER = 'AUTH_USER';
+export const DEAUTH_USER = 'DEAUTH_USER';
+
+type AuthUserAction = Action<typeof AUTH_USER, { authenticated: boolean }>
+type DeauthUserAction = Action<typeof DEAUTH_USER, Record<string, never>>
+
+export type UserActions = AuthUserAction | DeauthUserAction;
+export type UserActionTypes = typeof AUTH_USER | typeof DEAUTH_USER;

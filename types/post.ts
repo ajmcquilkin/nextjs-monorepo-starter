@@ -1,3 +1,8 @@
+import { GenericPair } from './generic';
+import { Action } from './state';
+
+/* -------- Generic -------- */
+
 export interface Post {
   fromName: string,
   subject: string,
@@ -19,16 +24,25 @@ export interface Post {
   _id?: string
 }
 
+/* -------- State -------- */
+
 export interface PostState {
-  posts: { [id: string]: Post },
+  posts: GenericPair<Post>,
   results: string[],
   numResults: number
 }
 
+/* -------- Action Types -------- */
+
 export type PostStatus = 'pending' | 'approved' | 'rejected' | 'draft';
 
-export enum PostActionTypes {
-  FETCH_POSTS = 'FETCH_POSTS',
-  FETCH_POST = 'FETCH_POST',
-  DELETE_POST = 'DELETE_POST'
-}
+export const FETCH_POSTS = 'FETCH_POSTS';
+export const FETCH_POST = 'FETCH_POST';
+export const DELETE_POST = 'DELETE_POST';
+
+type FetchPostsAction = Action<typeof FETCH_POSTS, Post[]>
+type FetchPostAction = Action<typeof FETCH_POST, Post>
+type DeletePostAction = Action<typeof DELETE_POST, { id: string }>
+
+export type PostActions = FetchPostsAction | FetchPostAction | DeletePostAction;
+export type PostActionTypes = typeof FETCH_POST | typeof FETCH_POSTS | typeof DELETE_POST;
