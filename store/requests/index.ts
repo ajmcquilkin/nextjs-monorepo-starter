@@ -8,7 +8,9 @@ const backendAxiosInstance = axios.create({
 });
 
 // eslint-disable-next-line import/prefer-default-export
-export const createBackendAxiosRequest = async <T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>> => backendAxiosInstance({
+export const createBackendAxiosRequest = async <D>(
+  config: AxiosRequestConfig
+): Promise<AxiosResponse<D>> => backendAxiosInstance({
   ...config,
   timeout: requestTimeout
 });

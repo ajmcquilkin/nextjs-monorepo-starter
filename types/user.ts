@@ -1,4 +1,4 @@
-import { GenericPair } from './generic';
+import { Empty, GenericPair } from './generic';
 import { Action } from './state';
 
 /* -------- Generic -------- */
@@ -23,8 +23,11 @@ export interface UserState {
 export const AUTH_USER = 'AUTH_USER';
 export const DEAUTH_USER = 'DEAUTH_USER';
 
-type AuthUserAction = Action<typeof AUTH_USER, { authenticated: boolean }>
-type DeauthUserAction = Action<typeof DEAUTH_USER, Record<string, never>>
+export type AuthUserData = { authenticated: boolean };
+export type DeauthUserData = Empty;
+
+type AuthUserAction = Action<typeof AUTH_USER, AuthUserData>
+type DeauthUserAction = Action<typeof DEAUTH_USER, DeauthUserData>
 
 export type UserActions = AuthUserAction | DeauthUserAction;
 export type UserActionTypes = typeof AUTH_USER | typeof DEAUTH_USER;
