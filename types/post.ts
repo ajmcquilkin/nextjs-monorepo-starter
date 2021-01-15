@@ -1,4 +1,4 @@
-interface Post {
+export interface Post {
   fromName: string,
   subject: string,
   submitterNetId: string,
@@ -14,7 +14,21 @@ interface Post {
   postStatus: string,
   dateItemCreated: Date,
   lastEdited: Date,
-  reviewComment: string
+  reviewComment: string,
+
+  _id?: string
 }
 
-export default Post;
+export interface PostState {
+  posts: { [id: string]: Post },
+  results: string[],
+  numResults: number
+}
+
+export type PostStatus = 'pending' | 'approved' | 'rejected' | 'draft';
+
+export enum PostActionTypes {
+  FETCH_POSTS = 'FETCH_POSTS',
+  FETCH_POST = 'FETCH_POST',
+  DELETE_POST = 'DELETE_POST'
+}
