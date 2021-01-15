@@ -1,6 +1,6 @@
 import MainWrapper from 'components/layout/mainWrapper';
 import { useEffect, useMemo } from 'react';
-import { Post } from 'types';
+import { Post } from 'types/post';
 
 export interface HomeProps {
   posts: Post[],
