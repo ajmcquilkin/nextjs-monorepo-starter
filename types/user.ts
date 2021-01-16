@@ -1,10 +1,10 @@
-import { Empty, GenericPair } from './generic';
+import { Empty } from './generic';
 import { Action } from './state';
 
 /* -------- Generic -------- */
 
 export interface User {
-  netid: string,
+  netId: string | null,
   email: string,
   fullName: string,
   classYear: number
@@ -13,7 +13,7 @@ export interface User {
 /* -------- State -------- */
 
 export interface UserState {
-  users: GenericPair<User>,
+  users: Record<string, User>,
   user: string | null,
   isAuthenticated: boolean,
 }
@@ -23,7 +23,7 @@ export interface UserState {
 export const AUTH_USER = 'AUTH_USER';
 export const DEAUTH_USER = 'DEAUTH_USER';
 
-export type AuthUserData = { authenticated: boolean };
+export type AuthUserData = { isAuthenticated: boolean, isReviewer: boolean, netId: User['netId'] };
 export type DeauthUserData = Empty;
 
 type AuthUserAction = Action<typeof AUTH_USER, AuthUserData>

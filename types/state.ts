@@ -25,16 +25,16 @@ export interface SingleRequestState {
 export type Actions = PostActions | UserActions;
 export type ActionTypes = PostActionTypes | UserActionTypes;
 
-export interface ActionPayload<D> {
-  data: D,
-  code?: Code,
-  message?: string
+export interface ActionPayload<D = any> {
+  data?: D, // ? Should this be optional?
+  message?: string,
+  code?: Code
 }
 
-export interface Action<T, D> extends ReduxAction {
+export interface Action<T, D = any> extends ReduxAction {
   type: T,
   status: RequestStatusTypes,
-  payload: ActionPayload<D>
+  payload?: ActionPayload<D> // ? Should this be optional?
 }
 
 /* -------- State -------- */
