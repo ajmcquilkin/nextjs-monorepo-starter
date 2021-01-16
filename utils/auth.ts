@@ -1,33 +1,32 @@
 import CASAuthentication, { CASInstance } from 'node-cas-authentication';
 import { NextHandler } from 'next-connect';
 
-import { BadCredentialsError, ForbiddenResourceError } from 'errors';
+import { BadCredentialsError, ForbiddenResourceError, MissingConfigError } from 'errors';
 import { ServerRequestType, ServerResponseType, ServerSession } from 'types/server';
 
-// TODO: DO NOT hard code these values
-const APP_URL = 'localhost:3000';
-const SELF_URL = 'localhost:3000';
+if (!process.env.SERVICE_URL) throw new MissingConfigError('SERVICE_URL');
+if (!process.env.APP_URL) throw new MissingConfigError('APP_URL');
 
-const returnURL = `http://${APP_URL}/api/auth/user`;
+const appUrl = process.env.APP_URL as string;
+const serviceUrl = process.env.SERVICE_URL as string;
 
-// ! HARDCODED
-const isDevMode = true;
+const returnURL = `http://${appUrl}/api/auth/user`;
+
 const devModeUser: ServerSession['casUser'] = 'devModeUser';
 const devModeInfo: ServerSession['info'] = {
   name: 'Phil Hanlon',
   netId: 'F000000'
 };
 
-// TODO: Implement dev mode with env
 export const casInstance: CASInstance<ServerSession['info']> = new CASAuthentication<ServerSession['info']>({
   cas_url: 'https://login.dartmouth.edu/cas',
-  service_url: `http://${SELF_URL}`,
+  service_url: serviceUrl,
   session_name: 'casUser',
   session_info: 'info',
   destroy_session: true,
   return_to: returnURL,
 
-  is_dev_mode: isDevMode,
+  is_dev_mode: process.env.MODE === 'dev',
   dev_mode_user: devModeUser,
   dev_mode_info: devModeInfo
 });

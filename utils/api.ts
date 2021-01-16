@@ -1,14 +1,18 @@
 import nc, { NextConnect } from 'next-connect';
 import session from 'express-session';
 
+import { MissingConfigError } from 'errors';
 import { handleError } from 'controllers/errorController';
+
 import { ServerRequestType, ServerResponseType, ServerSuccessPayload } from 'types/server';
+
+if (!process.env.SESSION_SECRET) throw new MissingConfigError('SESSION_SECRET');
+const sessionSecret = process.env.SESSION_SECRET as string;
 
 // ! DO NOT use MemoryStore in production
 // TODO: Initialize MongoStore for this token
 const sessionConfig = {
-  // secret: process.env.SESSION_SECRET as string,
-  secret: 'skjn&Yuibn*Dh89ash9da s8989dU(* D&8^&ASD%^SFDtvSD&78G&)D*&B',
+  secret: sessionSecret,
   resave: false,
   saveUninitialized: false,
   // cookie: { secure: true }, // ! Use this in production for HTTPS security
