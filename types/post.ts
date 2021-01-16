@@ -1,14 +1,18 @@
-import { GenericPair } from './generic';
+import { Document } from 'mongoose';
 import { Action } from './state';
 
 /* -------- Generic -------- */
 
+export type PostStatus = 'draft' | 'pending' | 'approved' | 'rejected' | 'published';
+export type PostPublishType = 'news' | 'announcement' | 'event';
+
 export interface Post {
   fromName: string,
+  fromAddress: string,
   subject: string,
   submitterNetId: string,
 
-  postType: string,
+  type: PostPublishType,
   fullContent: string,
   briefContent: string,
   url: string,
@@ -16,25 +20,27 @@ export interface Post {
   recipientGroups: string[],
 
   publishOrder: number,
-  postStatus: string,
+  status: PostStatus,
   dateItemCreated: Date,
-  lastEdited: Date,
+  lastEdited: number,
   reviewComment: string,
 
   _id?: string
 }
 
+export interface PostDocument extends Post, Document<string> {
+
+}
+
 /* -------- State -------- */
 
 export interface PostState {
-  posts: GenericPair<Post>,
+  posts: Record<string, Post>,
   results: string[],
   numResults: number
 }
 
 /* -------- Action Types -------- */
-
-export type PostStatus = 'pending' | 'approved' | 'rejected' | 'draft';
 
 export const FETCH_POSTS = 'FETCH_POSTS';
 export const FETCH_POST = 'FETCH_POST';
