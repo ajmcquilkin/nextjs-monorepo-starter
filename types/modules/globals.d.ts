@@ -5,5 +5,5 @@ declare let __MONGODB_URI__: string;
 declare let __SERVICE_URL__: string;
 
 // Insecure values (server and client side)
-declare let __MODE__: 'dev' | '';
+declare let __MODE__: string;
 declare let __APP_URL__: string;

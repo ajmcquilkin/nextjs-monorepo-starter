@@ -21,8 +21,8 @@ export const casInstance: CASInstance<ServerSession['info']> = new CASAuthentica
   return_to: returnURL,
 
   is_dev_mode: __MODE__ === 'dev',
-  dev_mode_user: devModeUser,
-  dev_mode_info: devModeInfo
+  dev_mode_user: __MODE__ === 'dev' ? devModeUser : undefined,
+  dev_mode_info: __MODE__ === 'dev' ? devModeInfo : undefined
 });
 
 export const requireContributor = async (req: ServerRequestType, res: ServerResponseType, next: NextHandler): Promise<void> => {
