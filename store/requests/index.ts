@@ -1,12 +1,12 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { backendUrl, requestTimeout } from 'utils';
-
-const backendAxiosInstance = axios.create({
-  baseURL: backendUrl,
-  timeout: requestTimeout,
-  withCredentials: true,
-});
+import { requestTimeout } from 'utils';
 
 export const createBackendAxiosRequest = async <D>(
   config: AxiosRequestConfig
-): Promise<AxiosResponse<D>> => backendAxiosInstance(config);
+): Promise<AxiosResponse<D>> => axios({
+  baseURL: `${__APP_URL__}/api/`,
+  timeout: requestTimeout,
+  withCredentials: true,
+
+  ...config
+});

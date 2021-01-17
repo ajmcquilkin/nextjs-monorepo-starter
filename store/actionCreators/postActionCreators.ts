@@ -1,19 +1,26 @@
 import { Dispatch } from 'redux';
 import { createAsyncActionCreator } from 'store/actionCreators';
 
+import * as postRequests from 'store/requests/postRequests';
+
 import { Empty } from 'types/generic';
 import {
   Post, PostStatus,
   FetchPostData, FetchPostsData, DeletePostData
 } from 'types/post';
 
-import * as postRequests from 'store/requests/postRequests';
+export const fetchAllPosts = (
+
+) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostsData>(
+  dispatch, 'FETCH_POSTS',
+  postRequests.fetchAllPostsRequest()
+);
 
 export const fetchWithStatus = (
   status: PostStatus
 ) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostData>(
   dispatch, 'FETCH_POST',
-  postRequests.fetchWithStatusRequest(status) // ? Can we use the data type of this to type asyncActionCreator's data type?
+  postRequests.fetchWithStatusRequest(status)
 );
 
 export const fetchSubmissions = (

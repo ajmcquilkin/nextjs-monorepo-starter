@@ -2,32 +2,39 @@ import { AxiosResponse } from 'axios';
 import { createBackendAxiosRequest } from 'store/requests';
 import { Post, PostStatus } from 'types/post';
 
+export const fetchAllPostsRequest = <D>(
+
+) => (): Promise<AxiosResponse<D>> => createBackendAxiosRequest<D>({
+  method: 'GET',
+  url: '/posts'
+});
+
 export const fetchWithStatusRequest = <D>(
   status: PostStatus = 'approved'
 ) => (): Promise<AxiosResponse<D>> => createBackendAxiosRequest<D>({
   method: 'GET',
-  url: `/items?status=${status}`
+  url: `/posts?status=${status}`
 });
 
 export const fetchSubmissionsRequest = <D>(
 
 ) => (): Promise<AxiosResponse<D>> => createBackendAxiosRequest<D>({
   method: 'GET',
-  url: '/items/submissions'
+  url: '/posts/submissions'
 });
 
 export const fetchPostsToReviewRequest = <D>(
 
 ) => (): Promise<AxiosResponse<D>> => createBackendAxiosRequest<D>({
   method: 'GET',
-  url: '/items/review'
+  url: '/posts/review'
 });
 
 export const createItemRequest = <D>(
   fields: Post
 ) => (): Promise<AxiosResponse<D>> => createBackendAxiosRequest<D>({
   method: 'POST',
-  url: '/items',
+  url: '/posts',
   data: fields
 });
 
@@ -35,14 +42,14 @@ export const fetchItemByIdRequest = <D>(
   id: string
 ) => (): Promise<AxiosResponse<D>> => createBackendAxiosRequest<D>({
   method: 'GET',
-  url: `/items/${id}`
+  url: `/posts/${id}`
 });
 
 export const updateItemByIdRequest = <D>(
   id: string, update: Partial<Post>
 ) => (): Promise<AxiosResponse<D>> => createBackendAxiosRequest<D>({
   method: 'PUT',
-  url: `/items/${id}`,
+  url: `/posts/${id}`,
   data: update
 });
 
@@ -50,5 +57,5 @@ export const deleteItemByIdRequest = <D>(
   id: string
 ) => (): Promise<AxiosResponse<D>> => createBackendAxiosRequest<D>({
   method: 'DELETE',
-  url: `/items/${id}`
+  url: `/posts/${id}`
 });

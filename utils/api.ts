@@ -2,32 +2,26 @@ import nc, { NextConnect, NextHandler } from 'next-connect';
 import createSession from 'express-session';
 import MongoStoreThunk from 'connect-mongo';
 
-import { IncompleteRequestError, MissingConfigError } from 'errors';
+import { IncompleteRequestError } from 'errors';
 import { handleError } from 'controllers/errorController';
 
 import { dbConnectionOptions } from 'utils/db';
 import { ServerRequestType, ServerResponseType, ServerSuccessPayload } from 'types/server';
 
-if (!process.env.SESSION_SECRET) throw new MissingConfigError('SESSION_SECRET');
-if (!process.env.MONGODB_URI) throw new MissingConfigError('MONGODB_URI');
-
-const sessionSecret = process.env.SESSION_SECRET as string;
-const mongodbUri = process.env.MONGODB_URI as string;
-
 const MongoStore = MongoStoreThunk(createSession);
 
 const sessionConfig = {
-  secret: sessionSecret,
+  secret: __SESSION_SECRET__,
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: process.env.MODE !== 'dev' },
+  cookie: { secure: __MODE__ !== 'dev' },
   store: new MongoStore({
-    url: mongodbUri,
+    url: __MONGODB_URI__,
     mongoOptions: {
       useNewUrlParser: dbConnectionOptions.useNewUrlParser,
       useUnifiedTopology: dbConnectionOptions.useUnifiedTopology
     },
-    secret: sessionSecret // encrypts DB traffic
+    secret: __AUTH_SECRET__ // encrypts DB traffic
   })
 };
 

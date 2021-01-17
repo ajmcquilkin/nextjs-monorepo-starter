@@ -1,7 +1,6 @@
 import { NextHandler } from 'next-connect';
 import mongoose from 'mongoose';
 
-import { MissingConfigError } from 'errors';
 import { ServerRequestType, ServerResponseType } from 'types/server';
 
 export const dbConnectionOptions: Partial<mongoose.ConnectOptions> = {
@@ -12,11 +11,8 @@ export const dbConnectionOptions: Partial<mongoose.ConnectOptions> = {
 };
 
 export const dbConnect = async (): Promise<typeof mongoose | void> => {
-  if (!process.env.MONGODB_URI) throw new MissingConfigError('MONGODB_URI');
-  const mongodbUri = process.env.MONGODB_URI as string;
-
   if (mongoose.connection.readyState < 1) {
-    return mongoose.connect(mongodbUri, dbConnectionOptions);
+    return mongoose.connect(__MONGODB_URI__, dbConnectionOptions);
   }
 };
 

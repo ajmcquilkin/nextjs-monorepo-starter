@@ -1,7 +1,4 @@
-import { MissingConfigError } from 'errors';
-
-if (!process.env.APP_URL) throw new MissingConfigError('APP_URL');
-export const backendUrl = `${process.env.APP_URL as string}/api`;
+export const backendUrl = `${__APP_URL__}/api/`;
 export const requestTimeout = 5000; // ms
 
 export const maxContentLength = 500;

@@ -1,16 +1,10 @@
 import CASAuthentication, { CASInstance } from 'node-cas-authentication';
 import { NextHandler } from 'next-connect';
 
-import { BadCredentialsError, ForbiddenResourceError, MissingConfigError } from 'errors';
+import { BadCredentialsError, ForbiddenResourceError } from 'errors';
 import { ServerRequestType, ServerResponseType, ServerSession } from 'types/server';
 
-if (!process.env.SERVICE_URL) throw new MissingConfigError('SERVICE_URL');
-if (!process.env.APP_URL) throw new MissingConfigError('APP_URL');
-
-const appUrl = process.env.APP_URL as string;
-const serviceUrl = process.env.SERVICE_URL as string;
-
-const returnURL = `http://${appUrl}/api/auth/user`;
+const returnURL = `http://${__APP_URL__}/api/auth/user`;
 
 const devModeUser: ServerSession['casUser'] = 'devModeUser';
 const devModeInfo: ServerSession['info'] = {
@@ -20,13 +14,13 @@ const devModeInfo: ServerSession['info'] = {
 
 export const casInstance: CASInstance<ServerSession['info']> = new CASAuthentication<ServerSession['info']>({
   cas_url: 'https://login.dartmouth.edu/cas',
-  service_url: serviceUrl,
+  service_url: __SERVICE_URL__,
   session_name: 'casUser',
   session_info: 'info',
   destroy_session: true,
   return_to: returnURL,
 
-  is_dev_mode: process.env.MODE === 'dev',
+  is_dev_mode: __MODE__ === 'dev',
   dev_mode_user: devModeUser,
   dev_mode_info: devModeInfo
 });
