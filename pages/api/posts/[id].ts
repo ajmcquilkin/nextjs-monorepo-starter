@@ -1,16 +1,16 @@
 import * as postController from 'controllers/postController';
 
-import { createDefaultHandler, createSuccessPayload } from 'utils/api';
+import { casInstance } from 'utils/auth';
+import { createDefaultHandler, createSuccessPayload, requireUrlParam } from 'utils/api';
 import { useDB } from 'utils/db';
 
 import { DeletePostData, FetchPostData } from 'types/post';
-import { casInstance } from 'utils/auth';
 
 const handler = createDefaultHandler()
   .use(useDB)
+  .use(requireUrlParam('id'))
   .use(casInstance.bounce)
 
-  // TODO: Make middleware that throws if this param doesn't exist
   .get(async (req, res) => {
     const { id } = req.query;
     const foundPost = await postController.read(id as string);

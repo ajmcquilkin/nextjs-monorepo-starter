@@ -1,8 +1,8 @@
-import nc, { NextConnect } from 'next-connect';
+import nc, { NextConnect, NextHandler } from 'next-connect';
 import createSession from 'express-session';
 import MongoStoreThunk from 'connect-mongo';
 
-import { MissingConfigError } from 'errors';
+import { IncompleteRequestError, MissingConfigError } from 'errors';
 import { handleError } from 'controllers/errorController';
 
 import { dbConnectionOptions } from 'utils/db';
@@ -42,3 +42,8 @@ export const createDefaultHandler = <Data = unknown>(
 export const createSuccessPayload = <T>(data: T): ServerSuccessPayload<T> => ({
   data, meta: { success: true }
 });
+
+export const requireUrlParam = (param: string) => (req: ServerRequestType, _res: ServerResponseType, next: NextHandler): void => {
+  if (!req.query.param) throw new IncompleteRequestError(`${param}`, `Missing "${param}" url parameter`);
+  next();
+};
