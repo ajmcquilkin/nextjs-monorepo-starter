@@ -13,23 +13,21 @@ export const fetchWithStatus = (
   status: PostStatus
 ) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostData>(
   dispatch, 'FETCH_POST',
-  postRequests.fetchWithStatusRequest(status)
+  postRequests.fetchWithStatusRequest(status) // ? Can we use the data type of this to type asyncActionCreator's data type?
 );
 
 export const fetchSubmissions = (
 
 ) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostData>(
   dispatch, 'FETCH_POST',
-  postRequests.fetchSubmissionsRequest(),
-  { failureCallback: null }
+  postRequests.fetchSubmissionsRequest()
 );
 
 export const fetchReview = (
 
 ) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostsData>(
   dispatch, 'FETCH_POSTS',
-  postRequests.fetchPostsToReviewRequest(),
-  { failureCallback: null }
+  postRequests.fetchPostsToReviewRequest()
 );
 
 export const createItem = (
@@ -54,7 +52,7 @@ export const updateItemById = (
   postRequests.updateItemByIdRequest(id, update)
 );
 
-export const deleteItemByID = (
+export const deleteItemById = (
   id: string
 ) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<Empty, DeletePostData>(
   dispatch, 'DELETE_POST',

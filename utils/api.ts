@@ -9,8 +9,10 @@ import { dbConnectionOptions } from 'utils/db';
 import { ServerRequestType, ServerResponseType, ServerSuccessPayload } from 'types/server';
 
 if (!process.env.SESSION_SECRET) throw new MissingConfigError('SESSION_SECRET');
+if (!process.env.MONGODB_URI) throw new MissingConfigError('MONGODB_URI');
 
 const sessionSecret = process.env.SESSION_SECRET as string;
+const mongodbUri = process.env.MONGODB_URI as string;
 
 const MongoStore = MongoStoreThunk(createSession);
 
@@ -20,7 +22,7 @@ const sessionConfig = {
   saveUninitialized: false,
   cookie: { secure: process.env.MODE !== 'dev' },
   store: new MongoStore({
-    url: process.env.MONGODB_URI as string,
+    url: mongodbUri,
     mongoOptions: {
       useNewUrlParser: dbConnectionOptions.useNewUrlParser,
       useUnifiedTopology: dbConnectionOptions.useUnifiedTopology

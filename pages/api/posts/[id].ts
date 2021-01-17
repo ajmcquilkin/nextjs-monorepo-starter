@@ -10,6 +10,7 @@ const handler = createDefaultHandler()
   .use(useDB)
   .use(casInstance.bounce)
 
+  // TODO: Make middleware that throws if this param doesn't exist
   .get(async (req, res) => {
     const { id } = req.query;
     const foundPost = await postController.read(id as string);

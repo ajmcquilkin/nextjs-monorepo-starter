@@ -1,4 +1,4 @@
-import { Action as ReduxAction } from 'redux';
+import { Action as ReduxActiontType } from 'redux';
 import { PostActions, PostActionTypes, PostState } from 'types/post';
 import { UserActions, UserActionTypes, UserState } from 'types/user';
 
@@ -26,15 +26,15 @@ export type Actions = PostActions | UserActions;
 export type ActionTypes = PostActionTypes | UserActionTypes;
 
 export interface ActionPayload<D = any> {
-  data?: D, // ? Should this be optional?
+  data: D,
   message?: string,
   code?: Code
 }
 
-export interface Action<T, D = any> extends ReduxAction {
+export interface Action<T, D = any> extends ReduxActiontType {
   type: T,
   status: RequestStatusTypes,
-  payload?: ActionPayload<D> // ? Should this be optional?
+  payload: ActionPayload<D>
 }
 
 /* -------- State -------- */

@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import { Empty } from 'types/generic';
 import {
-  Action, ActionTypes, RootState
+  Action, ActionTypes, Code, RootState
 } from 'types/state';
 
 export const setError = (
@@ -31,8 +31,8 @@ export const createErrorSelector = (
   return message ? [...accum, message] : accum;
 }, [])[0] || '';
 
-export const createErrorCodeSelector = (watchActionTypes: ActionTypes[]) => (state: RootState): number => watchActionTypes.reduce((accum, watchActionType) => {
+export const createErrorCodeSelector = (watchActionTypes: ActionTypes[]) => (state: RootState): Code => watchActionTypes.reduce((accum, watchActionType) => {
   const code = state.request?.[watchActionType]?.code;
-  if (code < 200 || code >= 400) return [...accum, code];
+  if (code == null || code < 200 || code >= 400) return [...accum, code ?? -1];
   return accum;
 }, [])[0];

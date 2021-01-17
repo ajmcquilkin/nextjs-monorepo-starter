@@ -10,5 +10,5 @@ export const validateUser = () => (dispatch: Dispatch): Promise<void> => createA
 );
 
 export const signOutUser = () => (dispatch: Dispatch<UserActions>): void => {
-  dispatch({ type: DEAUTH_USER, status: 'REQUEST', payload: { data: undefined } });
+  dispatch({ type: DEAUTH_USER, status: 'REQUEST', payload: { data: {} } });
 };

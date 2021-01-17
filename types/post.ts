@@ -25,12 +25,10 @@ export interface Post {
   lastEdited: number,
   reviewComment: string,
 
-  _id?: string
+  _id: string
 }
 
-export interface PostDocument extends Post, Document<string> {
-
-}
+export type PostDocument = Post & Document<string>;
 
 /* -------- State -------- */
 

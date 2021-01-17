@@ -23,12 +23,10 @@ const postReducer = (state = initialState, action: PostActions): PostState => {
     case 'FETCH_POSTS':
       return {
         ...state,
-        posts: {
-          ...action.payload.data.reduce((accum, post) => ({
-            ...accum,
-            [post._id]: post
-          }), {})
-        }
+        posts: action.payload.data.reduce((accum, post) => ({
+          ...accum,
+          [post._id]: post
+        }), state.posts) // ? Is this immutable??
       };
 
     case 'DELETE_POST':
