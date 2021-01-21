@@ -1,0 +1,30 @@
+.postSummaryContainer {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  background-color: #f7f7f7;
+  border: 1.20723px solid #DBDDE0;
+  box-shadow: 0px 4.82892px 4.82892px rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+
+  padding: 24px 42px;
+
+  h4 {
+    margin-bottom: 12px;
+    font-family: National2-Bold, sans-serif;
+    color: #00693E;
+  }
+  
+  ul {
+    font-family: National2-Reg, sans-serif;
+    box-sizing: border-box;
+    overflow-y: auto;
+    padding-right: 6px;
+    margin-left: -18px;
+
+    li {
+      margin: 8px 0;
+    }
+  }
+}

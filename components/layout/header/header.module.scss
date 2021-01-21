@@ -1,0 +1,55 @@
+.headerContainer {
+  display: flex;
+  flex-direction: row;
+  background-color: #00693E;
+
+  & > div {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .headerBrandContainer {
+    margin: 12px auto 12px 24px;
+
+    h1 {
+      font-family: National2-Reg, sans-serif;
+      font-size: 20px;
+      margin: auto 0 auto 12px;
+      color: #FFFFFF;
+    }
+
+    svg {
+      object-fit: contain;
+      height: 48px;
+    }
+  }
+
+  .headerLinksContainer {
+    margin: auto 24px 0px 0px;
+  }
+
+  .headerSignoutContainer {
+    display: flex;
+    flex-direction: column;
+    margin: auto 9px auto 30px;
+    align-content: flex-end;
+
+    font-family: National2-Reg, sans-serif;
+    color: #FFFFFF;
+
+    svg {
+      margin: 0 auto 3px;
+    }
+
+    a {
+      margin: 0 auto;
+      text-align: center;
+      color: #FFFFFF;
+      text-decoration: none;
+
+      &:hover {
+          text-decoration: underline;
+      }
+    }
+  }
+}
