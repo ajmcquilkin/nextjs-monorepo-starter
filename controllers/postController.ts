@@ -4,13 +4,13 @@ import { PostModel } from 'models';
 import { Post, PostDocument } from 'types/post';
 
 type CreatePostType = Pick<Post,
-  'fromName' | 'fromAddress' | 'subject' | 'submitterNetId' | 'type' | 'fullContent' |
+  'fromName' | 'fromAddress' | 'submitterNetId' | 'type' | 'fullContent' |
   'briefContent' | 'url' | 'requestedPublicationDate' | 'status'
 >;
 
 export const create = async (fields: CreatePostType): Promise<Post> => {
   const {
-    fromName, fromAddress, subject, submitterNetId, type, fullContent,
+    fromName, fromAddress, submitterNetId, type, fullContent,
     briefContent, url, requestedPublicationDate, status
   } = fields;
 
@@ -18,11 +18,9 @@ export const create = async (fields: CreatePostType): Promise<Post> => {
 
   post.fromName = fromName;
   post.fromAddress = fromAddress;
-  post.subject = subject;
   post.submitterNetId = submitterNetId;
   post.type = type;
 
-  // TODO: Sanitize HTML here
   post.fullContent = fullContent;
 
   post.briefContent = briefContent;
@@ -40,9 +38,8 @@ export const read = async (id: string): Promise<Post> => {
 };
 
 export const update = async (id: string, fields: Partial<Post>): Promise<Post> => {
-  // TODO: Sanitize HTML here
   const {
-    fromName, fromAddress, subject, submitterNetId,
+    fromName, fromAddress, submitterNetId,
     type, fullContent, briefContent, url, publishOrder, requestedPublicationDate,
     status, reviewComment
   } = fields;
@@ -52,7 +49,6 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
 
   if (fromName) foundPost.fromName = fromName;
   if (fromAddress) foundPost.fromAddress = fromAddress;
-  if (subject) foundPost.subject = subject;
   if (submitterNetId) foundPost.submitterNetId = submitterNetId;
 
   if (type) foundPost.type = type;

@@ -5,7 +5,6 @@ import { Post, PostDocument } from 'types/post';
 const postSchemaFields: Record<keyof Omit<Post, '_id'>, any> = {
   fromName: String,
   fromAddress: String,
-  subject: String,
   submitterNetId: String,
 
   type: String, // 'news' | 'announcement' | 'event'
