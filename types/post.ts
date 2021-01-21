@@ -9,14 +9,13 @@ export type PostPublishType = 'news' | 'announcement' | 'event';
 export interface Post {
   fromName: string,
   fromAddress: string,
-  subject: string,
   submitterNetId: string,
 
   type: PostPublishType,
   fullContent: string,
   briefContent: string,
   url: string,
-  requestedPublicationDate: Date,
+  requestedPublicationDate: number,
   recipientGroups: string[],
 
   publishOrder: number,

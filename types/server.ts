@@ -10,7 +10,7 @@ export interface ServerSession extends Session {
 }
 
 export interface ServerPayload<D> {
-  data?: D,
+  data: D,
   meta?: {
     message?: string,
     success: boolean

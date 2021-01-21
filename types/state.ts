@@ -1,6 +1,8 @@
+import { AxiosResponse } from 'axios';
 import { Action as ReduxActiontType } from 'redux';
 import { PostActions, PostActionTypes, PostState } from 'types/post';
 import { UserActions, UserActionTypes, UserState } from 'types/user';
+import { ServerPayload } from './server';
 
 /* -------- Generic -------- */
 
@@ -20,6 +22,8 @@ export interface SingleRequestState {
   code: Code
 }
 
+export type RequestReturnType<D> = AxiosResponse<ServerPayload<D>>;
+
 /* -------- Action Types -------- */
 
 export type Actions = PostActions | UserActions;
@@ -36,6 +40,8 @@ export interface Action<T, D = any> extends ReduxActiontType {
   status: RequestStatusTypes,
   payload: ActionPayload<D>
 }
+
+export type GenericActionCreator = (...args: unknown[]) => void;
 
 /* -------- State -------- */
 
