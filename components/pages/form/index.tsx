@@ -83,8 +83,8 @@ const Form = ({
     return isValid;
   };
 
-  // const handleSave = (e: MouseEvent<HTMLElement>) => {
-  //   console.log('saved');
+  const handleSave = (e: MouseEvent<HTMLElement>) => {
+    console.log('saved');
 
   //   if (submissionIsValid(fullContent)) {
   //     const createdPost: Post = {
@@ -96,7 +96,7 @@ const Form = ({
   //       url,
   //     };
   //   }
-  // };
+  };
 
   const handleSubmit = (e: MouseEvent<HTMLElement>) => {
     console.log('submitted');
@@ -135,25 +135,7 @@ const Form = ({
                 {groups.map(({ name, list }) => (
                   <div key={name} className={styles.formListsCheckboxContainer}>
                     <h3>{name}</h3>
-
-                    {list.map((e) => (
-                      <p key={e}>{JSON.stringify(e)}</p>
-                    // <label key className="form-label-small">
-                    //   <input
-                    //     type="checkbox"
-                    //     checked={!!(this.state.sendLists?.[getUniqueListElementName(name, e)]) || false}
-                    //     value={e}
-                    //     onChange={() => this.setState((prevState) => merge(prevState,
-                    //       {
-                      //         sendLists: {
-                      //           [getUniqueListElementName(name, e)]: !(prevState.sendLists?.[getUniqueListElementName(name, e)] || false)
-                      //         }
-                      //       }))}
-                      //   />
-                      //   {e}
-                      // </label>
-                    ))}
-
+                    {list.map((e) => <p key={e}>{JSON.stringify(e)}</p>)}
                     <button type="button">All</button>
                   </div>
                 ))}
@@ -257,23 +239,13 @@ const Form = ({
               ? (
                 <>
                   <button type="button" className={styles.formSubmitButton} onClick={handleSubmit}>Submit</button>
-                  {/* <button type="button" className={styles.formSaveButton} onClick={handleSave}>Save Draft</button> */}
+                  <button type="button" className={styles.formSaveButton} onClick={handleSave}>Save Draft</button>
                   <button type="button" className={styles.formCancelButton} onClick={handleCancel}>Cancel</button>
                 </>
               ) : (
                 <p>Submitted, not editable</p>
               )}
           </section>
-
-          {/* {generateFrontendErrorMessage(this.props.itemErrorMessage)} */}
-
-          {/* <h3 className="preview-header">Content Preview</h3>
-          <div className="preview">
-          <h3>{this.state.brief_content}</h3>
-          <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />
-          <p>For more information:</p>
-          <a href={this.state.url}>{this.state.url}</a>
-        </div> */}
         </form>
       </div>
     </MainWrapper>

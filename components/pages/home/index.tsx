@@ -88,18 +88,18 @@ const Home = ({ posts, fetchPosts }: HomeProps): JSX.Element => {
 
         <section>
           <PostSection
-            title="news"
+            title="News"
             subtitle="from the office of communications"
             posts={itemArray.filter((item) => item.type === 'news')}
           />
 
           <PostSection
-            title="announcements"
+            title="Announcements"
             posts={itemArray.filter((item) => item.type === 'announcement')}
           />
 
           <PostSection
-            title="events"
+            title="Events"
             posts={itemArray.filter((item) => item.type === 'event')}
           />
         </section>
