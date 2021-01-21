@@ -37,32 +37,32 @@ export const fetchReview = (
   postRequests.fetchPostsToReviewRequest()
 );
 
-export const createItem = (
-  fields: Post
+export const createPost = (
+  fields: Omit<Post, '_id'>
 ) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostData>(
   dispatch, 'FETCH_POST',
-  postRequests.createItemRequest(fields),
+  postRequests.createPostRequest(fields),
 );
 
-export const fetchItemById = (
+export const fetchPostById = (
   id: string,
 ) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostData>(
   dispatch, 'FETCH_POST',
-  postRequests.fetchItemByIdRequest(id)
+  postRequests.fetchPostByIdRequest(id)
 );
 
-export const updateItemById = (
+export const updatePostById = (
   id: string,
   update: Partial<Post>,
 ) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostData>(
   dispatch, 'FETCH_POST',
-  postRequests.updateItemByIdRequest(id, update)
+  postRequests.updatePostByIdRequest(id, update)
 );
 
-export const deleteItemById = (
+export const deletePostById = (
   id: string
 ) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<Empty, DeletePostData>(
   dispatch, 'DELETE_POST',
-  postRequests.deleteItemByIdRequest(id),
+  postRequests.deletePostByIdRequest(id),
   { additionalPayloadFields: { id }, },
 );
