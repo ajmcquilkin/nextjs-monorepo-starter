@@ -1,0 +1,37 @@
+.submissions {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin:0px;
+
+  .topBar {
+    margin: 20px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16pt;
+  }
+
+//   .newButton {
+//     background-color: rgb(0, 102, 63);
+//     color: white;
+//     width: 280px;
+//   }
+
+  .submissionsContainer {
+    width: 95%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding:5px;
+  
+    // .submissionContainer {
+    //     margin-bottom: 30px;
+    // }
+  }
+
+//   .unauthorized {
+//     margin-top: 30px;
+//     text-align: center;
+//   }
+}

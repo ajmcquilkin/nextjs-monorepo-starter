@@ -1,0 +1,44 @@
+.rteContainer {
+    .rteEmbeddedContainer {
+        border-radius: 10px;
+        border: none;
+    }
+    
+    .rteToolbarContainer {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin: 0;
+        padding: 4px;
+        
+        background-color: #CACCCF;
+        border-radius: 10px 10px 0px 0px;
+        border: none;
+        
+        div {
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+            margin: 0;
+
+            div > button {
+                border: none;
+                background: none;
+                margin: auto 0;
+            }
+        }
+    }
+
+    .rteEditorContainer {
+        background-color: #E8E8E8;
+        border-radius: 0px 0px 10px 10px;
+        border: none;
+        padding: 4px;
+        // height: 15em;
+        overflow: auto;
+    }
+
+    .rteCharCount {
+        margin-top: 10px;
+    }
+}

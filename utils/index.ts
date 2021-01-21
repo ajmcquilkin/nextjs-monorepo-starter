@@ -10,3 +10,10 @@ export const getFullDate = (): string => {
   const year = currentDate.getFullYear();
   return `${month}/${day}/${year}`;
 };
+
+/**
+ * Middleware function to generate standard user-facing error message
+ * * Note: to maintain truthiness state of message, if message is considered falsy this function will return an empty string
+ * @param {*} message - Message string to render
+ */
+export const generateFrontendErrorMessage = (message: string): string => (message ? `Error: "${message}"` : '');

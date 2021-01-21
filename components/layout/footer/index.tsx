@@ -1,7 +1,9 @@
+import styles from './footer.module.scss';
+
 const Footer = (): JSX.Element => (
-  <footer id="app-footer">
-    <div id="app-footer-content-container">
-      <div id="footer-content-left">
+  <footer className={styles.footerContainer}>
+    <div className={styles.footerContentContainer}>
+      <div className={styles.footerContentLeft}>
         <p>Dartmouth College</p>
         <p>Hanover, NH 03755</p>
         <p>
@@ -10,7 +12,10 @@ const Footer = (): JSX.Element => (
           {(new Date()).getFullYear()}
         </p>
       </div>
-      <div id="footer-content-right"><a href="mailto:vox@dartmouth.edu">vox@dartmouth.edu</a></div>
+
+      <div className={styles.footerContentRight}>
+        <a href="mailto:vox@dartmouth.edu">vox@dartmouth.edu</a>
+      </div>
     </div>
   </footer>
 );

@@ -1,0 +1,35 @@
+.footerContainer {
+  margin-top: auto;
+  background-color: #424141;
+
+  .footerContentContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 36px 72px;
+    max-width: 900px;
+
+    font-family: National2-Reg, sans-serif;
+    color: #ffffff;
+
+    div {
+      p, a {
+        text-align: left;
+        margin: 6px 0px;
+      }
+
+      a {
+        color: white;
+      }
+    }
+
+    // .footerContentLeft {
+
+    // }
+
+    // .footerContentRight {
+
+    // }
+
+  }
+}

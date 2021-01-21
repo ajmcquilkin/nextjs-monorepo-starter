@@ -1,23 +1,41 @@
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, GetStaticPropsResult } from 'next';
+import { connect } from 'react-redux';
 
-interface FullViewProps {
-  id: string
-}
+import Form, { FormStateProps, FormDispatchProps, FormPassedProps } from 'components/pages/form';
 
-const FullView = ({ id }: FullViewProps): JSX.Element => (
-  <div>
-    FullView Page with id of
-    {' '}
-    &quot;
-    {id}
-    &quot;
-  </div>
-);
+import {
+  createPost, fetchAllPosts, fetchPostById, updatePostById
+} from 'store/actionCreators/postActionCreators';
+import { setError } from 'store/actionCreators/requestActionCreators';
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => ({
-  props: {
-    id: params.id
-  }
+import { RootState } from 'types/state';
+import { Post } from 'types/post';
+
+const mapStateToProps = (state: RootState): FormStateProps => ({
+  itemIsLoading: false,
+  itemErrorMessage: '',
+  isAuthenticated: state.user.isAuthenticated,
+  isReviewer: false,
+
+  groups: [],
+  netId: '',
+  post: {} as Post
 });
 
-export default FullView;
+const mapDispatchToProps: FormDispatchProps = {
+  fetchApproved: fetchAllPosts,
+  fetchPostById,
+  createPost,
+  updatePostById,
+  setError
+};
+
+const connector = connect<FormStateProps, FormDispatchProps, FormPassedProps>(mapStateToProps, mapDispatchToProps);
+
+export const getServerSideProps: GetServerSideProps = async ({
+  params
+}): Promise<GetStaticPropsResult<FormPassedProps>> => ({
+  props: { id: params?.id as string || '' }
+});
+
+export default connector(Form);

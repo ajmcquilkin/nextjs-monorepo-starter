@@ -1,0 +1,199 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  
+    h1 {
+      font-family: National2-Bold, sans-serif;
+    }
+  
+    form {
+      // margin: auto;
+      // margin-top: 5%;
+      // display: flex;
+      // flex-direction: column;
+      // width: 70%;
+      // padding: 20px 40px 40px 40px;
+      // border-radius: 6px;
+      // box-shadow: 0px 8px 36px #222;
+      // background-color: #fefefe;
+    
+      .previewHeader {
+        margin-top:20px;
+      }
+    
+      .preview {
+        font-family: Ruzicka, serif;
+        padding:20px;
+        margin-top:20px;
+        border-style: solid;
+        border-width: 6px;
+        font-size: 12pt;
+        border-color: rgb(0, 105, 62);
+        background-color: #fffbec;
+      }
+    }
+  }
+  
+  .formErrorContainer {
+    font-size: 12px;
+    color: red;
+  }
+  
+  // Styled below because of FormSection implementation
+  .formFromContainer {
+    margin-top: 24px;
+  
+    label > input {
+      margin-top: 12px;
+      padding: 3px 18px 6px;
+      width: 400px;
+    
+      background-color: #E8E8E8;
+      border-radius: 10px;
+      border: none;
+      
+      &::placeholder {
+        color: #424141;
+        font-family: National2-Reg, sans-serif;
+        font-size: 18px;
+        letter-spacing: 0.13px;
+        vertical-align: middle;
+      }
+    }
+  }
+  
+  .formToContainer {
+    margin-top: 48px;
+  
+    .formListsCheckboxContainer {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      max-width: 1000px;
+      margin-top: 18px;
+  
+      .formCheckboxColumnContainer {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+  
+        h3 {
+          font-size: 18px;
+          font-family: "Roboto", sans-serif;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+  
+        label {
+          line-height: 26px;
+  
+          input {
+            margin: 6px 12px 6px auto;
+          }
+        }
+  
+        button {
+          margin-right: auto;
+          margin-top: 24px;
+          padding: 7px 30px;
+          border-radius: 5px;
+          text-transform: uppercase;
+          cursor: pointer;
+  
+          background: #00693E;
+          border: none;
+          color: white;
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+        }
+      }
+    }
+  }
+  
+  .formTypeRadioContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  
+    label {
+      margin-right: 30px;
+  
+      input {
+        margin: 6px 9px 6px auto;
+      }
+    }
+  }
+  
+  .formPublishContainer {
+    margin-top: 36px;
+  
+    label > input {
+      margin-top: 12px;
+      // TODO: Update this styling
+    }
+  }
+  
+  .formContentContainer {
+    display: flex;
+    flex-direction: column;
+  
+    label > input {
+      padding: 3px 18px 6px;
+      width: 400px;
+  
+      background-color: #E8E8E8;
+      border-radius: 10px;
+      border: none;
+    }
+  }
+  
+  // TODO: Use Montserrat
+  .formButtonsContainer {
+    margin-top: 60px;
+    
+    button {
+      margin-right: 14px;
+      padding: 8px 30px;
+      font-family: National2-Reg, sans-serif;
+      font-size: 20px;
+      border-radius: 9px;
+      border: none;
+      cursor: pointer;
+    }
+  
+    .formSubmitButton {
+      background-color: #00693E;
+      color: white;
+    }
+    
+    .formSaveButton {
+      background-color: #F0F6E1;
+      color: #00693E;
+    }
+  
+    .formCancelButton {
+      background-color: white;
+      color: gray;
+      border: 1.09969px solid gray;
+    }
+  }
+  
+  .formLabelSmall {
+    font-family: National2-Reg, sans-serif;
+    font-size: 17px;
+    letter-spacing: 0.12px;
+    color: #424141;
+    line-height: 42px;
+  }
+  
+  .formLabelLarge {
+    font-family: National2-Reg, sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.16px;
+    color: #424141;
+  }
+  
+  .formRequiredField {
+    color: #E32D1C;
+  }
+  

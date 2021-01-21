@@ -4,7 +4,7 @@ import { casInstance } from 'utils/auth';
 import { createDefaultHandler, createSuccessPayload, requireUrlParam } from 'utils/api';
 import { useDB } from 'utils/db';
 
-import { DeletePostData, FetchPostData } from 'types/post';
+import { DeletePostData, FetchPostData, Post } from 'types/post';
 
 const handler = createDefaultHandler()
   .use(useDB)
@@ -20,15 +20,14 @@ const handler = createDefaultHandler()
   .put(async (req, res) => {
     const { id } = req.query;
     const {
-      fromName, fromAddress, subject, submitterNetId,
+      fromName, fromAddress, submitterNetId,
       type, fullContent, briefContent, url, publishOrder, requestedPublicationDate,
       status, reviewComment
-    } = req.body;
+    }: Post = req.body;
 
     const updatedPost = await postController.update(id as string, {
       fromName,
       fromAddress,
-      subject,
       submitterNetId,
       type,
       fullContent,

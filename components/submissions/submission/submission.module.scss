@@ -1,0 +1,73 @@
+.submissionContainer {
+    $left-border-width: 18px;
+    $container-padding: 24px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+
+    padding: $container-padding calc(#{$left-border-width} + #{$container-padding});
+
+    box-shadow: 0px 8.36129px 33.4452px #E2E2E2;
+    border-radius: $left-border-width;
+    border-left: $left-border-width solid;
+
+    * {
+        font-family: National2-Reg, sans-serif;
+    }
+    // h3 {
+    //     font-family: National2-Med, sans-serif;
+    // }
+    
+    // p {
+    //     font-family: National2-Light, sans-serif;
+    // }
+    
+    .submissionContentContainer {
+        flex: 5;
+    }
+    
+    .submissionControlContainer {
+        display: flex;
+        flex-direction: column;
+        align-content: space-between;
+        position: relative;
+        margin-left: auto;
+        flex: 2;
+
+        * {
+            margin-left: auto;
+        }
+        
+        p {
+            font-size: 21px;
+            text-align: right;
+            margin-bottom: auto;
+
+            b {
+                text-transform: capitalize;
+            }
+        }
+        
+        .submissionControlButtonContainer {
+            display: flex;
+            flex-direction: row;
+            font-size: 14px;
+
+            button, a {
+                margin-left: 12px;
+                border: none;
+                border-radius: 8px;
+                padding: 6px 15px;
+                background-color: #E2E2E2;
+                letter-spacing: 0.2px;
+                color: #424141;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
