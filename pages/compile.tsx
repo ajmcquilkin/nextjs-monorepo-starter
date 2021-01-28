@@ -1,16 +1,31 @@
 import { connect } from 'react-redux';
 
 import Compile, { CompileStateProps, CompileDispatchProps, CompilePassedProps } from 'components/pages/compile';
-import { fetchAllPosts } from 'store/actionCreators/postActionCreators';
 
-import { RootState } from 'types/state';
+import { ActionTypes, RootState } from 'types/state';
+import { createRelease, fetchReleaseByDate, updateReleaseById } from 'store/actionCreators/releaseActionCreators';
+import { createLoadingSelector } from 'store/actionCreators/requestActionCreators';
+
+import { Release } from 'types/release';
+
+const watchActions: ActionTypes[] = [];
+const loadingSelector = createLoadingSelector(watchActions);
 
 const mapStateToProps = (state: RootState): CompileStateProps => ({
-  posts: Object.values(state.post.posts)
+  release: state.release.release,
+  posts: state.release.release ? Object.values(state.post.posts).filter(({ _id }) => {
+    const { release } = state.release;
+    return (release as Release).news.includes(_id)
+      || (release as Release).announcements.includes(_id)
+      || (release as Release).events.includes(_id);
+  }) : [],
+  isLoading: loadingSelector(state)
 });
 
 const mapDispatchToProps: CompileDispatchProps = {
-  fetchAllPosts
+  fetchReleaseByDate,
+  createRelease,
+  updateReleaseById
 };
 
 const connector = connect<CompileStateProps, CompileDispatchProps, CompilePassedProps>(mapStateToProps, mapDispatchToProps);

@@ -18,7 +18,6 @@ export interface Post {
   requestedPublicationDate: number,
   recipientGroups: string[],
 
-  publishOrder: number,
   status: PostStatus,
   dateItemCreated: Date,
   lastEdited: number,

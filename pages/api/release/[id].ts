@@ -1,4 +1,5 @@
 import * as releaseController from 'controllers/releaseController';
+import * as postController from 'controllers/postController';
 
 import { casInstance } from 'utils/auth';
 import { createDefaultHandler, createSuccessPayload, requireUrlParam } from 'utils/api';
@@ -13,20 +14,24 @@ const handler = createDefaultHandler()
 
   .get(async (req, res) => {
     const { id } = req.query;
+
     const foundRelease = await releaseController.read(id as string);
-    return res.status(200).json(createSuccessPayload<FetchReleaseData>(foundRelease));
+    const foundPosts = await postController.fetchPostsForRelease(foundRelease);
+
+    return res.status(200).json(createSuccessPayload<FetchReleaseData>({ release: foundRelease, posts: foundPosts }));
   })
 
   .put(async (req, res) => {
     const { id } = req.query;
     const {
-      date, subject, headerImage, quoteOfDay, quotedContext, featuredPost, news, announcements, events
+      date, subject, headerImage, imageCaption, quoteOfDay, quotedContext, featuredPost, news, announcements, events
     }: Partial<Release> = req.body;
 
     const updatedRelease = await releaseController.update(id as string, {
       date,
       subject,
       headerImage,
+      imageCaption,
       quoteOfDay,
       quotedContext,
       featuredPost,
@@ -35,7 +40,8 @@ const handler = createDefaultHandler()
       events
     });
 
-    return res.status(200).json(createSuccessPayload<FetchReleaseData>(updatedRelease));
+    const foundPosts = await postController.fetchPostsForRelease(updatedRelease);
+    return res.status(200).json(createSuccessPayload<FetchReleaseData>({ release: updatedRelease, posts: foundPosts }));
   })
 
   .delete(async (req, res) => {

@@ -2,6 +2,7 @@ import { DocumentNotFoundError } from 'errors';
 import { PostModel } from 'models';
 
 import { Post, PostDocument } from 'types/post';
+import { Release } from 'types/release';
 
 type CreatePostType = Pick<Post,
   'fromName' | 'fromAddress' | 'submitterNetId' | 'type' | 'fullContent' |
@@ -40,7 +41,7 @@ export const read = async (id: string): Promise<Post> => {
 export const update = async (id: string, fields: Partial<Post>): Promise<Post> => {
   const {
     fromName, fromAddress, submitterNetId,
-    type, fullContent, briefContent, url, publishOrder, requestedPublicationDate,
+    type, fullContent, briefContent, url, requestedPublicationDate,
     status, reviewComment
   } = fields;
 
@@ -55,7 +56,6 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
   if (fullContent) foundPost.fullContent = fullContent;
   if (briefContent) foundPost.briefContent = briefContent;
   if (url) foundPost.url = url;
-  if (publishOrder) foundPost.publishOrder = publishOrder;
   if (requestedPublicationDate) foundPost.requestedPublicationDate = requestedPublicationDate;
 
   if (status) foundPost.status = status;
@@ -72,6 +72,17 @@ export const remove = async (id: string): Promise<void> => {
 };
 
 export const readAll = async (): Promise<Post[]> => {
-  const foundPosts: PostDocument[] = PostModel.find({});
+  const foundPosts: PostDocument[] = await PostModel.find({});
+  return foundPosts;
+};
+
+export const readAllByDate = async (date: number): Promise<Post[]> => {
+  const foundPosts: PostDocument[] = await PostModel.find({ requestedPublicationDate: date });
+  return foundPosts;
+};
+
+export const fetchPostsForRelease = async (release: Release): Promise<Post[]> => {
+  const postsToFetch = [...release.news, ...release.announcements, ...release.events];
+  const foundPosts = await PostModel.find({ _id: { $in: postsToFetch } });
   return foundPosts;
 };

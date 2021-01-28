@@ -59,3 +59,10 @@ export const deletePostByIdRequest = <D>(
   method: 'DELETE',
   url: `/posts/${id}`
 });
+
+export const fetchPostsByDateRequest = <D>(
+  date: number
+) => (): Promise<RequestReturnType<D>> => createBackendAxiosRequest<D>({
+  method: 'GET',
+  url: `/posts/${date}`
+});

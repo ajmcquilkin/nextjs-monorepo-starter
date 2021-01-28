@@ -1,4 +1,5 @@
 import * as releaseController from 'controllers/releaseController';
+import * as postController from 'controllers/postController';
 
 import { createDefaultHandler, createSuccessPayload } from 'utils/api';
 import { casInstance } from 'utils/auth';
@@ -12,7 +13,8 @@ const handler = createDefaultHandler()
 
   .post(async (req, res) => {
     const newRelease = await releaseController.create(req.body);
-    return res.status(201).json(createSuccessPayload<FetchReleaseData>(newRelease));
+    const foundPosts = await postController.fetchPostsForRelease(newRelease);
+    return res.status(201).json(createSuccessPayload<FetchReleaseData>({ release: newRelease, posts: foundPosts }));
   });
 
 export default handler;

@@ -3,8 +3,9 @@ import { Release, ReleaseDocument } from 'types/release';
 
 const releaseSchemaFields: Record<keyof Omit<Release, '_id'>, any> = {
   date: Number,
-  subject: String,
-  headerImage: { type: String, default: '' }, // ?? I'd imagine we'll eventually just store the URL returned from passing Image to S3
+  subject: { type: String, default: '' },
+  headerImage: { type: String, default: '' },
+  imageCaption: { type: String, default: '' },
   quoteOfDay: { type: String, default: '' },
   quotedContext: { type: String, default: '' },
   featuredPost: { type: Schema.Types.ObjectId, ref: 'Post', default: '' },
