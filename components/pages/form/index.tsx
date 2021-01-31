@@ -1,11 +1,9 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-// import dynamic from 'next/dynamic';
 import { useState, useEffect, MouseEvent } from 'react';
-import { EditorValue } from 'react-rte';
 
 import FormSection from 'components/form/formSection';
 import ContentLength from 'components/form/contentLength';
-// import { createEmptyValue, createValueFromString } from 'components/form/richTextEditor';
+import RichTextEditor from 'components/form/richTextEditor';
 
 import { generateFrontendErrorMessage, maxContentLength } from 'utils';
 
@@ -15,11 +13,6 @@ import { GenericActionCreator } from 'types/state';
 
 import MainWrapper from 'components/layout/mainWrapper';
 import styles from './form.module.scss';
-
-// // Solves `window not defined` error: https://github.com/sstur/react-rte/issues/373#issuecomment-689536034
-// const RichTextEditor = dynamic(() => import('components/form/richTextEditor'), {
-//   ssr: false,
-// });
 
 export interface FormPassedProps {
   id: string,
@@ -55,7 +48,7 @@ const Form = ({
   const [requestedPublicationDate, setRequestedPublicationDate] = useState<Post['requestedPublicationDate']>(Date.now());
   const [postType, setPostType] = useState<Post['type']>('announcement');
   const [briefContent, setBriefContent] = useState<Post['briefContent']>('');
-  // const [fullContent, setFullContent] = useState<EditorValue>(createEmptyValue());
+  const [fullContent, setFullContent] = useState<string>('');
   const [url, setUrl] = useState<Post['url']>('');
 
   const [postTypeError, setPostTypeError] = useState<string>('');
@@ -63,11 +56,12 @@ const Form = ({
   const [fullContentError, setFullContentError] = useState<string>('');
 
   useEffect(() => { fetchPostById(id); }, []);
+  useEffect(() => { console.log(fullContent); }, [fullContent]);
 
   const isNew = false;
   const editable = false;
 
-  const submissionIsValid = (content: EditorValue): boolean => {
+  const submissionIsValid = (content: any): boolean => { // TODO: remove any
     let isValid = true;
     const contentNoTags = content.toString('html').replace(/(<([^>]+)>)/ig, '');
 
@@ -217,7 +211,11 @@ const Form = ({
 
               <label className={styles.formLabelSmall} htmlFor="form-editor-container">Summary</label>
               <div className={styles.formEditorContainer}>
-                {/* <RichTextEditor content={fullContent} onChange={(value) => setFullContent(value)} /> */}
+                <RichTextEditor
+                  incomingState={fullContent}
+                  onChange={(value) => setFullContent(value)}
+                />
+                <ContentLength contentLength={fullContent.length} maxContentLength={maxContentLength} />
                 <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(fullContentError)}</div>
               </div>
 

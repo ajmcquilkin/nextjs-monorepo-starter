@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { Action as ReduxActiontType } from 'redux';
+import { Action as ReduxActionType } from 'redux';
 import { PostActions, PostActionTypes, PostState } from 'types/post';
 import { UserActions, UserActionTypes, UserState } from 'types/user';
 import { ServerPayload } from './server';
@@ -35,7 +35,7 @@ export interface ActionPayload<D = any> {
   code?: Code
 }
 
-export interface Action<T, D = any> extends ReduxActiontType {
+export interface Action<T, D = any> extends ReduxActionType {
   type: T,
   status: RequestStatusTypes,
   payload: ActionPayload<D>
