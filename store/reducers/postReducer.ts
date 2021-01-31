@@ -1,5 +1,6 @@
 import omit from 'lodash.omit';
-import { PostState, PostActions } from 'types/post';
+import { PostState } from 'types/post';
+import { Actions } from 'types/state';
 
 const initialState: PostState = {
   posts: {},
@@ -7,7 +8,7 @@ const initialState: PostState = {
   numResults: 0,
 };
 
-const postReducer = (state = initialState, action: PostActions): PostState => {
+const postReducer = (state = initialState, action: Actions): PostState => {
   if (action.status !== 'SUCCESS') { return state; }
 
   switch (action.type) {
@@ -18,6 +19,15 @@ const postReducer = (state = initialState, action: PostActions): PostState => {
         ...state.posts,
         [action.payload.data._id]: action.payload.data
       }
+    };
+
+  case 'FETCH_RELEASE':
+    return {
+      ...state,
+      posts: action.payload.data.posts.reduce((accum, post) => ({
+        ...accum,
+        [post._id]: post
+      }), state.posts) // ? Is this immutable??
     };
 
   case 'FETCH_POSTS':

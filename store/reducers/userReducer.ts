@@ -1,4 +1,5 @@
-import { UserState, UserActions } from 'types/user';
+import { Actions } from 'types/state';
+import { UserState } from 'types/user';
 
 const initialState: UserState = {
   users: {},
@@ -6,7 +7,7 @@ const initialState: UserState = {
   isAuthenticated: false
 };
 
-const userReducer = (state = initialState, action: UserActions): UserState => {
+const userReducer = (state = initialState, action: Actions): UserState => {
   if (action.status !== 'SUCCESS') { return state; }
 
   switch (action.type) {

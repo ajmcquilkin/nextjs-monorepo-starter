@@ -5,9 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "eslint ./**.js"
   },
   "dependencies": {
+    "aws-sdk": "^2.831.0",
     "axios": "^0.21.1",
     "connect-mongo": "^3.2.0",
     "draft-js": "^0.11.7",

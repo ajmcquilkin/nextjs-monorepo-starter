@@ -1,23 +1,36 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useEffect } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 
 import MainWrapper from 'components/layout/mainWrapper';
-import { fetchAllPosts as fetchAllPostsImport } from 'store/actionCreators/postActionCreators';
+import {
+  fetchReleaseByDate as fetchReleaseByDateImport,
+  updateReleaseById as updateReleaseByIdImport,
+  createRelease as createReleaseImport
+} from 'store/actionCreators/releaseActionCreators';
 
-import styles from 'components/pages/compile/compile.module.scss';
+import { getFullDate } from 'utils';
+import uploadImage from 'utils/s3';
+
 import { Post } from 'types/post';
+import { Release } from 'types/release';
+
+import styles from './compile.module.scss';
 
 export interface CompilePassedProps {
 
 }
 
 export interface CompileStateProps {
-  posts: Post[]
+  posts: Post[],
+  release: Release | null,
+  isLoading: boolean
 }
 
 export interface CompileDispatchProps {
-  fetchAllPosts: typeof fetchAllPostsImport
+  fetchReleaseByDate: typeof fetchReleaseByDateImport,
+  createRelease: typeof createReleaseImport,
+  updateReleaseById: typeof updateReleaseByIdImport
 }
 
 export type CompileProps = CompilePassedProps & CompileStateProps & CompileDispatchProps;
@@ -37,79 +50,173 @@ const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number, newIndex: number 
   console.log(`Sort ended from ${oldIndex} to ${newIndex}`);
 };
 
-const Compile = ({ posts, fetchAllPosts }: CompileProps): JSX.Element => {
-  useEffect(() => { fetchAllPosts(); }, []);
+const Compile = ({
+  posts, release, isLoading,
+  fetchReleaseByDate, createRelease, updateReleaseById
+}: CompileProps): JSX.Element => {
+  const [imageUploading, setImageUploading] = useState<boolean>(false);
+
+  const [subject, setSubject] = useState<Release['subject']>('');
+  const [headerImage, setHeaderImage] = useState<Release['headerImage']>('');
+  const [imageCaption, setImageCaption] = useState<Release['imageCaption']>('');
+  const [quoteOfDay, setQuoteOfDay] = useState<Release['quoteOfDay']>('');
+  const [quotedContext, setQuotedContext] = useState<Release['quotedContext']>('');
+  const [featuredPost, setFeaturedPost] = useState<Release['featuredPost']>(null);
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const nextDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
+    fetchReleaseByDate(nextDate.getTime());
+  }, []);
+
+  useEffect(() => {
+    setSubject(release?.subject || '');
+    setHeaderImage(release?.headerImage || '');
+    setImageCaption(release?.imageCaption || '');
+    setQuoteOfDay(release?.quoteOfDay || '');
+    setQuotedContext(release?.quotedContext || '');
+    setFeaturedPost(release?.featuredPost || null);
+  }, [release]);
+
+  const upload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target?.files?.[0];
+    if (!file) throw new Error('file not found');
+
+    try {
+      setImageUploading(true);
+      const url = await uploadImage(file);
+      setImageUploading(false);
+      setHeaderImage(url);
+      if (release) { updateReleaseById(release._id, { headerImage: url }); }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const handleReleaseUpdate = async () => {
+    const body = {
+      subject,
+      headerImage,
+      imageCaption,
+      quoteOfDay,
+      quotedContext,
+      featuredPost
+    };
+
+    if (release) updateReleaseById(release._id, body);
+    else createRelease(body);
+  };
 
   return (
-    <MainWrapper>
-      <div className={styles.compileContainer}>
-        <h1>Compile</h1>
+    isLoading ? (<p>content is loading </p>) : (
+      <MainWrapper>
+        <div className={styles.compileContainer}>
+          <h1>Compile</h1>
 
-        <section id="compileHeaderContainer">
-          {/* <h2>{getFullDate()}</h2> */}
-          <div id="compileHeaderTextContainer">
-            <p>* Click on the dots on the left and drag and drop to re-order.</p>
-            <p>Auto-saved</p>
-          </div>
-        </section>
+          <section id="compileHeaderContainer">
+            <h2>{getFullDate()}</h2>
+            <div id="compileHeaderTextContainer">
+              <p>* Click on the dots on the left and drag and drop to re-order.</p>
+              <p>Auto-saved</p>
+            </div>
+          </section>
 
-        <section id="compileSubjectContainer">
-          <label>
-            <h2>Release Subject</h2>
-            <input type="text" placeholder="Enter subject of current release" />
-          </label>
-        </section>
+          <section id="compileSubjectContainer">
+            <label>
+              <h2>Release Subject</h2>
+              <input
+                type="text"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+              />
+            </label>
+          </section>
 
-        <section id="compileImageContainer">
-          <h2>Header Image (optional)</h2>
-          <label>
-            <p>Image</p>
-            <input type="file" alt="Select image to upload" />
-          </label>
+          <section id="compileImageContainer">
+            <h2>Header Image (optional)</h2>
+            <label>
+              <p>Image</p>
+              <input
+                type="file"
+                alt="Select image to upload"
+                id="headerImage"
+                onChange={(e) => { upload(e); }}
+              />
 
-          <label>
-            <p>Image Caption</p>
-            <input type="text" placeholder="Enter image caption here" />
-          </label>
-        </section>
+              <div className="imagePreview">
+                {imageUploading === true ? <div>Image is uploading</div> : <span />}
+                <img
+                  src={headerImage}
+                  alt="optional headerImage"
+                />
+              </div>
+            </label>
 
-        <section id="compileQodContainer">
-          <h2>Quote of the Day (optional)</h2>
+            <label>
+              <p>Image Caption</p>
+              <input
+                type="text"
+                value={imageCaption}
+                onChange={(e) => setImageCaption(e.target.value)}
+              />
+            </label>
+          </section>
 
-          <label>
-            <p>Headline</p>
-            <input type="text" placeholder="Enter subject of current release" />
-          </label>
+          <section id="compileQodContainer">
+            <h2>Quote of the Day (optional)</h2>
 
-          <label>
-            <p>Content</p>
-            <input type="text" placeholder="Enter subject of current release" />
-          </label>
-        </section>
+            <label>
+              <p>Headline</p>
+              <input
+                type="text"
+                value={quoteOfDay}
+                onChange={(e) => setQuoteOfDay(e.target.value)}
+              />
+            </label>
 
-        <section id="compileFeaturedContainer">
-          <h2>Featured Story (optional)</h2>
-          <p>TODO: Add story selector here</p>
-        </section>
+            <label>
+              <p>Context</p>
+              <input
+                type="text"
+                value={quotedContext}
+                onChange={(e) => setQuotedContext(e.target.value)}
+              />
+            </label>
+          </section>
 
-        <section id="compileNewsContainer">
-          <h2>News</h2>
-          <SortableList posts={posts} onSortEnd={onSortEnd} />
-        </section>
+          <section id="compileFeaturedContainer">
+            <h2>Featured Story (optional)</h2>
+            <p>TODO: Add story selector here</p>
+          </section>
 
-        <section id="compileAnnouncementsContainer">
-          <h2>Announcements</h2>
-          <SortableList posts={posts} onSortEnd={onSortEnd} />
-        </section>
+          <section id="compileNewsContainer">
+            <h2>News</h2>
+            <SortableList
+              posts={release ? posts.filter(({ _id }) => release.news.includes(_id)) : []}
+              onSortEnd={onSortEnd}
+            />
+          </section>
 
-        <section id="compileEventsContainer">
-          <h2>Events</h2>
-          <SortableList posts={posts} onSortEnd={onSortEnd} />
-        </section>
+          <section id="compileAnnouncementsContainer">
+            <h2>Announcements</h2>
+            <SortableList
+              posts={release ? posts.filter(({ _id }) => release.announcements.includes(_id)) : []}
+              onSortEnd={onSortEnd}
+            />
+          </section>
 
-        {/* <button type="submit" onClick={this.publish}>Publish  (undesigned)</button> */}
-      </div>
-    </MainWrapper>
+          <section id="compileEventsContainer">
+            <h2>Events</h2>
+            <SortableList
+              posts={release ? posts.filter(({ _id }) => release.events.includes(_id)) : []}
+              onSortEnd={onSortEnd}
+            />
+          </section>
+
+          <button type="button" onClick={handleReleaseUpdate}>Publish  (undesigned)</button>
+        </div>
+      </MainWrapper>
+    )
   );
 };
 

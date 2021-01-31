@@ -16,7 +16,7 @@ One to two sentence description.
 
 ## Tickets
 
-- [Issue Number](Link)
+- Closes [Number](Link)
 
 ## Screenshots
 

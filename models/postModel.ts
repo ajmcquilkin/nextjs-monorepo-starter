@@ -11,8 +11,7 @@ const postSchemaFields: Record<keyof Omit<Post, '_id'>, any> = {
   fullContent: String,
   briefContent: String,
   url: String,
-  publishOrder: { type: Number, default: -1 },
-  requestedPublicationDate: { type: Date, default: Date.now },
+  requestedPublicationDate: Number,
   recipientGroups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
 
   status: { type: String, default: 'draft' }, // 'draft' | 'pending' | 'approved' | 'rejected' | 'published'

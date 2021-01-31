@@ -1,6 +1,4 @@
-import {
-  RequestState, Actions,
-} from 'types/state';
+import { RequestState, Actions } from 'types/state';
 
 const initialState: RequestState = {};
 

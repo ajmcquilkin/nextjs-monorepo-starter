@@ -66,3 +66,10 @@ export const deletePostById = (
   postRequests.deletePostByIdRequest(id),
   { additionalPayloadFields: { id }, },
 );
+
+export const fetchPostsByDate = (
+  date: number
+) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostData>(
+  dispatch, 'FETCH_POSTS',
+  postRequests.fetchPostsByDateRequest(date)
+);

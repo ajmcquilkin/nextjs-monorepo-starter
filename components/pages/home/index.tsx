@@ -28,7 +28,7 @@ const Home = ({ posts, fetchPosts }: HomeProps): JSX.Element => {
   useEffect(() => { fetchPosts(); }, []);
 
   const itemArray: Post[] = JSON.parse(JSON.stringify(posts));
-  itemArray.sort((a, b) => a.publishOrder - b.publishOrder);
+  // itemArray.sort((a, b) => a.publishOrder - b.publishOrder);
 
   return (
     <MainWrapper>
