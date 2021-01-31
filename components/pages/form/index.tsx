@@ -5,15 +5,16 @@ import { EditorValue } from 'react-rte';
 
 import FormSection from 'components/form/formSection';
 import ContentLength from 'components/form/contentLength';
+import MainWrapper from 'components/layout/mainWrapper';
 // import { createEmptyValue, createValueFromString } from 'components/form/richTextEditor';
 
-import { generateFrontendErrorMessage, maxContentLength } from 'utils';
+import { generateFrontendErrorMessage, maxContentLength, handleEncodeDate, handleDecodeDate } from 'utils';
+// import uploadImage from 'utils/s3';
 
 import { Post } from 'types/post';
 import { Group } from 'types/group';
 import { GenericActionCreator } from 'types/state';
 
-import MainWrapper from 'components/layout/mainWrapper';
 import styles from './form.module.scss';
 
 // // Solves `window not defined` error: https://github.com/sstur/react-rte/issues/373#issuecomment-689536034
@@ -146,11 +147,11 @@ const Form = ({
           <FormSection title="Publish Date">
             <label className={[styles.formPublishContainer, styles.formLabelLarge].join(' ')}>
               Select Publish Date
-              <input
+              {/* <input
                 type="date"
-                value={requestedPublicationDate}
-                onChange={(e) => setRequestedPublicationDate(Number(e.target.value))}
-              />
+                value={handleEncodeDate(requestedPublicationDate)}
+                onChange={(e) => setRequestedPublicationDate(handleDecodeDate(e.target.value))}
+              /> */}
             </label>
           </FormSection>
 
@@ -233,6 +234,27 @@ const Form = ({
               </label>
             </div>
           </FormSection>
+
+          {/* <FormSection title="Graphics">
+            <div className={styles.formContentContainer}>
+              <label className={styles.formLabelSmall}>
+                <p>Attach Image</p>
+                <input
+                  type="file"
+                  alt="Select image to upload"
+                  id="headerImage"
+                  onChange={(e) => { upload(e); }}
+                />
+                <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(briefContentError)}</div>
+              </label>
+              <div>
+                <div className="imagePreview">
+                  {imageUploading === true ? <div>Image is uploading</div> : <span />}
+                  {imageUrl ? <img src={imageUrl} alt="optional headerImage" /> : <div>No image uploaded yet</div>}
+                </div>
+              </div>
+            </div>
+          </FormSection> */}
 
           <section className={styles.formButtonsContainer}>
             {editable

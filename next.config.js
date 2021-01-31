@@ -9,6 +9,9 @@ module.exports = {
         __SESSION_SECRET__: JSON.stringify(process.env.SESSION_SECRET || ''),
         __MONGODB_URI__: JSON.stringify(process.env.MONGODB_URI || ''),
         __SERVICE_URL__: JSON.stringify(process.env.SERVICE_URL || ''),
+        __S3_BUCKET__: JSON.stringify(process.env.S3_BUCKET || ''),
+        __AWS_ACCESS_KEY_ID__: JSON.stringify(process.env.AWS_ACCESS_KEY_ID || ''),
+        __AWS_SECRET_ACCESS_KEY__: JSON.stringify(process.env.AWS_SECRET_ACCESS_KEY || '')
       } : {}),
 
       // !!! ONLY place INSECURE values here

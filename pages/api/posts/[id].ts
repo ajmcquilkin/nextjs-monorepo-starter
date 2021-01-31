@@ -21,7 +21,7 @@ const handler = createDefaultHandler()
     const { id } = req.query;
     const {
       fromName, fromAddress, submitterNetId,
-      type, fullContent, briefContent, url, publishOrder, requestedPublicationDate,
+      type, fullContent, briefContent, url, requestedPublicationDate,
       status, reviewComment
     }: Post = req.body;
 
@@ -33,7 +33,6 @@ const handler = createDefaultHandler()
       fullContent,
       briefContent,
       url,
-      publishOrder,
       requestedPublicationDate,
       status,
       reviewComment
