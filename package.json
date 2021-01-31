@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "eslint ./**.js"
   },
   "dependencies": {
     "aws-sdk": "^2.831.0",
