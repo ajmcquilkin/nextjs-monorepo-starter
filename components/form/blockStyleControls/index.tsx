@@ -1,7 +1,7 @@
 import { EditorState } from 'draft-js';
 import StyleButton from 'components/form/styleButton';
 
-const BLOCK_TYPES = [
+export const BLOCK_TYPES = [
   { label: 'H1', style: 'header-one' },
   { label: 'H2', style: 'header-two' },
   { label: 'H3', style: 'header-three' },
@@ -16,22 +16,24 @@ const BLOCK_TYPES = [
 
 export interface BlockStyleControlsProps {
   editorState: EditorState,
-  onToggle: () => void
+  onToggle: (blockType: string) => void
 }
 
 const BlockStyleControls = ({ editorState, onToggle }: BlockStyleControlsProps): JSX.Element => {
   const selection = editorState.getSelection();
-  const blocktype = editorState
+  const blockType = editorState
     .getCurrentContent()
     .getBlockForKey(selection.getStartKey())
     .getType();
 
   return (
     <div>
-      {BLOCK_TYPES.map((type) => (
+      {BLOCK_TYPES.map(({ label, style }) => (
         <StyleButton
-          key={type.label}
-          label={type.label}
+          key={label}
+          active={style === blockType}
+          label={label}
+          style={style}
           onToggle={onToggle}
         />
       ))}

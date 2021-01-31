@@ -1,10 +1,12 @@
 export interface StyleButtonProps {
   label: string,
-  onToggle: () => void
+  style: string,
+  active: boolean,
+  onToggle: (style: string) => void
 }
 
-const StyleButton = ({ label, onToggle }: StyleButtonProps): JSX.Element => (
-  <button type="button" onClick={onToggle}>
+const StyleButton = ({ label, style, onToggle }: StyleButtonProps): JSX.Element => (
+  <button type="button" onClick={() => onToggle(style)}>
     {label}
   </button>
 );

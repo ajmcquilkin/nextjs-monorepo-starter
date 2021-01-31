@@ -1,46 +1,26 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-
-// Reference: https://github.com/facebook/draft-js/issues/2332
-
 import { useRef, useEffect, useState } from 'react';
+
 import {
-  Editor, EditorState, ContentState, convertFromRaw, RichUtils, DraftEditorCommand, DraftHandleValue, ContentBlock, DraftBlockType
+  Editor, EditorState, ContentState,
+  RichUtils, ContentBlock,
 } from 'draft-js';
+
+import BlockStyleControls from '../blockStyleControls';
+import InlineStyleControls from '../inlineStyleControls';
 
 import styles from './richTextEditor.module.scss';
 
 export interface RichTextEditorProps {
   onChange: (...args: any) => void,
-  incomingState: string,
-  readOnly?: boolean
+  incomingState: string
 }
 
-const emptyContentState = convertFromRaw({
-  entityMap: {},
-  blocks: [
-    {
-      text: '',
-      key: 'foo',
-      type: 'unstyled',
-      entityRanges: [],
-    },
-  ],
-});
-
-const INLINE_STYLES = [
-  { label: 'Bold', style: 'BOLD' },
-  { label: 'Italic', style: 'ITALIC' },
-  { label: 'Underline', style: 'UNDERLINE' },
-  { label: 'Monospace', style: 'CODE' },
-];
-
-const RichTextEditor = ({ onChange, incomingState, readOnly = false }: RichTextEditorProps): JSX.Element => {
-  const editor = useRef<any>(null);
+const RichTextEditor = ({ onChange, incomingState }: RichTextEditorProps): JSX.Element => {
+  const editor = useRef<Editor>(null);
   const focusEditor = (): void => { editor.current?.focus(); };
   useEffect(() => { focusEditor(); }, []);
 
-  const [editorState, setEditorState] = useState(EditorState.createWithContent(emptyContentState));
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   useEffect(() => { setEditorState(EditorState.createWithContent(ContentState.createFromText(incomingState))); }, []);
 
   const handleChange = (state: EditorState): void => {
@@ -48,44 +28,44 @@ const RichTextEditor = ({ onChange, incomingState, readOnly = false }: RichTextE
     onChange(state.getCurrentContent().getPlainText());
   };
 
-  const handleKeyCommand = (command: DraftEditorCommand, state: EditorState): DraftHandleValue => {
-    const newState = RichUtils.handleKeyCommand(state, command);
-    if (newState) { handleChange(newState); return 'handled'; }
-    return 'not-handled';
+  // const handleKeyCommand = (command: DraftEditorCommand, state: EditorState): DraftHandleValue => {
+  //   const newState = RichUtils.handleKeyCommand(state, command);
+  //   if (newState) { handleChange(newState); return 'handled'; }
+  //   return 'not-handled';
+  // };
+
+  const toggleBlockType = (blockType: string) => {
+    handleChange(RichUtils.toggleBlockType(editorState, blockType));
   };
 
-  const handleToggleInlineStyle = (style: DraftEditorCommand) => {
-    handleChange(RichUtils.toggleInlineStyle(editorState, style));
+  const toggleInlineStyle = (inlineStyle: string) => {
+    handleChange(RichUtils.toggleInlineStyle(editorState, inlineStyle));
   };
 
-  const handleToggleBlockStyle = (block: ContentBlock) => {
-    const type: DraftBlockType = block.getType();
-    handleChange(RichUtils.toggleBlockType(editorState, type));
-
-    if (type === 'unordered-list-item') { return styles.unorderedListBlock; }
-    if (type === 'ordered-list-item') { return styles.orderedListBlock; }
-    return '';
-  };
+  const getBlockStyle = (block: ContentBlock) => block.getType();
 
   return (
     <div className={styles.rteContainer}>
-      <button onClick={() => handleToggleInlineStyle('bold')} type="button">Bold</button>
-      <button onClick={() => handleToggleInlineStyle('italic')} type="button">Italic</button>
-      <button onClick={() => handleToggleInlineStyle('strikethrough')} type="button">Strikethrough</button>
-      <button onClick={() => handleToggleInlineStyle('underline')} type="button">Underline</button>
+      <BlockStyleControls
+        editorState={editorState}
+        onToggle={toggleBlockType}
+      />
 
-      {/* <button onClick={() => handleToggleBlockStyle('unordered-lis')} type="button">Unordered List</button>
-      <button onClick={() => handleToggleBlockStyle('')} type="button">Ordered List</button> */}
+      <InlineStyleControls
+        editorState={editorState}
+        onToggle={toggleInlineStyle}
+      />
+
       <Editor
         ref={editor}
         editorState={editorState}
         onChange={handleChange}
-        handleKeyCommand={handleKeyCommand}
-        blockStyleFn={handleToggleBlockStyle}
+        // handleKeyCommand={handleKeyCommand}
+        blockStyleFn={getBlockStyle}
+        spellCheck
       />
     </div>
   );
 };
 
-export { EditorState, ContentState };
 export default RichTextEditor;
