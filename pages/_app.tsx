@@ -3,15 +3,19 @@ import { AppProps } from 'next/app';
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
+import thunk, { ThunkMiddleware } from 'redux-thunk';
 
 import rootReducer from 'store/reducers';
+import { Actions, RootState } from 'types/state';
+
 import '../styles/globals.scss';
+
+// Reference: https://stackoverflow.com/questions/50294265/type-error-with-redux-thunk-when-using-connect
 
 const store = createStore(
   rootReducer, {},
   composeWithDevTools(
-    applyMiddleware(thunk),
+    applyMiddleware(thunk as ThunkMiddleware<RootState, Actions>),
   )
 );
 

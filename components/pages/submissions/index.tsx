@@ -5,8 +5,8 @@ import MainWrapper from 'components/layout/mainWrapper';
 import SubmissionSection from 'components/layout/submissionSection';
 
 import {
-  fetchAllPosts as fetchAllPostsImport,
   createPost as createPostImport,
+  fetchAllPosts as fetchAllPostsImport,
   deletePostById as deletePostByIdImport
 } from 'store/actionCreators/postActionCreators';
 import { Post, PostStatus } from 'types/post';
