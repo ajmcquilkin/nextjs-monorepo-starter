@@ -4,9 +4,12 @@ import { DEAUTH_USER, AuthUserData, UserActions } from 'types/user';
 
 import * as userRequests from 'store/requests/userRequests';
 
-export const validateUser = () => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<AuthUserData>(
+export const validateUser = (
+  additionalConfig = {}
+) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<AuthUserData>(
   dispatch, 'AUTH_USER',
-  userRequests.validateUserRequest()
+  userRequests.validateUserRequest(),
+  additionalConfig
 );
 
 export const signOutUser = () => (dispatch: Dispatch<UserActions>): void => {
