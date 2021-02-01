@@ -1,24 +1,26 @@
-import { Dispatch } from 'redux';
-import { Empty } from 'types/generic';
 import {
-  Action, ActionTypes, Code, RootState
+  ActionTypes, Actions, Code, RootState, ThunkResult
 } from 'types/state';
 
 export const setError = (
   type: ActionTypes, errorMessage: string
-) => (dispatch: Dispatch): Action<ActionTypes, Empty> => dispatch({
-  type,
-  status: 'FAILURE',
-  payload: { data: {}, message: errorMessage }
-});
+): ThunkResult => (dispatch) => {
+  dispatch({
+    type,
+    status: 'FAILURE',
+    payload: { data: {}, message: errorMessage }
+  } as Actions);
+};
 
 export const clearError = (
   type: ActionTypes
-) => (dispatch: Dispatch): Action<ActionTypes, Empty> => dispatch({
-  type,
-  status: 'REQUEST',
-  payload: { data: {}, message: '' }
-});
+): ThunkResult => (dispatch) => {
+  dispatch({
+    type,
+    status: 'REQUEST',
+    payload: { data: {}, message: '' }
+  } as Actions);
+};
 
 export const createLoadingSelector = (
   watchActionTypes: ActionTypes[]

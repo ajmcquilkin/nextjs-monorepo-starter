@@ -1,5 +1,7 @@
 import { AxiosResponse } from 'axios';
-import { Action as ReduxActiontType } from 'redux';
+import { Action as ReduxActionType } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+
 import { PostActions, PostActionTypes, PostState } from 'types/post';
 import { UserActions, UserActionTypes, UserState } from 'types/user';
 import { ReleaseActions, ReleaseActionTypes, ReleaseState } from './release';
@@ -36,7 +38,7 @@ export interface ActionPayload<D = any> {
   code?: Code
 }
 
-export interface Action<T, D = any> extends ReduxActiontType {
+export interface Action<T, D = any> extends ReduxActionType {
   type: T,
   status: RequestStatusTypes,
   payload: ActionPayload<D>
@@ -56,3 +58,5 @@ export interface RootState {
   request: RequestState,
   user: UserState,
 }
+
+export type ThunkResult<R = void> = ThunkAction<R, RootState, undefined, Actions>;
