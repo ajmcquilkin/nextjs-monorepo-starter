@@ -1,46 +1,71 @@
-import RTE, { EditorValue } from 'react-rte';
+import { useRef, useEffect, useState } from 'react';
 
-import { maxContentLength } from 'utils';
-import ContentLength from 'components/form/contentLength';
+import {
+  Editor, EditorState, ContentState,
+  RichUtils, ContentBlock,
+} from 'draft-js';
+
+import BlockStyleControls from '../blockStyleControls';
+import InlineStyleControls from '../inlineStyleControls';
 
 import styles from './richTextEditor.module.scss';
 
 export interface RichTextEditorProps {
   onChange: (...args: any) => void,
-  content: EditorValue,
-  readOnly?: boolean
+  incomingState: string
 }
 
-const RichTextEditor = ({ onChange, content, readOnly = false }: RichTextEditorProps): JSX.Element => (
-  <div className={styles.rteContainer}>
-    <RTE
-      value={content}
-      onChange={onChange}
-      toolbarConfig={{
-        display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS'],
-        INLINE_STYLE_BUTTONS: [
-          { label: 'Bold', style: 'BOLD' },
-          { label: 'Italic', style: 'ITALIC' },
-          { label: 'Underline', style: 'UNDERLINE' }
-        ],
-        BLOCK_TYPE_BUTTONS: [
-          { label: 'UL', style: 'unordered-list-item' }
-        ],
-        BLOCK_TYPE_DROPDOWN: []
-      }}
-      readOnly={readOnly}
-      className={styles.rteEmbeddedContainer}
-      toolbarClassName={styles.rteToolbarContainer}
-      editorClassName={styles.rteEditorContainer}
-    />
+const RichTextEditor = ({ onChange, incomingState }: RichTextEditorProps): JSX.Element => {
+  const editor = useRef<Editor>(null);
+  const focusEditor = (): void => { editor.current?.focus(); };
+  useEffect(() => { focusEditor(); }, []);
 
-    <ContentLength
-      contentLength={content.toString('html').replace(/(<([^>]+)>)/ig, '').length} // ? Better method?
-      maxContentLength={maxContentLength}
-      className={styles.rteCharCount}
-    />
-  </div>
-);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  useEffect(() => { setEditorState(EditorState.createWithContent(ContentState.createFromText(incomingState))); }, []);
 
-export const { createEmptyValue, createValueFromString } = RTE;
+  const handleChange = (state: EditorState): void => {
+    setEditorState(state);
+    onChange(state.getCurrentContent().getPlainText());
+  };
+
+  // const handleKeyCommand = (command: DraftEditorCommand, state: EditorState): DraftHandleValue => {
+  //   const newState = RichUtils.handleKeyCommand(state, command);
+  //   if (newState) { handleChange(newState); return 'handled'; }
+  //   return 'not-handled';
+  // };
+
+  const toggleBlockType = (blockType: string) => {
+    handleChange(RichUtils.toggleBlockType(editorState, blockType));
+  };
+
+  const toggleInlineStyle = (inlineStyle: string) => {
+    handleChange(RichUtils.toggleInlineStyle(editorState, inlineStyle));
+  };
+
+  const getBlockStyle = (block: ContentBlock) => block.getType();
+
+  return (
+    <div className={styles.rteContainer}>
+      <BlockStyleControls
+        editorState={editorState}
+        onToggle={toggleBlockType}
+      />
+
+      <InlineStyleControls
+        editorState={editorState}
+        onToggle={toggleInlineStyle}
+      />
+
+      <Editor
+        ref={editor}
+        editorState={editorState}
+        onChange={handleChange}
+        // handleKeyCommand={handleKeyCommand}
+        blockStyleFn={getBlockStyle}
+        spellCheck
+      />
+    </div>
+  );
+};
+
 export default RichTextEditor;
