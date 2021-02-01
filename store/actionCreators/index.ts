@@ -1,13 +1,14 @@
-import { Dispatch } from 'redux';
 import { AxiosError } from 'axios';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { Empty } from 'types/generic';
 import {
-  Action, ActionTypes, ActionPayload, RequestReturnType
+  ActionTypes, ActionPayload, Actions,
+  RequestReturnType, RootState
 } from 'types/state';
 import { ServerPayload } from 'types/server';
 
-type AsyncActionCreatorConfig<Data, AddlPayload> = {
+export type AsyncActionCreatorConfig<Data, AddlPayload> = {
   successCallback?: (res: RequestReturnType<Data>) => void,
   failureCallback?: (res: RequestReturnType<Data>) => void,
   additionalPayloadFields?: AddlPayload
@@ -15,7 +16,7 @@ type AsyncActionCreatorConfig<Data, AddlPayload> = {
 
 export const generateSuccessPayload = <Data, AddlPayload>(
   response: RequestReturnType<Data>,
-  additionalPayloadFields?: AddlPayload
+  // additionalPayloadFields?: AddlPayload
 ): ActionPayload<Data> => ({
     // data: { ...response.data.data, ...additionalPayloadFields },
     data: response.data.data,
@@ -31,7 +32,7 @@ export const generateFailurePayload = <Data>(
   });
 
 export const createAsyncActionCreator = async <Data, AddlPayload = any>(
-  dispatch: Dispatch<Action<ActionTypes, Data>>,
+  dispatch: ThunkDispatch<RootState, undefined, Actions>,
   type: ActionTypes,
   axiosFetchCallback: () => Promise<RequestReturnType<Data>>,
   config: AsyncActionCreatorConfig<Data, AddlPayload> = {}
@@ -44,7 +45,7 @@ export const createAsyncActionCreator = async <Data, AddlPayload = any>(
       type,
       status: 'SUCCESS',
       payload: generateSuccessPayload<Data, AddlPayload>(response, config.additionalPayloadFields)
-    });
+    } as Actions);
 
     if (config.successCallback) { config.successCallback(response); }
   } catch (error) {

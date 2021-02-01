@@ -1,6 +1,4 @@
-import { Dispatch } from 'redux';
 import { createAsyncActionCreator } from 'store/actionCreators';
-
 import * as postRequests from 'store/requests/postRequests';
 
 import { Empty } from 'types/generic';
@@ -8,68 +6,83 @@ import {
   Post, PostStatus,
   FetchPostData, FetchPostsData, DeletePostData
 } from 'types/post';
+import { ThunkResult } from 'types/state';
 
 export const fetchAllPosts = (
-
-) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostsData>(
+  additionalConfig = {}
+): ThunkResult => (dispatch) => createAsyncActionCreator<FetchPostsData>(
   dispatch, 'FETCH_POSTS',
-  postRequests.fetchAllPostsRequest()
+  postRequests.fetchAllPostsRequest(),
+  additionalConfig
 );
 
 export const fetchWithStatus = (
-  status: PostStatus
-) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostData>(
+  status: PostStatus,
+  additionalConfig = {}
+): ThunkResult => (dispatch) => createAsyncActionCreator<FetchPostData>(
   dispatch, 'FETCH_POST',
-  postRequests.fetchWithStatusRequest(status)
+  postRequests.fetchWithStatusRequest(status),
+  additionalConfig
 );
 
 export const fetchSubmissions = (
-
-) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostData>(
+  additionalConfig = {}
+): ThunkResult => (dispatch) => createAsyncActionCreator<FetchPostData>(
   dispatch, 'FETCH_POST',
-  postRequests.fetchSubmissionsRequest()
+  postRequests.fetchSubmissionsRequest(),
+  additionalConfig
 );
 
 export const fetchReview = (
-
-) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostsData>(
+  additionalConfig = {}
+): ThunkResult => (dispatch) => createAsyncActionCreator<FetchPostsData>(
   dispatch, 'FETCH_POSTS',
-  postRequests.fetchPostsToReviewRequest()
+  postRequests.fetchPostsToReviewRequest(),
+  additionalConfig
 );
 
 export const createPost = (
-  fields: Omit<Post, '_id'>
-) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostData>(
+  fields: Omit<Post, '_id'>,
+  additionalConfig = {}
+): ThunkResult => (dispatch) => createAsyncActionCreator<FetchPostData>(
   dispatch, 'FETCH_POST',
   postRequests.createPostRequest(fields),
+  additionalConfig
 );
 
 export const fetchPostById = (
   id: string,
-) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostData>(
+  additionalConfig = {}
+): ThunkResult => (dispatch) => createAsyncActionCreator<FetchPostData>(
   dispatch, 'FETCH_POST',
-  postRequests.fetchPostByIdRequest(id)
+  postRequests.fetchPostByIdRequest(id),
+  additionalConfig
 );
 
 export const updatePostById = (
   id: string,
   update: Partial<Post>,
-) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostData>(
+  additionalConfig = {}
+): ThunkResult => (dispatch) => createAsyncActionCreator<FetchPostData>(
   dispatch, 'FETCH_POST',
-  postRequests.updatePostByIdRequest(id, update)
+  postRequests.updatePostByIdRequest(id, update),
+  additionalConfig
 );
 
 export const deletePostById = (
-  id: string
-) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<Empty, DeletePostData>(
+  id: string,
+  additionalConfig = {}
+): ThunkResult => (dispatch) => createAsyncActionCreator<Empty, DeletePostData>(
   dispatch, 'DELETE_POST',
   postRequests.deletePostByIdRequest(id),
-  { additionalPayloadFields: { id }, },
+  { ...additionalConfig, additionalPayloadFields: { id }, }
 );
 
 export const fetchPostsByDate = (
-  date: number
-) => (dispatch: Dispatch): Promise<void> => createAsyncActionCreator<FetchPostData>(
+  date: number,
+  additionalConfig = {}
+): ThunkResult => (dispatch) => createAsyncActionCreator<FetchPostData>(
   dispatch, 'FETCH_POSTS',
-  postRequests.fetchPostsByDateRequest(date)
+  postRequests.fetchPostsByDateRequest(date),
+  additionalConfig
 );

@@ -1,5 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { Action as ReduxActionType } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+
 import { PostActions, PostActionTypes, PostState } from 'types/post';
 import { UserActions, UserActionTypes, UserState } from 'types/user';
 import { ReleaseActions, ReleaseActionTypes, ReleaseState } from './release';
@@ -56,3 +58,5 @@ export interface RootState {
   request: RequestState,
   user: UserState,
 }
+
+export type ThunkResult<R = void> = ThunkAction<R, RootState, undefined, Actions>;
