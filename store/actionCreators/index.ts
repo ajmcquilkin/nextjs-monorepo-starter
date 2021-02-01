@@ -8,7 +8,7 @@ import {
 } from 'types/state';
 import { ServerPayload } from 'types/server';
 
-type AsyncActionCreatorConfig<Data, AddlPayload> = {
+export type AsyncActionCreatorConfig<Data, AddlPayload> = {
   successCallback?: (res: RequestReturnType<Data>) => void,
   failureCallback?: (res: RequestReturnType<Data>) => void,
   additionalPayloadFields?: AddlPayload

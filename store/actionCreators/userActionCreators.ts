@@ -4,9 +4,12 @@ import * as userRequests from 'store/requests/userRequests';
 import { ThunkResult } from 'types/state';
 import { DEAUTH_USER, AuthUserData } from 'types/user';
 
-export const validateUser = (): ThunkResult => (dispatch) => createAsyncActionCreator<AuthUserData>(
+export const validateUser = (
+  additionalConfig = {}
+): ThunkResult => (dispatch) => createAsyncActionCreator<AuthUserData>(
   dispatch, 'AUTH_USER',
-  userRequests.validateUserRequest()
+  userRequests.validateUserRequest(),
+  additionalConfig
 );
 
 export const signOutUser = (): ThunkResult => (dispatch): void => {
