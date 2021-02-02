@@ -12,7 +12,10 @@ export const getStaticProps: GetStaticProps<HomePassedProps> = async () => {
   const { data: { data: { posts, release } } } = await fetchReleaseByDateRequest<FetchReleaseData>(currentDate)();
   const releasePostMap = posts.reduce((accum, post) => ({ ...accum, [post._id]: post }), {});
 
-  return ({ props: { release, releasePostMap } });
+  return ({
+    props: { release, releasePostMap },
+    revalidate: 3600
+  });
 };
 
 export default Home;
