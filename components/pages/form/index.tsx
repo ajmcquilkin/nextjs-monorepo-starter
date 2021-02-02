@@ -7,12 +7,22 @@ import RichTextEditor from 'components/form/richTextEditor';
 import MainWrapper from 'components/layout/mainWrapper';
 
 import {
+  createPost as createPostImport,
+  fetchPostById as fetchPostByIdImport,
+  fetchWithStatus as fetchWithStatusImport,
+  updatePostById as updatePostByIdImport
+} from 'store/actionCreators/postActionCreators';
+
+import {
+  setError as setErrorImport
+} from 'store/actionCreators/requestActionCreators';
+
+import {
   generateFrontendErrorMessage, maxContentLength, handleEncodeDate, handleDecodeDate
 } from 'utils';
 
 import { Post } from 'types/post';
 import { Group } from 'types/group';
-import { GenericActionCreator } from 'types/state';
 
 import styles from './form.module.scss';
 
@@ -32,11 +42,11 @@ export interface FormStateProps {
 }
 
 export interface FormDispatchProps {
-  createPost: GenericActionCreator,
-  fetchPostById: GenericActionCreator,
-  fetchApproved: GenericActionCreator,
-  updatePostById: GenericActionCreator,
-  setError: GenericActionCreator,
+  createPost: typeof createPostImport,
+  fetchPostById: typeof fetchPostByIdImport,
+  fetchApproved: typeof fetchWithStatusImport,
+  updatePostById: typeof updatePostByIdImport,
+  setError: typeof setErrorImport,
 }
 
 export type FormProps = FormPassedProps & FormStateProps & FormDispatchProps;
