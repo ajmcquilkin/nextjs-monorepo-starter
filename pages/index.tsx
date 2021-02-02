@@ -15,7 +15,7 @@ export const getStaticProps: GetStaticProps<HomePassedProps> = async () => {
 
     return ({
       props: { release, releasePostMap },
-      revalidate: 3600
+      revalidate: __REGENERATION_INTERVAL__
     });
   } catch (error) {
     return ({
