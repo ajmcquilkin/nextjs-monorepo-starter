@@ -1,34 +1,25 @@
-import { useEffect } from 'react';
-
 import MainWrapper from 'components/layout/mainWrapper';
 import PostSection from 'components/posts/postSection';
 import PostSectionSummary from 'components/posts/postSectionSummary';
 
 import { getFullDate } from 'utils';
+
 import { Post } from 'types/post';
-import { GenericActionCreator } from 'types/state';
+import { Release } from 'types/release';
 
 import styles from './home.module.scss';
 
 export interface HomePassedProps {
-
+  release: Release,
+  releasePostMap: Record<string, Post>
 }
 
-export interface HomeStateProps {
-  posts: Post[],
-}
+const Home = ({ release, releasePostMap }: HomePassedProps): JSX.Element => {
+  if (!release) return (<div>Loading...</div>);
 
-export interface HomeDispatchProps {
-  fetchPosts: GenericActionCreator;
-}
-
-export type HomeProps = HomePassedProps & HomeStateProps & HomeDispatchProps;
-
-const Home = ({ posts, fetchPosts }: HomeProps): JSX.Element => {
-  useEffect(() => { fetchPosts(); }, []);
-
-  const itemArray: Post[] = JSON.parse(JSON.stringify(posts));
-  // itemArray.sort((a, b) => a.publishOrder - b.publishOrder);
+  const news = release.news.map((id) => releasePostMap?.[id]);
+  const announcements = release.announcements.map((id) => releasePostMap?.[id]);
+  const events = release.events.map((id) => releasePostMap?.[id]);
 
   return (
     <MainWrapper>
@@ -63,10 +54,10 @@ const Home = ({ posts, fetchPosts }: HomeProps): JSX.Element => {
 
           <div className={styles.homeItemSectionSummaryContainer}>
             <div className={styles.homeItemSectionSummaryContainerLeft}>
-              <PostSectionSummary title="News" posts={itemArray.filter((post) => post.type === 'news')} hideFrom />
-              <PostSectionSummary title="Announcements" posts={itemArray.filter((post) => post.type === 'announcement')} />
+              <PostSectionSummary title="News" posts={news} hideFrom />
+              <PostSectionSummary title="Announcements" posts={announcements} />
             </div>
-            <PostSectionSummary title="Events" posts={itemArray.filter((post) => post.type === 'event')} />
+            <PostSectionSummary title="Events" posts={events} />
           </div>
 
           <div className={styles.homeQuoteContainer}>
@@ -90,17 +81,17 @@ const Home = ({ posts, fetchPosts }: HomeProps): JSX.Element => {
           <PostSection
             title="News"
             subtitle="from the office of communications"
-            posts={itemArray.filter((item) => item.type === 'news')}
+            posts={news}
           />
 
           <PostSection
             title="Announcements"
-            posts={itemArray.filter((item) => item.type === 'announcement')}
+            posts={announcements}
           />
 
           <PostSection
             title="Events"
-            posts={itemArray.filter((item) => item.type === 'event')}
+            posts={events}
           />
         </section>
       </div>
