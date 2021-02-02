@@ -12,7 +12,7 @@ import { Release } from 'types/release';
 import styles from './home.module.scss';
 
 export interface HomePassedProps {
-  release: Release,
+  release: Release | null,
   releasePostMap: Record<string, Post>
 }
 

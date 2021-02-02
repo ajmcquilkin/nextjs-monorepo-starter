@@ -7,15 +7,24 @@ import { getMidnightDate } from 'utils';
 import { FetchReleaseData } from 'types/release';
 
 export const getStaticProps: GetStaticProps<HomePassedProps> = async () => {
-  const currentDate = getMidnightDate(Date.now());
+  try {
+    const currentDate = getMidnightDate(Date.now());
 
-  const { data: { data: { posts, release } } } = await fetchReleaseByDateRequest<FetchReleaseData>(currentDate)();
-  const releasePostMap = posts.reduce((accum, post) => ({ ...accum, [post._id]: post }), {});
+    const { data: { data: { posts, release } } } = await fetchReleaseByDateRequest<FetchReleaseData>(currentDate)();
+    const releasePostMap = posts.reduce((accum, post) => ({ ...accum, [post._id]: post }), {});
 
-  return ({
-    props: { release, releasePostMap },
-    revalidate: 3600
-  });
+    return ({
+      props: { release, releasePostMap },
+      revalidate: 3600
+    });
+  } catch (error) {
+    return ({
+      props: {
+        release: null,
+        releasePostMap: {}
+      }
+    });
+  }
 };
 
 export default Home;
