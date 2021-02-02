@@ -44,8 +44,6 @@ export interface Action<T, D = any> extends ReduxActionType {
   payload: ActionPayload<D>
 }
 
-export type GenericActionCreator = (...args: unknown[]) => void;
-
 /* -------- State -------- */
 
 export interface RequestState {
