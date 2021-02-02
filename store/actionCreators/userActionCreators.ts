@@ -8,7 +8,7 @@ export const validateUser = (
   additionalConfig = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator<AuthUserData>(
   dispatch, 'AUTH_USER',
-  userRequests.validateUserRequest(),
+  () => userRequests.validateUserRequest(),
   additionalConfig
 );
 

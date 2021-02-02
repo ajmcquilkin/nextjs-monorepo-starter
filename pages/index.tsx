@@ -9,7 +9,7 @@ export const getStaticProps: GetStaticProps<HomePassedProps> = async () => {
   try {
     const currentDate = Date.now();
 
-    const { data: { data: { posts, release } } } = await fetchReleaseByDateRequest<FetchReleaseData>(currentDate)();
+    const { data: { data: { posts, release } } } = await fetchReleaseByDateRequest<FetchReleaseData>(currentDate);
     const releasePostMap = posts.reduce((accum, post) => ({ ...accum, [post._id]: post }), {});
 
     return ({

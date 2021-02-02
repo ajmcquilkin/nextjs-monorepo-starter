@@ -11,7 +11,7 @@ export const fetchReleaseById = (
   additionalConfig = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator<FetchReleaseData>(
   dispatch, 'FETCH_RELEASE',
-  releaseRequests.fetchReleaseByIdRequest(id),
+  () => releaseRequests.fetchReleaseByIdRequest(id),
   additionalConfig
 );
 
@@ -20,7 +20,7 @@ export const fetchReleaseByDate = (
   additionalConfig = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator<FetchReleaseData>(
   dispatch, 'FETCH_RELEASE',
-  releaseRequests.fetchReleaseByDateRequest(date),
+  () => releaseRequests.fetchReleaseByDateRequest(date),
   additionalConfig
 );
 
@@ -29,7 +29,7 @@ export const deleteReleaseById = (
   additionalConfig = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator<Empty, DeleteReleaseData>(
   dispatch, 'DELETE_POST',
-  releaseRequests.deleteReleaseByIdRequest(id),
+  () => releaseRequests.deleteReleaseByIdRequest(id),
   { ...additionalConfig, additionalPayloadFields: { id }, },
 );
 
@@ -38,7 +38,7 @@ export const createRelease = (
   additionalConfig = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator<FetchReleaseData>(
   dispatch, 'FETCH_RELEASE',
-  releaseRequests.createReleaseRequest(fields),
+  () => releaseRequests.createReleaseRequest(fields),
   additionalConfig
 );
 
@@ -48,6 +48,6 @@ export const updateReleaseById = (
   additionalConfig = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator(
   dispatch, 'FETCH_RELEASE',
-  releaseRequests.updateReleaseByIdRequest(id, update),
+  () => releaseRequests.updateReleaseByIdRequest(id, update),
   additionalConfig
 );
