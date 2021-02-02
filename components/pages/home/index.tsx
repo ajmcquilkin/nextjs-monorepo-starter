@@ -1,4 +1,6 @@
 import MainWrapper from 'components/layout/mainWrapper';
+
+import PostContent from 'components/posts/postContent';
 import PostSection from 'components/posts/postSection';
 import PostSectionSummary from 'components/posts/postSectionSummary';
 
@@ -21,6 +23,8 @@ const Home = ({ release, releasePostMap }: HomePassedProps): JSX.Element => {
   const announcements = release.announcements.map((id) => releasePostMap?.[id]);
   const events = release.events.map((id) => releasePostMap?.[id]);
 
+  const featuredPost = releasePostMap?.[release.featuredPost as string];
+
   return (
     <MainWrapper>
       <div className={styles.homeContainer}>
@@ -41,16 +45,12 @@ const Home = ({ release, releasePostMap }: HomePassedProps): JSX.Element => {
         </section>
 
         <section className={styles.homeMainContentContainer}>
-          <div className={styles.homeFeaturedStoryContainer}>
-            <h3>Featured Story</h3>
-            <p>
-              Dartmouth College is committed to providing a safe, equitable, and respectful environment for all
-              members of the Dartmouth Community. The College&apos;s goal is to integrate these values into all we do
-              at Dartmouth -- teaching, research, public service, student activities, and business operations.
-              To guide us toward this goal, the College has developed programs and tools, which are described on our
-              Compliance Resources web page. More text to reach 500 words. This is how much 500 characters looks like.
-            </p>
-          </div>
+          {featuredPost ? (
+            <div className={styles.homeFeaturedStoryContainer}>
+              <h3>Featured Story</h3>
+              <PostContent content={featuredPost} />
+            </div>
+          ) : null}
 
           <div className={styles.homeItemSectionSummaryContainer}>
             <div className={styles.homeItemSectionSummaryContainerLeft}>
@@ -61,19 +61,9 @@ const Home = ({ release, releasePostMap }: HomePassedProps): JSX.Element => {
           </div>
 
           <div className={styles.homeQuoteContainer}>
-            <h4>QUOTE OF THE DAY</h4>
-            <blockquote>
-              Both political parties are thinking tactically at a time when we need a
-              strategy for rebuilding a governing coalition capable of passing legislation
-              without using a narrow majority to bludgeon the other side into submission.
-            </blockquote>
-            <div>
-              <p>Charles Wheelan &apos;88</p>
-              <p>
-                Senior lecturer and policy fellow and his co-author, Judd Gregg,
-                former N.H. governor and senator, in a CNN opinion piece.
-              </p>
-            </div>
+            <h4>Quote of the Day</h4>
+            <blockquote>{release.quoteOfDay}</blockquote>
+            <p>{release.quotedContext}</p>
           </div>
         </section>
 
