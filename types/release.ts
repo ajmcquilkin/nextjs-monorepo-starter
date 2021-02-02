@@ -21,6 +21,7 @@ export interface Release {
 }
 
 export type ReleaseDocument = Release & Document<string>;
+export type CreateReleaseType = Pick<Release, 'date' | 'subject' | 'headerImage' | 'quoteOfDay' | 'quotedContext' | 'featuredPost' | 'news' | 'announcements' | 'events'>;
 
 /* -------- State -------- */
 
