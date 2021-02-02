@@ -2,6 +2,8 @@ import * as releaseController from 'controllers/releaseController';
 import * as postController from 'controllers/postController';
 
 import { DocumentNotFoundError } from 'errors';
+
+import { getMidnightDate } from 'utils';
 import { casInstance } from 'utils/auth';
 import { createDefaultHandler, createSuccessPayload } from 'utils/api';
 import { useDB } from 'utils/db';
@@ -12,9 +14,8 @@ const handler = createDefaultHandler()
   .use(useDB)
   .use(casInstance.bounce)
 
-  // fetches a release by date attribute
   .get(async (req, res) => {
-    const date = req.query.date ? (Number(req.query.date)) : Date.now();
+    const date = getMidnightDate(req.query.date ? (Number(req.query.date)) : Date.now());
 
     const foundRelease = await releaseController.fetchReleaseByDate(date);
     if (!foundRelease) { throw new DocumentNotFoundError(date.toString()); }
