@@ -3,6 +3,7 @@ import { PostModel } from 'models';
 
 import { Post, PostDocument } from 'types/post';
 import { Release } from 'types/release';
+import { getMidnightDate } from 'utils';
 
 type CreatePostType = Pick<Post,
   'fromName' | 'fromAddress' | 'submitterNetId' | 'type' | 'fullContent' |
@@ -26,7 +27,7 @@ export const create = async (fields: CreatePostType): Promise<Post> => {
 
   post.briefContent = briefContent;
   post.url = url;
-  post.requestedPublicationDate = requestedPublicationDate;
+  post.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
   post.status = status;
 
   return (await post.save()).toJSON();
@@ -56,7 +57,7 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
   if (fullContent) foundPost.fullContent = fullContent;
   if (briefContent) foundPost.briefContent = briefContent;
   if (url) foundPost.url = url;
-  if (requestedPublicationDate) foundPost.requestedPublicationDate = requestedPublicationDate;
+  if (requestedPublicationDate) foundPost.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
 
   if (status) foundPost.status = status;
   if (reviewComment) foundPost.reviewComment = reviewComment;
@@ -77,12 +78,14 @@ export const readAll = async (): Promise<Post[]> => {
 };
 
 export const readAllByDate = async (date: number): Promise<Post[]> => {
-  const foundPosts: PostDocument[] = await PostModel.find({ requestedPublicationDate: date });
+  const foundPosts: PostDocument[] = await PostModel.find({ requestedPublicationDate: getMidnightDate(date) });
   return foundPosts;
 };
 
 export const fetchPostsForRelease = async (release: Release): Promise<Post[]> => {
   const postsToFetch = [...release.news, ...release.announcements, ...release.events];
+  if (release.featuredPost) postsToFetch.push(release.featuredPost);
+
   const foundPosts = await PostModel.find({ _id: { $in: postsToFetch } });
   return foundPosts;
 };

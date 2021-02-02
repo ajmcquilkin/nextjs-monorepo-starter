@@ -10,3 +10,4 @@ declare let __AWS_SECRET_ACCESS_KEY__: string;
 // Insecure values (server and client side)
 declare let __MODE__: string;
 declare let __APP_URL__: string;
+declare let __REGENERATION_INTERVAL__: number;

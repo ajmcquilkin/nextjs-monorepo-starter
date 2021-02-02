@@ -26,6 +26,12 @@ export const handleDecodeDate = (date: string): number => {
   return newDate.getTime();
 };
 
+export const getMidnightDate = (date: number): number => {
+  const dateInstance = new Date(date);
+  dateInstance.setHours(0, 0, 0, 0);
+  return dateInstance.getTime();
+};
+
 /**
  * Middleware function to generate standard user-facing error message
  * * Note: to maintain truthiness state of message, if message is considered falsy this function will return an empty string

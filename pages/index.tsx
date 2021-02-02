@@ -1,23 +1,29 @@
 import { GetStaticProps } from 'next';
-import { connect } from 'react-redux';
 
-import Home, { HomeStateProps, HomeDispatchProps, HomePassedProps } from 'components/pages/home';
-import { fetchAllPosts } from 'store/actionCreators/postActionCreators';
+import Home, { HomePassedProps } from 'components/pages/home';
+import { fetchReleaseByDateRequest } from 'store/requests/releaseRequests';
 
-import { RootState } from 'types/state';
+import { FetchReleaseData } from 'types/release';
 
-const mapStateToProps = (state: RootState): HomeStateProps => ({
-  posts: Object.values(state.post.posts)
-});
+export const getStaticProps: GetStaticProps<HomePassedProps> = async () => {
+  try {
+    const currentDate = Date.now();
 
-const mapDispatchToProps: HomeDispatchProps = {
-  fetchPosts: fetchAllPosts
+    const { data: { data: { posts, release } } } = await fetchReleaseByDateRequest<FetchReleaseData>(currentDate)();
+    const releasePostMap = posts.reduce((accum, post) => ({ ...accum, [post._id]: post }), {});
+
+    return ({
+      props: { release, releasePostMap },
+      revalidate: __REGENERATION_INTERVAL__
+    });
+  } catch (error) {
+    return ({
+      props: {
+        release: null,
+        releasePostMap: {}
+      }
+    });
+  }
 };
 
-const connector = connect<HomeStateProps, HomeDispatchProps, HomePassedProps>(mapStateToProps, mapDispatchToProps);
-
-const props: HomePassedProps = {};
-
-export const getStaticProps: GetStaticProps = async () => ({ props });
-
-export default connector(Home);
+export default Home;

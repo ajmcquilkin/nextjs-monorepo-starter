@@ -29,7 +29,6 @@ const PostContent = ({ content }: PostContentProps): JSX.Element => {
       }
 
       <div className={styles.itemPaddingContainer}>
-        {/* eslint-disable-next-line react/no-danger */}
         <div className={styles.itemContent} dangerouslySetInnerHTML={{ __html: cleanHTML }} />
 
         <a target="_blank" rel="noreferrer" href={content.url.startsWith('http') ? content.url : `http://${content.url}`}>{content.url}</a>
