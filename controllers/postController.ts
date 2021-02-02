@@ -83,6 +83,8 @@ export const readAllByDate = async (date: number): Promise<Post[]> => {
 
 export const fetchPostsForRelease = async (release: Release): Promise<Post[]> => {
   const postsToFetch = [...release.news, ...release.announcements, ...release.events];
+  if (release.featuredPost) postsToFetch.push(release.featuredPost);
+
   const foundPosts = await PostModel.find({ _id: { $in: postsToFetch } });
   return foundPosts;
 };
