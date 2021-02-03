@@ -9,7 +9,9 @@ import {
   fetchAllPosts as fetchAllPostsImport,
   deletePostById as deletePostByIdImport
 } from 'store/actionCreators/postActionCreators';
+
 import { Post, PostStatus } from 'types/post';
+import { ConnectedThunkCreator } from 'types/state';
 
 import styles from './submissions.module.scss';
 
@@ -22,9 +24,9 @@ export interface SubmissionsStateProps {
 }
 
 export interface SubmissionsDispatchProps {
-  createPost: typeof createPostImport,
-  fetchAllPosts: typeof fetchAllPostsImport,
-  deletePostById: typeof deletePostByIdImport
+  createPost: ConnectedThunkCreator<typeof createPostImport>,
+  fetchAllPosts: ConnectedThunkCreator<typeof fetchAllPostsImport>,
+  deletePostById: ConnectedThunkCreator<typeof deletePostByIdImport>
 }
 
 export type SubmissionsProps = SubmissionsPassedProps & SubmissionsStateProps & SubmissionsDispatchProps;

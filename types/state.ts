@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { Action as ReduxActionType } from 'redux';
-import { ThunkAction } from 'redux-thunk';
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 import { PostActions, PostActionTypes, PostState } from 'types/post';
 import { UserActions, UserActionTypes, UserState } from 'types/user';
@@ -57,4 +57,6 @@ export interface RootState {
   user: UserState,
 }
 
+export type GlobalDispatch = ThunkDispatch<RootState, undefined, Actions>;
 export type ThunkResult<R = void> = ThunkAction<R, RootState, undefined, Actions>;
+export type ConnectedThunkCreator<T extends (...args: any) => ThunkResult> = (...args: Parameters<T>) => void;

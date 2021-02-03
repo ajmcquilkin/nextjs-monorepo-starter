@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import MainWrapper from 'components/layout/mainWrapper';
 import { fetchAllPosts as fetchAllPostsImport } from 'store/actionCreators/postActionCreators';
 import { Post, PostPublishType, PostStatus } from 'types/post';
+import { ConnectedThunkCreator } from 'types/state';
 
 import styles from 'components/pages/review/review.module.scss';
 import Submission from 'components/submissions/submission';
@@ -16,7 +17,7 @@ export interface ReviewStateProps {
 }
 
 export interface ReviewDispatchProps {
-  fetchAllPosts: typeof fetchAllPostsImport
+  fetchAllPosts: ConnectedThunkCreator<typeof fetchAllPostsImport>
 }
 
 export type ReviewProps = ReviewPassedProps & ReviewStateProps & ReviewDispatchProps;
