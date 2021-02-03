@@ -42,8 +42,8 @@ export const FETCH_POSTS = 'FETCH_POSTS';
 export const FETCH_POST = 'FETCH_POST';
 export const DELETE_POST = 'DELETE_POST';
 
-export type FetchPostsData = Post[];
-export type FetchPostData = Post;
+export type FetchPostsData = { posts: Post[] };
+export type FetchPostData = { post: Post };
 export type DeletePostData = { id: string };
 
 type FetchPostsAction = Action<typeof FETCH_POSTS, FetchPostsData>

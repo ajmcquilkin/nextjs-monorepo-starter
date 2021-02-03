@@ -16,10 +16,9 @@ export type AsyncActionCreatorConfig<Data, AddlPayload> = {
 
 export const generateSuccessPayload = <Data, AddlPayload>(
   response: RequestReturnType<Data>,
-  // additionalPayloadFields?: AddlPayload
+  additionalPayloadFields?: AddlPayload
 ): ActionPayload<Data> => ({
-    // data: { ...response.data.data, ...additionalPayloadFields },
-    data: response.data.data,
+    data: { ...response.data.data, ...additionalPayloadFields },
     code: response.status || null
   });
 

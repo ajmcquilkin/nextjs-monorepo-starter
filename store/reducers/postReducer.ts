@@ -17,7 +17,7 @@ const postReducer = (state = initialState, action: Actions): PostState => {
       ...state,
       posts: {
         ...state.posts,
-        [action.payload.data._id]: action.payload.data
+        [action.payload.data.post._id]: action.payload.data.post
       }
     };
 
@@ -27,16 +27,16 @@ const postReducer = (state = initialState, action: Actions): PostState => {
       posts: action.payload.data.posts.reduce((accum, post) => ({
         ...accum,
         [post._id]: post
-      }), state.posts) // ? Is this immutable??
+      }), state.posts)
     };
 
   case 'FETCH_POSTS':
     return {
       ...state,
-      posts: action.payload.data.reduce((accum, post) => ({
+      posts: action.payload.data.posts.reduce((accum, post) => ({
         ...accum,
         [post._id]: post
-      }), state.posts) // ? Is this immutable??
+      }), state.posts)
     };
 
   case 'DELETE_POST':

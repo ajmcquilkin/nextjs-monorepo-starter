@@ -14,7 +14,7 @@ const handler = createDefaultHandler()
   .get(async (req, res) => {
     const { id } = req.query;
     const foundPost = await postController.read(id as string);
-    return res.status(200).json(createSuccessPayload<FetchPostData>(foundPost));
+    return res.status(200).json(createSuccessPayload<FetchPostData>({ post: foundPost }));
   })
 
   .put(async (req, res) => {
@@ -38,7 +38,7 @@ const handler = createDefaultHandler()
       reviewComment
     });
 
-    return res.status(200).json(createSuccessPayload<FetchPostData>(updatedPost));
+    return res.status(200).json(createSuccessPayload<FetchPostData>({ post: updatedPost }));
   })
 
   .delete(async (req, res) => {

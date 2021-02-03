@@ -12,12 +12,12 @@ const handler = createDefaultHandler()
 
   .get(async (_req, res) => {
     const foundPosts = await postController.readAll();
-    return res.status(200).json(createSuccessPayload<FetchPostsData>(foundPosts));
+    return res.status(200).json(createSuccessPayload<FetchPostsData>({ posts: foundPosts }));
   })
 
   .post(async (req, res) => {
     const newPost = await postController.create(req.body);
-    return res.status(201).json(createSuccessPayload<FetchPostData>(newPost));
+    return res.status(201).json(createSuccessPayload<FetchPostData>({ post: newPost }));
   });
 
 export default handler;
