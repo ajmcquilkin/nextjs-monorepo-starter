@@ -1,40 +1,41 @@
 import { createBackendAxiosRequest } from 'store/requests';
-import { Release } from 'types/release';
+import { Empty } from 'types/generic';
+import { FetchReleaseData, Release } from 'types/release';
 import { RequestReturnType } from 'types/state';
 
-export const fetchReleaseByIdRequest = <D>(
+export const fetchReleaseByIdRequest = (
   id: string
-): Promise<RequestReturnType<D>> => createBackendAxiosRequest<D>({
+): Promise<RequestReturnType<FetchReleaseData>> => createBackendAxiosRequest({
   method: 'GET',
   url: `/release/${id}`
 });
 
-export const updateReleaseByIdRequest = <D>(
-  id: string, update: Partial<Release>
-): Promise<RequestReturnType<D>> => createBackendAxiosRequest<D>({
-  method: 'PUT',
-  url: `/release/${id}`,
-  data: update
+export const fetchReleaseByDateRequest = (
+  date: number
+): Promise<RequestReturnType<FetchReleaseData>> => createBackendAxiosRequest({
+  method: 'GET',
+  url: `/release/date?date=${date}`
 });
 
-export const deleteReleaseByIdRequest = <D>(
-  id: string
-): Promise<RequestReturnType<D>> => createBackendAxiosRequest<D>({
-  method: 'DELETE',
-  url: `/release/${id}`
-});
-
-export const createReleaseRequest = <D>(
+export const createReleaseRequest = (
   fields: Partial<Release>
-): Promise<RequestReturnType<D>> => createBackendAxiosRequest<D>({
+): Promise<RequestReturnType<FetchReleaseData>> => createBackendAxiosRequest({
   method: 'POST',
   url: '/release',
   data: fields
 });
 
-export const fetchReleaseByDateRequest = <D>(
-  date: number
-): Promise<RequestReturnType<D>> => createBackendAxiosRequest<D>({
-  method: 'GET',
-  url: `/release/date?date=${date}`
+export const updateReleaseByIdRequest = (
+  id: string, update: Partial<Release>
+): Promise<RequestReturnType<FetchReleaseData>> => createBackendAxiosRequest({
+  method: 'PUT',
+  url: `/release/${id}`,
+  data: update
+});
+
+export const deleteReleaseByIdRequest = (
+  id: string
+): Promise<RequestReturnType<Empty>> => createBackendAxiosRequest({
+  method: 'DELETE',
+  url: `/release/${id}`
 });

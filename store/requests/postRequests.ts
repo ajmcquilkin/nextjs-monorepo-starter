@@ -1,68 +1,75 @@
 import { createBackendAxiosRequest } from 'store/requests';
-import { Post, PostStatus } from 'types/post';
+
+import { Empty } from 'types/generic';
+
+import {
+  FetchPostData, FetchPostsData,
+  Post, PostStatus
+} from 'types/post';
+
 import { RequestReturnType } from 'types/state';
 
-export const fetchAllPostsRequest = <D>(
+export const fetchAllPostsRequest = (
 
-): Promise<RequestReturnType<D>> => createBackendAxiosRequest<D>({
+): Promise<RequestReturnType<FetchPostsData>> => createBackendAxiosRequest({
   method: 'GET',
   url: '/posts'
 });
 
-export const fetchWithStatusRequest = <D>(
+export const fetchWithStatusRequest = (
   status: PostStatus = 'approved'
-): Promise<RequestReturnType<D>> => createBackendAxiosRequest<D>({
+): Promise<RequestReturnType<FetchPostData>> => createBackendAxiosRequest({
   method: 'GET',
   url: `/posts?status=${status}`
 });
 
-export const fetchSubmissionsRequest = <D>(
+export const fetchSubmissionsRequest = (
 
-): Promise<RequestReturnType<D>> => createBackendAxiosRequest<D>({
+): Promise<RequestReturnType<FetchPostsData>> => createBackendAxiosRequest({
   method: 'GET',
   url: '/posts/submissions'
 });
 
-export const fetchPostsToReviewRequest = <D>(
+export const fetchPostsToReviewRequest = (
 
-): Promise<RequestReturnType<D>> => createBackendAxiosRequest<D>({
+): Promise<RequestReturnType<FetchPostsData>> => createBackendAxiosRequest({
   method: 'GET',
   url: '/posts/review'
 });
 
-export const createPostRequest = <D>(
+export const createPostRequest = (
   fields: Omit<Post, '_id'>
-): Promise<RequestReturnType<D>> => createBackendAxiosRequest<D>({
+): Promise<RequestReturnType<FetchPostData>> => createBackendAxiosRequest({
   method: 'POST',
   url: '/posts',
   data: fields
 });
 
-export const fetchPostByIdRequest = <D>(
+export const fetchPostByIdRequest = (
   id: string
-): Promise<RequestReturnType<D>> => createBackendAxiosRequest<D>({
+): Promise<RequestReturnType<FetchPostData>> => createBackendAxiosRequest({
   method: 'GET',
   url: `/posts/${id}`
 });
 
-export const updatePostByIdRequest = <D>(
+export const updatePostByIdRequest = (
   id: string, update: Partial<Post>
-): Promise<RequestReturnType<D>> => createBackendAxiosRequest<D>({
+): Promise<RequestReturnType<FetchPostData>> => createBackendAxiosRequest({
   method: 'PUT',
   url: `/posts/${id}`,
   data: update
 });
 
-export const deletePostByIdRequest = <D>(
+export const deletePostByIdRequest = (
   id: string
-): Promise<RequestReturnType<D>> => createBackendAxiosRequest<D>({
+): Promise<RequestReturnType<Empty>> => createBackendAxiosRequest({
   method: 'DELETE',
   url: `/posts/${id}`
 });
 
-export const fetchPostsByDateRequest = <D>(
+export const fetchPostsByDateRequest = (
   date: number
-): Promise<RequestReturnType<D>> => createBackendAxiosRequest<D>({
+): Promise<RequestReturnType<FetchPostsData>> => createBackendAxiosRequest({
   method: 'GET',
   url: `/posts/${date}`
 });
