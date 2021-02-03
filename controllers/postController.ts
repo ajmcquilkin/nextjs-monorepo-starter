@@ -89,3 +89,16 @@ export const fetchPostsForRelease = async (release: Release): Promise<Post[]> =>
   const foundPosts = await PostModel.find({ _id: { $in: postsToFetch } });
   return foundPosts;
 };
+
+export const fetchPostsForGroups = async (groups: string[]): Promise<Post[]> => {
+  const foundPosts: PostDocument[] = await PostModel.find({
+    recipientGroups: {
+      $in: groups
+    }
+  });
+
+  // console.log(foundPostsJSON);
+  // console.log(JSON.stringify(foundPostsJSON));
+
+  return foundPosts;
+};

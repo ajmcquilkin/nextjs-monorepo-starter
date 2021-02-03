@@ -12,7 +12,7 @@ const postSchemaFields: Record<keyof Omit<Post, '_id'>, any> = {
   briefContent: String,
   url: String,
   requestedPublicationDate: Number,
-  recipientGroups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
+  recipientGroups: [String],
 
   status: { type: String, default: 'draft' }, // 'draft' | 'pending' | 'approved' | 'rejected' | 'published'
   dateItemCreated: { type: Date, default: Date.now },
