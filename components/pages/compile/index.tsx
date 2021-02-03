@@ -14,6 +14,7 @@ import uploadImage from 'utils/s3';
 
 import { Post } from 'types/post';
 import { Release } from 'types/release';
+import { ConnectedThunkCreator } from 'types/state';
 
 import styles from './compile.module.scss';
 
@@ -28,9 +29,9 @@ export interface CompileStateProps {
 }
 
 export interface CompileDispatchProps {
-  fetchReleaseByDate: typeof fetchReleaseByDateImport,
-  createRelease: typeof createReleaseImport,
-  updateReleaseById: typeof updateReleaseByIdImport
+  fetchReleaseByDate: ConnectedThunkCreator<typeof fetchReleaseByDateImport>,
+  createRelease: ConnectedThunkCreator<typeof createReleaseImport>,
+  updateReleaseById: ConnectedThunkCreator<typeof updateReleaseByIdImport>
 }
 
 export type CompileProps = CompilePassedProps & CompileStateProps & CompileDispatchProps;

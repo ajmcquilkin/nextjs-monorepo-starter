@@ -1,10 +1,9 @@
 import { AxiosError } from 'axios';
-import { ThunkDispatch } from 'redux-thunk';
 
 import { Empty } from 'types/generic';
 import {
   ActionTypes, ActionPayload, Actions,
-  RequestReturnType, RootState
+  RequestReturnType, GlobalDispatch
 } from 'types/state';
 import { ServerPayload } from 'types/server';
 
@@ -31,7 +30,7 @@ export const generateFailurePayload = <Data>(
   });
 
 export const createAsyncActionCreator = async <Data, AddlPayload = any>(
-  dispatch: ThunkDispatch<RootState, undefined, Actions>,
+  dispatch: GlobalDispatch,
   type: ActionTypes,
   axiosFetchCallback: () => Promise<RequestReturnType<Data>>,
   config: AsyncActionCreatorConfig<Data, AddlPayload> = {}

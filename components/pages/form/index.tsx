@@ -23,6 +23,7 @@ import {
 
 import { Post } from 'types/post';
 import { Group } from 'types/group';
+import { ConnectedThunkCreator } from 'types/state';
 
 import styles from './form.module.scss';
 
@@ -42,11 +43,11 @@ export interface FormStateProps {
 }
 
 export interface FormDispatchProps {
-  createPost: typeof createPostImport,
-  fetchPostById: typeof fetchPostByIdImport,
-  fetchApproved: typeof fetchWithStatusImport,
-  updatePostById: typeof updatePostByIdImport,
-  setError: typeof setErrorImport,
+  createPost: ConnectedThunkCreator<typeof createPostImport>,
+  fetchPostById: ConnectedThunkCreator<typeof fetchPostByIdImport>,
+  fetchApproved: ConnectedThunkCreator<typeof fetchWithStatusImport>,
+  updatePostById: ConnectedThunkCreator<typeof updatePostByIdImport>,
+  setError: ConnectedThunkCreator<typeof setErrorImport>
 }
 
 export type FormProps = FormPassedProps & FormStateProps & FormDispatchProps;

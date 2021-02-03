@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { createPost as createPostImport, deletePostById as deletePostByIdImport } from 'store/actionCreators/postActionCreators';
 
 import { Post, PostStatus } from 'types/post';
+import { ConnectedThunkCreator } from 'types/state';
+
 import styles from './submission.module.scss';
 
 export interface SubmissionPassedProps {
@@ -15,8 +17,8 @@ export interface SubmissionStateProps {
 }
 
 export interface SubmissionDispatchProps {
-  createPost: typeof createPostImport,
-  deletePostById: typeof deletePostByIdImport
+  createPost: ConnectedThunkCreator<typeof createPostImport>,
+  deletePostById: ConnectedThunkCreator<typeof deletePostByIdImport>
 }
 
 export type SubmissionProps = SubmissionPassedProps & SubmissionStateProps & SubmissionDispatchProps;
