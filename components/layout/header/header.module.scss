@@ -24,14 +24,6 @@
     }
   }
 
-  @media (max-width: 700px) {
-    .headerBrandContainer {
-      // ? There has got to be a better way to do this
-      margin-left: 50%;
-      margin-right: 50%;
-    }
-  }
-
   .headerLinksContainer {
     margin: auto 24px 0px 0px;
   }
@@ -73,3 +65,11 @@
     }
   }
 }
+
+@media (max-width: 700px) {
+  .headerContainer {
+    display: flex;
+    justify-content: center;
+  }
+}
+
