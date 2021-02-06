@@ -1,0 +1,37 @@
+.mobileNavigationContainer {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    height: 100px;
+    font-family: National2-Reg, sans-serif;
+    font-size: 20px;
+
+    .buttonList {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        list-style-type: none;
+    }
+
+    button {
+        all: unset;
+    }
+
+    .buttonListItem {
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+        border-bottom: 2px solid grey;
+        &:hover {
+            font-size: 22px;
+            color: green;
+            border-bottom: 2px solid green;
+        }
+        &.active {
+            color: green;
+            font-size: 24px;
+            border-bottom: 2px solid green;
+        }
+    }
+}

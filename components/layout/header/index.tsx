@@ -11,7 +11,13 @@ interface HeaderProps {
 const Header = ({ isAuthenticated = false, isFaculty = false, isReviewer = false }: HeaderProps): JSX.Element => (
   <header className={styles.headerContainer}>
     <div className={styles.headerBrandContainer}>
-      <Image
+      {/* <Image
+        src="/dPineWhite.svg"
+        alt="Vox Daily"
+        width={40}
+        height={40}
+      /> */}
+      <img
         src="/dPineWhite.svg"
         alt="Vox Daily"
         width={40}

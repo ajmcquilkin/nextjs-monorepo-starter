@@ -33,8 +33,27 @@
       }
   }
 
+  .mobileNavContainer {
+      width: 100%;
+      display: none;
+      margin-bottom: 0px;
+  }
+
+  @media(max-width: 700px) {
+      .mobileNavContainer {
+          width: 100%;
+          display: block;
+      }
+  }
+
+  .spacer {
+      height: 2000px;
+  }
+
   .homeMainContentContainer {
       max-width: 900px;
+      margin-left: 10%;
+      margin-right: 10%;
       
       .homeFeaturedStoryContainer {
           h3 {
@@ -87,6 +106,7 @@
           flex-direction: column;
           align-items: center;
           margin: 0 auto 96px;
+          margin-top: 40px;
           max-width: 800px;
 
           h4 {
@@ -146,5 +166,15 @@
               }
           }
       }
+  }
+
+  .postSectionContainerActive {
+      display: block;
+      margin-left: 10%;
+      margin-right: 10%;
+  }
+
+  .postSectionContainer {
+      display: none;
   }
 }

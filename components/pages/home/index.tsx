@@ -3,6 +3,7 @@ import MainWrapper from 'components/layout/mainWrapper';
 import PostContent from 'components/posts/postContent';
 import PostSection from 'components/posts/postSection';
 import PostSectionSummary from 'components/posts/postSectionSummary';
+import MobileNavigation from 'components/mobileComponents';
 
 import { getFullDate } from 'utils';
 
@@ -52,13 +53,13 @@ const Home = ({ release, releasePostMap }: HomePassedProps): JSX.Element => {
             </div>
           ) : null}
 
-          <div className={styles.homeItemSectionSummaryContainer}>
+          {/* <div className={styles.homeItemSectionSummaryContainer}>
             <div className={styles.homeItemSectionSummaryContainerLeft}>
               <PostSectionSummary title="News" posts={news} hideFrom />
               <PostSectionSummary title="Announcements" posts={announcements} />
             </div>
             <PostSectionSummary title="Events" posts={events} />
-          </div>
+          </div> */}
 
           <div className={styles.homeQuoteContainer}>
             <h4>Quote of the Day</h4>
@@ -67,22 +68,37 @@ const Home = ({ release, releasePostMap }: HomePassedProps): JSX.Element => {
           </div>
         </section>
 
+        <div className={styles.mobileNavContainer}>
+          <MobileNavigation
+            newsLength={news.length}
+            announcementeLength={announcements.length}
+            eventsLength={events.length}
+            active="news"
+          />
+        </div>
+
         <section>
-          <PostSection
-            title="News"
-            subtitle="from the office of communications"
-            posts={news}
-          />
+          <div id="news" className={styles.postSectionContainerActive}>
+            <PostSection
+              title="News"
+              subtitle="from the office of communications"
+              posts={news}
+            />
+          </div>
 
-          <PostSection
-            title="Announcements"
-            posts={announcements}
-          />
+          <div id="announcement" className={styles.postSectionContainer}>
+            <PostSection
+              title="Announcements"
+              posts={announcements}
+            />
+          </div>
 
-          <PostSection
-            title="Events"
-            posts={events}
-          />
+          <div id="event" className={styles.postSectionContainer}>
+            <PostSection
+              title="Events"
+              posts={events}
+            />
+          </div>
         </section>
       </div>
     </MainWrapper>
