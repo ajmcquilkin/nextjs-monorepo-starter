@@ -1,4 +1,5 @@
 module.exports = {
+  distDir: '/out',
   webpack: (config, {
     buildId, dev, isServer, defaultLoaders, webpack
   }) => {
