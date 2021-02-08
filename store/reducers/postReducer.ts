@@ -39,6 +39,17 @@ const postReducer = (state = initialState, action: Actions): PostState => {
       }), state.posts)
     };
 
+  case 'FETCH_POST_RESULTS':
+    return {
+      ...state,
+      results: action.payload.data.results,
+      numResults: action.payload.data.numResults,
+      posts: action.payload.data.posts.reduce((accum, post) => ({
+        ...accum,
+        [post._id]: post
+      }), state.posts)
+    };
+
   case 'DELETE_POST':
     return {
       ...state,

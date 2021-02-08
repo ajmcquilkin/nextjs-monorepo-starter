@@ -17,24 +17,17 @@ export const fetchWithStatus = (
   status: PostStatus,
   additionalConfig = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator(
-  dispatch, 'FETCH_POST',
+  dispatch, 'FETCH_POST_RESULTS',
   () => postRequests.fetchWithStatusRequest(status),
   additionalConfig
 );
 
-export const fetchSubmissions = (
+export const fetchPostsByDate = (
+  date: number,
   additionalConfig = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator(
-  dispatch, 'FETCH_POSTS',
-  () => postRequests.fetchSubmissionsRequest(),
-  additionalConfig
-);
-
-export const fetchReview = (
-  additionalConfig = {}
-): ThunkResult => (dispatch) => createAsyncActionCreator(
-  dispatch, 'FETCH_POSTS',
-  () => postRequests.fetchPostsToReviewRequest(),
+  dispatch, 'FETCH_POST_RESULTS',
+  () => postRequests.fetchPostsByDateRequest(date),
   additionalConfig
 );
 
@@ -73,13 +66,4 @@ export const deletePostById = (
   dispatch, 'DELETE_POST',
   () => postRequests.deletePostByIdRequest(id),
   { ...additionalConfig, additionalPayloadFields: { id }, }
-);
-
-export const fetchPostsByDate = (
-  date: number,
-  additionalConfig = {}
-): ThunkResult => (dispatch) => createAsyncActionCreator(
-  dispatch, 'FETCH_POSTS',
-  () => postRequests.fetchPostsByDateRequest(date),
-  additionalConfig
 );

@@ -1,7 +1,7 @@
 import { DocumentNotFoundError } from 'errors';
 import { PostModel } from 'models';
 
-import { Post, PostDocument } from 'types/post';
+import { Post, PostDocument, PostStatus } from 'types/post';
 import { Release } from 'types/release';
 import { getMidnightDate } from 'utils';
 
@@ -79,6 +79,11 @@ export const readAll = async (): Promise<Post[]> => {
 
 export const readAllByDate = async (date: number): Promise<Post[]> => {
   const foundPosts: PostDocument[] = await PostModel.find({ requestedPublicationDate: getMidnightDate(date) });
+  return foundPosts;
+};
+
+export const readAllByStatus = async (status: PostStatus): Promise<Post[]> => {
+  const foundPosts: PostDocument[] = await PostModel.find({ status });
   return foundPosts;
 };
 

@@ -23,20 +23,6 @@ export const fetchWithStatusRequest = (
   url: `/posts?status=${status}`
 });
 
-export const fetchSubmissionsRequest = (
-
-): Promise<RequestReturnType<FetchPostsData>> => createBackendAxiosRequest({
-  method: 'GET',
-  url: '/posts/submissions'
-});
-
-export const fetchPostsToReviewRequest = (
-
-): Promise<RequestReturnType<FetchPostsData>> => createBackendAxiosRequest({
-  method: 'GET',
-  url: '/posts/review'
-});
-
 export const createPostRequest = (
   fields: Omit<Post, '_id'>
 ): Promise<RequestReturnType<FetchPostData>> => createBackendAxiosRequest({
