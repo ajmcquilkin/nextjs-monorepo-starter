@@ -1,4 +1,5 @@
 module.exports = {
+  target: 'serverless',
   webpack: (config, {
     buildId, dev, isServer, defaultLoaders, webpack
   }) => {
