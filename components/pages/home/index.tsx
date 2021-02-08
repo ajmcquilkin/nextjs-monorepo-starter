@@ -30,6 +30,7 @@ const Home = ({ release, releasePostMap }: HomePassedProps): JSX.Element => {
     <MainWrapper>
       <div className={styles.homeContainer}>
         <section className={styles.homeHeaderContentContainer}>
+          <div className={styles.homeHeaderTopBar} />
           <div className={styles.homeTitleContainer}>
             <div className="section-bar" />
             <div className={styles.homeTitleTextContainer}>
@@ -38,6 +39,7 @@ const Home = ({ release, releasePostMap }: HomePassedProps): JSX.Element => {
             </div>
             <div className="section-bar" />
           </div>
+          <div className={styles.homeHeaderBottomBar} />
 
           <img
             src="https://www.insubuy.com/assets/img/schools/dartmouth-college.jpg"
@@ -52,14 +54,6 @@ const Home = ({ release, releasePostMap }: HomePassedProps): JSX.Element => {
               <PostContent content={featuredPost} />
             </div>
           ) : null}
-
-          {/* <div className={styles.homeItemSectionSummaryContainer}>
-            <div className={styles.homeItemSectionSummaryContainerLeft}>
-              <PostSectionSummary title="News" posts={news} hideFrom />
-              <PostSectionSummary title="Announcements" posts={announcements} />
-            </div>
-            <PostSectionSummary title="Events" posts={events} />
-          </div> */}
 
           <div className={styles.homeQuoteContainer}>
             <h4>Quote of the Day</h4>

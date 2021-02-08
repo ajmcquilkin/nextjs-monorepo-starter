@@ -33,11 +33,11 @@ const Header = ({ isAuthenticated = false, isFaculty = false, isReviewer = false
       {isReviewer && <HeaderLink to="/compile" label="Compile" />}
     </nav>
 
-    <div className={styles.headerSignoutContainer}>
+    {/* <div className={styles.headerSignoutContainer}>
       {isAuthenticated
         ? <a href="/api/auth/logout">Log Out</a>
         : <a href="/api/auth/signin">Log in</a>}
-    </div>
+    </div> */}
   </header>
 );
 

@@ -5,10 +5,24 @@
 
   .homeHeaderContentContainer {
       max-width: 400px;
-      margin-bottom: 72px;
+      margin-bottom: 40px;
+
+      .homeHeaderTopBar {
+          height: 8px;
+          background-color: #00693e;
+          border-radius: 6px;
+          margin-top: 40px;
+      }
+
+      .homeHeaderBottomBar {
+          height: 8px;
+          background-color: #00693e;
+          border-radius: 6px;
+          margin-bottom: 40px;
+      }
 
       .homeTitleContainer {
-          margin: 40px auto;
+          // margin: 25px auto;
   
           .homeTitleTextContainer {
               padding: 24px 0;

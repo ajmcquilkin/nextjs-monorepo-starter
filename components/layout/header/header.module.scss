@@ -70,6 +70,10 @@
   .headerContainer {
     display: flex;
     justify-content: center;
+    
+    .headerBrandContainer {
+      margin: unset;
+    }
   }
 }
 
