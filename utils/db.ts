@@ -11,9 +11,8 @@ export const dbConnectionOptions: Partial<mongoose.ConnectOptions> = {
 };
 
 export const dbConnect = async (): Promise<typeof mongoose | void> => {
-  if (mongoose.connection.readyState < 1) {
-    return mongoose.connect(__MONGODB_URI__, dbConnectionOptions);
-  }
+  if (mongoose.connection.readyState < 1) return mongoose.connect(__MONGODB_URI__, dbConnectionOptions);
+  return Promise.resolve();
 };
 
 export const useDB = async (_req: ServerRequestType, _res: ServerResponseType, next: NextHandler): Promise<void> => {
