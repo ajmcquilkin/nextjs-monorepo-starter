@@ -2,6 +2,10 @@
 
 One to two sentence description.
 
+## Next Steps
+
+- Include a list of next steps with linked [issues](Link) (if applicable)
+
 ## Type of Change
 
 - [ ] New feature
