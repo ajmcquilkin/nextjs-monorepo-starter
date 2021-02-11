@@ -32,27 +32,10 @@ export const create = async (fields: CreatePostType): Promise<Post> => {
   post.url = url;
   post.status = status;
 
-  // * Matched from below
-  if (requestedPublicationDate) {
-    try {
-      await releaseController.fetchReleaseByDate(requestedPublicationDate);
-    } catch (error) {
-      await releaseController.create({
-        date: requestedPublicationDate,
+  post.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
 
-        headerImage: '',
-        subject: '',
-        quoteOfDay: '',
-        quotedContext: '',
-        featuredPost: null,
-
-        news: [],
-        announcements: [],
-        events: []
-      });
-    }
-
-    post.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
+  if (requestedPublicationDate && status === 'approved') {
+    await releaseController.fetchOrCreateReleaseByDate(requestedPublicationDate);
   }
 
   return (await post.save()).toJSON();
@@ -85,28 +68,10 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
 
   if (status) foundPost.status = status;
   if (reviewComment) foundPost.reviewComment = reviewComment;
+  if (requestedPublicationDate) foundPost.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
 
-  // * Matched from above
-  if (requestedPublicationDate) {
-    const foundRelease = await releaseController.fetchReleaseByDate(requestedPublicationDate);
-
-    if (!foundRelease) {
-      await releaseController.create({
-        date: requestedPublicationDate,
-
-        headerImage: '',
-        subject: '',
-        quoteOfDay: '',
-        quotedContext: '',
-        featuredPost: null,
-
-        news: [],
-        announcements: [],
-        events: []
-      });
-    }
-
-    foundPost.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
+  if (status === 'approved' && (requestedPublicationDate ?? foundPost.requestedPublicationDate)) {
+    await releaseController.fetchOrCreateReleaseByDate(requestedPublicationDate ?? foundPost.requestedPublicationDate);
   }
 
   foundPost.lastEdited = Date.now();
@@ -148,9 +113,6 @@ export const fetchPostsForGroups = async (groups: string[]): Promise<Post[]> => 
       $in: groups
     }
   });
-
-  // console.log(foundPostsJSON);
-  // console.log(JSON.stringify(foundPostsJSON));
 
   return foundPosts;
 };
