@@ -37,6 +37,29 @@ export const fetchReleaseByDate = async (requestedDate: number): Promise<Release
   return foundRelease.toJSON();
 };
 
+export const fetchOrCreateReleaseByDate = async (requestedPublicationDate: number): Promise<Release> => {
+  try {
+    const foundRelease = await fetchReleaseByDate(requestedPublicationDate);
+    return foundRelease;
+  } catch (_error) {
+    const foundRelease = await create({
+      date: requestedPublicationDate,
+
+      headerImage: '',
+      subject: '',
+      quoteOfDay: '',
+      quotedContext: '',
+      featuredPost: null,
+
+      news: [],
+      announcements: [],
+      events: []
+    });
+
+    return foundRelease;
+  }
+};
+
 export const update = async (id: string, fields: Partial<Release>): Promise<Release> => {
   const {
     date, subject, headerImage, quoteOfDay, quotedContext, featuredPost, news, announcements, events

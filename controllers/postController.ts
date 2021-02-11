@@ -1,13 +1,16 @@
+import * as releaseController from 'controllers/releaseController';
+
 import { DocumentNotFoundError } from 'errors';
 import { PostModel } from 'models';
 
+import { getMidnightDate } from 'utils';
+
 import { Post, PostDocument, PostStatus } from 'types/post';
 import { Release } from 'types/release';
-import { getMidnightDate } from 'utils';
 
 type CreatePostType = Pick<Post,
   'fromName' | 'fromAddress' | 'submitterNetId' | 'type' | 'fullContent' |
-  'briefContent' | 'url' | 'requestedPublicationDate' | 'status'
+  'briefContent' | 'url' | 'requestedPublicationDate' | 'status' | 'recipientGroups'
 >;
 
 export const create = async (fields: CreatePostType): Promise<Post> => {
@@ -27,8 +30,13 @@ export const create = async (fields: CreatePostType): Promise<Post> => {
 
   post.briefContent = briefContent;
   post.url = url;
-  post.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
   post.status = status;
+
+  post.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
+
+  if (requestedPublicationDate && status === 'approved') {
+    await releaseController.fetchOrCreateReleaseByDate(requestedPublicationDate);
+  }
 
   return (await post.save()).toJSON();
 };
@@ -57,10 +65,14 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
   if (fullContent) foundPost.fullContent = fullContent;
   if (briefContent) foundPost.briefContent = briefContent;
   if (url) foundPost.url = url;
-  if (requestedPublicationDate) foundPost.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
 
   if (status) foundPost.status = status;
   if (reviewComment) foundPost.reviewComment = reviewComment;
+  if (requestedPublicationDate) foundPost.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
+
+  if (status === 'approved' && (requestedPublicationDate ?? foundPost.requestedPublicationDate)) {
+    await releaseController.fetchOrCreateReleaseByDate(requestedPublicationDate ?? foundPost.requestedPublicationDate);
+  }
 
   foundPost.lastEdited = Date.now();
   return (await foundPost.save()).toJSON();
@@ -101,9 +113,6 @@ export const fetchPostsForGroups = async (groups: string[]): Promise<Post[]> => 
       $in: groups
     }
   });
-
-  // console.log(foundPostsJSON);
-  // console.log(JSON.stringify(foundPostsJSON));
 
   return foundPosts;
 };
