@@ -2,15 +2,13 @@ import MainWrapper from 'components/layout/mainWrapper';
 
 import PostContent from 'components/posts/postContent';
 import PostSection from 'components/posts/postSection';
-import PostSectionSummary from 'components/posts/postSectionSummary';
-import MobileNavigation from 'components/homeNavigation';
+import HomeNavigation from 'components/homeNavigation';
 
 import { getFullDate } from 'utils';
 
-import { Post, PostPublishType } from 'types/post';
+import { Post } from 'types/post';
 import { Release } from 'types/release';
 
-import { useState } from 'react';
 import styles from './home.module.scss';
 
 export interface HomePassedProps {
@@ -64,7 +62,7 @@ const Home = ({ release, releasePostMap }: HomePassedProps): JSX.Element => {
         </section>
 
         <div className={styles.mobileNavContainer}>
-          <MobileNavigation
+          <HomeNavigation
             newsLength={news.length}
             announcementeLength={announcements.length}
             eventsLength={events.length}
