@@ -2,7 +2,8 @@ import mongoose, { Schema, Model } from 'mongoose';
 import { Release, ReleaseDocument } from 'types/release';
 
 const releaseSchemaFields: Record<keyof Omit<Release, '_id'>, any> = {
-  date: Number,
+  date: { type: Number, required: true, unique: true },
+
   subject: { type: String, default: '' },
   headerImage: { type: String, default: '' },
   imageCaption: { type: String, default: '' },
@@ -18,6 +19,9 @@ const releaseSchemaFields: Record<keyof Omit<Release, '_id'>, any> = {
 };
 
 const ReleaseSchema = new Schema(releaseSchemaFields);
+
+ReleaseSchema.index({ date: -1 });
+ReleaseSchema.on('index', (error) => console.error(error.message));
 
 const ReleaseModel: Model<ReleaseDocument> = mongoose.models.Release || mongoose.model<ReleaseDocument>('Release', ReleaseSchema);
 export default ReleaseModel;
