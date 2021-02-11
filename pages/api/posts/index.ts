@@ -8,6 +8,7 @@ import {
   FetchPostData, FetchPostResultsData, FetchPostsData,
   PostStatus
 } from 'types/post';
+import { IncompleteRequestError } from 'errors';
 
 const handler = createDefaultHandler()
   .use(useDB)
@@ -29,7 +30,28 @@ const handler = createDefaultHandler()
   })
 
   .post(async (req, res) => {
-    const newPost = await postController.create(req.body);
+    const {
+      type, requestedPublicationDate, submitterNetId,
+      fromName, fromAddress, fullContent, briefContent, url, recipientGroups
+    } = req.body;
+
+    if (!type) throw new IncompleteRequestError('type');
+    if (!requestedPublicationDate) throw new IncompleteRequestError('requestedPublicationDate');
+    if (!submitterNetId) throw new IncompleteRequestError('submitterNetId');
+
+    const newPost = await postController.create({
+      type,
+      requestedPublicationDate,
+      submitterNetId,
+      fromName,
+      fromAddress,
+      fullContent,
+      briefContent,
+      url,
+      recipientGroups,
+      status: 'draft'
+    });
+
     return res.status(201).json(createSuccessPayload<FetchPostData>({ post: newPost }));
   });
 
