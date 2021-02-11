@@ -11,4 +11,4 @@ export type Email = HTML;
 /* -------- Action Types -------- */
 
 export type GenerateEmailData = { html: Email };
-export type CurateGroupPostsData = { release: Release, posts: Post[] };
+export type CuratedGroupPostsData = { release: Release, posts: Post[] };
