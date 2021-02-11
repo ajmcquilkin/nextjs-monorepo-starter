@@ -3,16 +3,16 @@ import { Post, PostDocument } from 'types/post';
 
 // Reference: https://hackernoon.com/how-to-link-mongoose-and-typescript-for-a-single-source-of-truth-94o3uqc
 const postSchemaFields: Record<keyof Omit<Post, '_id'>, any> = {
-  fromName: String,
-  fromAddress: String,
-  submitterNetId: String,
+  type: { type: String, required: true }, // 'news' | 'announcement' | 'event'
+  requestedPublicationDate: { type: Number, required: true },
+  submitterNetId: { type: String, required: true },
 
-  type: String, // 'news' | 'announcement' | 'event'
-  fullContent: String,
-  briefContent: String,
-  url: String,
-  requestedPublicationDate: Number,
-  recipientGroups: [String],
+  fromName: { type: String, default: '' },
+  fromAddress: { type: String, default: '' },
+  fullContent: { type: String, default: '' },
+  briefContent: { type: String, default: '' },
+  url: { type: String, default: '' },
+  recipientGroups: { type: [String], default: [] },
 
   status: { type: String, default: 'draft' }, // 'draft' | 'pending' | 'approved' | 'rejected' | 'published'
   dateItemCreated: { type: Date, default: Date.now },
