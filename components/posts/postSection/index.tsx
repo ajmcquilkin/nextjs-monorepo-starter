@@ -14,7 +14,7 @@ const PostSection = ({ title, subtitle, posts: postList = [] }: PostSectionProps
     <div className="section-bar" />
 
     <div className={styles.postSectionTitleContainer}>
-      <h3>{title}</h3>
+      {/* <h3>{title}</h3> */}
       <p>{subtitle}</p>
     </div>
 

@@ -28,6 +28,18 @@
     margin: auto 24px 0px 0px;
   }
 
+  @media (max-width: 700px) {
+    .headerLinksContainer {
+      display: none;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .headerSignoutContainer {
+      display: none;
+    }
+  }
+
   .headerSignoutContainer {
     display: flex;
     flex-direction: column;
@@ -53,3 +65,21 @@
     }
   }
 }
+
+@media (max-width: 700px) {
+  .headerContainer {
+    display: flex;
+    justify-content: center;
+    
+    .headerBrandContainer {
+      margin: unset;
+    
+      img {
+        object-fit: contain;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+

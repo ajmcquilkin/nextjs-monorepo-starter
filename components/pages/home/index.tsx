@@ -2,7 +2,7 @@ import MainWrapper from 'components/layout/mainWrapper';
 
 import PostContent from 'components/posts/postContent';
 import PostSection from 'components/posts/postSection';
-import PostSectionSummary from 'components/posts/postSectionSummary';
+import HomeNavigation from 'components/homeNavigation';
 
 import { getFullDate } from 'utils';
 
@@ -30,12 +30,14 @@ const Home = ({ release, releasePostMap }: HomePassedProps): JSX.Element => {
       <div className={styles.homeContainer}>
         <section className={styles.homeHeaderContentContainer}>
           <div className={styles.homeTitleContainer}>
+            <div className={styles.homeHeaderTopBar} />
             <div className="section-bar" />
             <div className={styles.homeTitleTextContainer}>
               <h2>Vox Daily News</h2>
               <p>{getFullDate()}</p>
             </div>
             <div className="section-bar" />
+            <div className={styles.homeHeaderBottomBar} />
           </div>
 
           <img
@@ -52,14 +54,6 @@ const Home = ({ release, releasePostMap }: HomePassedProps): JSX.Element => {
             </div>
           ) : null}
 
-          <div className={styles.homeItemSectionSummaryContainer}>
-            <div className={styles.homeItemSectionSummaryContainerLeft}>
-              <PostSectionSummary title="News" posts={news} hideFrom />
-              <PostSectionSummary title="Announcements" posts={announcements} />
-            </div>
-            <PostSectionSummary title="Events" posts={events} />
-          </div>
-
           <div className={styles.homeQuoteContainer}>
             <h4>Quote of the Day</h4>
             <blockquote>{release.quoteOfDay}</blockquote>
@@ -67,22 +61,37 @@ const Home = ({ release, releasePostMap }: HomePassedProps): JSX.Element => {
           </div>
         </section>
 
+        <div className={styles.mobileNavContainer}>
+          <HomeNavigation
+            newsLength={news.length}
+            announcementeLength={announcements.length}
+            eventsLength={events.length}
+            active="news"
+          />
+        </div>
+
         <section>
-          <PostSection
-            title="News"
-            subtitle="from the office of communications"
-            posts={news}
-          />
+          <div id="news" className={styles.postSectionContainerActive}>
+            <PostSection
+              title="News"
+              subtitle="from the office of communications"
+              posts={news}
+            />
+          </div>
 
-          <PostSection
-            title="Announcements"
-            posts={announcements}
-          />
+          <div id="announcement" className={styles.postSectionContainer}>
+            <PostSection
+              title="Announcements"
+              posts={announcements}
+            />
+          </div>
 
-          <PostSection
-            title="Events"
-            posts={events}
-          />
+          <div id="event" className={styles.postSectionContainer}>
+            <PostSection
+              title="Events"
+              posts={events}
+            />
+          </div>
         </section>
       </div>
     </MainWrapper>

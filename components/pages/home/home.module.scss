@@ -5,10 +5,24 @@
 
   .homeHeaderContentContainer {
       max-width: 400px;
-      margin-bottom: 72px;
+      margin-bottom: 40px;
+
+      .homeHeaderTopBar {
+          height: 8px;
+          background-color: #00693e;
+          border-radius: 6px;
+          margin-top: 40px;
+      }
+
+      .homeHeaderBottomBar {
+          height: 8px;
+          background-color: #00693e;
+          border-radius: 6px;
+          margin-bottom: 40px;
+      }
 
       .homeTitleContainer {
-          margin: 40px auto;
+          // margin: 25px auto;
   
           .homeTitleTextContainer {
               padding: 24px 0;
@@ -33,8 +47,23 @@
       }
   }
 
+  .mobileNavContainer {
+      width: 100%;
+      // display: block;
+      margin-bottom: 0px;
+  }
+
+  @media(max-width: 768px) {
+      .mobileNavContainer {
+          width: 100%;
+          display: block;
+      }
+  }
+
   .homeMainContentContainer {
       max-width: 900px;
+      margin-left: 10%;
+      margin-right: 10%;
       
       .homeFeaturedStoryContainer {
           h3 {
@@ -87,6 +116,7 @@
           flex-direction: column;
           align-items: center;
           margin: 0 auto 96px;
+          margin-top: 40px;
           max-width: 800px;
 
           h4 {
@@ -118,19 +148,19 @@
                   z-index: -1;
               }
   
-              &:before {
-                  @include quote-style;
-                  content: "“";
-                  top: $quote-margin-top;
-                  left: calc(-1 * #{$quote-margin-sides});
-              }
+            //   &:before {
+            //       @include quote-style;
+            //       content: "“";
+            //       top: $quote-margin-top;
+            //       left: calc(-1 * #{$quote-margin-sides});
+            //   }
   
-              &:after {
-                  @include quote-style;
-                  content: "”";
-                  bottom: calc(-1 * #{$quote-margin-top});
-                  right: calc(-1 * #{$quote-margin-sides});
-              }
+            //   &:after {
+            //       @include quote-style;
+            //       content: "”";
+            //       bottom: calc(-1 * #{$quote-margin-top});
+            //       right: calc(-1 * #{$quote-margin-sides});
+            //   }
           }
 
           div {
@@ -146,5 +176,15 @@
               }
           }
       }
+  }
+
+  .postSectionContainerActive {
+      display: block;
+      margin-left: 10%;
+      margin-right: 10%;
+  }
+
+  .postSectionContainer {
+      display: none;
   }
 }
