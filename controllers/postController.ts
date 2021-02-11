@@ -1,13 +1,16 @@
+import * as releaseController from 'controllers/releaseController';
+
 import { DocumentNotFoundError } from 'errors';
 import { PostModel } from 'models';
 
+import { getMidnightDate } from 'utils';
+
 import { Post, PostDocument, PostStatus } from 'types/post';
 import { Release } from 'types/release';
-import { getMidnightDate } from 'utils';
 
 type CreatePostType = Pick<Post,
   'fromName' | 'fromAddress' | 'submitterNetId' | 'type' | 'fullContent' |
-  'briefContent' | 'url' | 'requestedPublicationDate' | 'status'
+  'briefContent' | 'url' | 'requestedPublicationDate' | 'status' | 'recipientGroups'
 >;
 
 export const create = async (fields: CreatePostType): Promise<Post> => {
@@ -27,8 +30,30 @@ export const create = async (fields: CreatePostType): Promise<Post> => {
 
   post.briefContent = briefContent;
   post.url = url;
-  post.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
   post.status = status;
+
+  // * Matched from below
+  if (requestedPublicationDate) {
+    try {
+      await releaseController.fetchReleaseByDate(requestedPublicationDate);
+    } catch (error) {
+      await releaseController.create({
+        date: requestedPublicationDate,
+
+        headerImage: '',
+        subject: '',
+        quoteOfDay: '',
+        quotedContext: '',
+        featuredPost: null,
+
+        news: [],
+        announcements: [],
+        events: []
+      });
+    }
+
+    post.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
+  }
 
   return (await post.save()).toJSON();
 };
@@ -57,10 +82,32 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
   if (fullContent) foundPost.fullContent = fullContent;
   if (briefContent) foundPost.briefContent = briefContent;
   if (url) foundPost.url = url;
-  if (requestedPublicationDate) foundPost.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
 
   if (status) foundPost.status = status;
   if (reviewComment) foundPost.reviewComment = reviewComment;
+
+  // * Matched from above
+  if (requestedPublicationDate) {
+    const foundRelease = await releaseController.fetchReleaseByDate(requestedPublicationDate);
+
+    if (!foundRelease) {
+      await releaseController.create({
+        date: requestedPublicationDate,
+
+        headerImage: '',
+        subject: '',
+        quoteOfDay: '',
+        quotedContext: '',
+        featuredPost: null,
+
+        news: [],
+        announcements: [],
+        events: []
+      });
+    }
+
+    foundPost.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
+  }
 
   foundPost.lastEdited = Date.now();
   return (await foundPost.save()).toJSON();
