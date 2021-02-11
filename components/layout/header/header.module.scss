@@ -36,7 +36,7 @@
 
   @media (max-width: 700px) {
     .headerSignoutContainer {
-      display: none !important;
+      display: none;
     }
   }
 
@@ -73,6 +73,12 @@
     
     .headerBrandContainer {
       margin: unset;
+    
+      img {
+        object-fit: contain;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 .footerContainer {
   margin-top: auto;
-  background-color: #424141;
+  background-color: #00693E;
 
   .footerContentContainer {
     display: flex;
@@ -22,12 +22,5 @@
         color: white;
       }
     }
-  }
-}
-
-@media(max-width: 700px) {
-  .footerContainer {
-    margin-top: auto;
-    background-color: #00693E;
   }
 }

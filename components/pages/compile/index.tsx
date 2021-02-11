@@ -146,10 +146,12 @@ const Compile = ({
 
               <div className="imagePreview">
                 {imageUploading === true ? <div>Image is uploading</div> : <span />}
-                <img
-                  src={headerImage}
-                  alt="optional headerImage"
-                />
+                {headerImage ? (
+                  <img
+                    src={headerImage}
+                    alt="optional headerImage"
+                  />
+                ) : <div /> }
               </div>
             </label>
 

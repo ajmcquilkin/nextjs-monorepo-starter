@@ -3,13 +3,14 @@ import MainWrapper from 'components/layout/mainWrapper';
 import PostContent from 'components/posts/postContent';
 import PostSection from 'components/posts/postSection';
 import PostSectionSummary from 'components/posts/postSectionSummary';
-import MobileNavigation from 'components/mobileComponents';
+import MobileNavigation from 'components/homeNavigation';
 
 import { getFullDate } from 'utils';
 
-import { Post } from 'types/post';
+import { Post, PostPublishType } from 'types/post';
 import { Release } from 'types/release';
 
+import { useState } from 'react';
 import styles from './home.module.scss';
 
 export interface HomePassedProps {
@@ -30,16 +31,16 @@ const Home = ({ release, releasePostMap }: HomePassedProps): JSX.Element => {
     <MainWrapper>
       <div className={styles.homeContainer}>
         <section className={styles.homeHeaderContentContainer}>
-          <div className={styles.homeHeaderTopBar} />
           <div className={styles.homeTitleContainer}>
+            <div className={styles.homeHeaderTopBar} />
             <div className="section-bar" />
             <div className={styles.homeTitleTextContainer}>
               <h2>Vox Daily News</h2>
               <p>{getFullDate()}</p>
             </div>
             <div className="section-bar" />
+            <div className={styles.homeHeaderBottomBar} />
           </div>
-          <div className={styles.homeHeaderBottomBar} />
 
           <img
             src="https://www.insubuy.com/assets/img/schools/dartmouth-college.jpg"
