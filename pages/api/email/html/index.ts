@@ -34,6 +34,9 @@ const handler = createDefaultHandler()
       // Styling replacement
       .replace(/{{__DGREEN}}/g, '#00693E')
       .replace(/{{__DBLUE}}/g, '#267ABA')
+      .replace(/{{__SECTIONSPACING}}/g, '18px')
+      .replace(/{{__SECTIONTITLEMARGIN}}/g, '4px')
+      .replace(/{{__SECTIONSPACERMARGIN}}/g, '15px')
       .replace(/{{__M0}}/g, 'margin: 0');
 
     return res.status(200).send(createSuccessPayload<GenerateEmailData>({ html: generatedHTML }));
