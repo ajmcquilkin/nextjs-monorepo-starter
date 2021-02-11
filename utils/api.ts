@@ -29,15 +29,13 @@ const session = createSession(sessionConfig);
 
 export const createDefaultHandler = <Data = unknown>(
 
-): NextConnect<ServerRequestType, ServerResponseType<ServerSuccessPayload<Data>>> => nc({
-    onError: handleError
-  }).use(session);
+): NextConnect<ServerRequestType, ServerResponseType<ServerSuccessPayload<Data>>> => nc({ onError: handleError }).use(session);
 
 export const createSuccessPayload = <T>(data: T): ServerSuccessPayload<T> => ({
   data, meta: { success: true }
 });
 
 export const requireUrlParam = (param: string) => (req: ServerRequestType, _res: ServerResponseType, next: NextHandler): void => {
-  if (!req.query.param) throw new IncompleteRequestError(`${param}`, `Missing "${param}" url parameter`);
+  if (!req.query?.[param]) throw new IncompleteRequestError(`${param}`, `Missing "${param}" url parameter`);
   next();
 };
