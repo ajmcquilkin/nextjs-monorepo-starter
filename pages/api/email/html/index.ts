@@ -43,7 +43,7 @@ const handler = createDefaultHandler()
       .replace(/<div>/g, '<table cellpadding="0" cellspacing="0" border="0"><tr><td>')
       .replace(/<\/div>/g, '</td></tr></table>');
 
-    return res.status(200).send(createSuccessPayload<GenerateEmailData>({ html: generatedHTML }));
+    return res.status(200).json(createSuccessPayload<GenerateEmailData>({ html: generatedHTML }));
     // return res.status(200).send(generatedHTML);
   });
 
