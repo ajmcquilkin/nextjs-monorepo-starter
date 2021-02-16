@@ -13,15 +13,15 @@ export const generateGroupsArray = (group: string | string[]): string[] => {
 };
 
 export const generateTitleSectionHTML = (content: { title: string, link: string, extra?: string }[]): HTML => (content.length ? content.map(({ title, link, extra }) => (
-  `<table cellpadding="0" cellspacing="0" border="0" style="padding: 0 0 9px 0"><tr><td>
+  `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="padding: 0 0 9px 0"><tr><td>
     <p><a href="${link}">${title}</a><span style="color: #424141">${extra ? ` - ${extra}` : ''}</span></p>
   </td></tr></table>`
-)).join('\n') : '<table cellpadding="0" cellspacing="0" border="0"><tr><td><p class="noContent">No content</p></td></tr></table>');
+)).join('\n') : '<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td><p class="noContent">No content</p></td></tr></table>');
 
 export const generateContentSectionHTML = (posts: Post[]): HTML => (posts.length ? posts.map((post) => (
-  `<table cellpadding="0" cellspacing="0" border="0"><tr><td>
+  `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td>
     <h4 style="margin: 0 0 0 0; padding: 0 0 9px 0;">${post.briefContent}</h4>
-    <table class="postTable"><tr><td>${post.fullContent}</td></tr></table>
+    <table role="presentation" class="postTable"><tr><td>${post.fullContent}</td></tr></table>
     <a style="margin: 6px 0 0 0;" href="${post.url}">${post.url}</a>
   </td></tr></table>`
-)).join('\n') : '<table cellpadding="0" cellspacing="0" border="0"><tr><td><p class="noContent">No content</p></td></tr></table>');
+)).join('\n') : '<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td><p class="noContent">No content</p></td></tr></table>');
