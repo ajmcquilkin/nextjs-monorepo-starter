@@ -3,7 +3,10 @@ import * as postController from 'controllers/postController';
 
 import { getFullDate } from 'utils';
 import { createDefaultHandler, createSuccessPayload } from 'utils/api';
-import { templateHTML, generateSectionHTML, generateGroupsArray } from 'utils/email';
+import {
+  templateHTML, generateGroupsArray,
+  generateTitleSectionHTML, generateContentSectionHTML
+} from 'utils/email';
 import { useDB } from 'utils/db';
 
 import { Email, GenerateEmailData } from 'types/email';
@@ -27,9 +30,21 @@ const handler = createDefaultHandler()
       .replace(/{{__URL}}/g, __APP_URL__)
 
       // HTML replacement
-      .replace(/{{__NEWS}}/g, generateSectionHTML(filteredPosts.filter((post) => post.type === 'news')))
-      .replace(/{{__ANNOUNCEMENTS}}/g, generateSectionHTML(filteredPosts.filter((post) => post.type === 'announcement')))
-      .replace(/{{__EVENTS}}/g, generateSectionHTML(filteredPosts.filter((post) => post.type === 'event')))
+      .replace(/{{__NEWSTITLES}}/g, generateTitleSectionHTML(filteredPosts
+        .filter((post) => post.type === 'news')
+        .reduce((accum, { briefContent, url }) => ([...accum, { title: briefContent, link: url }]), [])))
+
+      .replace(/{{__ANNOUNCEMENTSTITLES}}/g, generateTitleSectionHTML(filteredPosts
+        .filter((post) => post.type === 'announcement')
+        .reduce((accum, { briefContent, url }) => ([...accum, { title: briefContent, link: url }]), [])))
+
+      .replace(/{{__EVENTSTITLES}}/g, generateTitleSectionHTML(filteredPosts
+        .filter((post) => post.type === 'event')
+        .reduce((accum, { briefContent, url, fromName }) => ([...accum, { title: briefContent, link: url, extra: fromName }]), [])))
+
+      .replace(/{{__NEWS}}/g, generateContentSectionHTML(filteredPosts.filter((post) => post.type === 'news')))
+      .replace(/{{__ANNOUNCEMENTS}}/g, generateContentSectionHTML(filteredPosts.filter((post) => post.type === 'announcement')))
+      .replace(/{{__EVENTS}}/g, generateContentSectionHTML(filteredPosts.filter((post) => post.type === 'event')))
 
       // Tag replacement
       .replace(/<strong>/g, '<b>')

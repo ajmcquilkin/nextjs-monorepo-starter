@@ -24,6 +24,10 @@
       padding: 0 0 24px 0;
     }
 
+    .noContent {
+      color: #424141;
+    }
+
     p,
     a {
       margin: 0 0 0 0;
@@ -45,7 +49,6 @@
 
     h3 {
       margin: 0 0 8px 0;
-      text-transform: uppercase;
 
       font-family: Verdana, Geneva, Tahoma, sans-serif;
       font-size: 21px;
@@ -96,7 +99,7 @@
 
 <body style="margin: 0 0 0 0; padding: 0 0 0 0;">
   <!-- Main layout table -->
-  <table role="presentation" style="margin: 0 auto 0 auto; padding: 0 36px 36px 36px;" width="600" cellpadding="0"
+  <table role="presentation" style="margin: 0 auto 0 auto; padding: 0 96px 36px 96px;" width="600" cellpadding="0"
     cellspacing="0" border="0">
 
     <!-- View in browser -->
@@ -137,10 +140,53 @@
       <td class="spacer" bgcolor="#00693E"></td>
     </tr>
 
+    <tr>
+      <td>
+        <p style="margin: 0 0 51px 0"></p>
+      </td>
+    </tr>
+
+    <!-- Summary Section -->
+
+    <tr>
+      <td>
+        <h3 style="color: #00693E">Daily Summary</h3>
+        <table class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td class="spacer" bgcolor="#00693E"></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <h3 style="color: #00693E; padding: 0 0 12px 0;">News</h3>
+        {{__NEWSTITLES}}
+        <p class="sectionPadding"></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <h3 style="color: #00693E; padding: 0 0 9px 0;">Announcements</h3>
+        {{__ANNOUNCEMENTSTITLES}}
+        <p class="sectionPadding"></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <h3 style="color: #00693E; padding: 0 0 9px 0;">Events</h3>
+        {{__EVENTSTITLES}}
+        <p class="sectionPadding"></p>
+      </td>
+    </tr>
+
     <!-- Header image and caption -->
     <tr>
       <td>
-        <table style="padding: 36px 0 36px 0; margin: 0 auto 0 auto;" width="300" cellpadding="0" cellspacing="0"
+        <table style="padding: 18px 0 60px 0; margin: 0 auto 0 auto;" width="300" cellpadding="0" cellspacing="0"
           border="0">
           <tr>
             <td>
@@ -152,10 +198,10 @@
       </td>
     </tr>
 
-    <!-- News -->
+    <!-- Content Section -->
     <tr>
       <td>
-        <h3>News</h3>
+        <h3 style="text-transform: uppercase;">News</h3>
         <table class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td class="spacer" bgcolor="#00693E"></td>
@@ -166,10 +212,9 @@
       </td>
     </tr>
 
-    <!-- Announcements -->
     <tr>
       <td>
-        <h3>Announcements</h3>
+        <h3 style="text-transform: uppercase;">Announcements</h3>
         <table class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td class="spacer" bgcolor="#00693E"></td>
@@ -180,10 +225,9 @@
       </td>
     </tr>
 
-    <!-- Events -->
     <tr>
       <td>
-        <h3>Events</h3>
+        <h3 style="text-transform: uppercase;">Events</h3>
         <table class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td class="spacer" bgcolor="#00693E"></td>
