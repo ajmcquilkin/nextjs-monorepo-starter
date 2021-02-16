@@ -31,13 +31,17 @@ const handler = createDefaultHandler()
       .replace(/{{__ANNOUNCEMENTS}}/g, generateSectionHTML(filteredPosts.filter((post) => post.type === 'announcement')))
       .replace(/{{__EVENTS}}/g, generateSectionHTML(filteredPosts.filter((post) => post.type === 'event')))
 
-      // Styling replacement
-      .replace(/{{__DGREEN}}/g, '#00693E')
-      .replace(/{{__DBLUE}}/g, '#267ABA')
-      .replace(/{{__SECTIONSPACING}}/g, '18px')
-      .replace(/{{__SECTIONTITLEMARGIN}}/g, '4px')
-      .replace(/{{__SECTIONSPACERMARGIN}}/g, '15px')
-      .replace(/{{__M0}}/g, 'margin: 0');
+      // Tag replacement
+      .replace(/<strong>/g, '<b>')
+      .replace(/<\/strong>/g, '</b>')
+
+      .replace(/<li>/g, '&bull; ')
+      .replace(/<\/li>/g, '<br>')
+      .replace(/<ul>/g, '')
+      .replace(/<\/ul>/g, '')
+
+      .replace(/<div>/g, '<table cellpadding="0" cellspacing="0" border="0"><tr><td>')
+      .replace(/<\/div>/g, '</td></tr></table>');
 
     return res.status(200).send(createSuccessPayload<GenerateEmailData>({ html: generatedHTML }));
     // return res.status(200).send(generatedHTML);
