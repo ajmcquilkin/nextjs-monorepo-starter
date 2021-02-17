@@ -1,3 +1,5 @@
+import sanitizeHTML from 'sanitize-html';
+
 import * as releaseController from 'controllers/releaseController';
 
 import { DocumentNotFoundError } from 'errors';
@@ -26,8 +28,6 @@ export const create = async (fields: CreatePostType): Promise<Post> => {
   post.submitterNetId = submitterNetId;
   post.type = type;
 
-  post.fullContent = fullContent;
-
   post.briefContent = briefContent;
   post.url = url;
   post.status = status;
@@ -35,6 +35,7 @@ export const create = async (fields: CreatePostType): Promise<Post> => {
   post.eventDate = eventDate;
 
   post.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
+  post.fullContent = sanitizeHTML(fullContent);
 
   if (requestedPublicationDate && status === 'approved') {
     await releaseController.fetchOrCreateReleaseByDate(requestedPublicationDate);
@@ -64,7 +65,6 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
   if (submitterNetId) foundPost.submitterNetId = submitterNetId;
 
   if (type) foundPost.type = type;
-  if (fullContent) foundPost.fullContent = fullContent;
   if (briefContent) foundPost.briefContent = briefContent;
   if (url) foundPost.url = url;
 
@@ -74,6 +74,7 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
   if (eventDate) foundPost.eventDate = eventDate;
 
   if (requestedPublicationDate) foundPost.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
+  if (fullContent) foundPost.fullContent = sanitizeHTML(fullContent);
 
   if (status === 'approved' && (requestedPublicationDate ?? foundPost.requestedPublicationDate)) {
     await releaseController.fetchOrCreateReleaseByDate(requestedPublicationDate ?? foundPost.requestedPublicationDate);
