@@ -105,20 +105,16 @@ const Form = ({
 
   const getFullContent = (state: EditorState): HTML => stateToHTML(state.getCurrentContent(), exportOptions);
 
-  /**
-   * within length
-   * all required fields
-   * @param content incoming editor state
-   */
-  const submissionIsValid = (content: any): boolean => { // TODO: remove any
+  const submissionIsValid = (state: EditorState): boolean => {
     let isValid = true;
-    const contentNoTags = content.toString('html').replace(/(<([^>]+)>)/ig, '');
+    const plainContent = state.getCurrentContent().getPlainText();
 
-    if (!contentNoTags.length) { setFullContentError('Content is a required field'); isValid = false; }
-    if (contentNoTags.length > maxContentLength) {
-      setFullContentError(`Content has a max length of ${maxContentLength} characters, current length is ${contentNoTags.length} characters`);
+    if (!plainContent.length) { setFullContentError('Content is a required field'); isValid = false; }
+    if (plainContent.length > maxContentLength) {
+      setFullContentError(`Content has a max length of ${maxContentLength} characters, current length is ${plainContent.length} characters`);
       isValid = false;
     }
+
     // if (!this.state.(recipients)) { this.setState({ toError: 'please select recipients' }) }
     if (!postType) { setPostTypeError('Type is a required field'); isValid = false; }
     if (!briefContent) { setBriefContentError('Brief content is a required field'); isValid = false; }
@@ -127,6 +123,8 @@ const Form = ({
   };
 
   const handleSave = () => {
+    if (!submissionIsValid(editorState)) return;
+
     if (post) {
       updatePostById(post._id, {
         fromName,
@@ -159,6 +157,8 @@ const Form = ({
   };
 
   const handleSubmit = () => {
+    if (!submissionIsValid(editorState)) return;
+
     if (post) {
       updatePostById(post._id, {
         fromName,
