@@ -56,33 +56,34 @@ const Home = ({
     <MainWrapper>
       <div className={styles.homeContainer}>
         <section className={styles.homeHeaderContentContainer}>
-          <div className={styles.homeDateSelectorContainer}>
-            <div className={styles.homeDateSelector}>
+
+          <div className={styles.homeTitleContainer}>
+            <div className={[styles.homeDateSelector, styles.left].join(' ')}>
               <button
                 type="button"
                 onClick={() => { fetchReleaseByDate(getPreviousDate(release.date)); }}
               >
-                {getFullDate(getPreviousDate(release.date))}
+                <img src="/left.svg" alt="left arrow" />
+                <p>{getFullDate(getPreviousDate(release.date))}</p>
               </button>
             </div>
 
-            <div className={styles.homeTitleContainer}>
-              <div className={styles.homeHeaderTopBar} />
-              <div className="section-bar" />
-              <div className={styles.homeTitleTextContainer}>
-                <h2>Vox Daily News</h2>
-                <p>{getFullDate(release.date)}</p>
-              </div>
-              <div className="section-bar" />
-              <div className={styles.homeHeaderBottomBar} />
+            <div className={styles.homeHeaderTopBar} />
+
+            <div className={styles.homeTitleTextContainer}>
+              <h2>Vox Daily News</h2>
+              <p>{getFullDate(release.date)}</p>
             </div>
 
-            <div className={styles.homeDateSelector}>
+            <div className={styles.homeHeaderBottomBar} />
+
+            <div className={[styles.homeDateSelector, styles.right].join(' ')}>
               <button
                 type="button"
                 onClick={() => { fetchReleaseByDate(getNextDate(release.date)); }}
               >
-                {getFullDate(getNextDate(release.date))}
+                <p>{getFullDate(getNextDate(release.date))}</p>
+                <img src="/right.svg" alt="right arrow - next release" />
               </button>
             </div>
           </div>
