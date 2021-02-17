@@ -88,7 +88,7 @@ const Form = ({
   const [briefContentError, setBriefContentError] = useState<string>('');
   const [fullContentError, setFullContentError] = useState<string>('');
 
-  useEffect(() => { fetchPostById(id); }, []);
+  useEffect(() => { if (id !== 'new') fetchPostById(id); }, []);
   useEffect(() => { setEditorState(EditorState.createWithContent(ContentState.createFromText(''))); }, []);
 
   useEffect(() => {
