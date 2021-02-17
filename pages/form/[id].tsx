@@ -6,13 +6,13 @@ import Form, {
 } from 'components/pages/form';
 
 import {
-  createPost, fetchAllPosts, fetchPostById, updatePostById
+  createPost, fetchPostById, updatePostById, deletePostById
 } from 'store/actionCreators/postActionCreators';
 import { createLoadingSelector, setError } from 'store/actionCreators/requestActionCreators';
 
 import { RootState } from 'types/state';
 
-const postLoadingSelector = createLoadingSelector(['FETCH_POST']);
+const postLoadingSelector = createLoadingSelector(['FETCH_POST', 'DELETE_POST']);
 
 const mapStateToProps = (state: RootState, ownProps: FormProps): FormStateProps => ({
   isAuthenticated: state.user.isAuthenticated,
@@ -27,10 +27,10 @@ const mapStateToProps = (state: RootState, ownProps: FormProps): FormStateProps 
 });
 
 const mapDispatchToProps: FormDispatchProps = {
-  fetchApproved: fetchAllPosts,
   fetchPostById,
   createPost,
   updatePostById,
+  deletePostById,
   setError
 };
 

@@ -24,7 +24,10 @@ export const fetchWithStatusRequest = (
 });
 
 export const createPostRequest = (
-  fields: Omit<Post, '_id'>
+  fields: Pick<Post,
+    'type' | 'requestedPublicationDate' | 'submitterNetId' | 'fromName' | 'fromAddress'
+    | 'fullContent' | 'briefContent' | 'url' | 'recipientGroups' | 'featuredImage' | 'status'
+  >
 ): Promise<RequestReturnType<FetchPostData>> => createBackendAxiosRequest({
   method: 'POST',
   url: '/posts',

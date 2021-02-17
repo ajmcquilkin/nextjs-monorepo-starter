@@ -32,7 +32,7 @@ const handler = createDefaultHandler()
   .post(async (req, res) => {
     const {
       type, requestedPublicationDate, submitterNetId, fromName, fromAddress,
-      fullContent, briefContent, url, recipientGroups, featuredImage
+      fullContent, briefContent, url, recipientGroups, featuredImage, status = 'draft'
     } = req.body;
 
     if (!type) throw new IncompleteRequestError('type');
@@ -49,7 +49,7 @@ const handler = createDefaultHandler()
       briefContent,
       url,
       recipientGroups,
-      status: 'draft',
+      status,
       featuredImage
     });
 

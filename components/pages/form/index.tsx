@@ -1,4 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+
+import { useRouter } from 'next/router';
 import {
   useState, useEffect, MouseEvent, ChangeEvent
 } from 'react';
@@ -15,8 +17,8 @@ import MainWrapper from 'components/layout/mainWrapper';
 import {
   createPost as createPostImport,
   fetchPostById as fetchPostByIdImport,
-  fetchWithStatus as fetchWithStatusImport,
-  updatePostById as updatePostByIdImport
+  updatePostById as updatePostByIdImport,
+  deletePostById as deletePostByIdImport,
 } from 'store/actionCreators/postActionCreators';
 
 import {
@@ -28,8 +30,9 @@ import {
 } from 'utils';
 import uploadImage from 'utils/s3';
 
-import { Post } from 'types/post';
+import { HTML } from 'types/email';
 import { Group } from 'types/group';
+import { Post } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
 
 import styles from './form.module.scss';
@@ -52,8 +55,9 @@ export interface FormStateProps {
 export interface FormDispatchProps {
   createPost: ConnectedThunkCreator<typeof createPostImport>,
   fetchPostById: ConnectedThunkCreator<typeof fetchPostByIdImport>,
-  fetchApproved: ConnectedThunkCreator<typeof fetchWithStatusImport>,
   updatePostById: ConnectedThunkCreator<typeof updatePostByIdImport>,
+  deletePostById: ConnectedThunkCreator<typeof deletePostByIdImport>,
+
   setError: ConnectedThunkCreator<typeof setErrorImport>
 }
 
@@ -68,8 +72,10 @@ const exportOptions: DraftJSExportOptions = {
 const Form = ({
   groups, postIsLoading, postErrorMessage, id,
   post, isAuthenticated, netId, isReviewer,
-  createPost, fetchPostById, fetchApproved, updatePostById, setError,
+  createPost, fetchPostById, updatePostById, deletePostById, setError,
 }: FormProps): JSX.Element => {
+  const router = useRouter();
+
   const [fromName, setFromName] = useState<Post['fromName']>('');
   const [requestedPublicationDate, setRequestedPublicationDate] = useState<Post['requestedPublicationDate']>(Date.now());
   const [postType, setPostType] = useState<Post['type']>('announcement');
@@ -97,6 +103,8 @@ const Form = ({
     if (post?.fullContent) { setEditorState(EditorState.createWithContent(stateFromHTML(post.fullContent))); }
   }, [post]);
 
+  const getFullContent = (state: EditorState): HTML => stateToHTML(state.getCurrentContent(), exportOptions);
+
   /**
    * within length
    * all required fields
@@ -118,18 +126,76 @@ const Form = ({
     return isValid;
   };
 
-  const handleSave = (e: MouseEvent<HTMLElement>) => {
-    console.log('saved', stateToHTML(editorState.getCurrentContent(), exportOptions));
+  const handleSave = () => {
+    if (post) {
+      updatePostById(post._id, {
+        fromName,
+        requestedPublicationDate,
+        briefContent,
+        url,
+        featuredImage,
+        type: postType,
+        fullContent: getFullContent(editorState),
+        status: 'draft'
+      });
+    } else {
+      createPost({
+        fromName,
+        requestedPublicationDate,
+        briefContent,
+        url,
+        featuredImage,
+        type: postType,
+        fullContent: getFullContent(editorState),
+        status: 'draft',
+
+        submitterNetId: 'TEST',
+        fromAddress: 'TEST@TEST.COM',
+        recipientGroups: []
+      }, {
+        successCallback: (res) => { router.push(`/form/${res?.data?.data?.post?._id || ''}`); }
+      });
+    }
   };
 
-  const handleSubmit = (e: MouseEvent<HTMLElement>) => {
-    console.log('submitted');
-    // Save then submit
+  const handleSubmit = () => {
+    if (post) {
+      updatePostById(post._id, {
+        fromName,
+        requestedPublicationDate,
+        briefContent,
+        url,
+        featuredImage,
+        type: postType,
+        fullContent: getFullContent(editorState),
+        status: 'pending'
+      });
+    } else {
+      createPost({
+        fromName,
+        requestedPublicationDate,
+        briefContent,
+        url,
+        featuredImage,
+        type: postType,
+        fullContent: getFullContent(editorState),
+        status: 'pending',
+
+        submitterNetId: 'TEST',
+        fromAddress: 'TEST@TEST.COM',
+        recipientGroups: []
+      }, {
+        successCallback: (res) => { router.push(`/form/${res?.data?.data?.post?._id || ''}`); }
+      });
+    }
   };
 
-  const handleDiscard = (e: MouseEvent<HTMLElement>) => {
-    console.log('cancelled');
-    // Delete post
+  const handleDiscard = () => {
+    if (post) {
+      deletePostById(id, { successCallback: () => { router.push('/'); } });
+    } else {
+      router.push('/');
+    }
   };
 
   const upload = async (e: ChangeEvent<HTMLInputElement>) => {

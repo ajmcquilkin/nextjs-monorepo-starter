@@ -32,7 +32,10 @@ export const fetchPostsByDate = (
 );
 
 export const createPost = (
-  fields: Omit<Post, '_id'>,
+  fields: Pick<Post,
+    'type' | 'requestedPublicationDate' | 'submitterNetId' | 'fromName' | 'fromAddress'
+    | 'fullContent' | 'briefContent' | 'url' | 'recipientGroups' | 'featuredImage' | 'status'
+  >,
   additionalConfig = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator(
   dispatch, 'FETCH_POST',
