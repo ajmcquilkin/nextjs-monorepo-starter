@@ -7,7 +7,7 @@ import HomeNavigation from 'components/homeNavigation';
 
 import { fetchReleaseByDate as fetchReleaseByDateImport } from 'store/actionCreators/releaseActionCreators';
 
-import { getPreviousDate, getNextDate, getFullDate } from 'utils';
+import { getFullDate, addNDays } from 'utils';
 
 import { Post } from 'types/post';
 import { Release } from 'types/release';
@@ -50,10 +50,10 @@ const Home = ({
   const announcements = release.announcements.map((id) => postMap?.[id]);
   const events = release.events.map((id) => postMap?.[id]);
 
-  const featuredPost = postMap?.[release.featuredPost as string];
+  const featuredPost = release.featuredPost ? postMap?.[release.featuredPost] : null;
 
-  const previousDate = getPreviousDate(release.date);
-  const nextDate = getNextDate(release.date);
+  const previousDate = addNDays(release.date, -1);
+  const nextDate = addNDays(release.date, 1);
 
   return (
     <MainWrapper>

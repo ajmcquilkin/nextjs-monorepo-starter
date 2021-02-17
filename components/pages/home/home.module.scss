@@ -7,7 +7,6 @@
         max-width: 400px;
         margin-bottom: 40px;
         
-        
         .homeHeaderContainer {
             display: flex;
             flex-direction: column;
@@ -195,20 +194,6 @@
                     opacity: 0.12;
                     z-index: -1;
                 }
-
-            //   &:before {
-            //       @include quote-style;
-            //       content: "“";
-            //       top: $quote-margin-top;
-            //       left: calc(-1 * #{$quote-margin-sides});
-            //   }
-
-            //   &:after {
-            //       @include quote-style;
-            //       content: "”";
-            //       bottom: calc(-1 * #{$quote-margin-top});
-            //       right: calc(-1 * #{$quote-margin-sides});
-            //   }
             }
 
             div {

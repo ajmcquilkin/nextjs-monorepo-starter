@@ -3,14 +3,9 @@ export const requestTimeout = 5000; // ms
 
 export const maxContentLength = 500;
 
-export const getPreviousDate = (date?: number): number => {
+export const addNDays = (date: number, add: number): number => {
   const d = new Date(date || Date.now());
-  return d.setDate(d.getDate() - 1);
-};
-
-export const getNextDate = (date?: number): number => {
-  const d = new Date(date || Date.now());
-  return d.setDate(d.getDate() + 1);
+  return d.setDate(d.getDate() + add);
 };
 
 export const getFullDate = (date?: number): string => {
