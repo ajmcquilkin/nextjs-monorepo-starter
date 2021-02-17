@@ -13,6 +13,7 @@ const postSchemaFields: Record<keyof Omit<Post, '_id'>, any> = {
   briefContent: { type: String, default: '' },
   url: { type: String, default: '' },
   recipientGroups: { type: [String], default: [] },
+  featuredImage: { type: String, default: '' },
 
   status: { type: String, default: 'draft' }, // 'draft' | 'pending' | 'approved' | 'rejected' | 'published'
   dateItemCreated: { type: Date, default: Date.now },

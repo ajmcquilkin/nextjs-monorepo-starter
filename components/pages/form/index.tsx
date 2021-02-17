@@ -1,5 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useState, useEffect, MouseEvent } from 'react';
+import {
+  useState, useEffect, MouseEvent, ChangeEvent
+} from 'react';
 
 import { EditorState, ContentState } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
@@ -24,6 +26,7 @@ import {
 import {
   generateFrontendErrorMessage, maxContentLength, handleEncodeDate, handleDecodeDate
 } from 'utils';
+import uploadImage from 'utils/s3';
 
 import { Post } from 'types/post';
 import { Group } from 'types/group';
@@ -72,8 +75,10 @@ const Form = ({
   const [postType, setPostType] = useState<Post['type']>('announcement');
   const [briefContent, setBriefContent] = useState<Post['briefContent']>('');
   const [url, setUrl] = useState<Post['url']>('');
+  const [featuredImage, setFeaturedImage] = useState<Post['featuredImage']>('');
 
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
+  const [imageUploading, setImageUploading] = useState<boolean>(false);
 
   const [postTypeError, setPostTypeError] = useState<string>('');
   const [briefContentError, setBriefContentError] = useState<string>('');
@@ -125,6 +130,21 @@ const Form = ({
   const handleDiscard = (e: MouseEvent<HTMLElement>) => {
     console.log('cancelled');
     // Delete post
+  };
+
+  const upload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target?.files?.[0];
+    if (!file) throw new Error('file not found');
+
+    try {
+      setImageUploading(true);
+      const imageURL = await uploadImage(file);
+      setImageUploading(false);
+      setFeaturedImage(imageURL);
+      if (post) { updatePostById(post._id, { featuredImage: imageURL }); }
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   if (postIsLoading) return (<div>Loading...</div>);
@@ -265,7 +285,7 @@ const Form = ({
             </div>
           </FormSection>
 
-          {/* <FormSection title="Graphics">
+          <FormSection title="Graphics">
             <div className={styles.formContentContainer}>
               <label className={styles.formLabelSmall}>
                 <p>Attach Image</p>
@@ -275,16 +295,16 @@ const Form = ({
                   id="headerImage"
                   onChange={(e) => { upload(e); }}
                 />
-                <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(briefContentError)}</div>
+                <div className={styles.formErrorContainer}>{generateFrontendErrorMessage('')}</div>
               </label>
               <div>
                 <div className="imagePreview">
-                  {imageUploading === true ? <div>Image is uploading</div> : <span />}
-                  {imageUrl ? <img src={imageUrl} alt="optional headerImage" /> : <div>No image uploaded yet</div>}
+                  {/* eslint-disable-next-line no-nested-ternary */}
+                  {imageUploading ? <div>Image is uploading...</div> : (featuredImage ? <img src={featuredImage} alt="optional headerImage" /> : <div>No image uploaded yet</div>)}
                 </div>
               </div>
             </div>
-          </FormSection> */}
+          </FormSection>
 
           <section className={styles.formButtonsContainer}>
             <button type="button" className={styles.formSubmitButton} onClick={handleSubmit}>Submit</button>

@@ -31,8 +31,8 @@ const handler = createDefaultHandler()
 
   .post(async (req, res) => {
     const {
-      type, requestedPublicationDate, submitterNetId,
-      fromName, fromAddress, fullContent, briefContent, url, recipientGroups
+      type, requestedPublicationDate, submitterNetId, fromName, fromAddress,
+      fullContent, briefContent, url, recipientGroups, featuredImage
     } = req.body;
 
     if (!type) throw new IncompleteRequestError('type');
@@ -49,7 +49,8 @@ const handler = createDefaultHandler()
       briefContent,
       url,
       recipientGroups,
-      status: 'draft'
+      status: 'draft',
+      featuredImage
     });
 
     return res.status(201).json(createSuccessPayload<FetchPostData>({ post: newPost }));
