@@ -3,6 +3,7 @@ import { useRef, useEffect } from 'react';
 import {
   Editor, EditorState,
   RichUtils, ContentBlock,
+  DraftEditorCommand, DraftHandleValue
 } from 'draft-js';
 
 import BlockStyleControls from 'components/form/blockStyleControls';
@@ -24,11 +25,11 @@ const RichTextEditor = ({ onChange, incomingState }: RichTextEditorProps): JSX.E
     onChange(state);
   };
 
-  // const handleKeyCommand = (command: DraftEditorCommand, state: EditorState): DraftHandleValue => {
-  //   const newState = RichUtils.handleKeyCommand(state, command);
-  //   if (newState) { handleChange(newState); return 'handled'; }
-  //   return 'not-handled';
-  // };
+  const handleKeyCommand = (command: DraftEditorCommand, state: EditorState): DraftHandleValue => {
+    const newState = RichUtils.handleKeyCommand(state, command);
+    if (newState) { handleChange(newState); return 'handled'; }
+    return 'not-handled';
+  };
 
   const toggleBlockType = (blockType: string) => {
     handleChange(RichUtils.toggleBlockType(incomingState, blockType));
@@ -42,21 +43,23 @@ const RichTextEditor = ({ onChange, incomingState }: RichTextEditorProps): JSX.E
 
   return (
     <div className={styles.rteContainer}>
-      <BlockStyleControls
-        editorState={incomingState}
-        onToggle={toggleBlockType}
-      />
+      <div className={styles.rteMenuContainer}>
+        <InlineStyleControls
+          editorState={incomingState}
+          onToggle={toggleInlineStyle}
+        />
 
-      <InlineStyleControls
-        editorState={incomingState}
-        onToggle={toggleInlineStyle}
-      />
+        <BlockStyleControls
+          editorState={incomingState}
+          onToggle={toggleBlockType}
+        />
+      </div>
 
       <Editor
         ref={editor}
         editorState={incomingState}
         onChange={handleChange}
-        // handleKeyCommand={handleKeyCommand}
+        handleKeyCommand={handleKeyCommand}
         blockStyleFn={getBlockStyle}
         spellCheck
       />
