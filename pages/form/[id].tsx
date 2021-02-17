@@ -8,18 +8,21 @@ import Form, {
 import {
   createPost, fetchAllPosts, fetchPostById, updatePostById
 } from 'store/actionCreators/postActionCreators';
-import { setError } from 'store/actionCreators/requestActionCreators';
+import { createLoadingSelector, setError } from 'store/actionCreators/requestActionCreators';
 
 import { RootState } from 'types/state';
 
+const postLoadingSelector = createLoadingSelector(['FETCH_POST']);
+
 const mapStateToProps = (state: RootState, ownProps: FormProps): FormStateProps => ({
-  itemIsLoading: false,
-  itemErrorMessage: '',
   isAuthenticated: state.user.isAuthenticated,
   isReviewer: false,
 
   groups: [],
   netId: '',
+
+  postIsLoading: postLoadingSelector(state),
+  postErrorMessage: '',
   post: state.post.posts?.[ownProps.id] || null
 });
 

@@ -37,8 +37,8 @@ export interface FormPassedProps {
 
 export interface FormStateProps {
   groups: Group[],
-  itemIsLoading: boolean,
-  itemErrorMessage: string,
+  postIsLoading: boolean,
+  postErrorMessage: string,
 
   post: Post,
   isAuthenticated: boolean,
@@ -63,7 +63,7 @@ const exportOptions: DraftJSExportOptions = {
 };
 
 const Form = ({
-  groups, itemIsLoading, itemErrorMessage, id,
+  groups, postIsLoading, postErrorMessage, id,
   post, isAuthenticated, netId, isReviewer,
   createPost, fetchPostById, fetchApproved, updatePostById, setError,
 }: FormProps): JSX.Element => {
@@ -126,6 +126,8 @@ const Form = ({
     console.log('cancelled');
     // Delete post
   };
+
+  if (postIsLoading) return (<div>Loading...</div>);
 
   return (
     <MainWrapper>
