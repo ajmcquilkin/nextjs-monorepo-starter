@@ -22,7 +22,8 @@ export interface HomePassedProps {
 
 export interface HomeStateProps {
   release: Release | null,
-  postMap: Record<string, Post>
+  postMap: Record<string, Post>,
+  releaseIsLoading: boolean
 }
 
 export interface HomeDispatchProps {
@@ -32,7 +33,7 @@ export interface HomeDispatchProps {
 export type HomeProps = HomePassedProps & HomeStateProps & HomeDispatchProps;
 
 const Home = ({
-  release: reduxRelease, postMap: reduxPostMap,
+  release: reduxRelease, postMap: reduxPostMap, releaseIsLoading,
   initialRelease, initialPostMap, fetchReleaseByDate
 }: HomeProps): JSX.Element => {
   const [release, setRelease] = useState<Release | null>(initialRelease);
@@ -43,7 +44,7 @@ const Home = ({
     if (Object.values(reduxPostMap).length) setPostMap(reduxPostMap);
   }, [reduxRelease, reduxPostMap]);
 
-  if (!release) return (<div>Loading...</div>);
+  if (!release || releaseIsLoading) return (<div>Loading...</div>);
 
   const news = release.news.map((id) => postMap?.[id]);
   const announcements = release.announcements.map((id) => postMap?.[id]);
