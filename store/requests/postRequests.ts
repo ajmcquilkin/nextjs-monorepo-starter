@@ -18,7 +18,7 @@ export const fetchAllPostsRequest = (
 
 export const fetchWithStatusRequest = (
   status: PostStatus = 'approved'
-): Promise<RequestReturnType<FetchPostData>> => createBackendAxiosRequest({
+): Promise<RequestReturnType<FetchPostsData>> => createBackendAxiosRequest({
   method: 'GET',
   url: `/posts?status=${status}`
 });

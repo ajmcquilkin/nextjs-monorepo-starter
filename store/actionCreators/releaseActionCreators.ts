@@ -1,14 +1,13 @@
-import { createAsyncActionCreator } from 'store/actionCreators';
-
+import { AsyncActionCreatorConfig, createAsyncActionCreator } from 'store/actionCreators';
 import * as releaseRequests from 'store/requests/releaseRequests';
 
 import { Empty } from 'types/generic';
-import { Release, DeleteReleaseData } from 'types/release';
+import { Release, DeleteReleaseData, FetchReleaseData } from 'types/release';
 import { ThunkResult } from 'types/state';
 
 export const fetchReleaseById = (
   id: string,
-  additionalConfig = {}
+  additionalConfig: AsyncActionCreatorConfig<FetchReleaseData, Empty> = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator(
   dispatch, 'FETCH_RELEASE',
   () => releaseRequests.fetchReleaseByIdRequest(id),
@@ -17,7 +16,7 @@ export const fetchReleaseById = (
 
 export const fetchReleaseByDate = (
   date: number,
-  additionalConfig = {}
+  additionalConfig: AsyncActionCreatorConfig<FetchReleaseData, Empty> = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator(
   dispatch, 'FETCH_RELEASE',
   () => releaseRequests.fetchReleaseByDateRequest(date),
@@ -26,7 +25,7 @@ export const fetchReleaseByDate = (
 
 export const createRelease = (
   fields: Pick<Release, 'subject' | 'headerImage' | 'imageCaption' | 'quoteOfDay' | 'quotedContext' | 'featuredPost'>,
-  additionalConfig = {}
+  additionalConfig: AsyncActionCreatorConfig<FetchReleaseData, Empty> = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator(
   dispatch, 'FETCH_RELEASE',
   () => releaseRequests.createReleaseRequest(fields),
@@ -36,7 +35,7 @@ export const createRelease = (
 export const updateReleaseById = (
   id: string,
   update: Partial<Release>,
-  additionalConfig = {}
+  additionalConfig: AsyncActionCreatorConfig<FetchReleaseData, Empty> = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator(
   dispatch, 'FETCH_RELEASE',
   () => releaseRequests.updateReleaseByIdRequest(id, update),
@@ -45,7 +44,7 @@ export const updateReleaseById = (
 
 export const deleteReleaseById = (
   id: string,
-  additionalConfig = {}
+  additionalConfig: AsyncActionCreatorConfig<Empty, DeleteReleaseData> = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator<Empty, DeleteReleaseData>(
   dispatch, 'DELETE_POST',
   () => releaseRequests.deleteReleaseByIdRequest(id),
