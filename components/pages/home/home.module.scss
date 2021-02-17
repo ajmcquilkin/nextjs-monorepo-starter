@@ -7,40 +7,53 @@
       max-width: 400px;
       margin-bottom: 40px;
 
-      .homeHeaderTopBar {
-          height: 8px;
-          background-color: #00693e;
-          border-radius: 6px;
-          margin-top: 40px;
-      }
+      .homeDateSelectorContainer {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-content: center;
 
-      .homeHeaderBottomBar {
-          height: 8px;
-          background-color: #00693e;
-          border-radius: 6px;
-          margin-bottom: 40px;
-      }
+          .homeDateSelector {
+              margin: auto 0;
+          }
+          
+          
+          .homeTitleContainer {
+              // margin: 25px auto;
 
-      .homeTitleContainer {
-          // margin: 25px auto;
-  
-          .homeTitleTextContainer {
-              padding: 24px 0;
-  
-              h2 {
-                  font-family: National2-Bold, sans-serif;
+              .homeHeaderTopBar {
+                  height: 8px;
+                  background-color: #00693e;
+                  border-radius: 6px;
+                  margin-top: 40px;
               }
-              
-              p {
-                  font-family: National2-Reg, sans-serif;
+        
+              .homeHeaderBottomBar {
+                  height: 8px;
+                  background-color: #00693e;
+                  border-radius: 6px;
+                  margin-bottom: 40px;
               }
-              
-              * {
-                  text-align: center;
-                  margin: 0 auto;
-              } 
+      
+              .homeTitleTextContainer {
+                  padding: 24px 0;
+      
+                  h2 {
+                      font-family: National2-Bold, sans-serif;
+                  }
+                  
+                  p {
+                      font-family: National2-Reg, sans-serif;
+                  }
+                  
+                  * {
+                      text-align: center;
+                      margin: 0 auto;
+                  } 
+              }
           }
       }
+
   
       img {
           width: 100%;

@@ -1,12 +1,13 @@
-import MainWrapper from 'components/layout/mainWrapper';
+import { useEffect, useState } from 'react';
 
+import MainWrapper from 'components/layout/mainWrapper';
 import PostContent from 'components/posts/postContent';
 import PostSection from 'components/posts/postSection';
 import HomeNavigation from 'components/homeNavigation';
 
 import { fetchReleaseByDate as fetchReleaseByDateImport } from 'store/actionCreators/releaseActionCreators';
 
-import { getFullDate } from 'utils';
+import { getPreviousDate, getNextDate, getFullDate } from 'utils';
 
 import { Post } from 'types/post';
 import { Release } from 'types/release';
@@ -31,10 +32,16 @@ export interface HomeDispatchProps {
 export type HomeProps = HomePassedProps & HomeStateProps & HomeDispatchProps;
 
 const Home = ({
-  release: reduxRelease, postMap: reduxPostMap, initialRelease, initialPostMap, fetchReleaseByDate
+  release: reduxRelease, postMap: reduxPostMap,
+  initialRelease, initialPostMap, fetchReleaseByDate
 }: HomeProps): JSX.Element => {
-  const release = reduxRelease ?? initialRelease;
-  const postMap = Object.values(reduxPostMap).length ? reduxPostMap : initialPostMap;
+  const [release, setRelease] = useState<Release | null>(initialRelease);
+  const [postMap, setPostMap] = useState<Record<string, Post>>(initialPostMap);
+
+  useEffect(() => {
+    if (reduxRelease) setRelease(reduxRelease);
+    if (Object.values(reduxPostMap).length) setPostMap(reduxPostMap);
+  }, [reduxRelease, reduxPostMap]);
 
   if (!release) return (<div>Loading...</div>);
 
@@ -48,15 +55,35 @@ const Home = ({
     <MainWrapper>
       <div className={styles.homeContainer}>
         <section className={styles.homeHeaderContentContainer}>
-          <div className={styles.homeTitleContainer}>
-            <div className={styles.homeHeaderTopBar} />
-            <div className="section-bar" />
-            <div className={styles.homeTitleTextContainer}>
-              <h2>Vox Daily News</h2>
-              <p>{getFullDate()}</p>
+          <div className={styles.homeDateSelectorContainer}>
+            <div className={styles.homeDateSelector}>
+              <button
+                type="button"
+                onClick={() => { fetchReleaseByDate(getPreviousDate(release.date)); }}
+              >
+                {getFullDate(getPreviousDate(release.date))}
+              </button>
             </div>
-            <div className="section-bar" />
-            <div className={styles.homeHeaderBottomBar} />
+
+            <div className={styles.homeTitleContainer}>
+              <div className={styles.homeHeaderTopBar} />
+              <div className="section-bar" />
+              <div className={styles.homeTitleTextContainer}>
+                <h2>Vox Daily News</h2>
+                <p>{getFullDate(release.date)}</p>
+              </div>
+              <div className="section-bar" />
+              <div className={styles.homeHeaderBottomBar} />
+            </div>
+
+            <div className={styles.homeDateSelector}>
+              <button
+                type="button"
+                onClick={() => { fetchReleaseByDate(getNextDate(release.date)); }}
+              >
+                {getFullDate(getNextDate(release.date))}
+              </button>
+            </div>
           </div>
 
           <img
