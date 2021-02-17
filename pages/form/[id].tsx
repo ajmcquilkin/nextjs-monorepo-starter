@@ -1,7 +1,9 @@
 import { GetServerSideProps, GetStaticPropsResult } from 'next';
 import { connect } from 'react-redux';
 
-import Form, { FormStateProps, FormDispatchProps, FormPassedProps } from 'components/pages/form';
+import Form, {
+  FormProps, FormStateProps, FormDispatchProps, FormPassedProps
+} from 'components/pages/form';
 
 import {
   createPost, fetchAllPosts, fetchPostById, updatePostById
@@ -9,9 +11,8 @@ import {
 import { setError } from 'store/actionCreators/requestActionCreators';
 
 import { RootState } from 'types/state';
-import { Post } from 'types/post';
 
-const mapStateToProps = (state: RootState): FormStateProps => ({
+const mapStateToProps = (state: RootState, ownProps: FormProps): FormStateProps => ({
   itemIsLoading: false,
   itemErrorMessage: '',
   isAuthenticated: state.user.isAuthenticated,
@@ -19,7 +20,7 @@ const mapStateToProps = (state: RootState): FormStateProps => ({
 
   groups: [],
   netId: '',
-  post: {} as Post
+  post: state.post.posts?.[ownProps.id] || null
 });
 
 const mapDispatchToProps: FormDispatchProps = {

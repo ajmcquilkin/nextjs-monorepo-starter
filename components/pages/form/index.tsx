@@ -73,17 +73,24 @@ const Form = ({
   const [briefContent, setBriefContent] = useState<Post['briefContent']>('');
   const [url, setUrl] = useState<Post['url']>('');
 
-  // * Use this for the callback into the RTE
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  useEffect(() => { setEditorState(EditorState.createWithContent(ContentState.createFromText(''))); }, []);
 
   const [postTypeError, setPostTypeError] = useState<string>('');
   const [briefContentError, setBriefContentError] = useState<string>('');
   const [fullContentError, setFullContentError] = useState<string>('');
 
   useEffect(() => { fetchPostById(id); }, []);
+  useEffect(() => { setEditorState(EditorState.createWithContent(ContentState.createFromText(''))); }, []);
 
-  const isNew = false;
+  useEffect(() => {
+    if (post?.fromName) { setFromName(post.fromName); }
+    if (post?.requestedPublicationDate) { setRequestedPublicationDate(post.requestedPublicationDate); }
+    if (post?.type) { setPostType(post.type); }
+    if (post?.briefContent) { setBriefContent(post.briefContent); }
+    if (post?.url) { setUrl(post.url); }
+
+    if (post?.fullContent) { setEditorState(EditorState.createWithContent(stateFromHTML(post.fullContent))); }
+  }, [post]);
 
   /**
    * within length
@@ -123,7 +130,7 @@ const Form = ({
   return (
     <MainWrapper>
       <div className={styles.formContainer}>
-        <h1>{isNew ? 'New Submission' : 'Edit Submission'}</h1>
+        <h1>{post ? 'Edit Submission' : 'New Submission'}</h1>
         <form>
           <FormSection title="Recipients">
             <div className={styles.formFromContainer}>
