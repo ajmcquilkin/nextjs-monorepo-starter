@@ -1,11 +1,12 @@
-import { createAsyncActionCreator } from 'store/actionCreators';
+import { AsyncActionCreatorConfig, createAsyncActionCreator } from 'store/actionCreators';
 import * as userRequests from 'store/requests/userRequests';
 
+import { Empty } from 'types/generic';
 import { ThunkResult } from 'types/state';
-import { DEAUTH_USER } from 'types/user';
+import { AuthUserData, DEAUTH_USER } from 'types/user';
 
 export const validateUser = (
-  additionalConfig = {}
+  additionalConfig: AsyncActionCreatorConfig<AuthUserData, Empty> = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator(
   dispatch, 'AUTH_USER',
   () => userRequests.validateUserRequest(),
