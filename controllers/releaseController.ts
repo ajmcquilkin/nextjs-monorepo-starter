@@ -33,7 +33,7 @@ export const read = async (id: string): Promise<Release> => {
 
 export const fetchReleaseByDate = async (requestedDate: number): Promise<Release> => {
   const foundRelease: ReleaseDocument = await ReleaseModel.findOne({ date: getMidnightDate(requestedDate) });
-  if (!foundRelease) throw new DocumentNotFoundError(requestedDate.toString());
+  if (!foundRelease) throw new DocumentNotFoundError(getMidnightDate(requestedDate).toString());
   return foundRelease.toJSON();
 };
 

@@ -17,7 +17,7 @@ module.exports = {
 
       // !!! ONLY place INSECURE values here
       __MODE__: JSON.stringify(process.env.MODE || ''),
-      __APP_URL__: JSON.stringify(process.env.APP_URL || ''),
+      __APP_URL__: JSON.stringify((process.env[process.env.URL_VAR_NAME] ? process.env[process.env.URL_VAR_NAME] : process.env.APP_URL) || ''),
       __REGENERATION_INTERVAL__: JSON.stringify(process.env.REGENERATION_INTERVAL || 3600),
     }));
 
