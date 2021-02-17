@@ -63,8 +63,6 @@ export interface FormDispatchProps {
 
 export type FormProps = FormPassedProps & FormStateProps & FormDispatchProps;
 
-// TODO: account for <ol> tags
-
 const exportOptions: DraftJSExportOptions = {
   inlineStyles: { BOLD: { element: 'b' } }
 };
