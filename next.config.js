@@ -17,7 +17,7 @@ module.exports = {
 
       // !!! ONLY place INSECURE values here
       __MODE__: JSON.stringify(process.env.MODE || ''),
-      __APP_URL__: JSON.stringify(process.env.APP_URL || ''),
+      __APP_URL__: JSON.stringify((process.env.HEROKU_APP_NAME ? `https://${process.env.HEROKU_APP_NAME}.herokuapp.com` : process.env.APP_URL) || ''),
       __REGENERATION_INTERVAL__: JSON.stringify(process.env.REGENERATION_INTERVAL || 3600),
     }));
 

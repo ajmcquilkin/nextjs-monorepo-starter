@@ -36,10 +36,8 @@ export const getStaticProps: GetStaticProps<HomePassedProps> = async () => {
     });
   } catch (error) {
     return ({
-      props: {
-        initialRelease: null,
-        initialPostMap: {}
-      }
+      props: { initialRelease: null, initialPostMap: {} },
+      revalidate: 1
     });
   }
 };

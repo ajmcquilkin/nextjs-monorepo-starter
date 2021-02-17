@@ -5,9 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p $PORT",
     "test": "eslint ./**.js"
   },
+  "cacheDirectories": [
+    ".next/cache"
+  ],
   "dependencies": {
     "aws-sdk": "^2.831.0",
     "axios": "^0.21.1",
