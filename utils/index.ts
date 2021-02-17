@@ -3,8 +3,13 @@ export const requestTimeout = 5000; // ms
 
 export const maxContentLength = 500;
 
-export const getFullDate = (): string => {
-  const currentDate = new Date();
+export const addNDays = (date: number, add: number): number => {
+  const d = new Date(date || Date.now());
+  return d.setDate(d.getDate() + add);
+};
+
+export const getFullDate = (date?: number): string => {
+  const currentDate = new Date(date || Date.now());
   const day = currentDate.getDate();
   const month = currentDate.getMonth() + 1;
   const year = currentDate.getFullYear();
