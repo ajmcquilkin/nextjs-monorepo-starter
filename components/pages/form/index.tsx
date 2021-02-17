@@ -1,6 +1,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState, useEffect, MouseEvent } from 'react';
 
+import { EditorState, ContentState } from 'draft-js';
+import { stateFromHTML } from 'draft-js-import-html';
+import { stateToHTML, Options as DraftJSExportOptions } from 'draft-js-export-html';
+
 import FormSection from 'components/form/formSection';
 import ContentLength from 'components/form/contentLength';
 import RichTextEditor from 'components/form/richTextEditor';
@@ -52,6 +56,12 @@ export interface FormDispatchProps {
 
 export type FormProps = FormPassedProps & FormStateProps & FormDispatchProps;
 
+// TODO: account for <ol> tags
+
+const exportOptions: DraftJSExportOptions = {
+  inlineStyles: { BOLD: { element: 'b' } }
+};
+
 const Form = ({
   groups, itemIsLoading, itemErrorMessage, id,
   post, isAuthenticated, netId, isReviewer,
@@ -61,19 +71,25 @@ const Form = ({
   const [requestedPublicationDate, setRequestedPublicationDate] = useState<Post['requestedPublicationDate']>(Date.now());
   const [postType, setPostType] = useState<Post['type']>('announcement');
   const [briefContent, setBriefContent] = useState<Post['briefContent']>('');
-  const [fullContent, setFullContent] = useState<string>('');
   const [url, setUrl] = useState<Post['url']>('');
+
+  // * Use this for the callback into the RTE
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  useEffect(() => { setEditorState(EditorState.createWithContent(ContentState.createFromText(''))); }, []);
 
   const [postTypeError, setPostTypeError] = useState<string>('');
   const [briefContentError, setBriefContentError] = useState<string>('');
   const [fullContentError, setFullContentError] = useState<string>('');
 
   useEffect(() => { fetchPostById(id); }, []);
-  useEffect(() => { console.log(fullContent); }, [fullContent]);
 
   const isNew = false;
-  const editable = false;
 
+  /**
+   * within length
+   * all required fields
+   * @param content incoming editor state
+   */
   const submissionIsValid = (content: any): boolean => { // TODO: remove any
     let isValid = true;
     const contentNoTags = content.toString('html').replace(/(<([^>]+)>)/ig, '');
@@ -83,7 +99,7 @@ const Form = ({
       setFullContentError(`Content has a max length of ${maxContentLength} characters, current length is ${contentNoTags.length} characters`);
       isValid = false;
     }
-    // if (!this.state.(recipients)) { this.setState({ toError: 'please select recipients' }) } // TODO: Update and save "to" field
+    // if (!this.state.(recipients)) { this.setState({ toError: 'please select recipients' }) }
     if (!postType) { setPostTypeError('Type is a required field'); isValid = false; }
     if (!briefContent) { setBriefContentError('Brief content is a required field'); isValid = false; }
 
@@ -91,26 +107,17 @@ const Form = ({
   };
 
   const handleSave = (e: MouseEvent<HTMLElement>) => {
-    console.log('saved');
-
-  //   if (submissionIsValid(fullContent)) {
-  //     const createdPost: Post = {
-  //       fromName,
-  //       requestedPublicationDate,
-  //       briefContent,
-  //       fullContent: fullContent.toString('html'),
-  //       type: postType,
-  //       url,
-  //     };
-  //   }
+    console.log('saved', stateToHTML(editorState.getCurrentContent(), exportOptions));
   };
 
   const handleSubmit = (e: MouseEvent<HTMLElement>) => {
     console.log('submitted');
+    // Save then submit
   };
 
-  const handleCancel = (e: MouseEvent<HTMLElement>) => {
+  const handleDiscard = (e: MouseEvent<HTMLElement>) => {
     console.log('cancelled');
+    // Delete post
   };
 
   return (
@@ -121,8 +128,10 @@ const Form = ({
           <FormSection title="Recipients">
             <div className={styles.formFromContainer}>
               <label className={styles.formLabelLarge}>
-                From
-                <span className={styles.formRequiredField}>*</span>
+                <p>
+                  From
+                  <span className={styles.formRequiredField}>*</span>
+                </p>
                 <input
                   placeholder="Type department or division name here"
                   type="text"
@@ -152,20 +161,17 @@ const Form = ({
 
           <FormSection title="Publish Date">
             <label className={[styles.formPublishContainer, styles.formLabelLarge].join(' ')}>
-              Select Publish Date
-              {/* <input
+              <p>Select Publish Date</p>
+              <input
                 type="date"
                 value={handleEncodeDate(requestedPublicationDate)}
                 onChange={(e) => setRequestedPublicationDate(handleDecodeDate(e.target.value))}
-              /> */}
+              />
             </label>
           </FormSection>
 
           <FormSection title="Type">
             <div className={styles.formTypeRadioContainer}>
-
-              {/* TODO: Limit post options based on scopes */}
-
               <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
                 <input
                   type="radio"
@@ -199,19 +205,19 @@ const Form = ({
             <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(postTypeError)}</div>
 
             {/* <label className={styles.formLabelLarge}>
-            Event Date
-            <input
-            type="date"
-            value={this.state.eventDate}
-            onChange={(e) => this.setState({ eventDate: e.target.value })}
-            />
-          </label> */}
+              Event Date
+              <input
+                type="date"
+                value={this.state.eventDate}
+                onChange={(e) => this.setState({ eventDate: e.target.value })}
+              />
+            </label> */}
           </FormSection>
 
           <FormSection title="Body">
             <div className={styles.formContentContainer}>
               <label className={styles.formLabelSmall}>
-                Headline
+                <p>Headline</p>
                 <input
                   type="text"
                   placeholder="Enter headline text"
@@ -223,17 +229,22 @@ const Form = ({
               </label>
 
               <label className={styles.formLabelSmall} htmlFor="form-editor-container">Summary</label>
-              <div className={styles.formEditorContainer}>
+              <div id="form-editor-container" className={styles.formEditorContainer}>
                 <RichTextEditor
-                  incomingState={fullContent}
-                  onChange={(value) => setFullContent(value)}
+                  incomingState={editorState}
+                  onChange={(state) => setEditorState(state)}
                 />
-                <ContentLength contentLength={fullContent.length} maxContentLength={maxContentLength} />
+
+                <ContentLength
+                  contentLength={editorState.getCurrentContent()?.getPlainText()?.length || 0}
+                  maxContentLength={maxContentLength}
+                />
+
                 <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(fullContentError)}</div>
               </div>
 
               <label className={styles.formLabelSmall}>
-                URL
+                <p>URL</p>
                 {' '}
                 <input
                   type="text"
@@ -267,16 +278,9 @@ const Form = ({
           </FormSection> */}
 
           <section className={styles.formButtonsContainer}>
-            {editable
-              ? (
-                <>
-                  <button type="button" className={styles.formSubmitButton} onClick={handleSubmit}>Submit</button>
-                  <button type="button" className={styles.formSaveButton} onClick={handleSave}>Save Draft</button>
-                  <button type="button" className={styles.formCancelButton} onClick={handleCancel}>Cancel</button>
-                </>
-              ) : (
-                <p>Submitted, not editable</p>
-              )}
+            <button type="button" className={styles.formSubmitButton} onClick={handleSubmit}>Submit</button>
+            <button type="button" className={styles.formSaveButton} onClick={handleSave}>Save Draft</button>
+            <button type="button" className={styles.formCancelButton} onClick={handleDiscard}>Cancel</button>
           </section>
         </form>
       </div>
