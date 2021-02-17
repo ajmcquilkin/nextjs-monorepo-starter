@@ -80,6 +80,7 @@ const Form = ({
   const [briefContent, setBriefContent] = useState<Post['briefContent']>('');
   const [url, setUrl] = useState<Post['url']>('');
   const [featuredImage, setFeaturedImage] = useState<Post['featuredImage']>('');
+  const [eventDate, setEventDate] = useState<Post['eventDate']>(null);
 
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [imageUploading, setImageUploading] = useState<boolean>(false);
@@ -296,16 +297,20 @@ const Form = ({
               </label>
             </div>
             <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(postTypeError)}</div>
-
-            {/* <label className={styles.formLabelLarge}>
-              Event Date
-              <input
-                type="date"
-                value={this.state.eventDate}
-                onChange={(e) => this.setState({ eventDate: e.target.value })}
-              />
-            </label> */}
           </FormSection>
+
+          {postType === 'event' ? (
+            <FormSection title="Event Date">
+              <label className={[styles.formPublishContainer, styles.formLabelLarge].join(' ')}>
+                <p>Select Event Date</p>
+                <input
+                  type="date"
+                  value={handleEncodeDate(eventDate || Date.now())}
+                  onChange={(e) => setEventDate(handleDecodeDate(e.target.value))}
+                />
+              </label>
+            </FormSection>
+          ) : null}
 
           <FormSection title="Body">
             <div className={styles.formContentContainer}>

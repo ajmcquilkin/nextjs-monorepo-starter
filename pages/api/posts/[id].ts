@@ -22,7 +22,7 @@ const handler = createDefaultHandler()
     const {
       fromName, fromAddress, submitterNetId,
       type, fullContent, briefContent, url, requestedPublicationDate,
-      status, reviewComment, featuredImage
+      status, reviewComment, featuredImage, eventDate
     }: Post = req.body;
 
     const updatedPost = await postController.update(id as string, {
@@ -36,7 +36,8 @@ const handler = createDefaultHandler()
       requestedPublicationDate,
       status,
       reviewComment,
-      featuredImage
+      featuredImage,
+      eventDate
     });
 
     return res.status(200).json(createSuccessPayload<FetchPostData>({ post: updatedPost }));
