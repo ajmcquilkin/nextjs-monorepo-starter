@@ -4,26 +4,45 @@ import PostContent from 'components/posts/postContent';
 import PostSection from 'components/posts/postSection';
 import HomeNavigation from 'components/homeNavigation';
 
+import { fetchReleaseByDate as fetchReleaseByDateImport } from 'store/actionCreators/releaseActionCreators';
+
 import { getFullDate } from 'utils';
 
 import { Post } from 'types/post';
 import { Release } from 'types/release';
+import { ConnectedThunkCreator } from 'types/state';
 
 import styles from './home.module.scss';
 
 export interface HomePassedProps {
-  release: Release | null,
-  releasePostMap: Record<string, Post>
+  initialRelease: Release | null,
+  initialPostMap: Record<string, Post>
 }
 
-const Home = ({ release, releasePostMap }: HomePassedProps): JSX.Element => {
+export interface HomeStateProps {
+  release: Release | null,
+  postMap: Record<string, Post>
+}
+
+export interface HomeDispatchProps {
+  fetchReleaseByDate: ConnectedThunkCreator<typeof fetchReleaseByDateImport>
+}
+
+export type HomeProps = HomePassedProps & HomeStateProps & HomeDispatchProps;
+
+const Home = ({
+  release: reduxRelease, postMap: reduxPostMap, initialRelease, initialPostMap, fetchReleaseByDate
+}: HomeProps): JSX.Element => {
+  const release = reduxRelease ?? initialRelease;
+  const postMap = Object.values(reduxPostMap).length ? reduxPostMap : initialPostMap;
+
   if (!release) return (<div>Loading...</div>);
 
-  const news = release.news.map((id) => releasePostMap?.[id]);
-  const announcements = release.announcements.map((id) => releasePostMap?.[id]);
-  const events = release.events.map((id) => releasePostMap?.[id]);
+  const news = release.news.map((id) => postMap?.[id]);
+  const announcements = release.announcements.map((id) => postMap?.[id]);
+  const events = release.events.map((id) => postMap?.[id]);
 
-  const featuredPost = releasePostMap?.[release.featuredPost as string];
+  const featuredPost = postMap?.[release.featuredPost as string];
 
   return (
     <MainWrapper>
