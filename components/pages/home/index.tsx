@@ -52,40 +52,47 @@ const Home = ({
 
   const featuredPost = postMap?.[release.featuredPost as string];
 
+  const previousDate = getPreviousDate(release.date);
+  const nextDate = getNextDate(release.date);
+
   return (
     <MainWrapper>
       <div className={styles.homeContainer}>
         <section className={styles.homeHeaderContentContainer}>
 
-          <div className={styles.homeTitleContainer}>
+          <div className={styles.homeHeaderContainer}>
             <div className={[styles.homeDateSelector, styles.left].join(' ')}>
               <button
                 type="button"
-                onClick={() => { fetchReleaseByDate(getPreviousDate(release.date)); }}
+                onClick={() => { fetchReleaseByDate(previousDate); }}
               >
                 <img src="/left.svg" alt="left arrow" />
-                <p>{getFullDate(getPreviousDate(release.date))}</p>
+                <p>{getFullDate(previousDate)}</p>
               </button>
             </div>
 
-            <div className={styles.homeHeaderTopBar} />
+            <div className={styles.homeTitleContainer}>
+              <div className={styles.homeHeaderTopBar} />
 
-            <div className={styles.homeTitleTextContainer}>
-              <h2>Vox Daily News</h2>
-              <p>{getFullDate(release.date)}</p>
+              <div className={styles.homeTitleTextContainer}>
+                <h2>Vox Daily News</h2>
+                <p>{getFullDate(release.date)}</p>
+              </div>
+
+              <div className={styles.homeHeaderBottomBar} />
             </div>
 
-            <div className={styles.homeHeaderBottomBar} />
-
-            <div className={[styles.homeDateSelector, styles.right].join(' ')}>
-              <button
-                type="button"
-                onClick={() => { fetchReleaseByDate(getNextDate(release.date)); }}
-              >
-                <p>{getFullDate(getNextDate(release.date))}</p>
-                <img src="/right.svg" alt="right arrow - next release" />
-              </button>
-            </div>
+            {nextDate < Date.now() ? (
+              <div className={[styles.homeDateSelector, styles.right].join(' ')}>
+                <button
+                  type="button"
+                  onClick={() => { fetchReleaseByDate(nextDate); }}
+                >
+                  <p>{getFullDate(nextDate)}</p>
+                  <img src="/right.svg" alt="right arrow - next release" />
+                </button>
+              </div>
+            ) : null}
           </div>
 
           <img

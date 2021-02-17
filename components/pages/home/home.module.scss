@@ -8,7 +8,7 @@
         margin-bottom: 40px;
         
         
-        .homeTitleContainer {
+        .homeHeaderContainer {
             display: flex;
             flex-direction: column;
             position: relative;
@@ -54,37 +54,41 @@
 
                 }
             }
+
+            .homeTitleContainer {
+
+                .homeHeaderTopBar {
+                    height: 8px;
+                    background-color: #00693e;
+                    border-radius: 6px;
+                    margin-top: 40px;
+                }
+        
+                .homeHeaderBottomBar {
+                    height: 8px;
+                    background-color: #00693e;
+                    border-radius: 6px;
+                    margin-bottom: 40px;
+                }
+        
+                .homeTitleTextContainer {
+                    padding: 24px 0;
+        
+                    h2 {
+                        font-family: National2-Bold, sans-serif;
+                    }
+                    
+                    p {
+                        font-family: National2-Reg, sans-serif;
+                    }
+                    
+                    * {
+                        text-align: center;
+                        margin: 0 auto;
+                    } 
+                }
+            }
             
-            .homeHeaderTopBar {
-                height: 8px;
-                background-color: #00693e;
-                border-radius: 6px;
-                margin-top: 40px;
-            }
-    
-            .homeHeaderBottomBar {
-                height: 8px;
-                background-color: #00693e;
-                border-radius: 6px;
-                margin-bottom: 40px;
-            }
-    
-            .homeTitleTextContainer {
-                padding: 24px 0;
-    
-                h2 {
-                    font-family: National2-Bold, sans-serif;
-                }
-                
-                p {
-                    font-family: National2-Reg, sans-serif;
-                }
-                
-                * {
-                    text-align: center;
-                    margin: 0 auto;
-                } 
-            }
         }
 
         img {
