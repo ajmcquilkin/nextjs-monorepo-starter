@@ -33,7 +33,7 @@ export const handleDecodeDate = (date: string): number => {
 
 export const getMidnightDate = (date: number): number => {
   const dateInstance = new Date(date);
-  dateInstance.setHours(0, 0, 0, 0);
+  dateInstance.setUTCHours(0, 0, 0, 0);
   return dateInstance.getTime();
 };
 
