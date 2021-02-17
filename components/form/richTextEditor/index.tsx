@@ -1,18 +1,18 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 
 import {
-  Editor, EditorState, ContentState,
+  Editor, EditorState,
   RichUtils, ContentBlock,
 } from 'draft-js';
 
-import BlockStyleControls from '../blockStyleControls';
-import InlineStyleControls from '../inlineStyleControls';
+import BlockStyleControls from 'components/form/blockStyleControls';
+import InlineStyleControls from 'components/form/inlineStyleControls';
 
 import styles from './richTextEditor.module.scss';
 
 export interface RichTextEditorProps {
-  onChange: (...args: any) => void,
-  incomingState: string
+  onChange: (state: EditorState) => void,
+  incomingState: EditorState
 }
 
 const RichTextEditor = ({ onChange, incomingState }: RichTextEditorProps): JSX.Element => {
@@ -20,12 +20,8 @@ const RichTextEditor = ({ onChange, incomingState }: RichTextEditorProps): JSX.E
   const focusEditor = (): void => { editor.current?.focus(); };
   useEffect(() => { focusEditor(); }, []);
 
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  useEffect(() => { setEditorState(EditorState.createWithContent(ContentState.createFromText(incomingState))); }, []);
-
   const handleChange = (state: EditorState): void => {
-    setEditorState(state);
-    onChange(state.getCurrentContent().getPlainText());
+    onChange(state);
   };
 
   // const handleKeyCommand = (command: DraftEditorCommand, state: EditorState): DraftHandleValue => {
@@ -35,11 +31,11 @@ const RichTextEditor = ({ onChange, incomingState }: RichTextEditorProps): JSX.E
   // };
 
   const toggleBlockType = (blockType: string) => {
-    handleChange(RichUtils.toggleBlockType(editorState, blockType));
+    handleChange(RichUtils.toggleBlockType(incomingState, blockType));
   };
 
   const toggleInlineStyle = (inlineStyle: string) => {
-    handleChange(RichUtils.toggleInlineStyle(editorState, inlineStyle));
+    handleChange(RichUtils.toggleInlineStyle(incomingState, inlineStyle));
   };
 
   const getBlockStyle = (block: ContentBlock) => block.getType();
@@ -47,18 +43,18 @@ const RichTextEditor = ({ onChange, incomingState }: RichTextEditorProps): JSX.E
   return (
     <div className={styles.rteContainer}>
       <BlockStyleControls
-        editorState={editorState}
+        editorState={incomingState}
         onToggle={toggleBlockType}
       />
 
       <InlineStyleControls
-        editorState={editorState}
+        editorState={incomingState}
         onToggle={toggleInlineStyle}
       />
 
       <Editor
         ref={editor}
-        editorState={editorState}
+        editorState={incomingState}
         onChange={handleChange}
         // handleKeyCommand={handleKeyCommand}
         blockStyleFn={getBlockStyle}

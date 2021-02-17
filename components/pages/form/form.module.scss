@@ -117,9 +117,15 @@
   .formPublishContainer {
     margin-top: 36px;
   
-    label > input {
-      margin-top: 12px;
-      // TODO: Update this styling
+    label {
+      p {
+        // Label text
+      }
+
+      input {
+        margin-top: 12px;
+        // TODO: Update this styling
+      }
     }
   }
   

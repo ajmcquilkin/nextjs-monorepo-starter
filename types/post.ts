@@ -17,6 +17,8 @@ export interface Post {
   url: string,
   requestedPublicationDate: number,
   recipientGroups: string[],
+  featuredImage: string,
+  eventDate: number | null,
 
   status: PostStatus,
   dateItemCreated: Date,

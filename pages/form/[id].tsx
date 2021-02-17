@@ -1,32 +1,36 @@
 import { GetServerSideProps, GetStaticPropsResult } from 'next';
 import { connect } from 'react-redux';
 
-import Form, { FormStateProps, FormDispatchProps, FormPassedProps } from 'components/pages/form';
+import Form, {
+  FormProps, FormStateProps, FormDispatchProps, FormPassedProps
+} from 'components/pages/form';
 
 import {
-  createPost, fetchAllPosts, fetchPostById, updatePostById
+  createPost, fetchPostById, updatePostById, deletePostById
 } from 'store/actionCreators/postActionCreators';
-import { setError } from 'store/actionCreators/requestActionCreators';
+import { createLoadingSelector, setError } from 'store/actionCreators/requestActionCreators';
 
 import { RootState } from 'types/state';
-import { Post } from 'types/post';
 
-const mapStateToProps = (state: RootState): FormStateProps => ({
-  itemIsLoading: false,
-  itemErrorMessage: '',
+const postLoadingSelector = createLoadingSelector(['FETCH_POST', 'DELETE_POST']);
+
+const mapStateToProps = (state: RootState, ownProps: FormProps): FormStateProps => ({
   isAuthenticated: state.user.isAuthenticated,
   isReviewer: false,
 
   groups: [],
   netId: '',
-  post: {} as Post
+
+  postIsLoading: postLoadingSelector(state),
+  postErrorMessage: '',
+  post: state.post.posts?.[ownProps.id] || null
 });
 
 const mapDispatchToProps: FormDispatchProps = {
-  fetchApproved: fetchAllPosts,
   fetchPostById,
   createPost,
   updatePostById,
+  deletePostById,
   setError
 };
 

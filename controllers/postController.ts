@@ -9,14 +9,14 @@ import { Post, PostDocument, PostStatus } from 'types/post';
 import { Release } from 'types/release';
 
 type CreatePostType = Pick<Post,
-  'fromName' | 'fromAddress' | 'submitterNetId' | 'type' | 'fullContent' |
-  'briefContent' | 'url' | 'requestedPublicationDate' | 'status' | 'recipientGroups'
+  'fromName' | 'fromAddress' | 'submitterNetId' | 'type' | 'fullContent' | 'briefContent'
+  | 'url' | 'requestedPublicationDate' | 'status' | 'recipientGroups' | 'featuredImage' | 'eventDate'
 >;
 
 export const create = async (fields: CreatePostType): Promise<Post> => {
   const {
     fromName, fromAddress, submitterNetId, type, fullContent,
-    briefContent, url, requestedPublicationDate, status
+    briefContent, url, requestedPublicationDate, status, featuredImage, eventDate
   } = fields;
 
   const post = new PostModel();
@@ -31,6 +31,8 @@ export const create = async (fields: CreatePostType): Promise<Post> => {
   post.briefContent = briefContent;
   post.url = url;
   post.status = status;
+  post.featuredImage = featuredImage;
+  post.eventDate = eventDate;
 
   post.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
 
@@ -51,7 +53,7 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
   const {
     fromName, fromAddress, submitterNetId,
     type, fullContent, briefContent, url, requestedPublicationDate,
-    status, reviewComment
+    status, reviewComment, featuredImage, eventDate
   } = fields;
 
   const foundPost: PostDocument = await PostModel.findOne({ _id: id });
@@ -68,6 +70,9 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
 
   if (status) foundPost.status = status;
   if (reviewComment) foundPost.reviewComment = reviewComment;
+  if (featuredImage) foundPost.featuredImage = featuredImage;
+  if (eventDate) foundPost.eventDate = eventDate;
+
   if (requestedPublicationDate) foundPost.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
 
   if (status === 'approved' && (requestedPublicationDate ?? foundPost.requestedPublicationDate)) {

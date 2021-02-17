@@ -1,5 +1,13 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useState, useEffect, MouseEvent } from 'react';
+
+import { useRouter } from 'next/router';
+import {
+  useState, useEffect, MouseEvent, ChangeEvent
+} from 'react';
+
+import { EditorState, ContentState } from 'draft-js';
+import { stateFromHTML } from 'draft-js-import-html';
+import { stateToHTML, Options as DraftJSExportOptions } from 'draft-js-export-html';
 
 import FormSection from 'components/form/formSection';
 import ContentLength from 'components/form/contentLength';
@@ -9,8 +17,8 @@ import MainWrapper from 'components/layout/mainWrapper';
 import {
   createPost as createPostImport,
   fetchPostById as fetchPostByIdImport,
-  fetchWithStatus as fetchWithStatusImport,
-  updatePostById as updatePostByIdImport
+  updatePostById as updatePostByIdImport,
+  deletePostById as deletePostByIdImport,
 } from 'store/actionCreators/postActionCreators';
 
 import {
@@ -20,9 +28,11 @@ import {
 import {
   generateFrontendErrorMessage, maxContentLength, handleEncodeDate, handleDecodeDate
 } from 'utils';
+import uploadImage from 'utils/s3';
 
-import { Post } from 'types/post';
+import { HTML } from 'types/email';
 import { Group } from 'types/group';
+import { Post } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
 
 import styles from './form.module.scss';
@@ -33,8 +43,8 @@ export interface FormPassedProps {
 
 export interface FormStateProps {
   groups: Group[],
-  itemIsLoading: boolean,
-  itemErrorMessage: string,
+  postIsLoading: boolean,
+  postErrorMessage: string,
 
   post: Post,
   isAuthenticated: boolean,
@@ -45,84 +55,177 @@ export interface FormStateProps {
 export interface FormDispatchProps {
   createPost: ConnectedThunkCreator<typeof createPostImport>,
   fetchPostById: ConnectedThunkCreator<typeof fetchPostByIdImport>,
-  fetchApproved: ConnectedThunkCreator<typeof fetchWithStatusImport>,
   updatePostById: ConnectedThunkCreator<typeof updatePostByIdImport>,
+  deletePostById: ConnectedThunkCreator<typeof deletePostByIdImport>,
+
   setError: ConnectedThunkCreator<typeof setErrorImport>
 }
 
 export type FormProps = FormPassedProps & FormStateProps & FormDispatchProps;
 
+const exportOptions: DraftJSExportOptions = {
+  inlineStyles: { BOLD: { element: 'b' } }
+};
+
 const Form = ({
-  groups, itemIsLoading, itemErrorMessage, id,
+  groups, postIsLoading, postErrorMessage, id,
   post, isAuthenticated, netId, isReviewer,
-  createPost, fetchPostById, fetchApproved, updatePostById, setError,
+  createPost, fetchPostById, updatePostById, deletePostById, setError,
 }: FormProps): JSX.Element => {
+  const router = useRouter();
+
   const [fromName, setFromName] = useState<Post['fromName']>('');
   const [requestedPublicationDate, setRequestedPublicationDate] = useState<Post['requestedPublicationDate']>(Date.now());
   const [postType, setPostType] = useState<Post['type']>('announcement');
   const [briefContent, setBriefContent] = useState<Post['briefContent']>('');
-  const [fullContent, setFullContent] = useState<string>('');
   const [url, setUrl] = useState<Post['url']>('');
+  const [featuredImage, setFeaturedImage] = useState<Post['featuredImage']>('');
+  const [eventDate, setEventDate] = useState<Post['eventDate']>(null);
+
+  const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
+  const [imageUploading, setImageUploading] = useState<boolean>(false);
 
   const [postTypeError, setPostTypeError] = useState<string>('');
   const [briefContentError, setBriefContentError] = useState<string>('');
   const [fullContentError, setFullContentError] = useState<string>('');
 
-  useEffect(() => { fetchPostById(id); }, []);
-  useEffect(() => { console.log(fullContent); }, [fullContent]);
+  useEffect(() => { if (id !== 'new') fetchPostById(id); }, []);
+  useEffect(() => { setEditorState(EditorState.createWithContent(ContentState.createFromText(''))); }, []);
 
-  const isNew = false;
-  const editable = false;
+  useEffect(() => {
+    if (post?.fromName) { setFromName(post.fromName); }
+    if (post?.requestedPublicationDate) { setRequestedPublicationDate(post.requestedPublicationDate); }
+    if (post?.type) { setPostType(post.type); }
+    if (post?.briefContent) { setBriefContent(post.briefContent); }
+    if (post?.url) { setUrl(post.url); }
 
-  const submissionIsValid = (content: any): boolean => { // TODO: remove any
+    if (post?.fullContent) { setEditorState(EditorState.createWithContent(stateFromHTML(post.fullContent))); }
+  }, [post]);
+
+  const getFullContent = (state: EditorState): HTML => stateToHTML(state.getCurrentContent(), exportOptions);
+
+  const submissionIsValid = (state: EditorState): boolean => {
     let isValid = true;
-    const contentNoTags = content.toString('html').replace(/(<([^>]+)>)/ig, '');
+    const plainContent = state.getCurrentContent().getPlainText();
 
-    if (!contentNoTags.length) { setFullContentError('Content is a required field'); isValid = false; }
-    if (contentNoTags.length > maxContentLength) {
-      setFullContentError(`Content has a max length of ${maxContentLength} characters, current length is ${contentNoTags.length} characters`);
+    if (!plainContent.length) { setFullContentError('Content is a required field'); isValid = false; }
+    if (plainContent.length > maxContentLength) {
+      setFullContentError(`Content has a max length of ${maxContentLength} characters, current length is ${plainContent.length} characters`);
       isValid = false;
     }
-    // if (!this.state.(recipients)) { this.setState({ toError: 'please select recipients' }) } // TODO: Update and save "to" field
+
+    // if (!this.state.(recipients)) { this.setState({ toError: 'please select recipients' }) }
     if (!postType) { setPostTypeError('Type is a required field'); isValid = false; }
     if (!briefContent) { setBriefContentError('Brief content is a required field'); isValid = false; }
 
     return isValid;
   };
 
-  const handleSave = (e: MouseEvent<HTMLElement>) => {
-    console.log('saved');
+  const handleSave = () => {
+    if (!submissionIsValid(editorState)) return;
 
-  //   if (submissionIsValid(fullContent)) {
-  //     const createdPost: Post = {
-  //       fromName,
-  //       requestedPublicationDate,
-  //       briefContent,
-  //       fullContent: fullContent.toString('html'),
-  //       type: postType,
-  //       url,
-  //     };
-  //   }
+    if (post) {
+      updatePostById(post._id, {
+        fromName,
+        requestedPublicationDate,
+        briefContent,
+        url,
+        featuredImage,
+        type: postType,
+        fullContent: getFullContent(editorState),
+        status: 'draft'
+      });
+    } else {
+      createPost({
+        fromName,
+        requestedPublicationDate,
+        briefContent,
+        url,
+        featuredImage,
+        type: postType,
+        fullContent: getFullContent(editorState),
+        status: 'draft',
+
+        submitterNetId: 'TEST',
+        fromAddress: 'TEST@TEST.COM',
+        recipientGroups: []
+      }, {
+        successCallback: (res) => { router.push(`/form/${res?.data?.data?.post?._id || ''}`); }
+      });
+    }
   };
 
-  const handleSubmit = (e: MouseEvent<HTMLElement>) => {
-    console.log('submitted');
+  const handleSubmit = () => {
+    if (!submissionIsValid(editorState)) return;
+
+    if (post) {
+      updatePostById(post._id, {
+        fromName,
+        requestedPublicationDate,
+        briefContent,
+        url,
+        featuredImage,
+        type: postType,
+        fullContent: getFullContent(editorState),
+        status: 'pending'
+      });
+    } else {
+      createPost({
+        fromName,
+        requestedPublicationDate,
+        briefContent,
+        url,
+        featuredImage,
+        type: postType,
+        fullContent: getFullContent(editorState),
+        status: 'pending',
+
+        submitterNetId: 'TEST',
+        fromAddress: 'TEST@TEST.COM',
+        recipientGroups: []
+      }, {
+        successCallback: (res) => { router.push(`/form/${res?.data?.data?.post?._id || ''}`); }
+      });
+    }
   };
 
-  const handleCancel = (e: MouseEvent<HTMLElement>) => {
-    console.log('cancelled');
+  const handleDiscard = () => {
+    if (post) {
+      deletePostById(id, { successCallback: () => { router.push('/'); } });
+    } else {
+      router.push('/');
+    }
   };
+
+  const upload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target?.files?.[0];
+    if (!file) throw new Error('file not found');
+
+    try {
+      setImageUploading(true);
+      const imageURL = await uploadImage(file);
+      setImageUploading(false);
+      setFeaturedImage(imageURL);
+      if (post) { updatePostById(post._id, { featuredImage: imageURL }); }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  if (postIsLoading) return (<div>Loading...</div>);
 
   return (
     <MainWrapper>
       <div className={styles.formContainer}>
-        <h1>{isNew ? 'New Submission' : 'Edit Submission'}</h1>
+        <h1>{post ? 'Edit Submission' : 'New Submission'}</h1>
         <form>
           <FormSection title="Recipients">
             <div className={styles.formFromContainer}>
               <label className={styles.formLabelLarge}>
-                From
-                <span className={styles.formRequiredField}>*</span>
+                <p>
+                  From
+                  <span className={styles.formRequiredField}>*</span>
+                </p>
                 <input
                   placeholder="Type department or division name here"
                   type="text"
@@ -152,20 +255,17 @@ const Form = ({
 
           <FormSection title="Publish Date">
             <label className={[styles.formPublishContainer, styles.formLabelLarge].join(' ')}>
-              Select Publish Date
-              {/* <input
+              <p>Select Publish Date</p>
+              <input
                 type="date"
                 value={handleEncodeDate(requestedPublicationDate)}
                 onChange={(e) => setRequestedPublicationDate(handleDecodeDate(e.target.value))}
-              /> */}
+              />
             </label>
           </FormSection>
 
           <FormSection title="Type">
             <div className={styles.formTypeRadioContainer}>
-
-              {/* TODO: Limit post options based on scopes */}
-
               <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
                 <input
                   type="radio"
@@ -197,21 +297,25 @@ const Form = ({
               </label>
             </div>
             <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(postTypeError)}</div>
-
-            {/* <label className={styles.formLabelLarge}>
-            Event Date
-            <input
-            type="date"
-            value={this.state.eventDate}
-            onChange={(e) => this.setState({ eventDate: e.target.value })}
-            />
-          </label> */}
           </FormSection>
+
+          {postType === 'event' ? (
+            <FormSection title="Event Date">
+              <label className={[styles.formPublishContainer, styles.formLabelLarge].join(' ')}>
+                <p>Select Event Date</p>
+                <input
+                  type="date"
+                  value={handleEncodeDate(eventDate || Date.now())}
+                  onChange={(e) => setEventDate(handleDecodeDate(e.target.value))}
+                />
+              </label>
+            </FormSection>
+          ) : null}
 
           <FormSection title="Body">
             <div className={styles.formContentContainer}>
               <label className={styles.formLabelSmall}>
-                Headline
+                <p>Headline</p>
                 <input
                   type="text"
                   placeholder="Enter headline text"
@@ -223,17 +327,22 @@ const Form = ({
               </label>
 
               <label className={styles.formLabelSmall} htmlFor="form-editor-container">Summary</label>
-              <div className={styles.formEditorContainer}>
+              <div id="form-editor-container" className={styles.formEditorContainer}>
                 <RichTextEditor
-                  incomingState={fullContent}
-                  onChange={(value) => setFullContent(value)}
+                  incomingState={editorState}
+                  onChange={(state) => setEditorState(state)}
                 />
-                <ContentLength contentLength={fullContent.length} maxContentLength={maxContentLength} />
+
+                <ContentLength
+                  contentLength={editorState.getCurrentContent()?.getPlainText()?.length || 0}
+                  maxContentLength={maxContentLength}
+                />
+
                 <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(fullContentError)}</div>
               </div>
 
               <label className={styles.formLabelSmall}>
-                URL
+                <p>URL</p>
                 {' '}
                 <input
                   type="text"
@@ -245,7 +354,7 @@ const Form = ({
             </div>
           </FormSection>
 
-          {/* <FormSection title="Graphics">
+          <FormSection title="Graphics">
             <div className={styles.formContentContainer}>
               <label className={styles.formLabelSmall}>
                 <p>Attach Image</p>
@@ -255,28 +364,21 @@ const Form = ({
                   id="headerImage"
                   onChange={(e) => { upload(e); }}
                 />
-                <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(briefContentError)}</div>
+                <div className={styles.formErrorContainer}>{generateFrontendErrorMessage('')}</div>
               </label>
               <div>
                 <div className="imagePreview">
-                  {imageUploading === true ? <div>Image is uploading</div> : <span />}
-                  {imageUrl ? <img src={imageUrl} alt="optional headerImage" /> : <div>No image uploaded yet</div>}
+                  {/* eslint-disable-next-line no-nested-ternary */}
+                  {imageUploading ? <div>Image is uploading...</div> : (featuredImage ? <img src={featuredImage} alt="optional headerImage" /> : <div>No image uploaded yet</div>)}
                 </div>
               </div>
             </div>
-          </FormSection> */}
+          </FormSection>
 
           <section className={styles.formButtonsContainer}>
-            {editable
-              ? (
-                <>
-                  <button type="button" className={styles.formSubmitButton} onClick={handleSubmit}>Submit</button>
-                  <button type="button" className={styles.formSaveButton} onClick={handleSave}>Save Draft</button>
-                  <button type="button" className={styles.formCancelButton} onClick={handleCancel}>Cancel</button>
-                </>
-              ) : (
-                <p>Submitted, not editable</p>
-              )}
+            <button type="button" className={styles.formSubmitButton} onClick={handleSubmit}>Submit</button>
+            <button type="button" className={styles.formSaveButton} onClick={handleSave}>Save Draft</button>
+            <button type="button" className={styles.formCancelButton} onClick={handleDiscard}>Cancel</button>
           </section>
         </form>
       </div>
