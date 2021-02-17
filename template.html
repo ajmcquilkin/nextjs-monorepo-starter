@@ -6,41 +6,130 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Vox Daily - {{__DATE}}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .spacer {
+      padding: 2px 0 2px 0;
+    }
+
+    .postTable * {
+      margin: 0 0 12px 0;
+    }
+
+    .sectionSpacerPadding {
+      padding: 0 0 24px 0;
+    }
+
+    .noContent {
+      color: #424141;
+    }
+
+    p,
+    a {
+      margin: 0 0 0 0;
+    }
+
+    h1 {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: 40px;
+      font-weight: 900;
+      color: #12312B;
+    }
+
+    h2 {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: 21px;
+      font-weight: 900;
+      color: #12312B;
+    }
+
+    h3 {
+      margin: 0 0 8px 0;
+
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: 21px;
+      font-weight: 500;
+      color: #12312B;
+    }
+
+    h4 {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #12312B;
+    }
+
+    .sectionPadding {
+      padding: 0 0 36px 0;
+      margin: 0 0 0 0;
+    }
+
+    /* Outlook-specific styling */
+    table {
+      border-collapse: separate;
+    }
+
+    a,
+    a:link,
+    a:visited {
+      text-decoration: underline;
+      color: #267ABA;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .ExternalClass p,
+    .ExternalClass span,
+    .ExternalClass font,
+    .ExternalClass td {
+      line-height: 100%;
+    }
+
+    .ExternalClass {
+      width: 100%;
+    }
+  </style>
 </head>
 
-<body style="margin: 0; padding: 0;">
+<body style="margin: 0 0 0 0; padding: 0 0 0 0;">
   <!-- Main layout table -->
-  <table role="presentation" style="max-width: 600px; margin: 0 auto; padding: 36px;" cellpadding="0" cellspacing="0">
+  <table role="presentation" style="margin: 0 auto 0 auto; padding: 0 96px 36px 96px;" width="600" cellpadding="0"
+    cellspacing="0" border="0">
 
     <!-- View in browser -->
     <tr>
       <td>
-        <a style="display: inline-block; color: green; margin: 0 0 36px; width: 100%; text-align: center;"
-          href="{{__URL}}">
-          View in browser
-        </a>
+        <p style="padding: 21px 0 21px 0; text-align: center;">
+          <a style="color: #00693E; text-align: center;" href="{{__URL}}">
+            View in browser
+          </a>
+        </p>
       </td>
     </tr>
 
     <!-- Header banner text -->
     <tr>
-      <td>
-        <div style="height: 4px; border-radius: 2px; background-color: green;"></div>
-      </td>
+      <td class="spacer" bgcolor="#00693E"></td>
     </tr>
 
     <tr>
       <td>
-        <table style="margin: 0 auto;">
+        <table role="presentation" style="margin: 0 auto 0 auto;" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td>
-              <h1 style="margin: 12px 0 3px; text-align: center;">Vox Daily</h1>
+              <h1 style="margin: 12px 0 3px 0; text-align: center;">Vox Daily</h1>
             </td>
           </tr>
 
           <tr>
             <td>
-              <h2 style="margin: 0 0 12px; text-align: center;">{{__DATE}}</h2>
+              <h2 style="margin: 0 0 12px 0; text-align: center;">{{__DATE}}</h2>
             </td>
           </tr>
         </table>
@@ -48,62 +137,103 @@
     </tr>
 
     <tr>
+      <td class="spacer" bgcolor="#00693E"></td>
+    </tr>
+
+    <tr>
       <td>
-        <div style="height: 4px; margin-bottom: 36px; border-radius: 2px; background-color: green;">
-        </div>
+        <p style="margin: 0 0 51px 0"></p>
+      </td>
+    </tr>
+
+    <!-- Summary Section -->
+
+    <tr>
+      <td>
+        <h3 style="color: #00693E">Daily Summary</h3>
+        <table role="presentation" class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td class="spacer" bgcolor="#00693E"></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <h3 style="color: #00693E; padding: 0 0 12px 0;">News</h3>
+        {{__NEWSTITLES}}
+        <p class="sectionPadding"></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <h3 style="color: #00693E; padding: 0 0 9px 0;">Announcements</h3>
+        {{__ANNOUNCEMENTSTITLES}}
+        <p class="sectionPadding"></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <h3 style="color: #00693E; padding: 0 0 9px 0;">Events</h3>
+        {{__EVENTSTITLES}}
+        <p class="sectionPadding"></p>
       </td>
     </tr>
 
     <!-- Header image and caption -->
     <tr>
       <td>
-        <table style="margin: 0 auto 36px; max-width: 300px;" cellpadding="0" cellspacing="0">
+        <table role="presentation" style="padding: 18px 0 60px 0; margin: 0 auto 0 auto;" width="300" cellpadding="0"
+          cellspacing="0" border="0">
           <tr>
             <td>
-              <img style="width: 100%; margin-bottom: 12px;" src="{{__HEADERIMAGE}}" alt="daily header image" />
-              <p style="margin: 0; text-align: center;">{{__CAPTION}}</p>
+              <img style="padding: 0 0 12px 0;" src="{{__HEADERIMAGE}}" alt="daily header image" width="100%" />
+              <p style="color: #424141; text-align: center;">{{__CAPTION}}</p>
             </td>
           </tr>
         </table>
       </td>
     </tr>
 
-    <!-- News -->
+    <!-- Content Section -->
     <tr>
       <td>
-        <div style="margin-bottom: {{__SECTIONSPACING}};">
-          <h3 style="margin: 0 0 {{__SECTIONTITLEMARGIN}};">News</h3>
-          <div
-            style="height: 2px; border-radius: 1px; background-color: green; margin-bottom: {{__SECTIONSPACERMARGIN}};">
-          </div>
-          {{__NEWS}}
-        </div>
+        <h3 style="text-transform: uppercase;">News</h3>
+        <table role="presentation" class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td class="spacer" bgcolor="#00693E"></td>
+          </tr>
+        </table>
+        {{__NEWS}}
+        <p class="sectionPadding"></p>
       </td>
     </tr>
 
-    <!-- Announcements -->
     <tr>
       <td>
-        <div style="margin-bottom: {{__SECTIONSPACING}};">
-          <h3 style="margin: 0 0 {{__SECTIONTITLEMARGIN}};">Announcements</h3>
-          <div
-            style="height: 2px; border-radius: 1px; background-color: green; margin-bottom: {{__SECTIONSPACERMARGIN}};">
-          </div>
-          {{__ANNOUNCEMENTS}}
-        </div>
+        <h3 style="text-transform: uppercase;">Announcements</h3>
+        <table role="presentation" class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td class="spacer" bgcolor="#00693E"></td>
+          </tr>
+        </table>
+        {{__ANNOUNCEMENTS}}
+        <p class="sectionPadding"></p>
       </td>
     </tr>
 
-    <!-- Events -->
     <tr>
       <td>
-        <div>
-          <h3 style="margin: 0 0 {{__SECTIONTITLEMARGIN}};">Events</h3>
-          <div
-            style="height: 2px; border-radius: 1px; background-color: green; margin-bottom: {{__SECTIONSPACERMARGIN}};">
-          </div>
-          {{__EVENTS}}
-        </div>
+        <h3 style="text-transform: uppercase;">Events</h3>
+        <table role="presentation" class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td class="spacer" bgcolor="#00693E"></td>
+          </tr>
+        </table>
+        {{__EVENTS}}
       </td>
     </tr>
   </table>
