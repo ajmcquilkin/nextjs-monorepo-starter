@@ -20,9 +20,13 @@ export const casInstance: CASInstance<ServerSession['info']> = new CASAuthentica
   destroy_session: true,
   return_to: returnURL,
 
-  is_dev_mode: __MODE__ === 'dev',
-  dev_mode_user: __MODE__ === 'dev' ? devModeUser : undefined,
-  dev_mode_info: __MODE__ === 'dev' ? devModeInfo : undefined
+  is_dev_mode: true,
+  dev_mode_user: devModeUser,
+  dev_mode_info: devModeInfo
+
+  // is_dev_mode: __MODE__ === 'dev',
+  // dev_mode_user: __MODE__ === 'dev' ? devModeUser : undefined,
+  // dev_mode_info: __MODE__ === 'dev' ? devModeInfo : undefined
 });
 
 export const requireContributor = async (req: ServerRequestType, res: ServerResponseType, next: NextHandler): Promise<void> => {
