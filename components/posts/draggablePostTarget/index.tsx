@@ -1,6 +1,8 @@
-import { useSkeletonLoading } from 'components/layout/skeletonArea';
 import { ReactNode } from 'react';
 import { useDrop } from 'react-dnd';
+
+import { useSkeletonLoading } from 'components/layout/skeletonArea';
+
 import { PostDragItem } from 'types/dnd';
 
 export interface DraggablePostTargetProps {
