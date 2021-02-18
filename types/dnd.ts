@@ -2,5 +2,6 @@
 
 export interface PostDragItem {
   type: string,
-  id: string
+  id: string,
+  order: number
 }

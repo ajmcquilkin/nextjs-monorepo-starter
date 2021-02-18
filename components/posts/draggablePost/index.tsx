@@ -6,12 +6,13 @@ import { Post } from 'types/post';
 
 export interface DraggablePostProps {
   postContent: Post,
-  type: string
+  type: string,
+  order: number
 }
 
-const DraggablePost = ({ postContent, type }: DraggablePostProps): JSX.Element => {
+const DraggablePost = ({ postContent, type, order }: DraggablePostProps): JSX.Element => {
   const [{ isDragging }, drag] = useDrag<PostDragItem, any, { isDragging: boolean }>({
-    item: { type, id: postContent._id },
+    item: { type, id: postContent._id, order },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
       dropResult: monitor.getDropResult()

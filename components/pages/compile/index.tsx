@@ -200,7 +200,7 @@ const Compile = ({
                 acceptType={DragItemTypes.NEWS}
                 onDrop={(item) => console.log('news', item)}
               >
-                {news.map((id) => (<DraggablePost postContent={postMap?.[id]} type={DragItemTypes.NEWS} key={id} />))}
+                {news.map((id, idx) => (<DraggablePost postContent={postMap?.[id]} type={DragItemTypes.NEWS} order={idx} key={id} />))}
               </DraggablePostTarget>
             </section>
 
@@ -210,7 +210,7 @@ const Compile = ({
                 acceptType={DragItemTypes.ANNOUNCEMENT}
                 onDrop={(item) => console.log('announcement', item)}
               >
-                {announcements.map((id) => (<DraggablePost postContent={postMap?.[id]} type={DragItemTypes.NEWS} key={id} />))}
+                {announcements.map((id, idx) => (<DraggablePost postContent={postMap?.[id]} type={DragItemTypes.NEWS} order={idx} key={id} />))}
               </DraggablePostTarget>
             </section>
 
@@ -220,7 +220,7 @@ const Compile = ({
                 acceptType={DragItemTypes.EVENT}
                 onDrop={(item) => console.log('event', item)}
               >
-                {events.map((id) => (<DraggablePost postContent={postMap?.[id]} type={DragItemTypes.NEWS} key={id} />))}
+                {events.map((id, idx) => (<DraggablePost postContent={postMap?.[id]} type={DragItemTypes.NEWS} order={idx} key={id} />))}
               </DraggablePostTarget>
             </section>
 
