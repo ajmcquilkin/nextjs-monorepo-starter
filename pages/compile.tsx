@@ -2,12 +2,11 @@ import { connect } from 'react-redux';
 
 import Compile, { CompileStateProps, CompileDispatchProps, CompilePassedProps } from 'components/pages/compile';
 
-import { ActionTypes, RootState } from 'types/state';
+import { RootState } from 'types/state';
 import { createRelease, fetchReleaseByDate, updateReleaseById } from 'store/actionCreators/releaseActionCreators';
 import { createLoadingSelector } from 'store/actionCreators/requestActionCreators';
 
-const watchActions: ActionTypes[] = [];
-const loadingSelector = createLoadingSelector(watchActions);
+const loadingSelector = createLoadingSelector(['FETCH_RELEASE']);
 
 const mapStateToProps = (state: RootState): CompileStateProps => ({
   release: state.release.release,

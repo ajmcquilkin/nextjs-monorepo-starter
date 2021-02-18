@@ -116,146 +116,146 @@ const Compile = ({
     setter(immutableArray);
   }, [news, announcements, events]);
 
+  if (isLoading) return <div>Loading...</div>;
+
   return (
-    isLoading ? (<p>content is loading </p>) : (
-      <MainWrapper>
-        <DndProvider backend={HTML5Backend}>
-          <div className={styles.compileContainer}>
-            <h1>Compile</h1>
+    <MainWrapper>
+      <DndProvider backend={HTML5Backend}>
+        <div className={styles.compileContainer}>
+          <h1>Compile</h1>
 
-            <section id="compileHeaderContainer">
-              <h2>{getFullDate()}</h2>
-              <div id="compileHeaderTextContainer">
-                <p>* Click on the dots on the left and drag and drop to re-order.</p>
-                <p>Auto-saved</p>
-              </div>
-            </section>
+          <section id="compileHeaderContainer">
+            <h2>{getFullDate()}</h2>
+            <div id="compileHeaderTextContainer">
+              <p>* Click on the dots on the left and drag and drop to re-order.</p>
+              <p>Auto-saved</p>
+            </div>
+          </section>
 
-            <section id="compileSubjectContainer">
-              <label>
-                <h2>Release Subject</h2>
-                <input
-                  type="text"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                />
-              </label>
-            </section>
+          <section id="compileSubjectContainer">
+            <label>
+              <h2>Release Subject</h2>
+              <input
+                type="text"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+              />
+            </label>
+          </section>
 
-            <section id="compileImageContainer">
-              <h2>Header Image (optional)</h2>
-              <label>
-                <p>Image</p>
-                <input
-                  type="file"
-                  alt="Select image to upload"
-                  id="headerImage"
-                  onChange={(e) => { upload(e); }}
-                />
+          <section id="compileImageContainer">
+            <h2>Header Image (optional)</h2>
+            <label>
+              <p>Image</p>
+              <input
+                type="file"
+                alt="Select image to upload"
+                id="headerImage"
+                onChange={(e) => { upload(e); }}
+              />
 
-                <div className="imagePreview">
-                  {imageUploading === true ? <div>Image is uploading</div> : <span />}
-                  {headerImage ? (
-                    <img
-                      src={headerImage}
-                      alt="optional headerImage"
-                    />
-                  ) : <div />}
-                </div>
-              </label>
-
-              <label>
-                <p>Image Caption</p>
-                <input
-                  type="text"
-                  value={imageCaption}
-                  onChange={(e) => setImageCaption(e.target.value)}
-                />
-              </label>
-            </section>
-
-            <section id="compileQodContainer">
-              <h2>Quote of the Day (optional)</h2>
-
-              <label>
-                <p>Headline</p>
-                <input
-                  type="text"
-                  value={quoteOfDay}
-                  onChange={(e) => setQuoteOfDay(e.target.value)}
-                />
-              </label>
-
-              <label>
-                <p>Context</p>
-                <input
-                  type="text"
-                  value={quotedContext}
-                  onChange={(e) => setQuotedContext(e.target.value)}
-                />
-              </label>
-            </section>
-
-            <section id="compileFeaturedContainer">
-              <h2>Featured Story (optional)</h2>
-              <DraggablePostList
-                acceptType={[DragItemTypes.NEWS, DragItemTypes.ANNOUNCEMENT, DragItemTypes.EVENT]}
-                onDrop={(item) => setFeaturedPost(item.id)}
-              >
-                {featuredPost ? <PostContent content={postMap?.[featuredPost]} /> : <div>No featured post</div>}
-              </DraggablePostList>
-            </section>
-
-            <section id="compileNewsContainer">
-              <h2>News</h2>
-              <div>
-                {news.map((id, idx) => (
-                  <DraggablePost
-                    postContent={postMap?.[id]}
-                    type={DragItemTypes.NEWS}
-                    index={idx}
-                    movePost={movePost(news, setNews)}
-                    key={id}
+              <div className="imagePreview">
+                {imageUploading === true ? <div>Image is uploading</div> : <span />}
+                {headerImage ? (
+                  <img
+                    src={headerImage}
+                    alt="optional headerImage"
                   />
-                ))}
+                ) : <div />}
               </div>
-            </section>
+            </label>
 
-            <section id="compileAnnouncementsContainer">
-              <h2>Announcements</h2>
-              <div>
-                {announcements.map((id, idx) => (
-                  <DraggablePost
-                    postContent={postMap?.[id]}
-                    type={DragItemTypes.ANNOUNCEMENT}
-                    index={idx}
-                    movePost={movePost(announcements, setAnnouncements)}
-                    key={id}
-                  />
-                ))}
-              </div>
-            </section>
+            <label>
+              <p>Image Caption</p>
+              <input
+                type="text"
+                value={imageCaption}
+                onChange={(e) => setImageCaption(e.target.value)}
+              />
+            </label>
+          </section>
 
-            <section id="compileEventsContainer">
-              <h2>Events</h2>
-              <div>
-                {events.map((id, idx) => (
-                  <DraggablePost
-                    postContent={postMap?.[id]}
-                    type={DragItemTypes.EVENT}
-                    index={idx}
-                    movePost={movePost(events, setEvents)}
-                    key={id}
-                  />
-                ))}
-              </div>
-            </section>
+          <section id="compileQodContainer">
+            <h2>Quote of the Day (optional)</h2>
 
-            <button type="button" onClick={handleReleaseUpdate}>Publish  (undesigned)</button>
-          </div>
-        </DndProvider>
-      </MainWrapper>
-    )
+            <label>
+              <p>Headline</p>
+              <input
+                type="text"
+                value={quoteOfDay}
+                onChange={(e) => setQuoteOfDay(e.target.value)}
+              />
+            </label>
+
+            <label>
+              <p>Context</p>
+              <input
+                type="text"
+                value={quotedContext}
+                onChange={(e) => setQuotedContext(e.target.value)}
+              />
+            </label>
+          </section>
+
+          <section id="compileFeaturedContainer">
+            <h2>Featured Story (optional)</h2>
+            <DraggablePostList
+              acceptType={[DragItemTypes.NEWS, DragItemTypes.ANNOUNCEMENT, DragItemTypes.EVENT]}
+              onDrop={(item) => setFeaturedPost(item.id)}
+            >
+              {featuredPost ? <PostContent content={postMap?.[featuredPost]} /> : <div>No featured post</div>}
+            </DraggablePostList>
+          </section>
+
+          <section id="compileNewsContainer">
+            <h2>News</h2>
+            <div>
+              {news.map((id, idx) => (
+                <DraggablePost
+                  postContent={postMap?.[id]}
+                  type={DragItemTypes.NEWS}
+                  index={idx}
+                  movePost={movePost(news, setNews)}
+                  key={id}
+                />
+              ))}
+            </div>
+          </section>
+
+          <section id="compileAnnouncementsContainer">
+            <h2>Announcements</h2>
+            <div>
+              {announcements.map((id, idx) => (
+                <DraggablePost
+                  postContent={postMap?.[id]}
+                  type={DragItemTypes.ANNOUNCEMENT}
+                  index={idx}
+                  movePost={movePost(announcements, setAnnouncements)}
+                  key={id}
+                />
+              ))}
+            </div>
+          </section>
+
+          <section id="compileEventsContainer">
+            <h2>Events</h2>
+            <div>
+              {events.map((id, idx) => (
+                <DraggablePost
+                  postContent={postMap?.[id]}
+                  type={DragItemTypes.EVENT}
+                  index={idx}
+                  movePost={movePost(events, setEvents)}
+                  key={id}
+                />
+              ))}
+            </div>
+          </section>
+
+          <button type="button" onClick={handleReleaseUpdate}>Publish  (undesigned)</button>
+        </div>
+      </DndProvider>
+    </MainWrapper>
   );
 };
 
