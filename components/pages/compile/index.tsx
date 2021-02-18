@@ -99,7 +99,11 @@ const Compile = ({
       imageCaption,
       quoteOfDay,
       quotedContext,
-      featuredPost
+      featuredPost,
+
+      news,
+      announcements,
+      events
     };
 
     if (release) updateReleaseById(release._id, body);
