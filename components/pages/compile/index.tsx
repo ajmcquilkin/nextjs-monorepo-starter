@@ -1,15 +1,22 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useEffect, useState, ChangeEvent } from 'react';
-import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import MainWrapper from 'components/layout/mainWrapper';
+
+import PostContent from 'components/posts/postContent';
+import DraggablePost from 'components/posts/draggablePost';
+import DraggablePostTarget from 'components/posts/draggablePostTarget';
+
 import {
   fetchReleaseByDate as fetchReleaseByDateImport,
   updateReleaseById as updateReleaseByIdImport,
   createRelease as createReleaseImport
 } from 'store/actionCreators/releaseActionCreators';
 
-import { getFullDate } from 'utils';
+import { addNDays, DragItemTypes, getFullDate } from 'utils';
 import uploadImage from 'utils/s3';
 
 import { Post } from 'types/post';
@@ -23,7 +30,7 @@ export interface CompilePassedProps {
 }
 
 export interface CompileStateProps {
-  posts: Post[],
+  postMap: Record<string, Post>,
   release: Release | null,
   isLoading: boolean
 }
@@ -36,23 +43,8 @@ export interface CompileDispatchProps {
 
 export type CompileProps = CompilePassedProps & CompileStateProps & CompileDispatchProps;
 
-// Reference: https://stackoverflow.com/questions/51585585/why-does-the-react-sortable-hoc-basic-example-fail-to-compile-with-typescript
-const SortableItem = SortableElement(({ post }: { post: Post }) => <li>{post.briefContent}</li>);
-
-const SortableList = SortableContainer(({ posts = [] }: { posts: Post[] }) => (
-  <ul>
-    {posts.map((post, index) => (
-      <SortableItem key={post._id} index={index} post={post} />
-    ))}
-  </ul>
-));
-
-const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number, newIndex: number }) => {
-  console.log(`Sort ended from ${oldIndex} to ${newIndex}`);
-};
-
 const Compile = ({
-  posts, release, isLoading,
+  postMap, release, isLoading,
   fetchReleaseByDate, createRelease, updateReleaseById
 }: CompileProps): JSX.Element => {
   const [imageUploading, setImageUploading] = useState<boolean>(false);
@@ -64,11 +56,11 @@ const Compile = ({
   const [quotedContext, setQuotedContext] = useState<Release['quotedContext']>('');
   const [featuredPost, setFeaturedPost] = useState<Release['featuredPost']>(null);
 
-  useEffect(() => {
-    const currentDate = new Date();
-    const nextDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
-    fetchReleaseByDate(nextDate.getTime());
-  }, []);
+  const [news, setNews] = useState<string[]>(release?.news || []);
+  const [announcements, setAnnouncements] = useState<string[]>(release?.announcements || []);
+  const [events, setEvents] = useState<string[]>(release?.events || []);
+
+  useEffect(() => { fetchReleaseByDate(addNDays(Date.now(), 1)); }, []);
 
   useEffect(() => {
     setSubject(release?.subject || '');
@@ -77,6 +69,10 @@ const Compile = ({
     setQuoteOfDay(release?.quoteOfDay || '');
     setQuotedContext(release?.quotedContext || '');
     setFeaturedPost(release?.featuredPost || null);
+
+    setNews(release?.news || []);
+    setAnnouncements(release?.announcements || []);
+    setEvents(release?.events || []);
   }, [release]);
 
   const upload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -111,113 +107,126 @@ const Compile = ({
   return (
     isLoading ? (<p>content is loading </p>) : (
       <MainWrapper>
-        <div className={styles.compileContainer}>
-          <h1>Compile</h1>
+        <DndProvider backend={HTML5Backend}>
+          <div className={styles.compileContainer}>
+            <h1>Compile</h1>
 
-          <section id="compileHeaderContainer">
-            <h2>{getFullDate()}</h2>
-            <div id="compileHeaderTextContainer">
-              <p>* Click on the dots on the left and drag and drop to re-order.</p>
-              <p>Auto-saved</p>
-            </div>
-          </section>
-
-          <section id="compileSubjectContainer">
-            <label>
-              <h2>Release Subject</h2>
-              <input
-                type="text"
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
-              />
-            </label>
-          </section>
-
-          <section id="compileImageContainer">
-            <h2>Header Image (optional)</h2>
-            <label>
-              <p>Image</p>
-              <input
-                type="file"
-                alt="Select image to upload"
-                id="headerImage"
-                onChange={(e) => { upload(e); }}
-              />
-
-              <div className="imagePreview">
-                {imageUploading === true ? <div>Image is uploading</div> : <span />}
-                {headerImage ? (
-                  <img
-                    src={headerImage}
-                    alt="optional headerImage"
-                  />
-                ) : <div /> }
+            <section id="compileHeaderContainer">
+              <h2>{getFullDate()}</h2>
+              <div id="compileHeaderTextContainer">
+                <p>* Click on the dots on the left and drag and drop to re-order.</p>
+                <p>Auto-saved</p>
               </div>
-            </label>
+            </section>
 
-            <label>
-              <p>Image Caption</p>
-              <input
-                type="text"
-                value={imageCaption}
-                onChange={(e) => setImageCaption(e.target.value)}
-              />
-            </label>
-          </section>
+            <section id="compileSubjectContainer">
+              <label>
+                <h2>Release Subject</h2>
+                <input
+                  type="text"
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                />
+              </label>
+            </section>
 
-          <section id="compileQodContainer">
-            <h2>Quote of the Day (optional)</h2>
+            <section id="compileImageContainer">
+              <h2>Header Image (optional)</h2>
+              <label>
+                <p>Image</p>
+                <input
+                  type="file"
+                  alt="Select image to upload"
+                  id="headerImage"
+                  onChange={(e) => { upload(e); }}
+                />
 
-            <label>
-              <p>Headline</p>
-              <input
-                type="text"
-                value={quoteOfDay}
-                onChange={(e) => setQuoteOfDay(e.target.value)}
-              />
-            </label>
+                <div className="imagePreview">
+                  {imageUploading === true ? <div>Image is uploading</div> : <span />}
+                  {headerImage ? (
+                    <img
+                      src={headerImage}
+                      alt="optional headerImage"
+                    />
+                  ) : <div />}
+                </div>
+              </label>
 
-            <label>
-              <p>Context</p>
-              <input
-                type="text"
-                value={quotedContext}
-                onChange={(e) => setQuotedContext(e.target.value)}
-              />
-            </label>
-          </section>
+              <label>
+                <p>Image Caption</p>
+                <input
+                  type="text"
+                  value={imageCaption}
+                  onChange={(e) => setImageCaption(e.target.value)}
+                />
+              </label>
+            </section>
 
-          <section id="compileFeaturedContainer">
-            <h2>Featured Story (optional)</h2>
-            <p>TODO: Add story selector here</p>
-          </section>
+            <section id="compileQodContainer">
+              <h2>Quote of the Day (optional)</h2>
 
-          <section id="compileNewsContainer">
-            <h2>News</h2>
-            <SortableList
-              posts={release ? posts.filter(({ _id }) => release.news.includes(_id)) : []}
-              onSortEnd={onSortEnd}
-            />
-          </section>
+              <label>
+                <p>Headline</p>
+                <input
+                  type="text"
+                  value={quoteOfDay}
+                  onChange={(e) => setQuoteOfDay(e.target.value)}
+                />
+              </label>
 
-          <section id="compileAnnouncementsContainer">
-            <h2>Announcements</h2>
-            <SortableList
-              posts={release ? posts.filter(({ _id }) => release.announcements.includes(_id)) : []}
-              onSortEnd={onSortEnd}
-            />
-          </section>
+              <label>
+                <p>Context</p>
+                <input
+                  type="text"
+                  value={quotedContext}
+                  onChange={(e) => setQuotedContext(e.target.value)}
+                />
+              </label>
+            </section>
 
-          <section id="compileEventsContainer">
-            <h2>Events</h2>
-            <SortableList
-              posts={release ? posts.filter(({ _id }) => release.events.includes(_id)) : []}
-              onSortEnd={onSortEnd}
-            />
-          </section>
+            <section id="compileFeaturedContainer">
+              <h2>Featured Story (optional)</h2>
+              <DraggablePostTarget
+                acceptType={[DragItemTypes.NEWS, DragItemTypes.ANNOUNCEMENT, DragItemTypes.EVENT]}
+                onDrop={(item) => setFeaturedPost(item._id)}
+              >
+                {featuredPost && <PostContent content={postMap?.[featuredPost]} />}
+              </DraggablePostTarget>
+            </section>
 
-          <button type="button" onClick={handleReleaseUpdate}>Publish  (undesigned)</button>
-        </div>
+            <section id="compileNewsContainer">
+              <h2>News</h2>
+              <DraggablePostTarget
+                acceptType={DragItemTypes.NEWS}
+                onDrop={(item) => console.log('news', item)}
+              >
+                {news.map((e) => (<DraggablePost _id={e} type={DragItemTypes.NEWS} key={e} />))}
+              </DraggablePostTarget>
+            </section>
+
+            <section id="compileAnnouncementsContainer">
+              <h2>Announcements</h2>
+              <DraggablePostTarget
+                acceptType={DragItemTypes.ANNOUNCEMENT}
+                onDrop={(item) => console.log('announcement', item)}
+              >
+                {announcements.map((e) => (<DraggablePost _id={e} type={DragItemTypes.NEWS} key={e} />))}
+              </DraggablePostTarget>
+            </section>
+
+            <section id="compileEventsContainer">
+              <h2>Events</h2>
+              <DraggablePostTarget
+                acceptType={DragItemTypes.EVENT}
+                onDrop={(item) => console.log('event', item)}
+              >
+                {events.map((e) => (<DraggablePost _id={e} type={DragItemTypes.NEWS} key={e} />))}
+              </DraggablePostTarget>
+            </section>
+
+            <button type="button" onClick={handleReleaseUpdate}>Publish  (undesigned)</button>
+          </div>
+        </DndProvider>
       </MainWrapper>
     )
   );

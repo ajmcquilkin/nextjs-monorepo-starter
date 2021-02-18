@@ -3,6 +3,12 @@ export const requestTimeout = 5000; // ms
 
 export const maxContentLength = 500;
 
+export const DragItemTypes = {
+  NEWS: 'news',
+  ANNOUNCEMENT: 'announcement',
+  EVENT: 'event'
+};
+
 export const addNDays = (date: number, add: number): number => {
   const d = new Date(date || Date.now());
   return d.setDate(d.getDate() + add);
