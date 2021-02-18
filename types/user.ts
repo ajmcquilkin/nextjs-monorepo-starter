@@ -23,7 +23,7 @@ export interface UserState {
 export const AUTH_USER = 'AUTH_USER';
 export const DEAUTH_USER = 'DEAUTH_USER';
 
-export type AuthUserData = { isAuthenticated: boolean, isReviewer: boolean, netId: User['netId'] };
+export type AuthUserData = { isAuthenticated: boolean, isStaff: boolean, isReviewer: boolean, netId: User['netId'] };
 export type DeauthUserData = Empty;
 
 type AuthUserAction = Action<typeof AUTH_USER, AuthUserData>

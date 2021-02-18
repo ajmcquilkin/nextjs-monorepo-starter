@@ -5,6 +5,8 @@ export interface ServerSession extends Session {
   casUser: string, // Dartmouth email
   info: {
     name: string, // First Last
+    isStaff: boolean,
+    isReviewer: boolean,
     netId: string | null // netId
   }
 }

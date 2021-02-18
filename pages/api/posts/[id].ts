@@ -5,6 +5,7 @@ import { createDefaultHandler, createSuccessPayload, requireUrlParam } from 'uti
 import { useDB } from 'utils/db';
 
 import { DeletePostData, FetchPostData, Post } from 'types/post';
+import { ForbiddenResourceError } from 'errors';
 
 const handler = createDefaultHandler()
   .use(useDB)
@@ -18,6 +19,9 @@ const handler = createDefaultHandler()
   })
 
   .put(async (req, res) => {
+    const { session: { info } } = req;
+    if (!info.isStaff && !info.isReviewer) { throw new ForbiddenResourceError(); }
+
     const { id } = req.query;
     const {
       fromName, fromAddress, submitterNetId,
@@ -44,6 +48,9 @@ const handler = createDefaultHandler()
   })
 
   .delete(async (req, res) => {
+    const { session: { info } } = req;
+    if (!info.isStaff && !info.isReviewer) { throw new ForbiddenResourceError(); }
+
     const { id } = req.query;
     await postController.remove(id as string);
     return res.status(200).json(createSuccessPayload<DeletePostData>({ id: id as string }));

@@ -9,6 +9,8 @@ const returnURL = `http://${__APP_URL__}/api/auth/user`;
 const devModeUser: ServerSession['casUser'] = 'devModeUser';
 const devModeInfo: ServerSession['info'] = {
   name: 'Phil Hanlon',
+  isStaff: false,
+  isReviewer: false,
   netId: 'F000000'
 };
 
