@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import MainWrapper from 'components/layout/mainWrapper';
 import PostContent from 'components/posts/postContent';
 import PostSection from 'components/posts/postSection';
-import HomeNavigation from 'components/homeNavigation';
+import HomeNavigation from 'components/layout/homeNavigation';
 
 import { fetchReleaseByDate as fetchReleaseByDateImport } from 'store/actionCreators/releaseActionCreators';
 

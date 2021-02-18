@@ -14,7 +14,8 @@ export interface ReviewPassedProps {
 }
 
 export interface ReviewStateProps {
-  currentPosts: Post[]
+  currentPosts: Post[],
+  isLoading: boolean
 }
 
 export interface ReviewDispatchProps {
@@ -23,7 +24,7 @@ export interface ReviewDispatchProps {
 
 export type ReviewProps = ReviewPassedProps & ReviewStateProps & ReviewDispatchProps;
 
-const Review = ({ currentPosts, fetchWithStatus }: ReviewProps): JSX.Element => {
+const Review = ({ currentPosts, isLoading, fetchWithStatus }: ReviewProps): JSX.Element => {
   useEffect(() => { fetchWithStatus('pending'); }, []);
 
   const [publishType, setPublishType] = useState<PostPublishType | ''>('');
@@ -40,7 +41,6 @@ const Review = ({ currentPosts, fetchWithStatus }: ReviewProps): JSX.Element => 
     <MainWrapper>
       <div className={styles.submissions}>
         <div className={styles.topBar}>
-
           <div className="reviewTypeContainer">
             <select
               name="type"
@@ -53,15 +53,12 @@ const Review = ({ currentPosts, fetchWithStatus }: ReviewProps): JSX.Element => 
               <option value="event">Event</option>
             </select>
           </div>
-
         </div>
+
         <div className={styles.submissionsContainer}>
-          {filteredPosts.map((post) => (
-            <Submission
-              key={post._id}
-              postContent={post}
-            />
-          ))}
+          {isLoading
+            ? <div style={{ background: 'gray', width: '100%', height: '100px' }} />
+            : filteredPosts.map((post) => <Submission key={post._id} postContent={post} />)}
         </div>
       </div>
     </MainWrapper>
