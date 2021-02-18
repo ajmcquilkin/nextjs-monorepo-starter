@@ -1,15 +1,24 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useEffect, useState, ChangeEvent } from 'react';
-import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import {
+  useEffect, useState, ChangeEvent, useCallback
+} from 'react';
+
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import MainWrapper from 'components/layout/mainWrapper';
+
+import PostContent from 'components/posts/postContent';
+import DraggablePost from 'components/posts/draggablePost';
+import DraggablePostList from 'components/posts/draggablePostList';
+
 import {
   fetchReleaseByDate as fetchReleaseByDateImport,
   updateReleaseById as updateReleaseByIdImport,
   createRelease as createReleaseImport
 } from 'store/actionCreators/releaseActionCreators';
 
-import { getFullDate } from 'utils';
+import { addNDays, DragItemTypes, getFullDate } from 'utils';
 import uploadImage from 'utils/s3';
 
 import { Post } from 'types/post';
@@ -23,7 +32,7 @@ export interface CompilePassedProps {
 }
 
 export interface CompileStateProps {
-  posts: Post[],
+  postMap: Record<string, Post>,
   release: Release | null,
   isLoading: boolean
 }
@@ -36,23 +45,8 @@ export interface CompileDispatchProps {
 
 export type CompileProps = CompilePassedProps & CompileStateProps & CompileDispatchProps;
 
-// Reference: https://stackoverflow.com/questions/51585585/why-does-the-react-sortable-hoc-basic-example-fail-to-compile-with-typescript
-const SortableItem = SortableElement(({ post }: { post: Post }) => <li>{post.briefContent}</li>);
-
-const SortableList = SortableContainer(({ posts = [] }: { posts: Post[] }) => (
-  <ul>
-    {posts.map((post, index) => (
-      <SortableItem key={post._id} index={index} post={post} />
-    ))}
-  </ul>
-));
-
-const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number, newIndex: number }) => {
-  console.log(`Sort ended from ${oldIndex} to ${newIndex}`);
-};
-
 const Compile = ({
-  posts, release, isLoading,
+  postMap, release, isLoading,
   fetchReleaseByDate, createRelease, updateReleaseById
 }: CompileProps): JSX.Element => {
   const [imageUploading, setImageUploading] = useState<boolean>(false);
@@ -64,11 +58,11 @@ const Compile = ({
   const [quotedContext, setQuotedContext] = useState<Release['quotedContext']>('');
   const [featuredPost, setFeaturedPost] = useState<Release['featuredPost']>(null);
 
-  useEffect(() => {
-    const currentDate = new Date();
-    const nextDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
-    fetchReleaseByDate(nextDate.getTime());
-  }, []);
+  const [news, setNews] = useState<string[]>(release?.news || []);
+  const [announcements, setAnnouncements] = useState<string[]>(release?.announcements || []);
+  const [events, setEvents] = useState<string[]>(release?.events || []);
+
+  useEffect(() => { fetchReleaseByDate(addNDays(Date.now(), 1)); }, []);
 
   useEffect(() => {
     setSubject(release?.subject || '');
@@ -77,6 +71,10 @@ const Compile = ({
     setQuoteOfDay(release?.quoteOfDay || '');
     setQuotedContext(release?.quotedContext || '');
     setFeaturedPost(release?.featuredPost || null);
+
+    setNews(release?.news || []);
+    setAnnouncements(release?.announcements || []);
+    setEvents(release?.events || []);
   }, [release]);
 
   const upload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -101,16 +99,28 @@ const Compile = ({
       imageCaption,
       quoteOfDay,
       quotedContext,
-      featuredPost
+      featuredPost,
+
+      news,
+      announcements,
+      events
     };
 
     if (release) updateReleaseById(release._id, body);
     else createRelease(body);
   };
 
+  const movePost = useCallback((list: string[], setter: (value: string[]) => void) => (dragIndex: number, hoverIndex: number) => {
+    const immutableArray = [...list];
+    [immutableArray[dragIndex], immutableArray[hoverIndex]] = [immutableArray[hoverIndex], immutableArray[dragIndex]];
+    setter(immutableArray);
+  }, [news, announcements, events]);
+
+  if (isLoading) return <div>Loading...</div>;
+
   return (
-    isLoading ? (<p>content is loading </p>) : (
-      <MainWrapper>
+    <MainWrapper>
+      <DndProvider backend={HTML5Backend}>
         <div className={styles.compileContainer}>
           <h1>Compile</h1>
 
@@ -151,7 +161,7 @@ const Compile = ({
                     src={headerImage}
                     alt="optional headerImage"
                   />
-                ) : <div /> }
+                ) : <div />}
               </div>
             </label>
 
@@ -189,37 +199,63 @@ const Compile = ({
 
           <section id="compileFeaturedContainer">
             <h2>Featured Story (optional)</h2>
-            <p>TODO: Add story selector here</p>
+            <DraggablePostList
+              acceptType={[DragItemTypes.NEWS, DragItemTypes.ANNOUNCEMENT, DragItemTypes.EVENT]}
+              onDrop={(item) => setFeaturedPost(item.id)}
+            >
+              {featuredPost ? <PostContent content={postMap?.[featuredPost]} /> : <div>No featured post</div>}
+            </DraggablePostList>
           </section>
 
           <section id="compileNewsContainer">
             <h2>News</h2>
-            <SortableList
-              posts={release ? posts.filter(({ _id }) => release.news.includes(_id)) : []}
-              onSortEnd={onSortEnd}
-            />
+            <div>
+              {news.map((id, idx) => (
+                <DraggablePost
+                  postContent={postMap?.[id]}
+                  type={DragItemTypes.NEWS}
+                  index={idx}
+                  movePost={movePost(news, setNews)}
+                  key={id}
+                />
+              ))}
+            </div>
           </section>
 
           <section id="compileAnnouncementsContainer">
             <h2>Announcements</h2>
-            <SortableList
-              posts={release ? posts.filter(({ _id }) => release.announcements.includes(_id)) : []}
-              onSortEnd={onSortEnd}
-            />
+            <div>
+              {announcements.map((id, idx) => (
+                <DraggablePost
+                  postContent={postMap?.[id]}
+                  type={DragItemTypes.ANNOUNCEMENT}
+                  index={idx}
+                  movePost={movePost(announcements, setAnnouncements)}
+                  key={id}
+                />
+              ))}
+            </div>
           </section>
 
           <section id="compileEventsContainer">
             <h2>Events</h2>
-            <SortableList
-              posts={release ? posts.filter(({ _id }) => release.events.includes(_id)) : []}
-              onSortEnd={onSortEnd}
-            />
+            <div>
+              {events.map((id, idx) => (
+                <DraggablePost
+                  postContent={postMap?.[id]}
+                  type={DragItemTypes.EVENT}
+                  index={idx}
+                  movePost={movePost(events, setEvents)}
+                  key={id}
+                />
+              ))}
+            </div>
           </section>
 
           <button type="button" onClick={handleReleaseUpdate}>Publish  (undesigned)</button>
         </div>
-      </MainWrapper>
-    )
+      </DndProvider>
+    </MainWrapper>
   );
 };
 
