@@ -5,13 +5,17 @@ import { GetStaticPropsResult } from 'next';
 import { connect } from 'react-redux';
 
 import Submissions, { SubmissionsPassedProps, SubmissionsStateProps, SubmissionsDispatchProps } from 'components/pages/submissions';
+
 import { createPost, deletePostById, fetchAllPosts } from 'store/actionCreators/postActionCreators';
+import { createLoadingSelector } from 'store/actionCreators/requestActionCreators';
 
 import { RootState } from 'types/state';
 
+const postsLoadingSelector = createLoadingSelector(['FETCH_POSTS']);
+
 const mapStateToProps = (state: RootState): SubmissionsStateProps => ({
-  // userPosts: Object.values(state.post.posts).filter((post) => post.submitterNetId === state.user.netId)
-  userPosts: Object.values(state.post.posts)
+  userPosts: Object.values(state.post.posts),
+  isLoading: postsLoadingSelector(state)
 });
 
 const mapDispatchToProps: SubmissionsDispatchProps = {
