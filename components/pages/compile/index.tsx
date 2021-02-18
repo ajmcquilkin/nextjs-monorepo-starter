@@ -1,5 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useEffect, useState, ChangeEvent } from 'react';
+import {
+  useEffect, useState, ChangeEvent, useCallback
+} from 'react';
 
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -8,7 +10,7 @@ import MainWrapper from 'components/layout/mainWrapper';
 
 import PostContent from 'components/posts/postContent';
 import DraggablePost from 'components/posts/draggablePost';
-import DraggablePostTarget from 'components/posts/draggablePostTarget';
+import DraggablePostList from 'components/posts/draggablePostList';
 
 import {
   fetchReleaseByDate as fetchReleaseByDateImport,
@@ -104,6 +106,12 @@ const Compile = ({
     else createRelease(body);
   };
 
+  const movePost = useCallback((list: string[], setter: (value: string[]) => void) => (dragIndex: number, hoverIndex: number) => {
+    const immutableArray = [...list];
+    [immutableArray[dragIndex], immutableArray[hoverIndex]] = [immutableArray[hoverIndex], immutableArray[dragIndex]];
+    setter(immutableArray);
+  }, [news, announcements, events]);
+
   return (
     isLoading ? (<p>content is loading </p>) : (
       <MainWrapper>
@@ -186,42 +194,57 @@ const Compile = ({
 
             <section id="compileFeaturedContainer">
               <h2>Featured Story (optional)</h2>
-              <DraggablePostTarget
+              <DraggablePostList
                 acceptType={[DragItemTypes.NEWS, DragItemTypes.ANNOUNCEMENT, DragItemTypes.EVENT]}
                 onDrop={(item) => setFeaturedPost(item.id)}
               >
                 {featuredPost ? <PostContent content={postMap?.[featuredPost]} /> : <div>No featured post</div>}
-              </DraggablePostTarget>
+              </DraggablePostList>
             </section>
 
             <section id="compileNewsContainer">
               <h2>News</h2>
-              <DraggablePostTarget
-                acceptType={DragItemTypes.NEWS}
-                onDrop={(item) => console.log('news', item)}
-              >
-                {news.map((id, idx) => (<DraggablePost postContent={postMap?.[id]} type={DragItemTypes.NEWS} order={idx} key={id} />))}
-              </DraggablePostTarget>
+              <div>
+                {news.map((id, idx) => (
+                  <DraggablePost
+                    postContent={postMap?.[id]}
+                    type={DragItemTypes.NEWS}
+                    index={idx}
+                    movePost={movePost(news, setNews)}
+                    key={id}
+                  />
+                ))}
+              </div>
             </section>
 
             <section id="compileAnnouncementsContainer">
               <h2>Announcements</h2>
-              <DraggablePostTarget
-                acceptType={DragItemTypes.ANNOUNCEMENT}
-                onDrop={(item) => console.log('announcement', item)}
-              >
-                {announcements.map((id, idx) => (<DraggablePost postContent={postMap?.[id]} type={DragItemTypes.NEWS} order={idx} key={id} />))}
-              </DraggablePostTarget>
+              <div>
+                {announcements.map((id, idx) => (
+                  <DraggablePost
+                    postContent={postMap?.[id]}
+                    type={DragItemTypes.ANNOUNCEMENT}
+                    index={idx}
+                    movePost={movePost(announcements, setAnnouncements)}
+                    key={id}
+                  />
+                ))}
+              </div>
             </section>
 
             <section id="compileEventsContainer">
               <h2>Events</h2>
-              <DraggablePostTarget
-                acceptType={DragItemTypes.EVENT}
-                onDrop={(item) => console.log('event', item)}
-              >
-                {events.map((id, idx) => (<DraggablePost postContent={postMap?.[id]} type={DragItemTypes.NEWS} order={idx} key={id} />))}
-              </DraggablePostTarget>
+              <div>
+                {events.map((id, idx) => (
+                  <DraggablePost
+                    postContent={postMap?.[id]}
+                    type={DragItemTypes.EVENT}
+                    index={idx}
+                    movePost={movePost(events, setEvents)}
+                    key={id}
+                  />
+                ))}
+              </div>
             </section>
 
             <button type="button" onClick={handleReleaseUpdate}>Publish  (undesigned)</button>
