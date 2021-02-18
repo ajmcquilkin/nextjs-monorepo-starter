@@ -188,9 +188,9 @@ const Compile = ({
               <h2>Featured Story (optional)</h2>
               <DraggablePostTarget
                 acceptType={[DragItemTypes.NEWS, DragItemTypes.ANNOUNCEMENT, DragItemTypes.EVENT]}
-                onDrop={(item) => setFeaturedPost(item._id)}
+                onDrop={(item) => setFeaturedPost(item.id)}
               >
-                {featuredPost && <PostContent content={postMap?.[featuredPost]} />}
+                {featuredPost ? <PostContent content={postMap?.[featuredPost]} /> : <div>No featured post</div>}
               </DraggablePostTarget>
             </section>
 
@@ -200,7 +200,7 @@ const Compile = ({
                 acceptType={DragItemTypes.NEWS}
                 onDrop={(item) => console.log('news', item)}
               >
-                {news.map((e) => (<DraggablePost _id={e} type={DragItemTypes.NEWS} key={e} />))}
+                {news.map((id) => (<DraggablePost postContent={postMap?.[id]} type={DragItemTypes.NEWS} key={id} />))}
               </DraggablePostTarget>
             </section>
 
@@ -210,7 +210,7 @@ const Compile = ({
                 acceptType={DragItemTypes.ANNOUNCEMENT}
                 onDrop={(item) => console.log('announcement', item)}
               >
-                {announcements.map((e) => (<DraggablePost _id={e} type={DragItemTypes.NEWS} key={e} />))}
+                {announcements.map((id) => (<DraggablePost postContent={postMap?.[id]} type={DragItemTypes.NEWS} key={id} />))}
               </DraggablePostTarget>
             </section>
 
@@ -220,7 +220,7 @@ const Compile = ({
                 acceptType={DragItemTypes.EVENT}
                 onDrop={(item) => console.log('event', item)}
               >
-                {events.map((e) => (<DraggablePost _id={e} type={DragItemTypes.NEWS} key={e} />))}
+                {events.map((id) => (<DraggablePost postContent={postMap?.[id]} type={DragItemTypes.NEWS} key={id} />))}
               </DraggablePostTarget>
             </section>
 

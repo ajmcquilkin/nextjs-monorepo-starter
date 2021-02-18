@@ -2,5 +2,5 @@
 
 export interface PostDragItem {
   type: string,
-  _id: string
+  id: string
 }
