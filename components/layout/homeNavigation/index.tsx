@@ -1,7 +1,8 @@
-import styles from 'components/homeNavigation/homeNavigation.module.scss';
-import homeStyles from 'components/pages/home/home.module.scss';
 import { useState } from 'react';
 import { PostPublishType } from 'types/post';
+
+import homeStyles from 'components/pages/home/home.module.scss';
+import styles from './homeNavigation.module.scss';
 
 export interface MobileNavigationProps {
   newsLength: number,
