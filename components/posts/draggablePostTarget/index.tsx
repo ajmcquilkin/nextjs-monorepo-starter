@@ -1,3 +1,4 @@
+import { useSkeletonLoading } from 'components/layout/skeletonArea';
 import { ReactNode } from 'react';
 import { useDrop } from 'react-dnd';
 import { PostDragItem } from 'types/dnd';
@@ -9,6 +10,8 @@ export interface DraggablePostTargetProps {
 }
 
 const DraggablePostTarget = ({ onDrop, acceptType, children }: DraggablePostTargetProps): JSX.Element => {
+  const isLoading = useSkeletonLoading();
+
   const [{ isOver }, drop] = useDrop({
     accept: acceptType,
     drop: onDrop,
@@ -18,7 +21,11 @@ const DraggablePostTarget = ({ onDrop, acceptType, children }: DraggablePostTarg
   });
 
   return (
-    <div ref={drop}>{children}</div>
+    <div ref={drop}>
+      {isLoading
+        ? <div style={{ background: 'gray', width: '100%', height: '100px' }} />
+        : children}
+    </div>
   );
 };
 

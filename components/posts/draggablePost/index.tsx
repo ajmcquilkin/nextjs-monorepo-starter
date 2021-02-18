@@ -2,7 +2,9 @@
 
 import { useRef } from 'react';
 import { useDrag, useDrop, XYCoord } from 'react-dnd';
+
 import PostContent from 'components/posts/postContent';
+import { useSkeletonLoading } from 'components/layout/skeletonArea';
 
 import { PostDragItem } from 'types/dnd';
 import { Post } from 'types/post';
@@ -18,6 +20,7 @@ const DraggablePost = ({
   postContent, type, index, movePost
 }: DraggablePostProps): JSX.Element => {
   const ref = useRef<HTMLDivElement>(null);
+  const isLoading = useSkeletonLoading();
 
   const [, drop] = useDrop<PostDragItem, any, any>({
     accept: type,
@@ -60,7 +63,9 @@ const DraggablePost = ({
       style={{ opacity: isDragging ? 0.5 : 1 }}
       ref={ref}
     >
-      <PostContent content={postContent} />
+      {isLoading
+        ? <div style={{ background: 'gray', width: '100%', height: '100px' }} />
+        : <PostContent content={postContent} />}
     </div>
   );
 };
