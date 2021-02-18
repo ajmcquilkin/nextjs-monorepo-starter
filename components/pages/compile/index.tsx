@@ -126,7 +126,7 @@ const Compile = ({
           <div className={styles.compileContainer}>
             <h1>Compile</h1>
 
-            <section id="compileHeaderContainer">
+            <section className="compileHeaderContainer">
               <h2>{getFullDate()}</h2>
               <div id="compileHeaderTextContainer">
                 <p>* Click on the dots on the left and drag and drop to re-order.</p>
@@ -134,19 +134,23 @@ const Compile = ({
               </div>
             </section>
 
-            <section id="compileSubjectContainer">
+            <CompileSection
+              title="Release Subject"
+              className="compileSubjectContainer"
+            >
               <label>
-                <h2>Release Subject</h2>
                 <input
                   type="text"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                 />
               </label>
-            </section>
+            </CompileSection>
 
-            <section id="compileImageContainer">
-              <h2>Header Image (optional)</h2>
+            <CompileSection
+              title="Header Image (optional)"
+              className="compileImageContainer"
+            >
               <label>
                 <p>Image</p>
                 <input
@@ -175,11 +179,12 @@ const Compile = ({
                   onChange={(e) => setImageCaption(e.target.value)}
                 />
               </label>
-            </section>
+            </CompileSection>
 
-            <section id="compileQodContainer">
-              <h2>Quote of the Day (optional)</h2>
-
+            <CompileSection
+              title="Quote of the Day (optional)"
+              className="compileQodContainer"
+            >
               <label>
                 <p>Headline</p>
                 <input
@@ -197,62 +202,64 @@ const Compile = ({
                   onChange={(e) => setQuotedContext(e.target.value)}
                 />
               </label>
-            </section>
+            </CompileSection>
 
-            <section id="compileFeaturedContainer">
-              <h2>Featured Story (optional)</h2>
+            <CompileSection
+              title="Featured Story (optional)"
+              className="compileFeaturedContainer"
+            >
               <DraggablePostTarget
                 acceptType={[DragItemTypes.NEWS, DragItemTypes.ANNOUNCEMENT, DragItemTypes.EVENT]}
                 onDrop={(item) => setFeaturedPost(item.id)}
               >
                 {featuredPost ? <PostContent content={postMap?.[featuredPost]} /> : <div>No featured post</div>}
               </DraggablePostTarget>
-            </section>
+            </CompileSection>
 
-            <section id="compileNewsContainer">
-              <h2>News</h2>
-              <CompileSection>
-                {news.map((id, idx) => (
-                  <DraggablePost
-                    postContent={postMap?.[id]}
-                    type={DragItemTypes.NEWS}
-                    index={idx}
-                    movePost={movePost(news, setNews)}
-                    key={id}
-                  />
-                ))}
-              </CompileSection>
-            </section>
+            <CompileSection
+              title="News"
+              className="compileNewsContainer"
+            >
+              {news.map((id, idx) => (
+                <DraggablePost
+                  postContent={postMap?.[id]}
+                  type={DragItemTypes.NEWS}
+                  index={idx}
+                  movePost={movePost(news, setNews)}
+                  key={id}
+                />
+              ))}
+            </CompileSection>
 
-            <section id="compileAnnouncementsContainer">
-              <h2>Announcements</h2>
-              <CompileSection>
-                {announcements.map((id, idx) => (
-                  <DraggablePost
-                    postContent={postMap?.[id]}
-                    type={DragItemTypes.ANNOUNCEMENT}
-                    index={idx}
-                    movePost={movePost(announcements, setAnnouncements)}
-                    key={id}
-                  />
-                ))}
-              </CompileSection>
-            </section>
+            <CompileSection
+              title="Announcements"
+              className="compileAnnouncementsContainer"
+            >
+              {announcements.map((id, idx) => (
+                <DraggablePost
+                  postContent={postMap?.[id]}
+                  type={DragItemTypes.ANNOUNCEMENT}
+                  index={idx}
+                  movePost={movePost(announcements, setAnnouncements)}
+                  key={id}
+                />
+              ))}
+            </CompileSection>
 
-            <section id="compileEventsContainer">
-              <h2>Events</h2>
-              <CompileSection>
-                {events.map((id, idx) => (
-                  <DraggablePost
-                    postContent={postMap?.[id]}
-                    type={DragItemTypes.EVENT}
-                    index={idx}
-                    movePost={movePost(events, setEvents)}
-                    key={id}
-                  />
-                ))}
-              </CompileSection>
-            </section>
+            <CompileSection
+              title="Events"
+              className="compileEventsContainer"
+            >
+              {events.map((id, idx) => (
+                <DraggablePost
+                  postContent={postMap?.[id]}
+                  type={DragItemTypes.EVENT}
+                  index={idx}
+                  movePost={movePost(events, setEvents)}
+                  key={id}
+                />
+              ))}
+            </CompileSection>
 
             <button type="button" onClick={handleReleaseUpdate}>Publish  (undesigned)</button>
           </div>
