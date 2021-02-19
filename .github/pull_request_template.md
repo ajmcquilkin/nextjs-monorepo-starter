@@ -11,12 +11,8 @@ One to two sentence description.
 - [ ] New feature
 - [ ] Bug fix
 - [ ] Breaking change
+- [ ] Package updates
 - [ ] Documentation update
-
-## Checklist
-
-- [ ] Unit/integration tests
-- [ ] Documentation
 
 ## Tickets
 
