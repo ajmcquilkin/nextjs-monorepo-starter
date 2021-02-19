@@ -5,6 +5,7 @@ import MongoStoreThunk from 'connect-mongo';
 import { IncompleteRequestError } from 'errors';
 import { handleError } from 'controllers/errorController';
 
+import { casInstance } from 'utils/auth';
 import { dbConnectionOptions } from 'utils/db';
 import { ServerRequestType, ServerResponseType, ServerSuccessPayload } from 'types/server';
 
@@ -27,9 +28,19 @@ const sessionConfig = {
 
 const session = createSession(sessionConfig);
 
-export const createDefaultHandler = <Data = unknown>(
+export interface DefaultHandlerConfigOptions {
+  requireAuth?: boolean
+}
 
-): NextConnect<ServerRequestType, ServerResponseType<ServerSuccessPayload<Data>>> => nc({ onError: handleError }).use(session);
+/* eslint-disable indent */
+/* eslint-disable @typescript-eslint/no-empty-function */
+export const createDefaultHandler = <Data = unknown>({
+  requireAuth = true
+}: DefaultHandlerConfigOptions = {}): NextConnect<ServerRequestType, ServerResponseType<ServerSuccessPayload<Data>>> => nc({
+  onError: handleError
+}).use(session).use(requireAuth ? casInstance.authenticate : () => { });
+/* eslint-enable @typescript-eslint/no-empty-function */
+/* eslint-enable indent */
 
 export const createSuccessPayload = <T>(data: T): ServerSuccessPayload<T> => ({
   data, meta: { success: true }
