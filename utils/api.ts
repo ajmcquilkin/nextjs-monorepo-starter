@@ -38,7 +38,7 @@ export const createDefaultHandler = <Data = unknown>({
   requireAuth = true
 }: DefaultHandlerConfigOptions = {}): NextConnect<ServerRequestType, ServerResponseType<ServerSuccessPayload<Data>>> => nc({
   onError: handleError
-}).use(session).use(requireAuth ? casInstance.authenticate : () => { });
+}).use(session).use(requireAuth ? casInstance.authenticate : (_req, _res, next) => next());
 /* eslint-enable @typescript-eslint/no-empty-function */
 /* eslint-enable indent */
 
