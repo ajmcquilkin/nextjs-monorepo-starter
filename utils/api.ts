@@ -15,7 +15,7 @@ const sessionConfig = {
   secret: __SESSION_SECRET__,
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: __MODE__ !== 'dev' },
+  cookie: { secure: false },
   store: new MongoStore({
     url: __MONGODB_URI__,
     mongoOptions: {
