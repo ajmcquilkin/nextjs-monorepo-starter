@@ -13,7 +13,8 @@ export interface ServerPayload<D> {
   data: D,
   meta?: {
     message?: string,
-    success: boolean
+    success: boolean,
+    isAuthenticated: boolean
   }
 }
 
