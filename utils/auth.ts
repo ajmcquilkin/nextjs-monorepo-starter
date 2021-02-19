@@ -17,7 +17,7 @@ const devModeInfo: ServerSessionInfo = {
 
 export const casInstance = new CASAuthentication({
   casServerUrl: 'https://login.dartmouth.edu/cas',
-  serviceUrl: `${__APP_URL__}/api/`,
+  serviceUrl: `${__APP_URL__}/api/auth/ticket`,
   sessionName: 'casUser',
   sessionInfoField: 'info',
   isDevMode: false,

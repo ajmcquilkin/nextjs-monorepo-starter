@@ -5,8 +5,13 @@ import Home, { HomePassedProps, HomeStateProps, HomeDispatchProps } from 'compon
 
 import { fetchReleaseByDate } from 'store/actionCreators/releaseActionCreators';
 import { createLoadingSelector } from 'store/actionCreators/requestActionCreators';
-import { fetchReleaseByDateRequest } from 'store/requests/releaseRequests';
 
+import * as postController from 'controllers/postController';
+import * as releaseController from 'controllers/releaseController';
+import { dbConnect } from 'utils/db';
+
+import { Post } from 'types/post';
+import { Release } from 'types/release';
 import { RootState } from 'types/state';
 
 const releaseLoadingSelector = createLoadingSelector(['FETCH_RELEASE']);
@@ -27,7 +32,11 @@ export const getStaticProps: GetStaticProps<HomePassedProps> = async () => {
   try {
     const currentDate = Date.now();
 
-    const { data: { data: { posts, release } } } = await fetchReleaseByDateRequest(currentDate);
+    await dbConnect();
+
+    const release: Release = JSON.parse(JSON.stringify(await releaseController.fetchReleaseByDate(currentDate)));
+    const posts: Post[] = JSON.parse(JSON.stringify(await postController.fetchPostsForRelease(release)));
+
     const postMap = posts.reduce((accum, post) => ({ ...accum, [post._id]: post }), {});
 
     return ({
@@ -35,6 +44,7 @@ export const getStaticProps: GetStaticProps<HomePassedProps> = async () => {
       revalidate: __REGENERATION_INTERVAL__
     });
   } catch (error) {
+    console.error(error);
     return ({
       props: { initialRelease: null, initialPostMap: {} },
       revalidate: 1

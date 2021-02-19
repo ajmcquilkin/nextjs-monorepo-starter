@@ -1,6 +1,9 @@
+import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
 import { connect } from 'react-redux';
+
 import { validateUser as validateUserImport } from 'store/actionCreators/userActionCreators';
+import { casInstance } from 'utils/auth';
 
 import { ConnectedThunkCreator, RootState } from 'types/state';
 
@@ -19,10 +22,12 @@ export interface AuthWrapperDispatchProps {
 export type AuthWrapperProps = AuthWrapperPassedProps & AuthWrapperStateProps & AuthWrapperDispatchProps;
 
 const AuthWrapper = ({ children, isAuthenticated, validateUser }: AuthWrapperProps): JSX.Element => {
+  const router = useRouter();
+
   useEffect(() => {
     validateUser({
       successCallback: (res) => {
-        if (!res.data.data.isAuthenticated) { window.location.href = `https://login.dartmouth.edu/cas?service=${encodeURIComponent(__SERVICE_URL__)}&method=POST`; }
+        if (!res.data.data.isAuthenticated) { router.push(casInstance.getAuthenticationServerUrl()); }
       }
     });
   });

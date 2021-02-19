@@ -6,6 +6,7 @@ import { NextHandler } from 'next-connect';
 import { parseStringPromise } from 'xml2js';
 
 import { ServerRequestType, ServerResponseType, ServerSessionInfo } from 'types/server';
+import { BadCredentialsError } from 'errors';
 
 export interface casConfigOptions<Info> {
   sessionName: string,
@@ -44,7 +45,7 @@ export default class CASAuthentication {
     this.devModeInfo = config.devModeInfo;
   }
 
-  static getAuthenticationServerUrl = (serverUrl: string, serviceUrl: string): string => `${serverUrl}?service=${serviceUrl}`; // &method=${method}
+  getAuthenticationServerUrl = (): string => `${this.casServerUrl}?service=${this.serviceUrl}`;
 
   private _handleTicket = async (req: ServerRequestType, res: ServerResponseType, next: NextHandler): Promise<void> => {
     const { ticket } = req.query;
@@ -57,9 +58,12 @@ export default class CASAuthentication {
     const parsedXMLResponse = await parseStringPromise(xmlCASResponse);
     const {
       'cas:serviceResponse': {
-        'cas:authenticationSuccess': authenticationSuccessPayload
+        'cas:authenticationSuccess': authenticationSuccessPayload,
+        'cas:authenticationFailure': authenticationFailurePayload
       }
     } = parsedXMLResponse;
+
+    if (authenticationFailurePayload) throw new BadCredentialsError(authenticationFailurePayload);
 
     const {
       'cas:name': name,
@@ -71,14 +75,11 @@ export default class CASAuthentication {
 
       'cas:isReviewer': isReviewer,
       'cas:isStaff': isStaff,
-    } = authenticationSuccessPayload[0];
+    } = authenticationSuccessPayload?.[0] || {};
 
     const sessionInfo: ServerSessionInfo = {
       name, affiliation, netId, uid, attributes, isReviewer: !!isReviewer, isStaff: !!isStaff
     };
-
-    console.log('parsed xml -> sessionInfo');
-    console.table(sessionInfo);
 
     req.session[this.sessionName] = name;
     req.session[this.sessionInfoField] = sessionInfo;
@@ -100,7 +101,7 @@ export default class CASAuthentication {
       return next();
     }
 
-    return res.redirect(CASAuthentication.getAuthenticationServerUrl(this.casServerUrl, this.serviceUrl)).end();
+    return res.redirect(this.getAuthenticationServerUrl()).end();
   }
 
   authenticate: casMiddleware = (req, res, next) => {
