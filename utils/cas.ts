@@ -45,14 +45,14 @@ export default class CASAuthentication {
     this.devModeInfo = config.devModeInfo;
   }
 
-  getAuthenticationServerUrl = (): string => `${this.casServerUrl}?service=${this.serviceUrl}`;
+  getAuthenticationServerUrl = (): string => `${this.casServerUrl}?service=${encodeURIComponent(this.serviceUrl)}`;
 
   private _handleTicket = async (req: ServerRequestType, res: ServerResponseType, next: NextHandler): Promise<void> => {
     const { ticket } = req.query;
 
     const { data: xmlCASResponse } = await axios({
       method: 'GET',
-      url: `${this.casServerUrl}/serviceValidate?service=${this.serviceUrl}&ticket=${ticket}`
+      url: `${this.casServerUrl}/serviceValidate?service=${encodeURIComponent(this.serviceUrl)}&ticket=${ticket}`
     });
 
     const parsedXMLResponse = await parseStringPromise(xmlCASResponse);
