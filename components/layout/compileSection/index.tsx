@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { useSkeletonLoading } from 'components/layout/skeletonArea';
+import { useSkeletonLoading } from 'components/helpers/skeletonArea';
 
 export interface CompileSectionProps {
   title: string,

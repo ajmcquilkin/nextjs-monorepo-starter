@@ -1,6 +1,6 @@
 import Submission from 'components/submissions/submission';
 import { Post } from 'types/post';
-import { useSkeletonLoading } from 'components/layout/skeletonArea';
+import { useSkeletonLoading } from 'components/helpers/skeletonArea';
 
 import styles from './submissionSection.module.scss';
 
