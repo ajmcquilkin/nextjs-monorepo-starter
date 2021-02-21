@@ -1,9 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
 import { useRouter } from 'next/router';
-import {
-  useState, useEffect, MouseEvent, ChangeEvent
-} from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 
 import { EditorState, ContentState } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
@@ -12,7 +10,6 @@ import { stateToHTML, Options as DraftJSExportOptions } from 'draft-js-export-ht
 import FormSection from 'components/form/formSection';
 import ContentLength from 'components/form/contentLength';
 import RichTextEditor from 'components/form/richTextEditor';
-import MainWrapper from 'components/layout/mainWrapper';
 
 import {
   createPost as createPostImport,
@@ -215,174 +212,172 @@ const Form = ({
   if (postIsLoading) return (<div>Loading...</div>);
 
   return (
-    <MainWrapper>
-      <div className={styles.formContainer}>
-        <h1>{post ? 'Edit Submission' : 'New Submission'}</h1>
-        <form>
-          <FormSection title="Recipients">
-            <div className={styles.formFromContainer}>
-              <label className={styles.formLabelLarge}>
-                <p>
-                  From
-                  <span className={styles.formRequiredField}>*</span>
-                </p>
-                <input
-                  placeholder="Type department or division name here"
-                  type="text"
-                  value={fromName}
-                  onChange={(e) => setFromName(e.target.value)}
-                />
-              </label>
-            </div>
-
-            <div className={styles.formToContainer}>
-              <div className={styles.formLabelLarge}>
-                To
+    <div className={styles.formContainer}>
+      <h1>{post ? 'Edit Submission' : 'New Submission'}</h1>
+      <form>
+        <FormSection title="Recipients">
+          <div className={styles.formFromContainer}>
+            <label className={styles.formLabelLarge}>
+              <p>
+                From
                 <span className={styles.formRequiredField}>*</span>
-              </div>
+              </p>
+              <input
+                placeholder="Type department or division name here"
+                type="text"
+                value={fromName}
+                onChange={(e) => setFromName(e.target.value)}
+              />
+            </label>
+          </div>
 
-              <div className={styles.formListsCheckboxContainer}>
-                {groups.map(({ name, list }) => (
-                  <div key={name} className={styles.formListsCheckboxContainer}>
-                    <h3>{name}</h3>
-                    {list.map((e) => <p key={e}>{JSON.stringify(e)}</p>)}
-                    <button type="button">All</button>
-                  </div>
-                ))}
-              </div>
+          <div className={styles.formToContainer}>
+            <div className={styles.formLabelLarge}>
+              To
+              <span className={styles.formRequiredField}>*</span>
             </div>
-          </FormSection>
 
-          <FormSection title="Publish Date">
+            <div className={styles.formListsCheckboxContainer}>
+              {groups.map(({ name, list }) => (
+                <div key={name} className={styles.formListsCheckboxContainer}>
+                  <h3>{name}</h3>
+                  {list.map((e) => <p key={e}>{JSON.stringify(e)}</p>)}
+                  <button type="button">All</button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </FormSection>
+
+        <FormSection title="Publish Date">
+          <label className={[styles.formPublishContainer, styles.formLabelLarge].join(' ')}>
+            <p>Select Publish Date</p>
+            <input
+              type="date"
+              value={handleEncodeDate(requestedPublicationDate)}
+              onChange={(e) => setRequestedPublicationDate(handleDecodeDate(e.target.value))}
+            />
+          </label>
+        </FormSection>
+
+        <FormSection title="Type">
+          <div className={styles.formTypeRadioContainer}>
+            <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
+              <input
+                type="radio"
+                name="form-type"
+                value="news"
+                onChange={() => setPostType('news')}
+              />
+              News
+            </label>
+
+            <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
+              <input
+                type="radio"
+                name="form-type"
+                value="announcement"
+                onChange={() => setPostType('announcement')}
+              />
+              Announcement
+            </label>
+
+            <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
+              <input
+                type="radio"
+                name="form-type"
+                value="event"
+                onChange={() => setPostType('event')}
+              />
+              Event
+            </label>
+          </div>
+          <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(postTypeError)}</div>
+        </FormSection>
+
+        {postType === 'event' ? (
+          <FormSection title="Event Date">
             <label className={[styles.formPublishContainer, styles.formLabelLarge].join(' ')}>
-              <p>Select Publish Date</p>
+              <p>Select Event Date</p>
               <input
                 type="date"
-                value={handleEncodeDate(requestedPublicationDate)}
-                onChange={(e) => setRequestedPublicationDate(handleDecodeDate(e.target.value))}
+                value={handleEncodeDate(eventDate || Date.now())}
+                onChange={(e) => setEventDate(handleDecodeDate(e.target.value))}
               />
             </label>
           </FormSection>
+        ) : null}
 
-          <FormSection title="Type">
-            <div className={styles.formTypeRadioContainer}>
-              <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
-                <input
-                  type="radio"
-                  name="form-type"
-                  value="news"
-                  onChange={() => setPostType('news')}
-                />
-                News
-              </label>
+        <FormSection title="Body">
+          <div className={styles.formContentContainer}>
+            <label className={styles.formLabelSmall}>
+              <p>Headline</p>
+              <input
+                type="text"
+                placeholder="Enter headline text"
+                value={briefContent}
+                onChange={(e) => setBriefContent(e.target.value)}
+              />
+              <ContentLength contentLength={briefContent.length} maxContentLength={50} />
+              <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(briefContentError)}</div>
+            </label>
 
-              <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
-                <input
-                  type="radio"
-                  name="form-type"
-                  value="announcement"
-                  onChange={() => setPostType('announcement')}
-                />
-                Announcement
-              </label>
+            <label className={styles.formLabelSmall} htmlFor="form-editor-container">Summary</label>
+            <div id="form-editor-container" className={styles.formEditorContainer}>
+              <RichTextEditor
+                incomingState={editorState}
+                onChange={(state) => setEditorState(state)}
+              />
 
-              <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
-                <input
-                  type="radio"
-                  name="form-type"
-                  value="event"
-                  onChange={() => setPostType('event')}
-                />
-                Event
-              </label>
+              <ContentLength
+                contentLength={editorState.getCurrentContent()?.getPlainText()?.length || 0}
+                maxContentLength={maxContentLength}
+              />
+
+              <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(fullContentError)}</div>
             </div>
-            <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(postTypeError)}</div>
-          </FormSection>
 
-          {postType === 'event' ? (
-            <FormSection title="Event Date">
-              <label className={[styles.formPublishContainer, styles.formLabelLarge].join(' ')}>
-                <p>Select Event Date</p>
-                <input
-                  type="date"
-                  value={handleEncodeDate(eventDate || Date.now())}
-                  onChange={(e) => setEventDate(handleDecodeDate(e.target.value))}
-                />
-              </label>
-            </FormSection>
-          ) : null}
+            <label className={styles.formLabelSmall}>
+              <p>URL</p>
+              {' '}
+              <input
+                type="text"
+                placeholder="Enter post URL"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+              />
+            </label>
+          </div>
+        </FormSection>
 
-          <FormSection title="Body">
-            <div className={styles.formContentContainer}>
-              <label className={styles.formLabelSmall}>
-                <p>Headline</p>
-                <input
-                  type="text"
-                  placeholder="Enter headline text"
-                  value={briefContent}
-                  onChange={(e) => setBriefContent(e.target.value)}
-                />
-                <ContentLength contentLength={briefContent.length} maxContentLength={50} />
-                <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(briefContentError)}</div>
-              </label>
-
-              <label className={styles.formLabelSmall} htmlFor="form-editor-container">Summary</label>
-              <div id="form-editor-container" className={styles.formEditorContainer}>
-                <RichTextEditor
-                  incomingState={editorState}
-                  onChange={(state) => setEditorState(state)}
-                />
-
-                <ContentLength
-                  contentLength={editorState.getCurrentContent()?.getPlainText()?.length || 0}
-                  maxContentLength={maxContentLength}
-                />
-
-                <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(fullContentError)}</div>
-              </div>
-
-              <label className={styles.formLabelSmall}>
-                <p>URL</p>
-                {' '}
-                <input
-                  type="text"
-                  placeholder="Enter post URL"
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                />
-              </label>
-            </div>
-          </FormSection>
-
-          <FormSection title="Graphics">
-            <div className={styles.formContentContainer}>
-              <label className={styles.formLabelSmall}>
-                <p>Attach Image</p>
-                <input
-                  type="file"
-                  alt="Select image to upload"
-                  id="headerImage"
-                  onChange={(e) => { upload(e); }}
-                />
-                <div className={styles.formErrorContainer}>{generateFrontendErrorMessage('')}</div>
-              </label>
-              <div>
-                <div className="imagePreview">
-                  {/* eslint-disable-next-line no-nested-ternary */}
-                  {imageUploading ? <div>Image is uploading...</div> : (featuredImage ? <img src={featuredImage} alt="optional headerImage" /> : <div>No image uploaded yet</div>)}
-                </div>
+        <FormSection title="Graphics">
+          <div className={styles.formContentContainer}>
+            <label className={styles.formLabelSmall}>
+              <p>Attach Image</p>
+              <input
+                type="file"
+                alt="Select image to upload"
+                id="headerImage"
+                onChange={(e) => { upload(e); }}
+              />
+              <div className={styles.formErrorContainer}>{generateFrontendErrorMessage('')}</div>
+            </label>
+            <div>
+              <div className="imagePreview">
+                {/* eslint-disable-next-line no-nested-ternary */}
+                {imageUploading ? <div>Image is uploading...</div> : (featuredImage ? <img src={featuredImage} alt="optional headerImage" /> : <div>No image uploaded yet</div>)}
               </div>
             </div>
-          </FormSection>
+          </div>
+        </FormSection>
 
-          <section className={styles.formButtonsContainer}>
-            <button type="button" className={styles.formSubmitButton} onClick={handleSubmit}>Submit</button>
-            <button type="button" className={styles.formSaveButton} onClick={handleSave}>Save Draft</button>
-            <button type="button" className={styles.formCancelButton} onClick={handleDiscard}>Cancel</button>
-          </section>
-        </form>
-      </div>
-    </MainWrapper>
+        <section className={styles.formButtonsContainer}>
+          <button type="button" className={styles.formSubmitButton} onClick={handleSubmit}>Submit</button>
+          <button type="button" className={styles.formSaveButton} onClick={handleSave}>Save Draft</button>
+          <button type="button" className={styles.formCancelButton} onClick={handleDiscard}>Cancel</button>
+        </section>
+      </form>
+    </div>
   );
 };
 

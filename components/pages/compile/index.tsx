@@ -6,7 +6,6 @@ import {
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import MainWrapper from 'components/layout/mainWrapper';
 import SkeletonArea from 'components/helpers/skeletonArea';
 
 import CompileSection from 'components/layout/compileSection';
@@ -120,152 +119,150 @@ const Compile = ({
   // if (isLoading) return <div>Loading...</div>;
 
   return (
-    <MainWrapper>
-      <DndProvider backend={HTML5Backend}>
-        <SkeletonArea isLoading={isLoading}>
-          <div className={styles.compileContainer}>
-            <h1>Compile</h1>
+    <DndProvider backend={HTML5Backend}>
+      <SkeletonArea isLoading={isLoading}>
+        <div className={styles.compileContainer}>
+          <h1>Compile</h1>
 
-            <section className="compileHeaderContainer">
-              <h2>{getFullDate()}</h2>
-              <div id="compileHeaderTextContainer">
-                <p>* Click on the dots on the left and drag and drop to re-order.</p>
-                <p>Auto-saved</p>
+          <section className="compileHeaderContainer">
+            <h2>{getFullDate()}</h2>
+            <div id="compileHeaderTextContainer">
+              <p>* Click on the dots on the left and drag and drop to re-order.</p>
+              <p>Auto-saved</p>
+            </div>
+          </section>
+
+          <CompileSection
+            title="Release Subject"
+            className="compileSubjectContainer"
+          >
+            <label>
+              <input
+                type="text"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+              />
+            </label>
+          </CompileSection>
+
+          <CompileSection
+            title="Header Image (optional)"
+            className="compileImageContainer"
+          >
+            <label>
+              <p>Image</p>
+              <input
+                type="file"
+                alt="Select image to upload"
+                id="headerImage"
+                onChange={(e) => { upload(e); }}
+              />
+
+              <div className="imagePreview">
+                {imageUploading === true ? <div>Image is uploading</div> : <span />}
+                {headerImage ? (
+                  <img
+                    src={headerImage}
+                    alt="optional headerImage"
+                  />
+                ) : <div />}
               </div>
-            </section>
+            </label>
 
-            <CompileSection
-              title="Release Subject"
-              className="compileSubjectContainer"
+            <label>
+              <p>Image Caption</p>
+              <input
+                type="text"
+                value={imageCaption}
+                onChange={(e) => setImageCaption(e.target.value)}
+              />
+            </label>
+          </CompileSection>
+
+          <CompileSection
+            title="Quote of the Day (optional)"
+            className="compileQodContainer"
+          >
+            <label>
+              <p>Headline</p>
+              <input
+                type="text"
+                value={quoteOfDay}
+                onChange={(e) => setQuoteOfDay(e.target.value)}
+              />
+            </label>
+
+            <label>
+              <p>Context</p>
+              <input
+                type="text"
+                value={quotedContext}
+                onChange={(e) => setQuotedContext(e.target.value)}
+              />
+            </label>
+          </CompileSection>
+
+          <CompileSection
+            title="Featured Story (optional)"
+            className="compileFeaturedContainer"
+          >
+            <DraggablePostTarget
+              acceptType={[DragItemTypes.NEWS, DragItemTypes.ANNOUNCEMENT, DragItemTypes.EVENT]}
+              onDrop={(item) => setFeaturedPost(item.id)}
             >
-              <label>
-                <input
-                  type="text"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                />
-              </label>
-            </CompileSection>
+              {featuredPost ? <PostContent content={postMap?.[featuredPost]} /> : <div>No featured post</div>}
+            </DraggablePostTarget>
+          </CompileSection>
 
-            <CompileSection
-              title="Header Image (optional)"
-              className="compileImageContainer"
-            >
-              <label>
-                <p>Image</p>
-                <input
-                  type="file"
-                  alt="Select image to upload"
-                  id="headerImage"
-                  onChange={(e) => { upload(e); }}
-                />
+          <CompileSection
+            title="News"
+            className="compileNewsContainer"
+          >
+            {news.map((id, idx) => (
+              <DraggablePost
+                postContent={postMap?.[id]}
+                type={DragItemTypes.NEWS}
+                index={idx}
+                movePost={movePost(news, setNews)}
+                key={id}
+              />
+            ))}
+          </CompileSection>
 
-                <div className="imagePreview">
-                  {imageUploading === true ? <div>Image is uploading</div> : <span />}
-                  {headerImage ? (
-                    <img
-                      src={headerImage}
-                      alt="optional headerImage"
-                    />
-                  ) : <div />}
-                </div>
-              </label>
+          <CompileSection
+            title="Announcements"
+            className="compileAnnouncementsContainer"
+          >
+            {announcements.map((id, idx) => (
+              <DraggablePost
+                postContent={postMap?.[id]}
+                type={DragItemTypes.ANNOUNCEMENT}
+                index={idx}
+                movePost={movePost(announcements, setAnnouncements)}
+                key={id}
+              />
+            ))}
+          </CompileSection>
 
-              <label>
-                <p>Image Caption</p>
-                <input
-                  type="text"
-                  value={imageCaption}
-                  onChange={(e) => setImageCaption(e.target.value)}
-                />
-              </label>
-            </CompileSection>
+          <CompileSection
+            title="Events"
+            className="compileEventsContainer"
+          >
+            {events.map((id, idx) => (
+              <DraggablePost
+                postContent={postMap?.[id]}
+                type={DragItemTypes.EVENT}
+                index={idx}
+                movePost={movePost(events, setEvents)}
+                key={id}
+              />
+            ))}
+          </CompileSection>
 
-            <CompileSection
-              title="Quote of the Day (optional)"
-              className="compileQodContainer"
-            >
-              <label>
-                <p>Headline</p>
-                <input
-                  type="text"
-                  value={quoteOfDay}
-                  onChange={(e) => setQuoteOfDay(e.target.value)}
-                />
-              </label>
-
-              <label>
-                <p>Context</p>
-                <input
-                  type="text"
-                  value={quotedContext}
-                  onChange={(e) => setQuotedContext(e.target.value)}
-                />
-              </label>
-            </CompileSection>
-
-            <CompileSection
-              title="Featured Story (optional)"
-              className="compileFeaturedContainer"
-            >
-              <DraggablePostTarget
-                acceptType={[DragItemTypes.NEWS, DragItemTypes.ANNOUNCEMENT, DragItemTypes.EVENT]}
-                onDrop={(item) => setFeaturedPost(item.id)}
-              >
-                {featuredPost ? <PostContent content={postMap?.[featuredPost]} /> : <div>No featured post</div>}
-              </DraggablePostTarget>
-            </CompileSection>
-
-            <CompileSection
-              title="News"
-              className="compileNewsContainer"
-            >
-              {news.map((id, idx) => (
-                <DraggablePost
-                  postContent={postMap?.[id]}
-                  type={DragItemTypes.NEWS}
-                  index={idx}
-                  movePost={movePost(news, setNews)}
-                  key={id}
-                />
-              ))}
-            </CompileSection>
-
-            <CompileSection
-              title="Announcements"
-              className="compileAnnouncementsContainer"
-            >
-              {announcements.map((id, idx) => (
-                <DraggablePost
-                  postContent={postMap?.[id]}
-                  type={DragItemTypes.ANNOUNCEMENT}
-                  index={idx}
-                  movePost={movePost(announcements, setAnnouncements)}
-                  key={id}
-                />
-              ))}
-            </CompileSection>
-
-            <CompileSection
-              title="Events"
-              className="compileEventsContainer"
-            >
-              {events.map((id, idx) => (
-                <DraggablePost
-                  postContent={postMap?.[id]}
-                  type={DragItemTypes.EVENT}
-                  index={idx}
-                  movePost={movePost(events, setEvents)}
-                  key={id}
-                />
-              ))}
-            </CompileSection>
-
-            <button type="button" onClick={handleReleaseUpdate}>Publish  (undesigned)</button>
-          </div>
-        </SkeletonArea>
-      </DndProvider>
-    </MainWrapper>
+          <button type="button" onClick={handleReleaseUpdate}>Publish  (undesigned)</button>
+        </div>
+      </SkeletonArea>
+    </DndProvider>
   );
 };
 

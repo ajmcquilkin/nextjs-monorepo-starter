@@ -6,8 +6,9 @@ import { Provider } from 'react-redux';
 import thunk, { ThunkMiddleware } from 'redux-thunk';
 
 import AuthWrapper from 'components/helpers/authWrapper';
-import rootReducer from 'store/reducers';
+import MainWrapper from 'components/layout/mainWrapper';
 
+import rootReducer from 'store/reducers';
 import { Actions, RootState } from 'types/state';
 
 import '../styles/globals.scss';
@@ -23,7 +24,9 @@ const store = createStore(
 const App = ({ Component, pageProps }: AppProps): JSX.Element => (
   <Provider store={store}>
     <AuthWrapper>
-      <Component {...pageProps} />
+      <MainWrapper>
+        <Component {...pageProps} />
+      </MainWrapper>
     </AuthWrapper>
   </Provider>
 );
