@@ -30,7 +30,7 @@ const AuthWrapper = ({ children, isAuthenticated, validateUser }: AuthWrapperPro
         if (!res.data.data.isAuthenticated) { router.push(casInstance.getAuthenticationServerUrl()); }
       }
     });
-  });
+  }, []);
 
   return (
     <div>

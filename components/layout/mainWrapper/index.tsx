@@ -9,10 +9,7 @@ interface MainWrapperProps {
 
 const MainWrapper = ({ children }: MainWrapperProps): JSX.Element => (
   <div className={styles.mainWrapperContainer}>
-    <Header
-      isFaculty
-      isReviewer
-    />
+    <Header />
 
     <main>
       {children}

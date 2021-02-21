@@ -5,10 +5,14 @@ import { AuthUserData } from 'types/user';
 const handler = createDefaultHandler<AuthUserData>({ requireAuth: false })
   .get((req, res) => {
     const isAuthenticated = !!req.session.casUser;
-    const { netId, isReviewer, isStaff } = req.session?.info || {};
+    const isStaff = req.session.info?.isStaff ?? false;
+    const isReviewer = req.session.info?.isReviewer ?? false;
+
+    const netId = req.session.info?.netId ?? null;
+    const name = req.session.info?.name ?? '';
 
     return res.status(200).json(createSuccessPayload<AuthUserData>({
-      isAuthenticated, isReviewer, isStaff, netId
+      isAuthenticated, isReviewer, isStaff, netId, name
     }));
   });
 
