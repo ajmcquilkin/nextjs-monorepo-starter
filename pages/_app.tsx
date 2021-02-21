@@ -23,11 +23,11 @@ const store = createStore(
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => (
   <Provider store={store}>
-    <AuthWrapper>
-      <MainWrapper>
+    <MainWrapper>
+      <AuthWrapper>
         <Component {...pageProps} />
-      </MainWrapper>
-    </AuthWrapper>
+      </AuthWrapper>
+    </MainWrapper>
   </Provider>
 );
 
