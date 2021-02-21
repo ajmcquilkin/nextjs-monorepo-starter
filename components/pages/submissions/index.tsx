@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import MainWrapper from 'components/layout/mainWrapper';
 import SubmissionSection from 'components/layout/submissionSection';
 
-import SkeletonArea from 'components/layout/skeletonArea';
+import SkeletonArea from 'components/helpers/skeletonArea';
 
 import {
   createPost as createPostImport,

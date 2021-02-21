@@ -1,5 +1,5 @@
 import BaseError from './BaseError';
-import BadCredentialsError from './BadCredentialsErrror';
+import BadCredentialsError from './BadCredentialsError';
 import ForbiddenResourceError from './ForbiddenResourceError';
 
 import DocumentNotFoundError from './DocumentNotFoundError';

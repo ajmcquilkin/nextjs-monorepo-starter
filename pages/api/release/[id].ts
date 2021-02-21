@@ -1,7 +1,6 @@
 import * as releaseController from 'controllers/releaseController';
 import * as postController from 'controllers/postController';
 
-import { casInstance } from 'utils/auth';
 import { createDefaultHandler, createSuccessPayload, requireUrlParam } from 'utils/api';
 import { useDB } from 'utils/db';
 
@@ -10,7 +9,6 @@ import { FetchReleaseData, Release, DeleteReleaseData } from 'types/release';
 const handler = createDefaultHandler()
   .use(useDB)
   .use(requireUrlParam('id'))
-  .use(casInstance.bounce)
 
   .get(async (req, res) => {
     const { id } = req.query;

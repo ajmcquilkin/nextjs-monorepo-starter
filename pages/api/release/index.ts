@@ -2,14 +2,12 @@ import * as releaseController from 'controllers/releaseController';
 import * as postController from 'controllers/postController';
 
 import { createDefaultHandler, createSuccessPayload } from 'utils/api';
-import { casInstance } from 'utils/auth';
 import { useDB } from 'utils/db';
 
 import { FetchReleaseData } from 'types/release';
 
 const handler = createDefaultHandler()
   .use(useDB)
-  .use(casInstance.bounce)
 
   .post(async (req, res) => {
     const newRelease = await releaseController.create(req.body);

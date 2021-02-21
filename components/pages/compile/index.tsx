@@ -7,7 +7,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import MainWrapper from 'components/layout/mainWrapper';
-import SkeletonArea from 'components/layout/skeletonArea';
+import SkeletonArea from 'components/helpers/skeletonArea';
 
 import CompileSection from 'components/layout/compileSection';
 import DraggablePost from 'components/posts/draggablePost';
