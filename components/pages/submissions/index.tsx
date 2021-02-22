@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect } from 'react';
 
 import SubmissionSection from 'components/layout/submissionSection';
+import FilterBar from 'components/layout/filterBar';
 
 import SkeletonArea from 'components/helpers/skeletonArea';
 
@@ -79,35 +80,12 @@ const Submissions = ({
           </div>
 
           <div className={styles.filterBarRow}>
-            <div className={styles.selectContainer}>
-              <p>Status</p>
-              <select
-                name="status"
-                value={status}
-                onChange={(e) => setStatus((e.target.value) as (PostStatus | ''))}
-              >
-                <option value="">View All</option>
-                <option value="draft">Draft</option>
-                <option value="pending">Pending</option>
-                <option value="approved">Approved</option>
-                <option value="rejected">Rejected</option>
-                <option value="published">Published</option>
-              </select>
-            </div>
-
-            <div className={styles.selectContainer}>
-              <p>Type</p>
-              <select
-                name="postType"
-                value={postType}
-                onChange={(e) => setPostType((e.target.value) as (PostPublishType | ''))}
-              >
-                <option value="">View All</option>
-                <option value="news">News</option>
-                <option value="announcement">Announcement</option>
-                <option value="event">Event</option>
-              </select>
-            </div>
+            <FilterBar
+              status={status}
+              type={postType}
+              setStatus={setStatus}
+              setType={setPostType}
+            />
           </div>
         </div>
 

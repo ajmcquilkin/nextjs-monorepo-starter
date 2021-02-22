@@ -77,24 +77,6 @@
           text-decoration: none;
         }
       }
-
-      .selectContainer {
-        display: flex;
-        flex-direction: row;
-        margin-left: 18px;
-
-        &:first-child {
-          margin-left: auto;
-        }
-        
-        p {
-          margin: 0px 9px 0px;
-        }
-
-        // select {
-
-        // }
-      }
     }
   }
 

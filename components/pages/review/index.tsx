@@ -7,7 +7,7 @@ import { fetchWithStatus as fetchWithStatusImport } from 'store/actionCreators/p
 import { Post, PostPublishType } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
 
-import styles from 'components/pages/review/review.module.scss';
+import styles from './review.module.scss';
 
 export interface ReviewPassedProps {
 
