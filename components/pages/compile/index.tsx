@@ -13,6 +13,8 @@ import DraggablePost from 'components/posts/draggablePost';
 import DraggablePostTarget from 'components/posts/draggablePostTarget';
 import PostContent from 'components/posts/postContent';
 
+import SubmissionSkeleton from 'components/submissions/submission/submission.skeleton';
+
 import {
   fetchReleaseByDate as fetchReleaseByDateImport,
   updateReleaseById as updateReleaseByIdImport,
@@ -134,6 +136,7 @@ const Compile = ({
 
           <CompileSection
             title="Release Subject"
+            loadingComponent={() => <div style={{ background: 'gray', width: '100%', height: '100px' }} />}
             className="compileSubjectContainer"
           >
             <label>
@@ -147,6 +150,7 @@ const Compile = ({
 
           <CompileSection
             title="Header Image (optional)"
+            loadingComponent={() => <div style={{ background: 'gray', width: '100%', height: '100px' }} />}
             className="compileImageContainer"
           >
             <label>
@@ -181,6 +185,7 @@ const Compile = ({
 
           <CompileSection
             title="Quote of the Day (optional)"
+            loadingComponent={() => <div style={{ background: 'gray', width: '100%', height: '100px' }} />}
             className="compileQodContainer"
           >
             <label>
@@ -204,6 +209,7 @@ const Compile = ({
 
           <CompileSection
             title="Featured Story (optional)"
+            loadingComponent={() => <div style={{ background: 'gray', width: '100%', height: '100px' }} />}
             className="compileFeaturedContainer"
           >
             <DraggablePostTarget
@@ -216,6 +222,7 @@ const Compile = ({
 
           <CompileSection
             title="News"
+            loadingComponent={() => <SubmissionSkeleton status="approved" />}
             className="compileNewsContainer"
           >
             {news.map((id, idx) => (
@@ -231,6 +238,7 @@ const Compile = ({
 
           <CompileSection
             title="Announcements"
+            loadingComponent={() => <SubmissionSkeleton status="approved" />}
             className="compileAnnouncementsContainer"
           >
             {announcements.map((id, idx) => (
@@ -246,6 +254,7 @@ const Compile = ({
 
           <CompileSection
             title="Events"
+            loadingComponent={() => <SubmissionSkeleton status="approved" />}
             className="compileEventsContainer"
           >
             {events.map((id, idx) => (
