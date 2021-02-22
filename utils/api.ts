@@ -11,11 +11,12 @@ import { ServerRequestType, ServerResponseType, ServerSuccessPayload } from 'typ
 
 const MongoStore = MongoStoreThunk(createSession);
 
-const sessionConfig = {
+const session = createSession({
   secret: __SESSION_SECRET__,
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false },
+  unset: 'destroy',
   store: new MongoStore({
     url: __MONGODB_URI__,
     mongoOptions: {
@@ -23,10 +24,8 @@ const sessionConfig = {
       useUnifiedTopology: dbConnectionOptions.useUnifiedTopology
     },
     secret: __AUTH_SECRET__ // encrypts DB traffic
-  })
-};
-
-const session = createSession(sessionConfig);
+  }),
+});
 
 export interface DefaultHandlerConfigOptions {
   requireAuth?: boolean

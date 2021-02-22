@@ -5,8 +5,8 @@ import axios from 'axios';
 import { NextHandler } from 'next-connect';
 import { parseStringPromise } from 'xml2js';
 
-import { ServerRequestType, ServerResponseType, ServerSessionInfo } from 'types/server';
 import { BadCredentialsError } from 'errors';
+import { ServerRequestType, ServerResponseType, ServerSessionInfo } from 'types/server';
 
 export interface casConfigOptions<Info> {
   sessionName: string,
@@ -47,7 +47,7 @@ export default class CASAuthentication {
 
   getAuthenticationServerUrl = (): string => `${this.casServerUrl}?service=${encodeURIComponent(this.serviceUrl)}`;
 
-  private _handleTicket = async (req: ServerRequestType, res: ServerResponseType, next: NextHandler): Promise<void> => {
+  private _handleTicket = async (req: ServerRequestType, _res: ServerResponseType, next: NextHandler): Promise<void> => {
     const { ticket } = req.query;
 
     const { data: xmlCASResponse } = await axios({

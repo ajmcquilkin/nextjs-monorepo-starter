@@ -44,7 +44,7 @@ export const getStaticProps: GetStaticProps<HomePassedProps> = async () => {
       revalidate: __REGENERATION_INTERVAL__
     });
   } catch (error) {
-    console.error(error);
+    console.error(error?.message || '"\\" ISR error');
     return ({
       props: { initialRelease: null, initialPostMap: {} },
       revalidate: 1

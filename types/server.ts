@@ -1,11 +1,12 @@
 import { Session } from 'express-session';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { User } from './user';
 
 export interface ServerSessionInfo {
-  name: string, // First M. Last
-  affiliation: string, // 'DART'
-  netId: string | null, // f######
+  name: User['name'], // First M. Last
+  netId: User['netId'], // f######
 
+  affiliation: string, // 'DART'
   uid: number,
   attributes: Record<string, any>,
 

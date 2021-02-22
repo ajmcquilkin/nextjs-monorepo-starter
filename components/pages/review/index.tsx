@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import MainWrapper from 'components/layout/mainWrapper';
 import Submission from 'components/submissions/submission';
 
 import { fetchWithStatus as fetchWithStatusImport } from 'store/actionCreators/postActionCreators';
@@ -38,30 +37,28 @@ const Review = ({ currentPosts, isLoading, fetchWithStatus }: ReviewProps): JSX.
   });
 
   return (
-    <MainWrapper>
-      <div className={styles.submissions}>
-        <div className={styles.topBar}>
-          <div className="reviewTypeContainer">
-            <select
-              name="type"
-              value={publishType}
-              onChange={(e) => setPublishType(e.target.value as (PostPublishType | ''))}
-            >
-              <option value="">View All</option>
-              <option value="news">News</option>
-              <option value="announcement">Announcement</option>
-              <option value="event">Event</option>
-            </select>
-          </div>
-        </div>
-
-        <div className={styles.submissionsContainer}>
-          {isLoading
-            ? <div style={{ background: 'gray', width: '100%', height: '100px' }} />
-            : filteredPosts.map((post) => <Submission key={post._id} postContent={post} />)}
+    <div className={styles.submissions}>
+      <div className={styles.topBar}>
+        <div className="reviewTypeContainer">
+          <select
+            name="type"
+            value={publishType}
+            onChange={(e) => setPublishType(e.target.value as (PostPublishType | ''))}
+          >
+            <option value="">View All</option>
+            <option value="news">News</option>
+            <option value="announcement">Announcement</option>
+            <option value="event">Event</option>
+          </select>
         </div>
       </div>
-    </MainWrapper>
+
+      <div className={styles.submissionsContainer}>
+        {isLoading
+          ? <div style={{ background: 'gray', width: '100%', height: '100px' }} />
+          : filteredPosts.map((post) => <Submission key={post._id} postContent={post} />)}
+      </div>
+    </div>
   );
 };
 
