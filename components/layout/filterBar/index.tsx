@@ -11,7 +11,7 @@ export interface FilterBarProps {
 const FilterBar = ({
   status, type, setStatus, setType
 }: FilterBarProps): JSX.Element => (
-  <div>
+  <div className={styles.filterBarContainer}>
     <div className={styles.selectContainer}>
       <p>Status</p>
       <select

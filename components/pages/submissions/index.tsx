@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
-import SubmissionSection from 'components/layout/submissionSection';
 import FilterBar from 'components/layout/filterBar';
+import SearchBar from 'components/layout/searchBar';
+import SubmissionSection from 'components/layout/submissionSection';
 
 import SkeletonArea from 'components/helpers/skeletonArea';
 
@@ -73,19 +74,23 @@ const Submissions = ({
               </Link>
             </div>
 
-            <div className={styles.searchContainer}>
-              <img src="/search.svg" alt="magnifying glass" />
-              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Filter your posts here" />
+            <div className={styles.searchBarContainer}>
+              <SearchBar
+                query={query}
+                setQuery={setQuery}
+              />
             </div>
           </div>
 
           <div className={styles.filterBarRow}>
-            <FilterBar
-              status={status}
-              type={postType}
-              setStatus={setStatus}
-              setType={setPostType}
-            />
+            <div className={styles.selectContainer}>
+              <FilterBar
+                status={status}
+                type={postType}
+                setStatus={setStatus}
+                setType={setPostType}
+              />
+            </div>
           </div>
         </div>
 

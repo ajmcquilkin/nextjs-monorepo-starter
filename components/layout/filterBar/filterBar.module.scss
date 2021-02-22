@@ -1,11 +1,14 @@
 .filterBarContainer {
+  display: flex;
+  flex-direction: row;
+
   .selectContainer {
     display: flex;
     flex-direction: row;
     margin-left: 18px;
 
     &:first-child {
-      margin-left: auto;
+      margin-left: 0;
     }
     
     p {
