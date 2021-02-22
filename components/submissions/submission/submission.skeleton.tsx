@@ -8,9 +8,9 @@ export interface SubmissionSkeletonProps {
 
 const SubmissionSkeleton = ({ status }: SubmissionSkeletonProps): JSX.Element => (
   <div className={styles.submissionSkeletonContainer} style={{ borderLeftColor: getColorsForStatus(status).primary }}>
-    <div className={styles.submissionSkeletonTitle} style={{ background: getColorsForStatus(status).secondary }} />
-    <div className={styles.submissionSkeletonContent} style={{ background: getColorsForStatus(status).tertirary }} />
-    <div className={styles.submissionSkeletonButtons} style={{ background: getColorsForStatus(status).tertirary }} />
+    <div className={styles.submissionSkeletonTitle} style={{ backgroundColor: getColorsForStatus(status).secondary }} />
+    <div className={styles.submissionSkeletonContent} style={{ backgroundColor: getColorsForStatus(status).tertirary }} />
+    <div className={styles.submissionSkeletonButtons} style={{ backgroundColor: getColorsForStatus(status).tertirary }} />
   </div>
 );
 
