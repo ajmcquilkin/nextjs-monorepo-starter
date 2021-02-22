@@ -21,14 +21,13 @@ const SubmissionSection = ({
     <div className={styles.submissionSectionContainer}>
       <h3>{`${title} (${posts.length})`}</h3>
       <div>
-        {isLoading ? (
-          <SubmissionSkeleton status={status} />
-        ) : posts.map((post) => (
-          <Submission
-            key={post._id}
-            postContent={post}
-          />
-        ))}
+        {isLoading
+          ? <SubmissionSkeleton status={status} />
+          : posts.map((post) => (
+            <div className={styles.submissionSpacingContainer} key={post._id}>
+              <Submission postContent={post} />
+            </div>
+          ))}
       </div>
     </div>
   );
