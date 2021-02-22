@@ -72,11 +72,11 @@ const Submissions = ({
 
         </div>
         <div className={styles.submissionsContainer}>
-          {(!status || status === 'draft') && <SubmissionSection title="Drafts" posts={keywordFilter(filteredPosts, 'draft')} />}
-          {(!status || status === 'pending') && <SubmissionSection title="Pending" posts={keywordFilter(filteredPosts, 'pending')} />}
-          {(!status || status === 'rejected') && <SubmissionSection title="Rejected" posts={keywordFilter(filteredPosts, 'rejected')} />}
-          {(!status || status === 'approved') && <SubmissionSection title="Approved" posts={keywordFilter(filteredPosts, 'approved')} />}
-          {(!status || status === 'published') && <SubmissionSection title="Published" posts={keywordFilter(filteredPosts, 'published')} />}
+          {(!status || status === 'draft') && <SubmissionSection title="Drafts" posts={keywordFilter(filteredPosts, 'draft')} status="draft" />}
+          {(!status || status === 'pending') && <SubmissionSection title="Pending" posts={keywordFilter(filteredPosts, 'pending')} status="pending" />}
+          {(!status || status === 'rejected') && <SubmissionSection title="Rejected" posts={keywordFilter(filteredPosts, 'rejected')} status="rejected" />}
+          {(!status || status === 'approved') && <SubmissionSection title="Approved" posts={keywordFilter(filteredPosts, 'approved')} status="approved" />}
+          {(!status || status === 'published') && <SubmissionSection title="Published" posts={keywordFilter(filteredPosts, 'published')} status="published" />}
         </div>
       </div>
     </SkeletonArea>

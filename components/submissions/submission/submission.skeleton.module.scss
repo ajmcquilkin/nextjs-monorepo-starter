@@ -1,0 +1,30 @@
+.submissionSkeletonContainer {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    width: 100%;
+    padding: 24px;
+
+    border-radius: 16px;
+    border-left: 16px solid;
+
+    background: #FFFFFF;
+    box-shadow: 0px 8.36129px 33.4452px #E2E2E2;
+
+    .submissionSkeletonTitle {
+        margin-bottom: 12px;
+        width: 60%;
+        height: 1em;
+    }
+    
+    .submissionSkeletonContent {
+        margin-bottom: 12px;
+        width: 60%;
+        height: 2em;
+    }
+    
+    .submissionSkeletonButtons {
+        width: 20%;
+        height: 1em;
+    }
+}

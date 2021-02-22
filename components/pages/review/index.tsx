@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import Submission from 'components/submissions/submission';
+import SubmissionSkeleton from 'components/submissions/submission/submission.skeleton';
 
 import { fetchWithStatus as fetchWithStatusImport } from 'store/actionCreators/postActionCreators';
 import { Post, PostPublishType } from 'types/post';
@@ -55,7 +56,12 @@ const Review = ({ currentPosts, isLoading, fetchWithStatus }: ReviewProps): JSX.
 
       <div className={styles.submissionsContainer}>
         {isLoading
-          ? <div style={{ background: 'gray', width: '100%', height: '100px' }} />
+          ? (
+            <>
+              <SubmissionSkeleton status="pending" />
+              <SubmissionSkeleton status="pending" />
+            </>
+          )
           : filteredPosts.map((post) => <Submission key={post._id} postContent={post} />)}
       </div>
     </div>
