@@ -43,33 +43,38 @@ const Submissions = ({
 
   const getFilteredPosts = (
     keyword: PostStatus
-  ): Post[] => userPosts.filter((post) => post.status === keyword && (!postType || post.type === postType));
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    console.log('submitted');
-  };
+  ): Post[] => userPosts.filter((post) => post.status === keyword
+    && (!postType || post.type === postType)
+    && (
+      post.briefContent.toLowerCase().includes(query)
+      || post.fullContent.toLowerCase().includes(query)
+      || post.fromName.toLowerCase().includes(query)
+    ));
 
   return (
     <SkeletonArea isLoading={isLoading}>
       <div className={styles.submissionsContainer}>
         <div className={styles.titleContainer}>
           <h1>Your Submissions</h1>
-          <a>Submission Guidelines</a>
+          <a href="https://communications.dartmouth.edu/faculty-and-staff/vox-daily-guidelines">
+            Submission Guidelines
+          </a>
         </div>
 
-        <form className={styles.filterBar} onSubmit={handleSubmit}>
+        <div className={styles.filterBar}>
           <div className={styles.filterBarRow}>
             <div className={styles.buttonContainer}>
               <img src="/add.svg" alt="create new submission icon" />
               <Link href="/form/new">
-                <a className={styles.createButton}>New Submission</a>
+                <a className={styles.createButton}>
+                  New Submission
+                </a>
               </Link>
             </div>
 
             <div className={styles.searchContainer}>
-              <button type="submit"><img src="/search.svg" alt="magnifying glass" /></button>
-              <input value={query} onChange={(e) => setQuery(e.target.value)} />
+              <img src="/search.svg" alt="magnifying glass" />
+              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Filter your posts here" />
             </div>
           </div>
 
@@ -104,7 +109,7 @@ const Submissions = ({
               </select>
             </div>
           </div>
-        </form>
+        </div>
 
         <div className={styles.contentContainer}>
           {(!status || status === 'draft') && <SubmissionSection title="Drafts" posts={getFilteredPosts('draft')} status="draft" />}

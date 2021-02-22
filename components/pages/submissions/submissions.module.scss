@@ -17,6 +17,7 @@
     
     a {
       margin: auto 0px 0px 0px;
+      color: #267ABA;
     }
   }
 
@@ -31,17 +32,17 @@
       margin-bottom: 18px;
       
       .searchContainer {
-        width: 40%;
+        width: 54%;
         position: relative;
         margin-left: auto;
 
-        button {
+        img {
           border: none;
           background: none;
           padding: 0px;
 
           position: absolute;
-          top: 50%;
+          top: 52%;
           transform: translate(50%, -50%);
         }
         

@@ -21,13 +21,15 @@ const SubmissionSection = ({
     <div className={styles.submissionSectionContainer}>
       <h3>{`${title} (${posts.length})`}</h3>
       <div>
+        {/* eslint-disable-next-line no-nested-ternary */}
         {isLoading
           ? <SubmissionSkeleton status={status} />
-          : posts.map((post) => (
-            <div className={styles.submissionSpacingContainer} key={post._id}>
-              <Submission postContent={post} />
-            </div>
-          ))}
+          : (posts.length
+            ? posts.map((post) => (
+              <div className={styles.submissionSpacingContainer} key={post._id}>
+                <Submission postContent={post} />
+              </div>
+            )) : <p>No Posts</p>)}
       </div>
     </div>
   );
