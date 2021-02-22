@@ -1,4 +1,6 @@
+import AuthSwitch from 'components/hocs/authSwitch';
 import HeaderLink from 'components/layout/headerLink';
+
 import styles from './header.module.scss';
 
 export interface HeaderPassedProps {
@@ -29,10 +31,15 @@ const Header = ({ isStaff, isReviewer }: HeaderProps): JSX.Element => (
     </div>
 
     <nav className={styles.headerLinksContainer}>
-      <HeaderLink to="/" label="Home" />
-      {(isStaff || isReviewer) && <HeaderLink to="/submissions" label="Submissions" />}
-      {isReviewer && <HeaderLink to="/review" label="Review" />}
-      {isReviewer && <HeaderLink to="/compile" label="Compile" />}
+      <AuthSwitch
+        renderLoading={() => 'Loading...'}
+        renderFailure={() => null}
+      >
+        <HeaderLink to="/" label="Home" />
+        {(isStaff || isReviewer) && <HeaderLink to="/submissions" label="Submissions" />}
+        {isReviewer && <HeaderLink to="/review" label="Review" />}
+        {isReviewer && <HeaderLink to="/compile" label="Compile" />}
+      </AuthSwitch>
     </nav>
   </header>
 );
