@@ -11,6 +11,7 @@ export interface User {
 /* -------- State -------- */
 
 export type UserState = User & {
+  hasAttemptedAuth: boolean,
   isAuthenticated: boolean,
   isStaff: boolean,
   isReviewer: boolean

@@ -12,6 +12,7 @@ export interface AuthWrapperPassedProps {
 }
 
 export interface AuthWrapperStateProps {
+  hasAttemptedAuth: boolean,
   isAuthenticated: boolean
 }
 
@@ -21,7 +22,9 @@ export interface AuthWrapperDispatchProps {
 
 export type AuthWrapperProps = AuthWrapperPassedProps & AuthWrapperStateProps & AuthWrapperDispatchProps;
 
-const AuthWrapper = ({ children, isAuthenticated, validateUser }: AuthWrapperProps): JSX.Element => {
+const AuthWrapper = ({
+  children, hasAttemptedAuth, isAuthenticated, validateUser
+}: AuthWrapperProps): JSX.Element => {
   const router = useRouter();
 
   useEffect(() => {
@@ -34,11 +37,14 @@ const AuthWrapper = ({ children, isAuthenticated, validateUser }: AuthWrapperPro
 
   return (
     <div>
-      {isAuthenticated ? children : 'Authenticating'}
+      {/* eslint-disable-next-line no-nested-ternary */}
+      {isAuthenticated ? children : (hasAttemptedAuth ? 'Authentication failed' : 'Authenticating')}
     </div>
   );
 };
+
 const mapStateToProps = (state: RootState): AuthWrapperStateProps => ({
+  hasAttemptedAuth: state.user.hasAttemptedAuth,
   isAuthenticated: state.user.isAuthenticated
 });
 

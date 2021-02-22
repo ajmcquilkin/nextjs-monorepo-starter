@@ -5,6 +5,7 @@ const initialState: UserState = {
   name: '',
   netId: null,
 
+  hasAttemptedAuth: false,
   isAuthenticated: false,
   isStaff: false,
   isReviewer: false
@@ -20,6 +21,7 @@ const userReducer = (state = initialState, action: Actions): UserState => {
         name: action.payload.data.name,
         netId: action.payload.data.netId,
 
+        hasAttemptedAuth: true,
         isAuthenticated: action.payload.data.isAuthenticated,
         isStaff: action.payload.data.isStaff,
         isReviewer: action.payload.data.isReviewer
@@ -31,6 +33,7 @@ const userReducer = (state = initialState, action: Actions): UserState => {
         name: '',
         netId: null,
 
+        hasAttemptedAuth: false,
         isAuthenticated: false,
         isStaff: false,
         isReviewer: false
