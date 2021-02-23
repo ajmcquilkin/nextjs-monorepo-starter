@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
+import FilterBar from 'components/layout/filterBar';
+import SearchBar from 'components/layout/searchBar';
 import SubmissionSection from 'components/layout/submissionSection';
 
 import SkeletonArea from 'components/helpers/skeletonArea';
@@ -11,7 +13,7 @@ import {
   deletePostById as deletePostByIdImport
 } from 'store/actionCreators/postActionCreators';
 
-import { Post, PostStatus } from 'types/post';
+import { Post, PostPublishType, PostStatus } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
 
 import styles from './submissions.module.scss';
@@ -38,45 +40,66 @@ const Submissions = ({
 }: SubmissionsProps): JSX.Element => {
   useEffect(() => { fetchAllPosts(); }, []);
   const [status, setStatus] = useState<PostStatus | ''>('');
-  const keywordFilter = (postsToFilter: Post[], keyword: PostStatus): Post[] => postsToFilter.filter((post) => post.status === keyword);
+  const [postType, setPostType] = useState<PostPublishType | ''>('');
+  const [query, setQuery] = useState<string>('');
 
-  const filteredPosts = userPosts.filter((post) => (status ? post.status === status : true));
+  const getFilteredPosts = (
+    keyword: PostStatus
+  ): Post[] => userPosts.filter((post) => post.status === keyword
+    && (!postType || post.type === postType)
+    && (
+      post.briefContent.toLowerCase().includes(query)
+      || post.fullContent.toLowerCase().includes(query)
+      || post.fromName.toLowerCase().includes(query)
+    ));
 
   return (
     <SkeletonArea isLoading={isLoading}>
       <div className={styles.submissionsContainer}>
-        <div className={styles.topBar}>
-          <div className={styles.filterContainer}>
-            <select
-              name="status"
-              value={status}
-              onChange={(e) => setStatus((e.target.value) as (PostStatus | ''))}
-            >
-              <option value="">View All</option>
-              <option value="draft">Draft</option>
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Rejected</option>
-              <option value="published">Published</option>
-            </select>
-          </div>
-          <div className="button-container">
-            <Link href="/form/new">
-              <button className="new-button" type="button">
-                <i className="fa fa-plus-square" />
-                {'   '}
-                New Submission
-              </button>
-            </Link>
+        <div className={styles.titleContainer}>
+          <h1>Your Submissions</h1>
+          <a href="https://communications.dartmouth.edu/faculty-and-staff/vox-daily-guidelines">
+            Submission Guidelines
+          </a>
+        </div>
+
+        <div className={styles.filterBar}>
+          <div className={styles.filterBarRow}>
+            <div className={styles.buttonContainer}>
+              <img src="/add.svg" alt="create new submission icon" />
+              <Link href="/form/new">
+                <a className={styles.createButton}>
+                  New Submission
+                </a>
+              </Link>
+            </div>
+
+            <div className={styles.searchBarContainer}>
+              <SearchBar
+                query={query}
+                setQuery={setQuery}
+              />
+            </div>
           </div>
 
+          <div className={styles.filterBarRow}>
+            <div className={styles.selectContainer}>
+              <FilterBar
+                status={status}
+                type={postType}
+                setStatus={setStatus}
+                setType={setPostType}
+              />
+            </div>
+          </div>
         </div>
-        <div className={styles.submissionsContainer}>
-          {(!status || status === 'draft') && <SubmissionSection title="Drafts" posts={keywordFilter(filteredPosts, 'draft')} />}
-          {(!status || status === 'pending') && <SubmissionSection title="Pending" posts={keywordFilter(filteredPosts, 'pending')} />}
-          {(!status || status === 'rejected') && <SubmissionSection title="Rejected" posts={keywordFilter(filteredPosts, 'rejected')} />}
-          {(!status || status === 'approved') && <SubmissionSection title="Approved" posts={keywordFilter(filteredPosts, 'approved')} />}
-          {(!status || status === 'published') && <SubmissionSection title="Published" posts={keywordFilter(filteredPosts, 'published')} />}
+
+        <div className={styles.contentContainer}>
+          {(!status || status === 'draft') && <SubmissionSection title="Drafts" posts={getFilteredPosts('draft')} status="draft" />}
+          {(!status || status === 'pending') && <SubmissionSection title="Pending" posts={getFilteredPosts('pending')} status="pending" />}
+          {(!status || status === 'rejected') && <SubmissionSection title="Rejected" posts={getFilteredPosts('rejected')} status="rejected" />}
+          {(!status || status === 'approved') && <SubmissionSection title="Approved" posts={getFilteredPosts('approved')} status="approved" />}
+          {(!status || status === 'published') && <SubmissionSection title="Published" posts={getFilteredPosts('published')} status="published" />}
         </div>
       </div>
     </SkeletonArea>
