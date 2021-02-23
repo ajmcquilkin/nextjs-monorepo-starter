@@ -42,6 +42,7 @@ const ModalWrapper = (): JSX.Element => {
       isOpen={!!type}
       contentLabel={title}
       shouldCloseOnOverlayClick
+      onRequestClose={() => closeModal()}
       className={styles.modalWrapperContainer}
       style={{
         content: {
