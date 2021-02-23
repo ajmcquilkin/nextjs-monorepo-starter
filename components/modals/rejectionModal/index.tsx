@@ -1,40 +1,18 @@
-import { useState } from 'react';
-import ModalContainer from 'components/modals/modalContainer';
-import styles from './rejectionModal.module.scss';
+import { connect } from 'react-redux';
 
-export interface RejectionModalProps {
-  title: string
-}
+import RejectionModal, { RejectionModalDispatchProps, RejectionModalPassedProps, RejectionModalStateProps } from 'components/modals/rejectionModal/rejectionModal';
+import { updatePostById } from 'store/actionCreators/postActionCreators';
 
-const RejectionModal = ({ title }: RejectionModalProps): JSX.Element => {
-  const [reason, setReason] = useState<string>('guidelines');
-  const [comment, setComment] = useState<string>('');
+import { RootState } from 'types/state';
 
-  return (
-    <ModalContainer
-      title={title}
-      confirmText="Reject"
-      onConfirm={() => { console.log('reject post with comments'); }}
-    >
-      <div className={styles.rejectionModalContainer}>
-        <div className={styles.rationaleSelector}>
-          <p>Reason for Rejection</p>
-          <select value={reason} onChange={(e) => setReason(e.target.value)}>
-            <option value="guidelines">Guidelines</option>
-            <option value="errors">Errors</option>
-            <option value="event">Event</option>
-            <option value="subject">Subject</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
+const mapStateToProps = (_state: RootState): RejectionModalStateProps => ({
 
-        <div className={styles.commentContainer}>
-          <p>Comments</p>
-          <textarea value={comment} onChange={(e) => setComment(e.target.value)} />
-        </div>
-      </div>
-    </ModalContainer>
-  );
+});
+
+const mapDispatchToProps: RejectionModalDispatchProps = {
+  updatePostById
 };
 
-export default RejectionModal;
+const connector = connect<RejectionModalStateProps, RejectionModalDispatchProps, RejectionModalPassedProps>(mapStateToProps, mapDispatchToProps);
+
+export default connector(RejectionModal);

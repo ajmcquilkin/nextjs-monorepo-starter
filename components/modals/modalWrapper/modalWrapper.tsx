@@ -3,45 +3,13 @@ import ReactModal from 'react-modal';
 import ErrorModal from 'components/modals/errorModal';
 import RejectionModal from 'components/modals/rejectionModal';
 
-import { closeModal as closeModalImport } from 'store/actionCreators/modalActionCreators';
-
-import { Modal } from 'types/modal';
-import { ConnectedThunkCreator } from 'types/state';
+import { useModal } from 'utils/modal';
 
 import styles from './modalWrapper.module.scss';
 
-export interface ModalWrapperPassedProps {
+export interface ModalWrapperProps {
 
 }
-
-export type ModalWrapperStateProps = Modal & {
-
-};
-
-export interface ModalWrapperDispatchProps {
-  closeModal: ConnectedThunkCreator<typeof closeModalImport>
-}
-
-export type ModalWrapperProps = ModalWrapperPassedProps & ModalWrapperStateProps & ModalWrapperDispatchProps;
-
-interface ModalWrapperContentProps {
-  type: Modal['type'],
-  title: Modal['title'],
-  content: Modal['content']
-}
-
-const ModalWrapperContent = ({ type, title, content }: ModalWrapperContentProps): JSX.Element => {
-  switch (type) {
-    case 'ERROR_MODAL':
-      return <ErrorModal content={content} />;
-
-    case 'REJECTION_MODAL':
-      return <RejectionModal title={title} />;
-
-    default:
-      return <div />;
-  }
-};
 
 const modalWrapperStyles: React.CSSProperties = {
   margin: '48px',
@@ -51,31 +19,44 @@ const modalWrapperStyles: React.CSSProperties = {
   border: 'none'
 };
 
-const ModalWrapper = ({
-  type, title, content, bgColor, closeModal
-}: ModalWrapperProps): JSX.Element => (
-  <ReactModal
-    isOpen={!!type}
-    contentLabel={title}
-    shouldCloseOnOverlayClick
-    className={styles.modalWrapperContainer}
-    style={{
-      content: {
-        ...modalWrapperStyles,
-        backgroundColor: bgColor
-      }
-    }}
-  >
-    <button className={styles.closeButton} type="button" onClick={() => closeModal()}>
-      <img src="/close.svg" alt="close modal" />
-    </button>
+const ModalWrapper = (): JSX.Element => {
+  const {
+    type, title, bgColor, closeModal
+  } = useModal();
 
-    <ModalWrapperContent
-      type={type}
-      title={title}
-      content={content}
-    />
-  </ReactModal>
-);
+  const getModalContent = (): JSX.Element => {
+    switch (type) {
+      case 'ERROR_MODAL':
+        return <ErrorModal />;
+
+      case 'REJECTION_MODAL':
+        return <RejectionModal />;
+
+      default:
+        return <div />;
+    }
+  };
+
+  return (
+    <ReactModal
+      isOpen={!!type}
+      contentLabel={title}
+      shouldCloseOnOverlayClick
+      className={styles.modalWrapperContainer}
+      style={{
+        content: {
+          ...modalWrapperStyles,
+          backgroundColor: bgColor
+        }
+      }}
+    >
+      <button className={styles.closeButton} type="button" onClick={() => closeModal()}>
+        <img src="/close.svg" alt="close modal" />
+      </button>
+
+      {getModalContent()}
+    </ReactModal>
+  );
+};
 
 export default ModalWrapper;

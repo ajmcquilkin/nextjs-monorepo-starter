@@ -22,8 +22,14 @@ export type Modal = ModalConfig & {
 
 /* -------- State -------- */
 
-export type ModalState = ModalConfig & {
-  type: Modal['type'] | null,
+export type ModalState = {
+  type: Modal['type'],
+
+  title: Modal['title'],
+  content: Modal['content'],
+
+  bgColor: Modal['bgColor'],
+  postId: string | null
 }
 
 /* -------- Action Types -------- */
@@ -31,7 +37,7 @@ export type ModalState = ModalConfig & {
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 
-export type OpenModalData = { type: ModalType, config: Partial<Omit<Modal, 'type'>> };
+export type OpenModalData = { type: ModalType, config: Partial<ModalState> };
 export type CloseModalData = Empty;
 
 type OpenModalAction = Action<typeof OPEN_MODAL, OpenModalData>;
