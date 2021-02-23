@@ -12,8 +12,22 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
+    .mainTableRow {
+      padding: 0 24px 24px 24px;
+      margin: 0 0 0 0;
+      width: 100%
+    }
+
+    .qodImage {
+      margin: auto 0 0 0;
+    }
+
     .spacer {
       padding: 2px 0 2px 0;
+    }
+
+    .spacer.sm {
+      padding: 1px 0 1px 0;
     }
 
     .postTable * {
@@ -31,9 +45,15 @@
     p,
     a {
       margin: 0 0 0 0;
+
+      font-size: 16px;
+      line-height: 155%;
+      mso-line-height-rule: exactly;
     }
 
     h1 {
+      margin: 0 0 0 0;
+
       font-family: Verdana, Geneva, Tahoma, sans-serif;
       font-size: 40px;
       font-weight: 900;
@@ -41,6 +61,8 @@
     }
 
     h2 {
+      margin: 0 0 0 0;
+
       font-family: Verdana, Geneva, Tahoma, sans-serif;
       font-size: 21px;
       font-weight: 900;
@@ -57,15 +79,12 @@
     }
 
     h4 {
+      margin: 0 0 0 0;
+
       font-family: Verdana, Geneva, Tahoma, sans-serif;
       font-size: 18px;
       font-weight: 600;
       color: #12312B;
-    }
-
-    .sectionPadding {
-      padding: 0 0 36px 0;
-      margin: 0 0 0 0;
     }
 
     /* Outlook-specific styling */
@@ -99,28 +118,35 @@
 
 <body style="margin: 0 0 0 0; padding: 0 0 0 0;">
   <!-- Main layout table -->
-  <table role="presentation" style="margin: 0 auto 0 auto; padding: 0 96px 36px 96px;" width="600" cellpadding="0"
-    cellspacing="0" border="0">
+  <table role="presentation" style="margin: 0 auto 0 auto;" cellpadding="0" cellspacing="0" border="0">
 
     <!-- View in browser -->
     <tr>
       <td>
-        <p style="padding: 21px 0 21px 0; text-align: center;">
-          <a style="color: #00693E; text-align: center;" href="{{__URL}}">
-            View in browser
-          </a>
-        </p>
+        <table role="presentation" class="mainTableRow" style="margin: 0 auto 0 auto; padding: 0 0 0 0;" cellpadding="0"
+          cellspacing="0" border="0">
+          <tr>
+            <td>
+              <p style="padding: 21px 0 21px 0; text-align: center;">
+                <a style="color: #00693E; text-align: center;" href="{{__URL}}">
+                  View in browser
+                </a>
+              </p>
+            </td>
+          </tr>
+        </table>
       </td>
     </tr>
 
     <!-- Header banner text -->
     <tr>
-      <td class="spacer" bgcolor="#00693E"></td>
-    </tr>
-
-    <tr>
       <td>
-        <table role="presentation" style="margin: 0 auto 0 auto;" cellpadding="0" cellspacing="0" border="0">
+        <table role="presentation" class="mainTableRow" style="margin: 0 auto 0 auto;" cellpadding="0" cellspacing="0"
+          border="0">
+          <tr>
+            <td class="spacer sm" bgcolor="#00693E"></td>
+          </tr>
+
           <tr>
             <td>
               <h1 style="margin: 12px 0 3px 0; text-align: center;">Vox Daily</h1>
@@ -132,28 +158,28 @@
               <h2 style="margin: 0 0 12px 0; text-align: center;">{{__DATE}}</h2>
             </td>
           </tr>
+
+          <tr>
+            <td class="spacer sm" bgcolor="#00693E"></td>
+          </tr>
         </table>
       </td>
     </tr>
 
-    <tr>
-      <td class="spacer" bgcolor="#00693E"></td>
-    </tr>
-
-    <tr>
-      <td>
-        <p style="margin: 0 0 51px 0"></p>
-      </td>
-    </tr>
-
     <!-- Summary Section -->
-
     <tr>
       <td>
-        <h3 style="color: #00693E">Daily Summary</h3>
-        <table role="presentation" class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <table role="presentation" class="mainTableRow" cellpadding="0" cellspacing="0" border="0">
           <tr>
-            <td class="spacer" bgcolor="#00693E"></td>
+            <td>
+              <h3 style="color: #00693E">Daily Summary</h3>
+              <table role="presentation" class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0"
+                border="0">
+                <tr>
+                  <td class="spacer" bgcolor="#00693E"></td>
+                </tr>
+              </table>
+            </td>
           </tr>
         </table>
       </td>
@@ -161,37 +187,90 @@
 
     <tr>
       <td>
-        <h3 style="color: #00693E; padding: 0 0 12px 0;">News</h3>
-        {{__NEWSTITLES}}
-        <p class="sectionPadding"></p>
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        <h3 style="color: #00693E; padding: 0 0 9px 0;">Announcements</h3>
-        {{__ANNOUNCEMENTSTITLES}}
-        <p class="sectionPadding"></p>
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        <h3 style="color: #00693E; padding: 0 0 9px 0;">Events</h3>
-        {{__EVENTSTITLES}}
-        <p class="sectionPadding"></p>
-      </td>
-    </tr>
-
-    <!-- Header image and caption -->
-    <tr>
-      <td>
-        <table role="presentation" style="padding: 18px 0 60px 0; margin: 0 auto 0 auto;" width="300" cellpadding="0"
-          cellspacing="0" border="0">
+        <table role="presentation" class="mainTableRow" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td>
-              <img style="padding: 0 0 12px 0;" src="{{__HEADERIMAGE}}" alt="daily header image" width="100%" />
-              <p style="color: #424141; text-align: center;">{{__CAPTION}}</p>
+              <h3 style="color: #00693E; padding: 0 0 12px 0;">News</h3>
+              {{__NEWSTITLES}}
+              <p class="sectionPadding"></p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <table role="presentation" class="mainTableRow" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td>
+              <h3 style="color: #00693E; padding: 0 0 9px 0;">Announcements</h3>
+              {{__ANNOUNCEMENTSTITLES}}
+              <p class="sectionPadding"></p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <table role="presentation" class="mainTableRow" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td>
+              <h3 style="color: #00693E; padding: 0 0 9px 0;">Events</h3>
+              {{__EVENTSTITLES}}
+              <p class="sectionPadding"></p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Quote of the Day -->
+    <tr>
+      <td>
+        <table role="presentation" style="padding: 0 0 36px 0;" cellpadding="0" cellspacing="0" border="0">
+          <tr bgcolor="#00693E">
+            <td>
+              <table role="presentation" style="padding: 30px 36px 0 36px; margin: 0 auto 0 auto;" cellpadding="0"
+                cellspacing="0" border="0">
+                <tr>
+                  <td><img class="qodImage" src="/left-email-small.svg" /></td>
+                  <td>
+                    <h2 style="width: 132px; text-align: center; color: #FFFFFF; padding: 0 0 12px 0;">
+                      QUOTE OF THE DAY
+                    </h2>
+                  </td>
+                  <td><img class="qodImage" src="/right-email-small.svg" /></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td bgcolor="#00341F">
+              <table width="72%" style="padding: 48px 0 48px 0; margin: 0 auto 0 auto;" role="presentation" width="300"
+                cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td>
+                    <p style="text-align: center; color: #FFFFFF; margin: 0 0 24px 0;">
+                      {{__CAPTION}}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p style="text-align: center; color: #FFFFFF; font-weight: bold;">
+                      {{__CAPTIONCONTEXT}}</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <p class="sectionPadding"></p>
             </td>
           </tr>
         </table>
@@ -201,42 +280,63 @@
     <!-- Content Section -->
     <tr>
       <td>
-        <h3 style="text-transform: uppercase;">News</h3>
-        <table role="presentation" class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <table role="presentation" class="mainTableRow" cellpadding="0" cellspacing="0" border="0">
           <tr>
-            <td class="spacer" bgcolor="#00693E"></td>
+            <td>
+              <h3 style="text-transform: uppercase;">News</h3>
+              <table role="presentation" class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0"
+                border="0">
+                <tr>
+                  <td class="spacer" bgcolor="#00693E"></td>
+                </tr>
+              </table>
+              {{__NEWS}}
+              <p class="sectionPadding"></p>
+            </td>
           </tr>
         </table>
-        {{__NEWS}}
-        <p class="sectionPadding"></p>
       </td>
     </tr>
 
     <tr>
       <td>
-        <h3 style="text-transform: uppercase;">Announcements</h3>
-        <table role="presentation" class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <table role="presentation" class="mainTableRow" cellpadding="0" cellspacing="0" border="0">
           <tr>
-            <td class="spacer" bgcolor="#00693E"></td>
+            <td>
+              <h3 style="text-transform: uppercase;">Announcements</h3>
+              <table role="presentation" class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0"
+                border="0">
+                <tr>
+                  <td class="spacer" bgcolor="#00693E"></td>
+                </tr>
+              </table>
+              {{__ANNOUNCEMENTS}}
+              <p class="sectionPadding"></p>
+            </td>
           </tr>
         </table>
-        {{__ANNOUNCEMENTS}}
-        <p class="sectionPadding"></p>
       </td>
     </tr>
 
     <tr>
       <td>
-        <h3 style="text-transform: uppercase;">Events</h3>
-        <table role="presentation" class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <table role="presentation" class="mainTableRow" cellpadding="0" cellspacing="0" border="0">
+
           <tr>
-            <td class="spacer" bgcolor="#00693E"></td>
+            <td>
+              <h3 style="text-transform: uppercase;">Events</h3>
+              <table role="presentation" class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0"
+                border="0">
+                <tr>
+                  <td class="spacer" bgcolor="#00693E"></td>
+                </tr>
+              </table>
+              {{__EVENTS}}
+            </td>
           </tr>
         </table>
-        {{__EVENTS}}
       </td>
     </tr>
-  </table>
 </body>
 
 </html>
