@@ -5,6 +5,7 @@ import { Action } from './state';
 
 export type PostStatus = 'draft' | 'pending' | 'approved' | 'rejected' | 'published';
 export type PostPublishType = 'news' | 'announcement' | 'event';
+export type PostRejectionReason = 'guidelines' | 'errors' | 'event' | 'subject' | 'other';
 
 export type PostStatusColors = {
   primary: string,
@@ -29,7 +30,9 @@ export interface Post {
   status: PostStatus,
   dateItemCreated: Date,
   lastEdited: number,
-  reviewComment: string,
+
+  rejectionComment: string | null,
+  rejectionReason: PostRejectionReason | null,
 
   _id: string
 }

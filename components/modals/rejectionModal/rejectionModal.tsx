@@ -4,6 +4,7 @@ import ModalContainer from 'components/modals/modalContainer';
 import { updatePostById as updatePostByIdImport } from 'store/actionCreators/postActionCreators';
 
 import { useModal } from 'utils/modal';
+import { PostRejectionReason } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
 
 import styles from './rejectionModal.module.scss';
@@ -23,14 +24,14 @@ export interface RejectionModalDispatchProps {
 export type RejectionModalProps = RejectionModalPassedProps & RejectionModalStateProps & RejectionModalDispatchProps;
 
 const RejectionModal = ({ updatePostById }: RejectionModalProps): JSX.Element => {
-  const [rejectionReasoning, setRejectionReasoning] = useState<string>('guidelines');
   const [rejectionComment, setRejectionComment] = useState<string>('');
+  const [rejectionReason, setRejectionReason] = useState<PostRejectionReason>('guidelines');
 
   const { title, postId, closeModal } = useModal();
 
   const handleConfirm = () => {
     if (!postId) console.error('No valid postId found:', postId);
-    else updatePostById(postId, { rejectionReasoning, rejectionComment }, { successCallback: closeModal });
+    else updatePostById(postId, { rejectionComment, rejectionReason }, { successCallback: closeModal });
   };
 
   return (
@@ -42,7 +43,7 @@ const RejectionModal = ({ updatePostById }: RejectionModalProps): JSX.Element =>
       <div className={styles.rejectionModalContainer}>
         <div className={styles.rationaleSelector}>
           <p>Reason for Rejection</p>
-          <select value={rejectionReasoning} onChange={(e) => setRejectionReasoning(e.target.value)}>
+          <select value={rejectionReason} onChange={(e) => setRejectionReason(e.target.value as PostRejectionReason)}>
             <option value="guidelines">Guidelines</option>
             <option value="errors">Errors</option>
             <option value="event">Event</option>
