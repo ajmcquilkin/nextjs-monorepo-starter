@@ -1,3 +1,4 @@
+import ModalContainer from 'components/modals/modalContainer';
 import styles from './errorModal.module.scss';
 
 export interface ErrorModalProps {
@@ -5,9 +6,11 @@ export interface ErrorModalProps {
 }
 
 const ErrorModal = ({ content }: ErrorModalProps): JSX.Element => (
-  <div className={styles.errorModalContainer}>
-    <p className={styles.errorContent}>{content}</p>
-  </div>
+  <ModalContainer cancelText="Close">
+    <div className={styles.errorModalContainer}>
+      <p className={styles.errorContent}>{content}</p>
+    </div>
+  </ModalContainer>
 );
 
 export default ErrorModal;
