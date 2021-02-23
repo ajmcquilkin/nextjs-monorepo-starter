@@ -7,17 +7,15 @@ import { Modal } from 'types/modal';
 import { ConnectedThunkCreator } from 'types/state';
 
 import styles from './modalWrapper.module.scss';
+import RejectionModal from '../rejectionModal';
 
 export interface ModalWrapperPassedProps {
 
 }
 
-export interface ModalWrapperStateProps {
-  type: Modal['type'] | null,
-  title: Modal['title'],
-  content: Modal['content'],
-  bgColor: Modal['bgColor']
-}
+export type ModalWrapperStateProps = Modal & {
+
+};
 
 export interface ModalWrapperDispatchProps {
   closeModal: ConnectedThunkCreator<typeof closeModalImport>
@@ -33,9 +31,10 @@ interface ModalWrapperContentProps {
 const ModalWrapperContent = ({ type, content }: ModalWrapperContentProps): JSX.Element => {
   switch (type) {
     case 'ERROR_MODAL':
-      return (
-        <ErrorModal content={content} />
-      );
+      return <ErrorModal content={content} />;
+
+    case 'REJECTION_MODAL':
+      return <RejectionModal />;
 
     default:
       return <div />;
@@ -51,7 +50,9 @@ const modalWrapperStyles: React.CSSProperties = {
 };
 
 const ModalWrapper = ({
-  type, title, content, bgColor, closeModal
+  type, title, content,
+  confirm, reject, cancel, bgColor,
+  closeModal
 }: ModalWrapperProps): JSX.Element => (
   <ModalComponent
     isOpen={!!type}
@@ -77,7 +78,9 @@ const ModalWrapper = ({
     </div>
 
     <div className={styles.buttonContainer}>
-      <button type="button" onClick={() => closeModal()}>Exit</button>
+      {confirm && <button className={styles.confirm} type="button" onClick={() => closeModal()}>{confirm}</button>}
+      {reject && <button className={styles.reject} type="button" onClick={() => closeModal()}>{reject}</button>}
+      {cancel && <button className={styles.cancel} type="button" onClick={() => closeModal()}>{cancel}</button>}
     </div>
   </ModalComponent>
 );

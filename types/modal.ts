@@ -3,10 +3,9 @@ import { Action } from './state';
 
 /* -------- Generic -------- */
 
-export type ModalType = 'ERROR_MODAL';
+export type ModalType = 'ERROR_MODAL' | 'REJECTION_MODAL';
 
-export interface Modal {
-  type: ModalType,
+export interface ModalConfig {
   title: string,
   content: string,
 
@@ -17,13 +16,14 @@ export interface Modal {
   bgColor: string
 }
 
+export type Modal = ModalConfig & {
+  type: ModalType | null,
+}
+
 /* -------- State -------- */
 
-export interface ModalState {
+export type ModalState = ModalConfig & {
   type: Modal['type'] | null,
-  title: Modal['title'],
-  content: Modal['content'],
-  bgColor: Modal['bgColor']
 }
 
 /* -------- Action Types -------- */

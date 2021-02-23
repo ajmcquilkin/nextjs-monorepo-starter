@@ -3,8 +3,14 @@ import { Actions } from 'types/state';
 
 const initialState: ModalState = {
   type: null,
+
   title: '',
   content: '',
+
+  confirm: '',
+  reject: '',
+  cancel: '',
+
   bgColor: '#FFFFFF'
 };
 
@@ -18,16 +24,27 @@ const modalReducer = (state = initialState, action: Actions): ModalState => {
         type: action.payload.data.type,
         title: action.payload.data.config.title || '',
         content: action.payload.data.config.content || '',
-        bgColor: action.payload.data.config.bgColor || '#FFFFFF'
+
+        confirm: action.payload.data.config.confirm || '',
+        reject: action.payload.data.config.reject || '',
+        cancel: action.payload.data.config.cancel || '',
+
+        bgColor: action.payload.data.config.bgColor || initialState.bgColor
       };
 
     case 'CLOSE_MODAL':
       return {
         ...state,
         type: null,
-        title: '',
-        content: '',
-        bgColor: '#FFFFFF'
+
+        title: initialState.title,
+        content: initialState.content,
+
+        confirm: initialState.confirm,
+        reject: initialState.reject,
+        cancel: initialState.cancel,
+
+        bgColor: initialState.bgColor
       };
 
     default:

@@ -24,7 +24,7 @@
   }
 
   .contentContainer {
-    margin-bottom: 24px;
+    margin: 18px 0px 24px;
   }
 
   .buttonContainer {
@@ -33,15 +33,29 @@
     justify-content: center;
 
     button {
+      margin: 0px 6px;
       padding: 12px 30px;
 
       font-size: 16px;
-      color: #FFFFFF;
-
-      background-color: #00693E;
       border-radius: 10px;
       border: none;
       cursor: pointer;
+      
+      &.confirm {
+        color: #FFFFFF;
+        background-color: #00693E;
+      }
+      
+      &.reject {
+        color: #FFFFFF;
+        background-color: #00693E;
+      }
+      
+      &.cancel {
+        color: #424141;
+        background-color: #FFFFFF;
+        border: 1px solid #424141;
+      }
     }
   }
 }

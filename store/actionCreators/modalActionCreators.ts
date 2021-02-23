@@ -1,10 +1,10 @@
-import { ModalType } from 'types/modal';
+import { ModalConfig, ModalType } from 'types/modal';
 import { ThunkResult } from 'types/state';
 
-export const openModal = (type: ModalType, config: { title?: string, content: string, bgColor?: string }): ThunkResult => (dispatch): void => {
+export const openModal = (type: ModalType, config: Partial<ModalConfig>): ThunkResult => (dispatch): void => {
   dispatch({
     type: 'OPEN_MODAL',
-    payload: { data: { type, config: { title: config.title, content: config.content, bgColor: config.bgColor } } },
+    payload: { data: { type, config } },
     status: 'SUCCESS'
   });
 };
