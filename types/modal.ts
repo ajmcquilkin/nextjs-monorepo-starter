@@ -7,12 +7,20 @@ export type ModalType = 'ERROR_MODAL';
 
 export interface Modal {
   type: ModalType,
+  title: string,
+  content: string,
+
+  confirm: string,
+  reject: string,
+  cancel: string
 }
 
 /* -------- State -------- */
 
 export interface ModalState {
-  active: ModalType | null
+  type: Modal['type'] | null,
+  title: Modal['title'],
+  content: Modal['content']
 }
 
 /* -------- Action Types -------- */
@@ -20,7 +28,7 @@ export interface ModalState {
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 
-export type OpenModalData = { type: ModalType };
+export type OpenModalData = { type: ModalType, title: string, content: string };
 export type CloseModalData = Empty;
 
 type OpenModalAction = Action<typeof OPEN_MODAL, OpenModalData>;

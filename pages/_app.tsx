@@ -27,7 +27,7 @@ const store = createStore(
 
 // http://reactcommunity.org/react-modal/accessibility/
 Modal.setAppElement('#root');
-store.dispatch(openModal('ERROR_MODAL'));
+store.dispatch(openModal('ERROR_MODAL', 'Test Error', 'I have lost my dog'));
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => (
   <div id="root">

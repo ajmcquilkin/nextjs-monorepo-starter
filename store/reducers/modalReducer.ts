@@ -2,7 +2,9 @@ import { ModalState } from 'types/modal';
 import { Actions } from 'types/state';
 
 const initialState: ModalState = {
-  active: null
+  type: null,
+  content: '',
+  title: ''
 };
 
 const modalReducer = (state = initialState, action: Actions): ModalState => {
@@ -12,13 +14,17 @@ const modalReducer = (state = initialState, action: Actions): ModalState => {
     case 'OPEN_MODAL':
       return {
         ...state,
-        active: action.payload.data.type
+        type: action.payload.data.type,
+        title: action.payload.data.title,
+        content: action.payload.data.content
       };
 
     case 'CLOSE_MODAL':
       return {
         ...state,
-        active: null
+        type: null,
+        title: '',
+        content: ''
       };
 
     default:
