@@ -1,0 +1,48 @@
+.modalWrapperContainer {
+  padding: 36px 60px;
+  position: relative;
+
+  .closeButton {
+    position: absolute;
+    right: 60px;
+    top: 36px;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .titleContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+
+    h1 {
+      margin: 0px;
+      color: #12312B;
+      text-align: center;
+    }
+  }
+
+  .contentContainer {
+    margin-bottom: 24px;
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    button {
+      padding: 12px 30px;
+
+      font-size: 16px;
+      color: #FFFFFF;
+
+      background-color: #00693E;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+  }
+}

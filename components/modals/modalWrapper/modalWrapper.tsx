@@ -1,10 +1,12 @@
 import ModalComponent from 'react-modal';
 
 import ErrorModal from 'components/modals/errorModal';
+import { closeModal as closeModalImport } from 'store/actionCreators/modalActionCreators';
 
 import { Modal } from 'types/modal';
 import { ConnectedThunkCreator } from 'types/state';
-import { closeModal as closeModalImport } from 'store/actionCreators/modalActionCreators';
+
+import styles from './modalWrapper.module.scss';
 
 export interface ModalWrapperPassedProps {
 
@@ -39,19 +41,38 @@ const ModalWrapperContent = ({ type, content }: ModalWrapperContentProps): JSX.E
   }
 };
 
+const modalWrapperStyles: ModalComponent.Styles = {
+  content: {
+    margin: '48px',
+    boxShadow: '0px 8px 20px rgba(37, 40, 43, 0.08)',
+    backgroundColor: '#E7E7E7',
+    borderRadius: '10px',
+    border: 'none'
+  }
+};
+
 const ModalWrapper = ({
   type, title, content, closeModal
 }: ModalWrapperProps): JSX.Element => (
   <ModalComponent
     isOpen={!!type}
     contentLabel={title}
+    style={modalWrapperStyles}
+    className={styles.modalWrapperContainer}
   >
-    <h1>{title}</h1>
-    <button type="button" onClick={() => closeModal()}><img src="/close.svg" alt="close modal" /></button>
+    <button className={styles.closeButton} type="button" onClick={() => closeModal()}><img src="/close.svg" alt="close modal" /></button>
 
-    <ModalWrapperContent content={content} type={type} />
+    {title && (
+      <div className={styles.titleContainer}>
+        <h1>{title}</h1>
+      </div>
+    )}
 
-    <div>
+    <div className={styles.contentContainer}>
+      <ModalWrapperContent content={content} type={type} />
+    </div>
+
+    <div className={styles.buttonContainer}>
       <button type="button" onClick={() => closeModal()}>Exit</button>
     </div>
   </ModalComponent>

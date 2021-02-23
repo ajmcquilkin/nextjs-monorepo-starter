@@ -4,6 +4,7 @@ import PostContent from 'components/posts/postContent';
 import PostSection from 'components/posts/postSection';
 import HomeNavigation from 'components/layout/homeNavigation';
 
+import { openModal as openModalImport } from 'store/actionCreators/modalActionCreators';
 import { fetchReleaseByDate as fetchReleaseByDateImport } from 'store/actionCreators/releaseActionCreators';
 
 import { getFullDate, addNDays } from 'utils';
@@ -26,6 +27,7 @@ export interface HomeStateProps {
 }
 
 export interface HomeDispatchProps {
+  openModal: ConnectedThunkCreator<typeof openModalImport>,
   fetchReleaseByDate: ConnectedThunkCreator<typeof fetchReleaseByDateImport>
 }
 
@@ -33,7 +35,7 @@ export type HomeProps = HomePassedProps & HomeStateProps & HomeDispatchProps;
 
 const Home = ({
   release: reduxRelease, postMap: reduxPostMap, releaseIsLoading,
-  initialRelease, initialPostMap, fetchReleaseByDate
+  initialRelease, initialPostMap, openModal, fetchReleaseByDate
 }: HomeProps): JSX.Element => {
   const [release, setRelease] = useState<Release | null>(initialRelease);
   const [postMap, setPostMap] = useState<Record<string, Post>>(initialPostMap);
@@ -62,7 +64,11 @@ const Home = ({
           <div className={[styles.homeDateSelector, styles.left].join(' ')}>
             <button
               type="button"
-              onClick={() => { fetchReleaseByDate(previousDate); }}
+              onClick={() => {
+                fetchReleaseByDate(previousDate, {
+                  failureCallback: () => openModal('ERROR_MODAL', 'Date Not Found', 'There are no articles for this selected date.')
+                });
+              }}
             >
               <img src="/left.svg" alt="left arrow" />
               <p>{getFullDate(previousDate)}</p>

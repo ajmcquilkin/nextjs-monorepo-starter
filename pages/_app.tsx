@@ -10,7 +10,6 @@ import AuthWrapper from 'components/helpers/authWrapper';
 import MainWrapper from 'components/layout/mainWrapper';
 import ModalWrapper from 'components/modals/modalWrapper';
 
-import { openModal } from 'store/actionCreators/modalActionCreators';
 import rootReducer from 'store/reducers';
 
 import { Actions, RootState } from 'types/state';
@@ -27,7 +26,6 @@ const store = createStore(
 
 // http://reactcommunity.org/react-modal/accessibility/
 Modal.setAppElement('#root');
-store.dispatch(openModal('ERROR_MODAL', 'Test Error', 'I have lost my dog'));
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => (
   <div id="root">
