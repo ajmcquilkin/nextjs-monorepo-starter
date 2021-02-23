@@ -15,7 +15,11 @@ export interface ModalWrapperDispatchProps {
 
 export type ModalWrapperProps = ModalWrapperPassedProps & ModalWrapperStateProps & ModalWrapperDispatchProps;
 
-const ModalWrapper = ({ active }: ModalWrapperProps): JSX.Element => {
+interface ModalWrapperContentProps {
+  active: ModalType | null
+}
+
+const ModalWrapperContent = ({ active }: ModalWrapperContentProps): JSX.Element => {
   switch (active) {
     case 'ERROR_MODAL':
       return (
@@ -26,5 +30,13 @@ const ModalWrapper = ({ active }: ModalWrapperProps): JSX.Element => {
       return <div />;
   }
 };
+
+const ModalWrapper = ({ active }: ModalWrapperProps): JSX.Element => (
+  <Modal
+    isOpen={!!active}
+  >
+    <ModalWrapperContent active={active} />
+  </Modal>
+);
 
 export default ModalWrapper;
