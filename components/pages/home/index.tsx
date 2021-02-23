@@ -66,7 +66,6 @@ const Home = ({
               type="button"
               onClick={() => {
                 fetchReleaseByDate(previousDate, {
-                  // failureCallback: () => openModal('REJECTION_MODAL', { title: 'Reject Post', confirm: 'Reject', cancel: 'Cancel' })
                   failureCallback: () => openModal('ERROR_MODAL', { content: 'There are no articles for this selected date.', bgColor: '#E7E7E7' })
                 });
               }}
