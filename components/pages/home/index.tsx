@@ -66,7 +66,7 @@ const Home = ({
               type="button"
               onClick={() => {
                 fetchReleaseByDate(previousDate, {
-                  failureCallback: () => openModal('ERROR_MODAL', 'Date Not Found', 'There are no articles for this selected date.')
+                  failureCallback: () => openModal('ERROR_MODAL', { content: 'There are no articles for this selected date.', bgColor: '#E7E7E7' })
                 });
               }}
             >

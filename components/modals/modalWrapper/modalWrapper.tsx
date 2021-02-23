@@ -15,7 +15,8 @@ export interface ModalWrapperPassedProps {
 export interface ModalWrapperStateProps {
   type: Modal['type'] | null,
   title: Modal['title'],
-  content: Modal['content']
+  content: Modal['content'],
+  bgColor: Modal['bgColor']
 }
 
 export interface ModalWrapperDispatchProps {
@@ -41,23 +42,26 @@ const ModalWrapperContent = ({ type, content }: ModalWrapperContentProps): JSX.E
   }
 };
 
-const modalWrapperStyles: ModalComponent.Styles = {
-  content: {
-    margin: '48px',
-    boxShadow: '0px 8px 20px rgba(37, 40, 43, 0.08)',
-    backgroundColor: '#E7E7E7',
-    borderRadius: '10px',
-    border: 'none'
-  }
+const modalWrapperStyles: React.CSSProperties = {
+  margin: '48px',
+  boxShadow: '0px 8px 20px rgba(37, 40, 43, 0.08)',
+  backgroundColor: '',
+  borderRadius: '10px',
+  border: 'none'
 };
 
 const ModalWrapper = ({
-  type, title, content, closeModal
+  type, title, content, bgColor, closeModal
 }: ModalWrapperProps): JSX.Element => (
   <ModalComponent
     isOpen={!!type}
     contentLabel={title}
-    style={modalWrapperStyles}
+    style={{
+      content: {
+        ...modalWrapperStyles,
+        backgroundColor: bgColor
+      }
+    }}
     className={styles.modalWrapperContainer}
   >
     <button className={styles.closeButton} type="button" onClick={() => closeModal()}><img src="/close.svg" alt="close modal" /></button>

@@ -3,8 +3,9 @@ import { Actions } from 'types/state';
 
 const initialState: ModalState = {
   type: null,
+  title: '',
   content: '',
-  title: ''
+  bgColor: '#FFFFFF'
 };
 
 const modalReducer = (state = initialState, action: Actions): ModalState => {
@@ -15,8 +16,9 @@ const modalReducer = (state = initialState, action: Actions): ModalState => {
       return {
         ...state,
         type: action.payload.data.type,
-        title: action.payload.data.title,
-        content: action.payload.data.content
+        title: action.payload.data.config.title || '',
+        content: action.payload.data.config.content || '',
+        bgColor: action.payload.data.config.bgColor || '#FFFFFF'
       };
 
     case 'CLOSE_MODAL':
@@ -24,7 +26,8 @@ const modalReducer = (state = initialState, action: Actions): ModalState => {
         ...state,
         type: null,
         title: '',
-        content: ''
+        content: '',
+        bgColor: '#FFFFFF'
       };
 
     default:

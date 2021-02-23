@@ -12,7 +12,9 @@ export interface Modal {
 
   confirm: string,
   reject: string,
-  cancel: string
+  cancel: string,
+
+  bgColor: string
 }
 
 /* -------- State -------- */
@@ -20,7 +22,8 @@ export interface Modal {
 export interface ModalState {
   type: Modal['type'] | null,
   title: Modal['title'],
-  content: Modal['content']
+  content: Modal['content'],
+  bgColor: Modal['bgColor']
 }
 
 /* -------- Action Types -------- */
@@ -28,7 +31,7 @@ export interface ModalState {
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 
-export type OpenModalData = { type: ModalType, title: string, content: string };
+export type OpenModalData = { type: ModalType, config: Partial<Omit<Modal, 'type'>> };
 export type CloseModalData = Empty;
 
 type OpenModalAction = Action<typeof OPEN_MODAL, OpenModalData>;
