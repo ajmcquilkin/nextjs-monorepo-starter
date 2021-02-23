@@ -6,12 +6,16 @@ import { casInstance } from 'utils/auth';
 import { useDB } from 'utils/db';
 
 import { FetchReleaseData } from 'types/release';
+import ForbiddenResourceError from 'errors/ForbiddenResourceError';
 
 const handler = createDefaultHandler()
   .use(useDB)
   .use(casInstance.bounce)
 
   .post(async (req, res) => {
+    const { session: { info } } = req;
+    if (!info.isReviewer) { throw new ForbiddenResourceError(); }
+
     const newRelease = await releaseController.create(req.body);
     const foundPosts = await postController.fetchPostsForRelease(newRelease);
     return res.status(201).json(createSuccessPayload<FetchReleaseData>({ release: newRelease, posts: foundPosts }));

@@ -6,6 +6,7 @@ import { createDefaultHandler, createSuccessPayload, requireUrlParam } from 'uti
 import { useDB } from 'utils/db';
 
 import { FetchReleaseData, Release, DeleteReleaseData } from 'types/release';
+import ForbiddenResourceError from 'errors/ForbiddenResourceError';
 
 const handler = createDefaultHandler()
   .use(useDB)
@@ -22,6 +23,9 @@ const handler = createDefaultHandler()
   })
 
   .put(async (req, res) => {
+    const { session: { info } } = req;
+    if (!info.isReviewer) { throw new ForbiddenResourceError(); }
+
     const { id } = req.query;
     const {
       date, subject, headerImage, imageCaption, quoteOfDay, quotedContext, featuredPost, news, announcements, events
@@ -45,6 +49,9 @@ const handler = createDefaultHandler()
   })
 
   .delete(async (req, res) => {
+    const { session: { info } } = req;
+    if (!info.isReviewer) { throw new ForbiddenResourceError(); }
+
     const { id } = req.query;
     await releaseController.remove(id as string);
     return res.status(200).json(createSuccessPayload<DeleteReleaseData>({ id: id as string }));

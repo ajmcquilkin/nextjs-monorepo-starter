@@ -8,7 +8,7 @@ import {
   FetchPostData, FetchPostResultsData, FetchPostsData,
   PostStatus
 } from 'types/post';
-import { IncompleteRequestError } from 'errors';
+import { ForbiddenResourceError, IncompleteRequestError } from 'errors';
 
 const handler = createDefaultHandler()
   .use(useDB)
@@ -30,8 +30,13 @@ const handler = createDefaultHandler()
   })
 
   .post(async (req, res) => {
+    const { session: { info } } = req;
+    if (!info.isStaff && !info.isReviewer) { throw new ForbiddenResourceError(); }
+
+    const submitterNetId = info.netId;
+
     const {
-      type, requestedPublicationDate, submitterNetId, fromName, fromAddress,
+      type, requestedPublicationDate, fromName, fromAddress,
       fullContent, briefContent, url, recipientGroups, featuredImage, eventDate, status = 'draft'
     } = req.body;
 
