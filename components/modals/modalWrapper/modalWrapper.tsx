@@ -3,13 +3,26 @@ import ReactModal from 'react-modal';
 import ErrorModal from 'components/modals/errorModal';
 import RejectionModal from 'components/modals/rejectionModal';
 
-import { useModal } from 'utils/modal';
+import { closeModal as closeModalImport } from 'store/actionCreators/modalActionCreators';
+
+import { ModalState } from 'types/modal';
+import { ConnectedThunkCreator } from 'types/state';
 
 import styles from './modalWrapper.module.scss';
 
-export interface ModalWrapperProps {
+export interface ModalWrapperPassedProps {
 
 }
+
+export type ModalWrapperStateProps = ModalState & {
+
+}
+
+export interface ModalWrapperDispatchProps {
+  closeModal: ConnectedThunkCreator<typeof closeModalImport>
+}
+
+export type ModalWrapperProps = ModalWrapperPassedProps & ModalWrapperStateProps & ModalWrapperDispatchProps;
 
 const modalWrapperStyles: React.CSSProperties = {
   margin: '48px',
@@ -19,11 +32,9 @@ const modalWrapperStyles: React.CSSProperties = {
   border: 'none'
 };
 
-const ModalWrapper = (): JSX.Element => {
-  const {
-    type, title, bgColor, closeModal
-  } = useModal();
-
+const ModalWrapper = ({
+  type, title, bgColor, closeModal
+}: ModalWrapperProps): JSX.Element => {
   const getModalContent = (): JSX.Element => {
     switch (type) {
       case 'ERROR_MODAL':

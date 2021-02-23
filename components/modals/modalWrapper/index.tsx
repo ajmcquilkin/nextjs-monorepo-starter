@@ -11,11 +11,8 @@ const mapStateToProps = (state: RootState): ModalWrapperStateProps => ({
   title: state.modal.title,
   content: state.modal.content,
 
-  confirm: state.modal.confirm,
-  reject: state.modal.reject,
-  cancel: state.modal.cancel,
-
   bgColor: state.modal.bgColor,
+  postId: state.modal.postId
 });
 
 const mapDispatchToProps: ModalWrapperDispatchProps = {

@@ -118,8 +118,6 @@ const Compile = ({
     setter(immutableArray);
   }, [news, announcements, events]);
 
-  // if (isLoading) return <div>Loading...</div>;
-
   return (
     <DndProvider backend={HTML5Backend}>
       <SkeletonArea isLoading={isLoading}>
