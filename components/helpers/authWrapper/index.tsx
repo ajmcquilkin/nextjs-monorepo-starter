@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
 import { connect } from 'react-redux';
 
+import AuthSwitch from 'components/hocs/authSwitch';
+
 import { validateUser as validateUserImport } from 'store/actionCreators/userActionCreators';
 import { casInstance } from 'utils/auth';
 
@@ -12,7 +14,7 @@ export interface AuthWrapperPassedProps {
 }
 
 export interface AuthWrapperStateProps {
-  isAuthenticated: boolean
+
 }
 
 export interface AuthWrapperDispatchProps {
@@ -21,7 +23,9 @@ export interface AuthWrapperDispatchProps {
 
 export type AuthWrapperProps = AuthWrapperPassedProps & AuthWrapperStateProps & AuthWrapperDispatchProps;
 
-const AuthWrapper = ({ children, isAuthenticated, validateUser }: AuthWrapperProps): JSX.Element => {
+const AuthWrapper = ({
+  children, validateUser
+}: AuthWrapperProps): JSX.Element => {
   const router = useRouter();
 
   useEffect(() => {
@@ -34,12 +38,18 @@ const AuthWrapper = ({ children, isAuthenticated, validateUser }: AuthWrapperPro
 
   return (
     <div>
-      {isAuthenticated ? children : 'Authenticating'}
+      <AuthSwitch
+        renderLoading={() => 'Authenticating...'}
+        renderFailure={() => 'Authentication Failure'}
+      >
+        {children}
+      </AuthSwitch>
     </div>
   );
 };
+
 const mapStateToProps = (state: RootState): AuthWrapperStateProps => ({
-  isAuthenticated: state.user.isAuthenticated
+
 });
 
 const mapDispatchToProps: AuthWrapperDispatchProps = {
