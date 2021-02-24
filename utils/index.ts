@@ -1,5 +1,5 @@
 import { Group } from 'types/group';
-import { PostStatus, PostStatusColors } from 'types/post';
+import { Post, PostStatus, PostStatusColors } from 'types/post';
 
 export const backendUrl = `${__APP_URL__}/api/`;
 export const requestTimeout = 5000; // ms
@@ -91,6 +91,12 @@ export const handleDecodeDate = (dateString: string): number => {
   const newDate = new Date(dateString);
   return getMidnightDate(newDate.getTime());
 };
+
+export const encodeRecipientGroups = (recipientGroups: Post['recipientGroups']): Record<string, boolean> => recipientGroups
+  .reduce((accum, name) => ({ ...accum, [name]: true }), {});
+
+export const decodeRecipientGroups = (recipientGroups: Record<string, boolean>): Post['recipientGroups'] => Object.entries(recipientGroups)
+  .reduce((accum, [name, state]) => (state ? [...accum, name] : accum), []);
 
 export const getColorsForStatus = (status: PostStatus): PostStatusColors => {
   switch (status) {

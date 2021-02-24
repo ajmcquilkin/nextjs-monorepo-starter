@@ -24,14 +24,14 @@ import {
 } from 'store/actionCreators/requestActionCreators';
 
 import {
-  maxContentLength, generateFrontendErrorMessage,
-  handleEncodeDate, handleDecodeDate, addNDays
+  maxContentLength, generateFrontendErrorMessage, addNDays,
+  handleEncodeDate, handleDecodeDate, encodeRecipientGroups, decodeRecipientGroups
 } from 'utils';
 import uploadImage from 'utils/s3';
 
 import { HTML } from 'types/email';
 import { Group } from 'types/group';
-import { Post } from 'types/post';
+import { Post, PostStatus } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
 
 import styles from './form.module.scss';
@@ -45,7 +45,7 @@ export interface FormStateProps {
   postIsLoading: boolean,
   postErrorMessage: string,
 
-  post: Post,
+  post: Post | null,
   isAuthenticated: boolean,
   netId: string,
   isReviewer: boolean,
@@ -77,14 +77,15 @@ const Form = ({
   const [fromAddress, setFromAddress] = useState<Post['fromAddress']>('');
   const [requestedPublicationDate, setRequestedPublicationDate] = useState<Post['requestedPublicationDate']>(addNDays(Date.now(), 1));
   const [postType, setPostType] = useState<Post['type']>('announcement');
+
   const [briefContent, setBriefContent] = useState<Post['briefContent']>('');
-  const [url, setUrl] = useState<Post['url']>('');
   const [featuredImage, setFeaturedImage] = useState<Post['featuredImage']>('');
   const [eventDate, setEventDate] = useState<Post['eventDate']>(null);
+  const [url, setUrl] = useState<Post['url']>('');
 
   const [recipientGroups, setRecipientGroups] = useState<Record<Group['name'], boolean>>({});
-
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
+
   const [imageUploading, setImageUploading] = useState<boolean>(false);
 
   const [postTypeError, setPostTypeError] = useState<string>('');
@@ -95,13 +96,18 @@ const Form = ({
   useEffect(() => { setEditorState(EditorState.createWithContent(ContentState.createFromText(''))); }, []);
 
   useEffect(() => {
-    if (post?.fromName) { setFromName(post.fromName); }
-    if (post?.requestedPublicationDate) { setRequestedPublicationDate(post.requestedPublicationDate); }
-    if (post?.type) { setPostType(post.type); }
-    if (post?.briefContent) { setBriefContent(post.briefContent); }
-    if (post?.url) { setUrl(post.url); }
+    setFromName(post?.fromName || '');
+    setFromAddress(post?.fromAddress || '');
+    setRequestedPublicationDate(post?.requestedPublicationDate || addNDays(Date.now(), 1));
+    setPostType(post?.type || 'announcement');
 
-    if (post?.fullContent) { setEditorState(EditorState.createWithContent(stateFromHTML(post.fullContent))); }
+    setBriefContent(post?.briefContent || '');
+    setFeaturedImage(post?.featuredImage || '');
+    setEventDate(post?.eventDate || null);
+    setUrl(post?.url || '');
+
+    setRecipientGroups(post?.recipientGroups ? encodeRecipientGroups(post.recipientGroups) : {});
+    setEditorState(post?.fullContent ? EditorState.createWithContent(stateFromHTML(post.fullContent)) : EditorState.createEmpty());
   }, [post]);
 
   const getFullContent = (state: EditorState): HTML => stateToHTML(state.getCurrentContent(), exportOptions);
@@ -116,87 +122,43 @@ const Form = ({
       isValid = false;
     }
 
-    // if (!this.state.(recipients)) { this.setState({ toError: 'please select recipients' }) }
     if (!postType) { setPostTypeError('Type is a required field'); isValid = false; }
     if (!briefContent) { setBriefContentError('Brief content is a required field'); isValid = false; }
 
     return isValid;
   };
 
-  const handleSave = () => {
+  const handleUpdate = (status: PostStatus) => (): void => {
     if (!submissionIsValid(editorState)) return;
 
-    if (post) {
-      updatePostById(post._id, {
-        fromName,
-        requestedPublicationDate,
-        briefContent,
-        url,
-        featuredImage,
-        type: postType,
-        fullContent: getFullContent(editorState),
-        status: 'draft'
-      });
-    } else {
-      createPost({
-        fromName,
-        requestedPublicationDate,
-        briefContent,
-        url,
-        featuredImage,
-        type: postType,
-        fullContent: getFullContent(editorState),
-        status: 'draft',
+    const payload = {
+      fromName,
+      fromAddress,
+      requestedPublicationDate,
+      briefContent,
+      url,
+      featuredImage,
+      type: postType,
+      fullContent: getFullContent(editorState),
+      status,
 
-        submitterNetId: netId,
-        fromAddress,
-        recipientGroups: []
-      }, {
-        successCallback: (res) => { router.push(`/form/${res?.data?.data?.post?._id || ''}`); }
-      });
-    }
-  };
+      submitterNetId: netId,
+      recipientGroups: decodeRecipientGroups(recipientGroups),
+      eventDate
+    };
 
-  const handleSubmit = () => {
-    if (!submissionIsValid(editorState)) return;
+    if (post) updatePostById(post._id, payload);
 
-    if (post) {
-      updatePostById(post._id, {
-        fromName,
-        requestedPublicationDate,
-        briefContent,
-        url,
-        featuredImage,
-        type: postType,
-        fullContent: getFullContent(editorState),
-        status: 'pending'
-      });
-    } else {
-      createPost({
-        fromName,
-        requestedPublicationDate,
-        briefContent,
-        url,
-        featuredImage,
-        type: postType,
-        fullContent: getFullContent(editorState),
-        status: 'pending',
-
-        submitterNetId: netId,
-        fromAddress,
-        recipientGroups: []
-      }, {
+    else {
+      createPost(payload, {
         successCallback: (res) => { router.push(`/form/${res?.data?.data?.post?._id || ''}`); }
       });
     }
   };
 
   const handleDiscard = () => {
-    if (post) {
-      deletePostById(id, { successCallback: () => { router.push('/'); } });
-    } else {
-      router.push('/');
-    }
+    if (post) deletePostById(id, { successCallback: () => { router.push('/'); } });
+    else router.push('/');
   };
 
   const upload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -292,6 +254,7 @@ const Form = ({
                 type="radio"
                 name="form-type"
                 value="news"
+                checked={postType === 'news'}
                 onChange={() => setPostType('news')}
               />
               News
@@ -302,6 +265,7 @@ const Form = ({
                 type="radio"
                 name="form-type"
                 value="announcement"
+                checked={postType === 'announcement'}
                 onChange={() => setPostType('announcement')}
               />
               Announcement
@@ -312,6 +276,7 @@ const Form = ({
                 type="radio"
                 name="form-type"
                 value="event"
+                checked={postType === 'event'}
                 onChange={() => setPostType('event')}
               />
               Event
@@ -327,6 +292,7 @@ const Form = ({
               <input
                 type="date"
                 value={handleEncodeDate(eventDate || Date.now())}
+                min={handleEncodeDate(addNDays(Date.now(), 1))}
                 onChange={(e) => setEventDate(handleDecodeDate(e.target.value))}
               />
             </label>
@@ -397,8 +363,8 @@ const Form = ({
         </FormSection>
 
         <section className={styles.formButtonsContainer}>
-          <button type="button" className={styles.formSubmitButton} onClick={handleSubmit}>Submit</button>
-          <button type="button" className={styles.formSaveButton} onClick={handleSave}>Save Draft</button>
+          <button type="button" className={styles.formSubmitButton} onClick={handleUpdate('pending')}>Submit</button>
+          <button type="button" className={styles.formSaveButton} onClick={handleUpdate('draft')}>Save Draft</button>
           <button type="button" className={styles.formCancelButton} onClick={handleDiscard}>Cancel</button>
         </section>
       </form>

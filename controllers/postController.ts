@@ -17,7 +17,7 @@ type CreatePostType = Pick<Post,
 
 export const create = async (fields: CreatePostType): Promise<Post> => {
   const {
-    fromName, fromAddress, submitterNetId, type, fullContent,
+    fromName, fromAddress, submitterNetId, type, fullContent, recipientGroups,
     briefContent, url, requestedPublicationDate, status, featuredImage, eventDate
   } = fields;
 
@@ -34,6 +34,7 @@ export const create = async (fields: CreatePostType): Promise<Post> => {
   post.featuredImage = featuredImage;
   post.eventDate = eventDate;
 
+  post.recipientGroups = recipientGroups;
   post.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
   post.fullContent = sanitizeHTML(fullContent);
 
@@ -53,7 +54,7 @@ export const read = async (id: string): Promise<Post> => {
 export const update = async (id: string, fields: Partial<Post>): Promise<Post> => {
   const {
     fromName, fromAddress, submitterNetId,
-    type, fullContent, briefContent, url, requestedPublicationDate,
+    type, fullContent, briefContent, url, requestedPublicationDate, recipientGroups,
     status, rejectionComment, rejectionReason, featuredImage, eventDate
   } = fields;
 
@@ -67,6 +68,7 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
   if (type) foundPost.type = type;
   if (briefContent) foundPost.briefContent = briefContent;
   if (url) foundPost.url = url;
+  if (recipientGroups) foundPost.recipientGroups = recipientGroups;
 
   if (status) foundPost.status = status;
   if (rejectionComment) foundPost.rejectionComment = rejectionComment;
