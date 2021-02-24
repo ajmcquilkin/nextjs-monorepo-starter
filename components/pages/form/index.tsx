@@ -24,7 +24,7 @@ import {
 
 import {
   maxContentLength, FormGroups, generateFrontendErrorMessage,
-  handleEncodeDate, handleDecodeDate
+  handleEncodeDate, handleDecodeDate, addNDays
 } from 'utils';
 import uploadImage from 'utils/s3';
 
@@ -274,6 +274,7 @@ const Form = ({
             <input
               type="date"
               value={handleEncodeDate(requestedPublicationDate)}
+              min={handleEncodeDate(addNDays(Date.now(), 1))}
               onChange={(e) => setRequestedPublicationDate(handleDecodeDate(e.target.value))}
             />
           </label>

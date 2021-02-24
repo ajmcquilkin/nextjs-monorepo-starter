@@ -16,7 +16,16 @@ export const FormGroups: Group[] = [
   {
     name: 'All Students',
     list: [
-      { name: 'All Undergraduates', list: [] },
+      {
+        name: 'All Undergraduates',
+        list: [
+          'Enrolled Undergraduates',
+          'Class of 2021',
+          'Class of 2022',
+          'Class of 2023',
+          'Class of 2024'
+        ]
+      },
       'Tuck Students',
       'Thayer Students',
       'Geisel Students',
@@ -54,8 +63,8 @@ export const getMidnightDate = (date: number): number => {
 };
 
 export const addNDays = (date: number, add: number): number => {
-  const d = new Date(date || Date.now());
-  return d.setDate(d.getDate() + add);
+  const d = new Date(getMidnightDate(date) || Date.now());
+  return d.setUTCDate(d.getUTCDate() + add);
 };
 
 export const getFullDate = (date?: number): string => {
@@ -69,18 +78,18 @@ export const getFullDate = (date?: number): string => {
 };
 
 export const handleEncodeDate = (date: number): string => {
-  const dateObject = new Date(date);
+  const dateObject = new Date(getMidnightDate(date));
 
-  const year = dateObject.getFullYear().toString().padStart(4, '0');
-  const month = (dateObject.getMonth() + 1).toString().padStart(2, '0');
-  const day = dateObject.getDate().toString().padStart(2, '0');
+  const year = dateObject.getUTCFullYear().toString().padStart(4, '0');
+  const month = (dateObject.getUTCMonth() + 1).toString().padStart(2, '0');
+  const day = dateObject.getUTCDate().toString().padStart(2, '0');
 
   return `${year}-${month}-${day}`;
 };
 
-export const handleDecodeDate = (date: string): number => {
-  const newDate = new Date(date);
-  return newDate.getTime();
+export const handleDecodeDate = (dateString: string): number => {
+  const newDate = new Date(dateString);
+  return getMidnightDate(newDate.getTime());
 };
 
 export const getColorsForStatus = (status: PostStatus): PostStatusColors => {
