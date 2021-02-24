@@ -21,7 +21,7 @@ const mapStateToProps = (state: RootState, ownProps: FormProps): FormStateProps 
   isReviewer: false,
 
   groups: FormGroups,
-  netId: '',
+  netId: state.user.netId || '',
 
   postIsLoading: postLoadingSelector(state),
   postErrorMessage: '',

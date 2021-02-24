@@ -365,7 +365,7 @@ const Form = ({
         <section className={styles.formButtonsContainer}>
           <button type="button" className={styles.formSubmitButton} onClick={handleUpdate('pending')}>Submit</button>
           <button type="button" className={styles.formSaveButton} onClick={handleUpdate('draft')}>Save Draft</button>
-          <button type="button" className={styles.formCancelButton} onClick={handleDiscard}>Cancel</button>
+          <button type="button" className={styles.formCancelButton} onClick={handleDiscard}>Discard Post</button>
         </section>
       </form>
     </div>
