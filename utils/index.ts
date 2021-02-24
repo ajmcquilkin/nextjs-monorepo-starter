@@ -47,16 +47,24 @@ export const FormGroups: Group[] = [
   }
 ];
 
+export const getMidnightDate = (date: number): number => {
+  const dateInstance = new Date(date);
+  dateInstance.setUTCHours(0, 0, 0, 0);
+  return dateInstance.getTime();
+};
+
 export const addNDays = (date: number, add: number): number => {
   const d = new Date(date || Date.now());
   return d.setDate(d.getDate() + add);
 };
 
 export const getFullDate = (date?: number): string => {
-  const currentDate = new Date(date || Date.now());
-  const day = currentDate.getDate();
-  const month = currentDate.getMonth() + 1;
-  const year = currentDate.getFullYear();
+  const currentDate = new Date(getMidnightDate(date || Date.now()));
+
+  const day = currentDate.getUTCDate();
+  const month = currentDate.getUTCMonth() + 1;
+  const year = currentDate.getUTCFullYear();
+
   return `${month}/${day}/${year}`;
 };
 
@@ -73,12 +81,6 @@ export const handleEncodeDate = (date: number): string => {
 export const handleDecodeDate = (date: string): number => {
   const newDate = new Date(date);
   return newDate.getTime();
-};
-
-export const getMidnightDate = (date: number): number => {
-  const dateInstance = new Date(date);
-  dateInstance.setUTCHours(0, 0, 0, 0);
-  return dateInstance.getTime();
 };
 
 export const getColorsForStatus = (status: PostStatus): PostStatusColors => {
