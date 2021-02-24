@@ -1,6 +1,8 @@
 import * as releaseController from 'controllers/releaseController';
 import * as postController from 'controllers/postController';
 
+import { BadCredentialsError, ForbiddenResourceError } from 'errors';
+
 import { createDefaultHandler, createSuccessPayload } from 'utils/api';
 import { generateGroupsArray } from 'utils/email';
 import { useDB } from 'utils/db';
@@ -11,6 +13,12 @@ const handler = createDefaultHandler()
   .use(useDB)
 
   .get(async (req, res) => {
+    const { authorization = '' } = req.headers;
+
+    if (!__EMAIL_API_KEY__) throw new Error('No valid internal API key found');
+    if (!authorization) throw new ForbiddenResourceError();
+    if (authorization !== __EMAIL_API_KEY__) throw new BadCredentialsError();
+
     const { group, date } = req.query;
     const groupsArray = generateGroupsArray(group);
 
