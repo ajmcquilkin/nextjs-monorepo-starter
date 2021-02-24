@@ -11,10 +11,10 @@ import { createLoadingSelector } from 'store/actionCreators/requestActionCreator
 
 import { RootState } from 'types/state';
 
-const postsLoadingSelector = createLoadingSelector(['FETCH_POSTS']);
+const postsLoadingSelector = createLoadingSelector(['FETCH_POSTS', 'FETCH_POST', 'DELETE_POST']);
 
 const mapStateToProps = (state: RootState): SubmissionsStateProps => ({
-  userPosts: Object.values(state.post.posts),
+  userPosts: Object.values(state.post.posts).filter((post) => post.submitterNetId?.toLowerCase() === state.user.netId?.toLowerCase()),
   isLoading: postsLoadingSelector(state)
 });
 
