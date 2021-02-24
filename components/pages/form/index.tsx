@@ -10,6 +10,7 @@ import { stateToHTML, Options as DraftJSExportOptions } from 'draft-js-export-ht
 import FormSection from 'components/form/formSection';
 import ContentLength from 'components/form/contentLength';
 import RichTextEditor from 'components/form/richTextEditor';
+import FormGroup from 'components/layout/formGroup';
 
 import {
   createPost as createPostImport,
@@ -23,7 +24,7 @@ import {
 } from 'store/actionCreators/requestActionCreators';
 
 import {
-  maxContentLength, FormGroups, generateFrontendErrorMessage,
+  maxContentLength, generateFrontendErrorMessage,
   handleEncodeDate, handleDecodeDate, addNDays
 } from 'utils';
 import uploadImage from 'utils/s3';
@@ -74,14 +75,14 @@ const Form = ({
 
   const [fromName, setFromName] = useState<Post['fromName']>('');
   const [fromAddress, setFromAddress] = useState<Post['fromAddress']>('');
-  const [requestedPublicationDate, setRequestedPublicationDate] = useState<Post['requestedPublicationDate']>(Date.now());
+  const [requestedPublicationDate, setRequestedPublicationDate] = useState<Post['requestedPublicationDate']>(addNDays(Date.now(), 1));
   const [postType, setPostType] = useState<Post['type']>('announcement');
   const [briefContent, setBriefContent] = useState<Post['briefContent']>('');
   const [url, setUrl] = useState<Post['url']>('');
   const [featuredImage, setFeaturedImage] = useState<Post['featuredImage']>('');
   const [eventDate, setEventDate] = useState<Post['eventDate']>(null);
 
-  const [recipientGroups, setRecipientGroups] = useState<Group[]>([]);
+  const [recipientGroups, setRecipientGroups] = useState<Record<Group['name'], boolean>>({});
 
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [imageUploading, setImageUploading] = useState<boolean>(false);
@@ -256,15 +257,19 @@ const Form = ({
               <span className={styles.formRequiredField}>*</span>
             </div>
 
-            <div className={styles.formListsCheckboxContainer}>
-              {groups.map(({ name, list }) => (
-                <div key={name} className={styles.formListsCheckboxContainer}>
-                  <h3>{name}</h3>
-                  <div>{JSON.stringify(list)}</div>
-                  <button type="button">All</button>
-                </div>
+            <ul className={styles.formListsCheckboxContainer}>
+              {groups.map((group) => (
+                <li key={group.name} className={styles.formListsCheckboxContainer}>
+                  <FormGroup
+                    group={group}
+                    headerDepth={3}
+                    selectedElements={recipientGroups}
+                    setSelectedState={(groupName, newState) => setRecipientGroups({ ...recipientGroups, [groupName]: newState })}
+                  />
+                </li>
               ))}
-            </div>
+              {/* <button type="button">All</button> */}
+            </ul>
           </div>
         </FormSection>
 

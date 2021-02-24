@@ -10,6 +10,8 @@ import {
 } from 'store/actionCreators/postActionCreators';
 import { createLoadingSelector, setError } from 'store/actionCreators/requestActionCreators';
 
+import { FormGroups } from 'utils';
+
 import { RootState } from 'types/state';
 
 const postLoadingSelector = createLoadingSelector(['FETCH_POST', 'DELETE_POST']);
@@ -18,7 +20,7 @@ const mapStateToProps = (state: RootState, ownProps: FormProps): FormStateProps 
   isAuthenticated: state.user.isAuthenticated,
   isReviewer: false,
 
-  groups: [],
+  groups: FormGroups,
   netId: '',
 
   postIsLoading: postLoadingSelector(state),
