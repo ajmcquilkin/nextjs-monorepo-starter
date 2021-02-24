@@ -139,7 +139,6 @@ const Compile = ({
             <h2>{getFullDate()}</h2>
             <div id="compileHeaderTextContainer">
               <p>* Click on the dots on the left and drag and drop to re-order.</p>
-              <p>Auto-saved</p>
             </div>
           </section>
 
@@ -177,6 +176,7 @@ const Compile = ({
                   <img
                     src={headerImage}
                     alt="optional headerImage"
+                    width={400}
                   />
                 ) : <div />}
               </div>
