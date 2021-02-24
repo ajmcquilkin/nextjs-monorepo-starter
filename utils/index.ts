@@ -24,6 +24,12 @@ export const getFullDate = (date?: number): string => {
   return `${month}/${day}/${year}`;
 };
 
+export const getMidnightDate = (date: number): number => {
+  const dateInstance = new Date(date);
+  dateInstance.setUTCHours(0, 0, 0, 0);
+  return dateInstance.getTime();
+};
+
 export const handleEncodeDate = (date: number): string => {
   const dateObject = new Date(date);
 
@@ -36,13 +42,7 @@ export const handleEncodeDate = (date: number): string => {
 
 export const handleDecodeDate = (date: string): number => {
   const newDate = new Date(date);
-  return newDate.getTime();
-};
-
-export const getMidnightDate = (date: number): number => {
-  const dateInstance = new Date(date);
-  dateInstance.setUTCHours(0, 0, 0, 0);
-  return dateInstance.getTime();
+  return getMidnightDate(newDate.getTime());
 };
 
 export const getColorsForStatus = (status: PostStatus): PostStatusColors => {
