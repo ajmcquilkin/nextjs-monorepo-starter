@@ -2,9 +2,10 @@ import { AxiosResponse } from 'axios';
 import { Action as ReduxActionType } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
+import { ModalActions, ModalActionTypes, ModalState } from 'types/modal';
 import { PostActions, PostActionTypes, PostState } from 'types/post';
+import { ReleaseActions, ReleaseActionTypes, ReleaseState } from 'types/release';
 import { UserActions, UserActionTypes, UserState } from 'types/user';
-import { ReleaseActions, ReleaseActionTypes, ReleaseState } from './release';
 import { ServerPayload } from './server';
 
 /* -------- Generic -------- */
@@ -29,8 +30,8 @@ export type RequestReturnType<D> = AxiosResponse<ServerPayload<D>>;
 
 /* -------- Action Types -------- */
 
-export type Actions = PostActions | UserActions | ReleaseActions;
-export type ActionTypes = PostActionTypes | UserActionTypes | ReleaseActionTypes;
+export type Actions = ModalActions | PostActions | ReleaseActions | UserActions;
+export type ActionTypes = ModalActionTypes | PostActionTypes | ReleaseActionTypes | UserActionTypes;
 
 export interface ActionPayload<D = any> {
   data: D,
@@ -51,6 +52,7 @@ export interface RequestState {
 }
 
 export interface RootState {
+  modal: ModalState,
   post: PostState,
   release: ReleaseState
   request: RequestState,

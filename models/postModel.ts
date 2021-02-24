@@ -19,7 +19,9 @@ const postSchemaFields: Record<keyof Omit<Post, '_id'>, any> = {
   status: { type: String, default: 'draft' }, // 'draft' | 'pending' | 'approved' | 'rejected' | 'published'
   dateItemCreated: { type: Date, default: Date.now },
   lastEdited: { type: Date, default: Date.now },
-  reviewComment: { type: String, default: null }
+
+  rejectionComment: { type: String, default: null },
+  rejectionReason: { type: String, default: null }
 };
 
 const PostSchema = new Schema(postSchemaFields);

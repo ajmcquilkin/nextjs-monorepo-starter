@@ -54,7 +54,7 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
   const {
     fromName, fromAddress, submitterNetId,
     type, fullContent, briefContent, url, requestedPublicationDate,
-    status, reviewComment, featuredImage, eventDate
+    status, rejectionComment, rejectionReason, featuredImage, eventDate
   } = fields;
 
   const foundPost: PostDocument = await PostModel.findOne({ _id: id });
@@ -69,7 +69,8 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
   if (url) foundPost.url = url;
 
   if (status) foundPost.status = status;
-  if (reviewComment) foundPost.reviewComment = reviewComment;
+  if (rejectionComment) foundPost.rejectionComment = rejectionComment;
+  if (rejectionReason) foundPost.rejectionReason = rejectionReason;
   if (featuredImage) foundPost.featuredImage = featuredImage;
   if (eventDate) foundPost.eventDate = eventDate;
 
