@@ -17,4 +17,3 @@ const mapDispatchToProps: SubmissionDispatchProps = {
 const connector = connect<SubmissionStateProps, SubmissionDispatchProps, SubmissionPassedProps>(mapStateToProps, mapDispatchToProps);
 
 export default connector(Submission);
-// export default Submission;
