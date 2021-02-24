@@ -23,7 +23,8 @@ import {
 } from 'store/actionCreators/requestActionCreators';
 
 import {
-  generateFrontendErrorMessage, maxContentLength, handleEncodeDate, handleDecodeDate
+  maxContentLength, FormGroups, generateFrontendErrorMessage,
+  handleEncodeDate, handleDecodeDate
 } from 'utils';
 import uploadImage from 'utils/s3';
 
@@ -65,19 +66,22 @@ const exportOptions: DraftJSExportOptions = {
 };
 
 const Form = ({
-  groups, postIsLoading, postErrorMessage, id,
-  post, isAuthenticated, netId, isReviewer,
+  groups, postIsLoading, postErrorMessage,
+  id, post, netId,
   createPost, fetchPostById, updatePostById, deletePostById, setError,
 }: FormProps): JSX.Element => {
   const router = useRouter();
 
   const [fromName, setFromName] = useState<Post['fromName']>('');
+  const [fromAddress, setFromAddress] = useState<Post['fromAddress']>('');
   const [requestedPublicationDate, setRequestedPublicationDate] = useState<Post['requestedPublicationDate']>(Date.now());
   const [postType, setPostType] = useState<Post['type']>('announcement');
   const [briefContent, setBriefContent] = useState<Post['briefContent']>('');
   const [url, setUrl] = useState<Post['url']>('');
   const [featuredImage, setFeaturedImage] = useState<Post['featuredImage']>('');
   const [eventDate, setEventDate] = useState<Post['eventDate']>(null);
+
+  const [recipientGroups, setRecipientGroups] = useState<Group[]>([]);
 
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [imageUploading, setImageUploading] = useState<boolean>(false);
@@ -143,8 +147,8 @@ const Form = ({
         fullContent: getFullContent(editorState),
         status: 'draft',
 
-        submitterNetId: 'TEST',
-        fromAddress: 'TEST@TEST.COM',
+        submitterNetId: netId,
+        fromAddress,
         recipientGroups: []
       }, {
         successCallback: (res) => { router.push(`/form/${res?.data?.data?.post?._id || ''}`); }
@@ -177,8 +181,8 @@ const Form = ({
         fullContent: getFullContent(editorState),
         status: 'pending',
 
-        submitterNetId: 'TEST',
-        fromAddress: 'TEST@TEST.COM',
+        submitterNetId: netId,
+        fromAddress,
         recipientGroups: []
       }, {
         successCallback: (res) => { router.push(`/form/${res?.data?.data?.post?._id || ''}`); }
@@ -219,7 +223,7 @@ const Form = ({
           <div className={styles.formFromContainer}>
             <label className={styles.formLabelLarge}>
               <p>
-                From
+                From Name
                 <span className={styles.formRequiredField}>*</span>
               </p>
               <input
@@ -227,6 +231,21 @@ const Form = ({
                 type="text"
                 value={fromName}
                 onChange={(e) => setFromName(e.target.value)}
+              />
+            </label>
+          </div>
+
+          <div className={styles.formFromContainer}>
+            <label className={styles.formLabelLarge}>
+              <p>
+                From Address
+                <span className={styles.formRequiredField}>*</span>
+              </p>
+              <input
+                placeholder="Type email of sending individual or department"
+                type="email"
+                value={fromAddress}
+                onChange={(e) => setFromAddress(e.target.value)}
               />
             </label>
           </div>
@@ -241,7 +260,7 @@ const Form = ({
               {groups.map(({ name, list }) => (
                 <div key={name} className={styles.formListsCheckboxContainer}>
                   <h3>{name}</h3>
-                  {list.map((e) => <p key={e}>{JSON.stringify(e)}</p>)}
+                  <div>{JSON.stringify(list)}</div>
                   <button type="button">All</button>
                 </div>
               ))}

@@ -1,3 +1,4 @@
+import { Group } from 'types/group';
 import { PostStatus, PostStatusColors } from 'types/post';
 
 export const backendUrl = `${__APP_URL__}/api/`;
@@ -10,6 +11,41 @@ export const DragItemTypes = {
   ANNOUNCEMENT: 'announcement',
   EVENT: 'event'
 };
+
+export const FormGroups: Group[] = [
+  {
+    name: 'All Students',
+    list: [
+      { name: 'All Undergraduates', list: [] },
+      'Tuck Students',
+      'Thayer Students',
+      'Geisel Students',
+      'Guarini Students'
+    ]
+  },
+
+  {
+    name: 'All Staff',
+    list: [
+      'Arts and Sciences Faculty',
+      'Tuck Faculty',
+      'Thayer Faculty',
+      'Geisel Faculty',
+      'Emeriti / Special Faculty'
+    ]
+  },
+
+  {
+    name: 'All Faculty',
+    list: [
+      'College Staff',
+      'Tuck Staff',
+      'Thayer Staff',
+      'Geisel Staff',
+      'Sponsored Accounts'
+    ]
+  }
+];
 
 export const addNDays = (date: number, add: number): number => {
   const d = new Date(date || Date.now());
