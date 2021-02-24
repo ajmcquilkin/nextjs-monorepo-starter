@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 
-import MainWrapper from 'components/layout/mainWrapper';
+import FilterBar from 'components/layout/filterBar';
+import SearchBar from 'components/layout/searchBar';
+
 import Submission from 'components/submissions/submission';
+import SubmissionSkeleton from 'components/submissions/submission/submission.skeleton';
 
 import { fetchWithStatus as fetchWithStatusImport } from 'store/actionCreators/postActionCreators';
-import { Post, PostPublishType } from 'types/post';
+import { Post, PostPublishType, PostStatus } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
 
-import styles from 'components/pages/review/review.module.scss';
+import styles from './review.module.scss';
 
 export interface ReviewPassedProps {
 
@@ -27,41 +30,69 @@ export type ReviewProps = ReviewPassedProps & ReviewStateProps & ReviewDispatchP
 const Review = ({ currentPosts, isLoading, fetchWithStatus }: ReviewProps): JSX.Element => {
   useEffect(() => { fetchWithStatus('pending'); }, []);
 
-  const [publishType, setPublishType] = useState<PostPublishType | ''>('');
+  const [query, setQuery] = useState<string>('');
+  const [status, setStatus] = useState<PostStatus | ''>('');
+  const [type, setType] = useState<PostPublishType | ''>('');
 
-  const filteredPosts = currentPosts.filter((post) => {
-    if (publishType && post.type !== publishType) return false;
-    return true;
-  }).sort((p1, p2) => {
-    if (p1.type < p2.type || p1.briefContent < p2.briefContent) return -1;
-    return 1;
-  });
+  const filteredPosts = currentPosts
+    .filter((post) => (!type || post.type === type)
+      && (!status || post.status === status)
+      && (!type || post.type === type)
+      && (
+        post.briefContent.toLowerCase().includes(query)
+        || post.fullContent.toLowerCase().includes(query)
+        || post.fromName.toLowerCase().includes(query)
+      ))
+    .sort((p1, p2) => (p1.type < p2.type || p1.briefContent < p2.briefContent ? -1 : 1));
 
   return (
-    <MainWrapper>
-      <div className={styles.submissions}>
-        <div className={styles.topBar}>
-          <div className="reviewTypeContainer">
-            <select
-              name="type"
-              value={publishType}
-              onChange={(e) => setPublishType(e.target.value as (PostPublishType | ''))}
-            >
-              <option value="">View All</option>
-              <option value="news">News</option>
-              <option value="announcement">Announcement</option>
-              <option value="event">Event</option>
-            </select>
-          </div>
+    <div className={styles.reviewContainer}>
+      <div className={styles.titleContainer}>
+        <h1>Review</h1>
+      </div>
+
+      <div className={styles.filterContainer}>
+        <div className={styles.searchContainer}>
+          <SearchBar
+            query={query}
+            setQuery={setQuery}
+          />
         </div>
 
-        <div className={styles.submissionsContainer}>
-          {isLoading
-            ? <div style={{ background: 'gray', width: '100%', height: '100px' }} />
-            : filteredPosts.map((post) => <Submission key={post._id} postContent={post} />)}
+        <div className={styles.subtitleContainer}>
+          <h2>This Week</h2>
+
+          <div className={styles.filterBarContainer}>
+            <FilterBar
+              status={status}
+              type={type}
+              setStatus={setStatus}
+              setType={setType}
+              hideStatus
+            />
+          </div>
         </div>
       </div>
-    </MainWrapper>
+
+      <div className={styles.submissionsContainter}>
+        {isLoading
+          ? (
+            <>
+              <div className={styles.submissionContainer}>
+                <SubmissionSkeleton status="pending" />
+              </div>
+              <div className={styles.submissionContainer}>
+                <SubmissionSkeleton status="pending" />
+              </div>
+            </>
+          )
+          : filteredPosts.map((post) => (
+            <div key={post._id} className={styles.submissionContainer}>
+              <Submission postContent={post} />
+            </div>
+          ))}
+      </div>
+    </div>
   );
 };
 

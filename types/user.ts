@@ -5,17 +5,16 @@ import { Action } from './state';
 
 export interface User {
   netId: string | null,
-  email: string,
-  fullName: string,
-  classYear: number
+  name: string
 }
 
 /* -------- State -------- */
 
-export interface UserState {
-  users: Record<string, User>,
-  user: string | null,
+export type UserState = User & {
+  hasAttemptedAuth: boolean,
   isAuthenticated: boolean,
+  isStaff: boolean,
+  isReviewer: boolean
 }
 
 /* -------- Action Types -------- */
@@ -23,7 +22,14 @@ export interface UserState {
 export const AUTH_USER = 'AUTH_USER';
 export const DEAUTH_USER = 'DEAUTH_USER';
 
-export type AuthUserData = { isAuthenticated: boolean, isStaff: boolean, isReviewer: boolean, netId: User['netId'] };
+export type AuthUserData = {
+  isAuthenticated: boolean,
+  isReviewer: boolean,
+  isStaff: boolean,
+  netId: User['netId'],
+  name: User['name'],
+};
+
 export type DeauthUserData = Empty;
 
 type AuthUserAction = Action<typeof AUTH_USER, AuthUserData>

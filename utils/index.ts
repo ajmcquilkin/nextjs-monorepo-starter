@@ -1,3 +1,5 @@
+import { PostStatus, PostStatusColors } from 'types/post';
+
 export const backendUrl = `${__APP_URL__}/api/`;
 export const requestTimeout = 5000; // ms
 
@@ -41,6 +43,46 @@ export const getMidnightDate = (date: number): number => {
   const dateInstance = new Date(date);
   dateInstance.setUTCHours(0, 0, 0, 0);
   return dateInstance.getTime();
+};
+
+export const getColorsForStatus = (status: PostStatus): PostStatusColors => {
+  switch (status) {
+    case 'draft':
+      return {
+        primary: '#7C7E80',
+        secondary: '#B0B0B0',
+        tertirary: '#E6E6E6'
+      };
+
+    case 'pending':
+      return {
+        primary: '#8A6996',
+        secondary: '#C2AFC9',
+        tertirary: '#E4D9E8'
+      };
+
+    case 'approved':
+      return {
+        primary: '#267ABA',
+        secondary: '#A0C5E1',
+        tertirary: '#D2E4F1'
+      };
+
+    case 'published':
+      return {
+        primary: '#424141',
+        secondary: '#B0B0B0',
+        tertirary: '#E6E6E6'
+      };
+
+    case 'rejected':
+    default:
+      return {
+        primary: '#E32D1C',
+        secondary: '#D7C5C5',
+        tertirary: '#FFE8E8'
+      };
+  }
 };
 
 /**

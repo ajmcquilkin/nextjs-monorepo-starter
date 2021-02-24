@@ -1,22 +1,44 @@
-.submissions {
+.reviewContainer {
   display: flex;
-  align-items: center;
   flex-direction: column;
-  margin:0px;
+  padding: 60px 108px;
+  width: 100%;
 
-  .topBar {
-    margin: 20px;
-    width: 80%;
-    display: flex;
-    justify-content: space-between;
-    font-size: 16pt;
+  .titleContainer {
+    margin-bottom: 36px;
+
+    h1 {
+      margin: 0px;
+    }
   }
 
-  .submissionsContainer {
-    width: 95%;
+  .filterContainer {
     display: flex;
-    align-items: center;
     flex-direction: column;
-    padding:5px;
+
+    .searchContainer {
+      margin: 0px auto 42px 0px;
+      width: 60%;
+    }
+
+    .subtitleContainer {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 39px;
+
+      h2 {
+        margin: auto auto auto 0px;
+      }
+      
+      .filterBarContainer {
+        margin: auto 0px;
+      }
+    }
+  }
+
+  .submissionsContainter {
+    .submissionContainer {
+      margin-bottom: 24px;
+    }
   }
 }

@@ -29,6 +29,7 @@ const handler = createDefaultHandler()
       .replace(/{{__DATE}}/g, getFullDate())
       .replace(/{{__HEADERIMAGE}}/g, foundRelease.headerImage || 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.thoughtco.com%2Fthmb%2Fbc9Klx19dMQgfRh2I5xT0qorJ_w%3D%2F1500x1000%2Ffilters%3Ano_upscale()%3Amax_bytes(150000)%3Astrip_icc()%2FDartmouthCollegeNH-58b46ae15f9b586046288090.jpg&f=1&nofb=1')
       .replace(/{{__CAPTION}}/g, foundRelease.imageCaption)
+      .replace(/{{__CAPTIONCONTEXT}}/g, foundRelease.quotedContext)
       .replace(/{{__URL}}/g, __APP_URL__)
 
       // HTML replacement

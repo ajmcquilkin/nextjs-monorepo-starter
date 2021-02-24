@@ -1,21 +1,30 @@
 import { Session } from 'express-session';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { User } from './user';
+
+export interface ServerSessionInfo {
+  name: User['name'], // First M. Last
+  netId: User['netId'], // f######
+
+  affiliation: string, // 'DART'
+  uid: number,
+  attributes: Record<string, any>,
+
+  isReviewer: boolean,
+  isStaff: boolean
+}
 
 export interface ServerSession extends Session {
-  casUser: string, // Dartmouth email
-  info: {
-    name: string, // First Last
-    isStaff: boolean,
-    isReviewer: boolean,
-    netId: string | null // netId
-  }
+  casUser: string, // First M. Last@dartmouth.edu
+  info: ServerSessionInfo
 }
 
 export interface ServerPayload<D> {
   data: D,
   meta?: {
+    success: boolean,
     message?: string,
-    success: boolean
+    isAuthenticated?: boolean
   }
 }
 

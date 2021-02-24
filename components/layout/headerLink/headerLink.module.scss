@@ -1,6 +1,7 @@
 .headerLinkContainer {
   margin: 0px 6px;
   padding: 9px 24px;
+  display: inline-block;
   border-radius: 10px 10px 0px 0px;
 
   font-size: 20px;
@@ -8,7 +9,6 @@
   text-align: center;
   
   color: #FFFFFF;
-  background: none;
   text-decoration: none;
   
   &.active {

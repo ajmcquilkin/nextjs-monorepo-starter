@@ -2,7 +2,6 @@ import * as releaseController from 'controllers/releaseController';
 import * as postController from 'controllers/postController';
 
 import { createDefaultHandler, createSuccessPayload } from 'utils/api';
-import { casInstance } from 'utils/auth';
 import { useDB } from 'utils/db';
 
 import { FetchReleaseData } from 'types/release';
@@ -10,7 +9,6 @@ import ForbiddenResourceError from 'errors/ForbiddenResourceError';
 
 const handler = createDefaultHandler()
   .use(useDB)
-  .use(casInstance.bounce)
 
   .post(async (req, res) => {
     const { session: { info } } = req;

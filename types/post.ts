@@ -6,6 +6,12 @@ import { Action } from './state';
 export type PostStatus = 'draft' | 'pending' | 'approved' | 'rejected' | 'published';
 export type PostPublishType = 'news' | 'announcement' | 'event';
 
+export type PostStatusColors = {
+  primary: string,
+  secondary: string,
+  tertirary: string
+}
+
 export interface Post {
   fromName: string,
   fromAddress: string,

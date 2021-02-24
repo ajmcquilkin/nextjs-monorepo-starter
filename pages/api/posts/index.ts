@@ -1,7 +1,6 @@
 import * as postController from 'controllers/postController';
 
 import { createDefaultHandler, createSuccessPayload } from 'utils/api';
-import { casInstance } from 'utils/auth';
 import { useDB } from 'utils/db';
 
 import {
@@ -12,7 +11,6 @@ import { ForbiddenResourceError, IncompleteRequestError } from 'errors';
 
 const handler = createDefaultHandler()
   .use(useDB)
-  .use(casInstance.bounce)
 
   .get(async (req, res) => {
     const { status } = req.query;

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import MainWrapper from 'components/layout/mainWrapper';
 import PostContent from 'components/posts/postContent';
 import PostSection from 'components/posts/postSection';
 import HomeNavigation from 'components/layout/homeNavigation';
@@ -56,100 +55,98 @@ const Home = ({
   const nextDate = addNDays(release.date, 1);
 
   return (
-    <MainWrapper>
-      <div className={styles.homeContainer}>
-        <section className={styles.homeHeaderContentContainer}>
+    <div className={styles.homeContainer}>
+      <section className={styles.homeHeaderContentContainer}>
 
-          <div className={styles.homeHeaderContainer}>
-            <div className={[styles.homeDateSelector, styles.left].join(' ')}>
+        <div className={styles.homeHeaderContainer}>
+          <div className={[styles.homeDateSelector, styles.left].join(' ')}>
+            <button
+              type="button"
+              onClick={() => { fetchReleaseByDate(previousDate); }}
+            >
+              <img src="/left.svg" alt="left arrow" />
+              <p>{getFullDate(previousDate)}</p>
+            </button>
+          </div>
+
+          <div className={styles.homeTitleContainer}>
+            <div className={styles.homeHeaderTopBar} />
+
+            <div className={styles.homeTitleTextContainer}>
+              <h2>Vox Daily News</h2>
+              <p>{getFullDate(release.date)}</p>
+            </div>
+
+            <div className={styles.homeHeaderBottomBar} />
+          </div>
+
+          {nextDate < Date.now() ? (
+            <div className={[styles.homeDateSelector, styles.right].join(' ')}>
               <button
                 type="button"
-                onClick={() => { fetchReleaseByDate(previousDate); }}
+                onClick={() => { fetchReleaseByDate(nextDate); }}
               >
-                <img src="/left.svg" alt="left arrow" />
-                <p>{getFullDate(previousDate)}</p>
+                <p>{getFullDate(nextDate)}</p>
+                <img src="/right.svg" alt="right arrow - next release" />
               </button>
             </div>
-
-            <div className={styles.homeTitleContainer}>
-              <div className={styles.homeHeaderTopBar} />
-
-              <div className={styles.homeTitleTextContainer}>
-                <h2>Vox Daily News</h2>
-                <p>{getFullDate(release.date)}</p>
-              </div>
-
-              <div className={styles.homeHeaderBottomBar} />
-            </div>
-
-            {nextDate < Date.now() ? (
-              <div className={[styles.homeDateSelector, styles.right].join(' ')}>
-                <button
-                  type="button"
-                  onClick={() => { fetchReleaseByDate(nextDate); }}
-                >
-                  <p>{getFullDate(nextDate)}</p>
-                  <img src="/right.svg" alt="right arrow - next release" />
-                </button>
-              </div>
-            ) : null}
-          </div>
-
-          <img
-            src="https://www.insubuy.com/assets/img/schools/dartmouth-college.jpg"
-            alt="dartmouth college in the fall"
-          />
-        </section>
-
-        <section className={styles.homeMainContentContainer}>
-          {featuredPost ? (
-            <div className={styles.homeFeaturedStoryContainer}>
-              <h3>Featured Story</h3>
-              <PostContent content={featuredPost} />
-            </div>
           ) : null}
+        </div>
 
-          <div className={styles.homeQuoteContainer}>
-            <h4>Quote of the Day</h4>
-            <blockquote>{release.quoteOfDay}</blockquote>
-            <p>{release.quotedContext}</p>
+        <img
+          src="https://www.insubuy.com/assets/img/schools/dartmouth-college.jpg"
+          alt="dartmouth college in the fall"
+        />
+      </section>
+
+      <section className={styles.homeMainContentContainer}>
+        {featuredPost ? (
+          <div className={styles.homeFeaturedStoryContainer}>
+            <h3>Featured Story</h3>
+            <PostContent content={featuredPost} />
           </div>
-        </section>
+        ) : null}
 
-        <div className={styles.mobileNavContainer}>
-          <HomeNavigation
-            newsLength={news.length}
-            announcementeLength={announcements.length}
-            eventsLength={events.length}
-            active="news"
+        <div className={styles.homeQuoteContainer}>
+          <h4>Quote of the Day</h4>
+          <blockquote>{release.quoteOfDay}</blockquote>
+          <p>{release.quotedContext}</p>
+        </div>
+      </section>
+
+      <div className={styles.mobileNavContainer}>
+        <HomeNavigation
+          newsLength={news.length}
+          announcementeLength={announcements.length}
+          eventsLength={events.length}
+          active="news"
+        />
+      </div>
+
+      <section>
+        <div id="news" className={styles.postSectionContainerActive}>
+          <PostSection
+            title="News"
+            subtitle="from the office of communications"
+            posts={news}
           />
         </div>
 
-        <section>
-          <div id="news" className={styles.postSectionContainerActive}>
-            <PostSection
-              title="News"
-              subtitle="from the office of communications"
-              posts={news}
-            />
-          </div>
+        <div id="announcement" className={styles.postSectionContainer}>
+          <PostSection
+            title="Announcements"
+            posts={announcements}
+          />
+        </div>
 
-          <div id="announcement" className={styles.postSectionContainer}>
-            <PostSection
-              title="Announcements"
-              posts={announcements}
-            />
-          </div>
-
-          <div id="event" className={styles.postSectionContainer}>
-            <PostSection
-              title="Events"
-              posts={events}
-            />
-          </div>
-        </section>
-      </div>
-    </MainWrapper>
+        <div id="event" className={styles.postSectionContainer}>
+          <PostSection
+            title="Events"
+            posts={events}
+          />
+        </div>
+      </section>
+    </div>
   );
 };
 

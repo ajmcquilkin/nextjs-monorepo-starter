@@ -1,0 +1,22 @@
+.filterBarContainer {
+  display: flex;
+  flex-direction: row;
+
+  .selectContainer {
+    display: flex;
+    flex-direction: row;
+    margin-left: 18px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+    
+    p {
+      margin: 0px 9px 0px;
+    }
+
+    // select {
+
+    // }
+  }
+}

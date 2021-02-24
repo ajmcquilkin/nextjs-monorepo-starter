@@ -1,16 +1,19 @@
 import Submission from 'components/submissions/submission';
-import { Post } from 'types/post';
-import { useSkeletonLoading } from 'components/layout/skeletonArea';
+import { useSkeletonLoading } from 'components/helpers/skeletonArea';
+import SubmissionSkeleton from 'components/submissions/submission/submission.skeleton';
+
+import { Post, PostStatus } from 'types/post';
 
 import styles from './submissionSection.module.scss';
 
 export interface SubmissionSectionProps {
   title: string,
-  posts: Post[]
+  posts: Post[],
+  status: PostStatus
 }
 
 const SubmissionSection = ({
-  title, posts
+  title, posts, status
 }: SubmissionSectionProps): JSX.Element => {
   const isLoading = useSkeletonLoading();
 
@@ -18,14 +21,15 @@ const SubmissionSection = ({
     <div className={styles.submissionSectionContainer}>
       <h3>{`${title} (${posts.length})`}</h3>
       <div>
-        {isLoading ? (
-          <div style={{ background: 'gray', width: '100%', height: '100px' }} />
-        ) : posts.map((post) => (
-          <Submission
-            key={post._id}
-            postContent={post}
-          />
-        ))}
+        {/* eslint-disable-next-line no-nested-ternary */}
+        {isLoading
+          ? <SubmissionSkeleton status={status} />
+          : (posts.length
+            ? posts.map((post) => (
+              <div className={styles.submissionSpacingContainer} key={post._id}>
+                <Submission postContent={post} />
+              </div>
+            )) : <p>No Posts</p>)}
       </div>
     </div>
   );

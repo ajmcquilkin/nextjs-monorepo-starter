@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { useDrag, useDrop, XYCoord } from 'react-dnd';
 
 import PostContent from 'components/posts/postContent';
-import { useSkeletonLoading } from 'components/layout/skeletonArea';
+import { useSkeletonLoading } from 'components/helpers/skeletonArea';
 
 import { PostDragItem } from 'types/dnd';
 import { Post } from 'types/post';
