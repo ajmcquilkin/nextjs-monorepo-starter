@@ -21,12 +21,15 @@ import {
   createRelease as createReleaseImport
 } from 'store/actionCreators/releaseActionCreators';
 
+import { fetchPostsByDate as fetchPostsByDateImport } from 'store/actionCreators/postActionCreators';
+
 import { addNDays, DragItemTypes, getFullDate } from 'utils';
 import uploadImage from 'utils/s3';
 
 import { Post } from 'types/post';
 import { Release } from 'types/release';
 import { ConnectedThunkCreator } from 'types/state';
+
 import styles from './compile.module.scss';
 
 export interface CompilePassedProps {
@@ -36,6 +39,7 @@ export interface CompilePassedProps {
 export interface CompileStateProps {
   postMap: Record<string, Post>,
   release: Release | null,
+  postResults: Post[],
   isLoading: boolean
 }
 
@@ -43,13 +47,14 @@ export interface CompileDispatchProps {
   fetchReleaseByDate: ConnectedThunkCreator<typeof fetchReleaseByDateImport>,
   createRelease: ConnectedThunkCreator<typeof createReleaseImport>,
   updateReleaseById: ConnectedThunkCreator<typeof updateReleaseByIdImport>
+  fetchPostsByDate: ConnectedThunkCreator<typeof fetchPostsByDateImport>
 }
 
 export type CompileProps = CompilePassedProps & CompileStateProps & CompileDispatchProps;
 
 const Compile = ({
-  postMap, release, isLoading,
-  fetchReleaseByDate, createRelease, updateReleaseById
+  postMap, release, postResults, isLoading,
+  fetchReleaseByDate, createRelease, updateReleaseById, fetchPostsByDate
 }: CompileProps): JSX.Element => {
   const [imageUploading, setImageUploading] = useState<boolean>(false);
 
@@ -64,7 +69,12 @@ const Compile = ({
   const [announcements, setAnnouncements] = useState<string[]>(release?.announcements || []);
   const [events, setEvents] = useState<string[]>(release?.events || []);
 
-  useEffect(() => { fetchReleaseByDate(addNDays(Date.now(), 1)); }, []);
+  const nextDate = addNDays(Date.now(), 1);
+
+  useEffect(() => {
+    fetchReleaseByDate(nextDate);
+    fetchPostsByDate(nextDate);
+  }, []);
 
   useEffect(() => {
     setSubject(release?.subject || '');
@@ -102,6 +112,7 @@ const Compile = ({
       quoteOfDay,
       quotedContext,
       featuredPost,
+      date: nextDate,
 
       news,
       announcements,
@@ -223,15 +234,18 @@ const Compile = ({
             loadingComponent={() => <SubmissionSkeleton status="approved" />}
             className="compileNewsContainer"
           >
-            {news.map((id, idx) => (
-              <DraggablePost
-                postContent={postMap?.[id]}
-                type={DragItemTypes.NEWS}
-                index={idx}
-                movePost={movePost(news, setNews)}
-                key={id}
-              />
-            ))}
+            {(release ? news : postResults
+              .filter((post) => post.type === 'news')
+              .map((post) => post._id))
+              .map((id, idx) => (
+                <DraggablePost
+                  postContent={postMap?.[id]}
+                  type={DragItemTypes.NEWS}
+                  index={idx}
+                  movePost={movePost(news, setNews)}
+                  key={id}
+                />
+              ))}
           </CompileSection>
 
           <CompileSection
@@ -239,15 +253,18 @@ const Compile = ({
             loadingComponent={() => <SubmissionSkeleton status="approved" />}
             className="compileAnnouncementsContainer"
           >
-            {announcements.map((id, idx) => (
-              <DraggablePost
-                postContent={postMap?.[id]}
-                type={DragItemTypes.ANNOUNCEMENT}
-                index={idx}
-                movePost={movePost(announcements, setAnnouncements)}
-                key={id}
-              />
-            ))}
+            {(release ? announcements : postResults
+              .filter((post) => post.type === 'announcement')
+              .map((post) => post._id))
+              .map((id, idx) => (
+                <DraggablePost
+                  postContent={postMap?.[id]}
+                  type={DragItemTypes.ANNOUNCEMENT}
+                  index={idx}
+                  movePost={movePost(announcements, setAnnouncements)}
+                  key={id}
+                />
+              ))}
           </CompileSection>
 
           <CompileSection
@@ -255,15 +272,18 @@ const Compile = ({
             loadingComponent={() => <SubmissionSkeleton status="approved" />}
             className="compileEventsContainer"
           >
-            {events.map((id, idx) => (
-              <DraggablePost
-                postContent={postMap?.[id]}
-                type={DragItemTypes.EVENT}
-                index={idx}
-                movePost={movePost(events, setEvents)}
-                key={id}
-              />
-            ))}
+            {(release ? events : postResults
+              .filter((post) => post.type === 'event')
+              .map((post) => post._id))
+              .map((id, idx) => (
+                <DraggablePost
+                  postContent={postMap?.[id]}
+                  type={DragItemTypes.EVENT}
+                  index={idx}
+                  movePost={movePost(events, setEvents)}
+                  key={id}
+                />
+              ))}
           </CompileSection>
 
           <button type="button" onClick={handleReleaseUpdate}>Publish  (undesigned)</button>
