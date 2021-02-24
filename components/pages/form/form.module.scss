@@ -61,8 +61,9 @@
       flex-direction: row;
       flex-wrap: wrap;
       max-width: 1000px;
-      margin-top: 18px;
-  
+      margin: 18px 60px 0px 0px;
+      padding-left: 0px;
+
       .formCheckboxColumnContainer {
         display: flex;
         flex-direction: column;

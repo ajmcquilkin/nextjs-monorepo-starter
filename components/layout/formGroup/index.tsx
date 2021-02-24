@@ -1,6 +1,8 @@
 import { createElement } from 'react';
 import { Group } from 'types/group';
 
+import styles from './formGroup.module.scss';
+
 export interface FormGroupProps {
   group: Group,
   headerDepth: number,
@@ -11,10 +13,10 @@ export interface FormGroupProps {
 const FormGroup = ({
   group, headerDepth, selectedElements, setSelectedState
 }: FormGroupProps): JSX.Element => (
-  <div>
-    {createElement(`h${headerDepth}`, {}, group.name)}
+  <div className={styles.formGroupContainer}>
+    {createElement(`h${headerDepth}`, { className: styles.header }, group.name)}
     <ul>
-      <div>
+      <div className={styles.groupListContainer}>
         {group?.list?.map((g) => (typeof g === 'string'
           ? (
             <li key={g}>
