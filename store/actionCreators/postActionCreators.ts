@@ -36,7 +36,7 @@ export const fetchPostsByDate = (
 
 export const createPost = (
   fields: Pick<Post,
-    'type' | 'requestedPublicationDate' | 'submitterNetId' | 'fromName' | 'fromAddress'
+    'type' | 'requestedPublicationDate' | 'submitterNetId' | 'fromName' | 'fromAddress' | 'eventDate'
     | 'fullContent' | 'briefContent' | 'url' | 'recipientGroups' | 'featuredImage' | 'status'
   >,
   additionalConfig: AsyncActionCreatorConfig<FetchPostData, Empty> = {}

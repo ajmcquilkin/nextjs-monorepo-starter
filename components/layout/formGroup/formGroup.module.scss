@@ -1,0 +1,29 @@
+.formGroupContainer {
+  .header {
+    margin: 0px;
+    margin-bottom: 9px;
+  }
+
+  ul {
+    padding-left: 24px;
+  }
+
+  .groupListContainer {
+    display: flex;
+    flex-direction: column;
+
+    li {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 9px;
+
+      input {
+        margin-right: 9px;
+      }
+
+      p {
+        margin: 0px;
+      }
+    }
+  }
+}

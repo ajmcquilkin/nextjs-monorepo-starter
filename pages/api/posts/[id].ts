@@ -18,7 +18,7 @@ const handler = createDefaultHandler()
   .put(async (req, res) => {
     const { id } = req.query;
     const {
-      fromName, fromAddress, submitterNetId,
+      fromName, fromAddress, submitterNetId, recipientGroups,
       type, fullContent, briefContent, url, requestedPublicationDate,
       status, rejectionComment, rejectionReason, featuredImage, eventDate
     }: Post = req.body;
@@ -32,6 +32,7 @@ const handler = createDefaultHandler()
       briefContent,
       url,
       requestedPublicationDate,
+      recipientGroups,
       status,
       rejectionComment,
       rejectionReason,
