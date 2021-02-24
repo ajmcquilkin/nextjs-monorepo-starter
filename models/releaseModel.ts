@@ -9,7 +9,7 @@ const releaseSchemaFields: Record<keyof Omit<Release, '_id'>, any> = {
   imageCaption: { type: String, default: '' },
   quoteOfDay: { type: String, default: '' },
   quotedContext: { type: String, default: '' },
-  featuredPost: { type: Schema.Types.ObjectId, ref: 'Post', default: '' },
+  featuredPost: { type: Schema.Types.ObjectId, ref: 'Post', default: null },
 
   news: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
   announcements: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
