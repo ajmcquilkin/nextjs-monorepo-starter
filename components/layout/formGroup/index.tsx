@@ -24,7 +24,7 @@ const FormGroup = ({
                 type="checkbox"
                 value={g}
                 checked={!!selectedElements[g]}
-                onClick={() => setSelectedState(g, !selectedElements[g])}
+                onChange={() => setSelectedState(g, !selectedElements[g])}
               />
               <p>{g}</p>
             </li>
