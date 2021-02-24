@@ -37,14 +37,12 @@ const AuthWrapper = ({
   }, []);
 
   return (
-    <div>
-      <AuthSwitch
-        renderLoading={() => 'Authenticating...'}
-        renderFailure={() => 'Authentication Failure'}
-      >
-        {children}
-      </AuthSwitch>
-    </div>
+    <AuthSwitch
+      renderLoading={() => 'Authenticating...'}
+      renderFailure={() => 'Authentication Failure'}
+    >
+      {children}
+    </AuthSwitch>
   );
 };
 
