@@ -1,0 +1,29 @@
+.notFoundFallbackContainer {
+  display: flex;
+  flex-direction: column;
+  margin: auto 0px;
+  padding: 0px 100px;
+  
+  h1 {
+    margin: 0px 0px 18px 0px;
+    font-size: 60px;
+    font-weight: 400;
+    color: #424141;
+  }
+
+  p {
+    margin: 0px 0px 24px 0px;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  a {
+    margin-right: auto;
+    padding: 9px 24px;
+    color: #FFFFFF;
+
+    border-radius: 8px;
+    background-color: #00693E;
+    text-decoration: none;
+  }
+}

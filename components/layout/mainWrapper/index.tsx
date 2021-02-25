@@ -15,9 +15,7 @@ const MainWrapper = ({ children }: MainWrapperProps): JSX.Element => (
       {children}
     </main>
 
-    <div className={styles.footerPositionContainer}>
-      <Footer />
-    </div>
+    <Footer />
   </div>
 );
 
