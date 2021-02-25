@@ -30,13 +30,14 @@ const handler = createDefaultHandler()
     }: Partial<Release> = req.body;
 
     const updatedRelease = await releaseController.update(id as string, {
-      date,
       subject,
       headerImage,
       imageCaption,
       quoteOfDay,
       quotedContext,
       featuredPost,
+      date,
+
       news,
       announcements,
       events

@@ -27,9 +27,9 @@ const handler = createDefaultHandler()
     const submitterNetId = info.netId;
 
     const {
-      fromName, fromAddress,
+      fromName, fromAddress, recipientGroups,
       type, fullContent, briefContent, url, requestedPublicationDate,
-      status, reviewComment, featuredImage, eventDate
+      status, rejectionComment, rejectionReason, featuredImage, eventDate
     }: Post = req.body;
 
     const updatedPost = await postController.update(id as string, {
@@ -41,8 +41,10 @@ const handler = createDefaultHandler()
       briefContent,
       url,
       requestedPublicationDate,
+      recipientGroups,
       status,
-      reviewComment,
+      rejectionComment,
+      rejectionReason,
       featuredImage,
       eventDate
     });

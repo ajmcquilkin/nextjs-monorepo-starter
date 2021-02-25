@@ -2,8 +2,8 @@ import CASAuthentication from 'utils/cas';
 
 import { ServerSession, ServerSessionInfo } from 'types/server';
 
-const devModeUser: ServerSession['casUser'] = 'devModeUser';
-const devModeInfo: ServerSessionInfo = {
+export const devModeUser: ServerSession['casUser'] = 'devModeUser';
+export const devModeInfo: ServerSessionInfo = {
   name: 'Phil Hanlon',
   netId: 'F000000',
 

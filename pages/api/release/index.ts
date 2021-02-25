@@ -6,6 +6,7 @@ import { useDB } from 'utils/db';
 
 import { FetchReleaseData } from 'types/release';
 import ForbiddenResourceError from 'errors/ForbiddenResourceError';
+import { IncompleteRequestError } from 'errors';
 
 const handler = createDefaultHandler()
   .use(useDB)
@@ -14,7 +15,16 @@ const handler = createDefaultHandler()
     const { session: { info } } = req;
     if (!info.isReviewer) { throw new ForbiddenResourceError(); }
 
-    const newRelease = await releaseController.create(req.body);
+    const {
+      subject, headerImage, quoteOfDay, quotedContext, featuredPost, date, news, announcements, events
+    } = req.body;
+
+    if (!date) throw new IncompleteRequestError('date');
+
+    const newRelease = await releaseController.create({
+      subject, headerImage, quoteOfDay, quotedContext, featuredPost, date, news, announcements, events
+    });
+
     const foundPosts = await postController.fetchPostsForRelease(newRelease);
     return res.status(201).json(createSuccessPayload<FetchReleaseData>({ release: newRelease, posts: foundPosts }));
   });

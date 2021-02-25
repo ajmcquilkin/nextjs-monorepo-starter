@@ -1,0 +1,14 @@
+.modalWrapperContainer {
+  padding: 36px 60px;
+  position: relative;
+
+  .closeButton {
+    position: absolute;
+    right: 60px;
+    top: 36px;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+}

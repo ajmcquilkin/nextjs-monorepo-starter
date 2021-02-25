@@ -24,7 +24,7 @@ export const fetchReleaseByDate = (
 );
 
 export const createRelease = (
-  fields: Pick<Release, 'subject' | 'headerImage' | 'imageCaption' | 'quoteOfDay' | 'quotedContext' | 'featuredPost'>,
+  fields: Pick<Release, 'subject' | 'headerImage' | 'imageCaption' | 'quoteOfDay' | 'quotedContext' | 'featuredPost' | 'date'>,
   additionalConfig: AsyncActionCreatorConfig<FetchReleaseData, Empty> = {}
 ): ThunkResult => (dispatch) => createAsyncActionCreator(
   dispatch, 'FETCH_RELEASE',

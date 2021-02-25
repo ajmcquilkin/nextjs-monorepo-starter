@@ -7,10 +7,10 @@ import { fetchWithStatus } from 'store/actionCreators/postActionCreators';
 
 import { RootState } from 'types/state';
 
-const postLoadingSelector = createLoadingSelector(['FETCH_POST_RESULTS']);
+const postLoadingSelector = createLoadingSelector(['FETCH_POST_RESULTS', 'FETCH_POST', 'DELETE_POST']);
 
 const mapStateToProps = (state: RootState): ReviewStateProps => ({
-  currentPosts: state.post.results.map((id) => state.post.posts[id]),
+  currentPosts: Object.values(state.post.posts).filter((post) => post.status === 'pending'),
   isLoading: postLoadingSelector(state)
 });
 

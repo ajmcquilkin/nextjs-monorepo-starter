@@ -9,20 +9,20 @@ const releaseReducer = (state = initialState, action: Actions): ReleaseState => 
   if (action.status !== 'SUCCESS') { return state; }
 
   switch (action.type) {
-  case 'FETCH_RELEASE':
-    return {
-      ...state,
-      // ?? Maybe change the structure of release state so its not a record
-      release: action.payload.data.release
-    };
-  case 'DELETE_RELEASE':
-    return {
-      ...state,
-      release: null
-    };
+    case 'FETCH_RELEASE':
+      return {
+        ...state,
+        // ?? Maybe change the structure of release state so its not a record
+        release: action.payload.data.release
+      };
+    case 'DELETE_RELEASE':
+      return {
+        ...state,
+        release: null
+      };
 
-  default:
-    return state;
+    default:
+      return state;
   }
 };
 

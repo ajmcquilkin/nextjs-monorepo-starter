@@ -60,5 +60,5 @@ export const fetchPostsByDateRequest = (
   date: number
 ): Promise<RequestReturnType<FetchPostsData>> => createBackendAxiosRequest({
   method: 'GET',
-  url: `/posts/${date}`
+  url: `/posts?date=${date}`
 });

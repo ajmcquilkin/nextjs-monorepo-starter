@@ -9,7 +9,7 @@ import { ConnectedThunkCreator } from 'types/state';
 import styles from './submission.module.scss';
 
 export interface SubmissionPassedProps {
-  postContent: Post,
+  postContent: Post
 }
 
 export interface SubmissionStateProps {

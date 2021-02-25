@@ -13,10 +13,18 @@ const handler = createDefaultHandler()
   .use(useDB)
 
   .get(async (req, res) => {
-    const { status } = req.query;
+    const { status, date } = req.query;
 
     if (status && typeof status === 'string') {
       const posts = await postController.readAllByStatus(status as PostStatus);
+      const results = posts.map((post) => post._id);
+      const numResults = results.length;
+
+      return res.status(200).json(createSuccessPayload<FetchPostResultsData>({ posts, results, numResults }));
+    }
+
+    if (date && typeof date === 'string') {
+      const posts = await postController.readAllByDate(Number(date));
       const results = posts.map((post) => post._id);
       const numResults = results.length;
 

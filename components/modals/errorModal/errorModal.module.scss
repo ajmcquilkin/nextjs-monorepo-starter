@@ -1,0 +1,10 @@
+.errorModalContainer {
+  display: flex;
+  flex-direction: column;
+
+  .errorContent {
+    margin: 0px;
+    text-align: center;
+    color: #404040;
+  }
+}
