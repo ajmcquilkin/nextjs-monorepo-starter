@@ -17,7 +17,7 @@
       font-family: National2-Reg, sans-serif;
       font-size: 20px;
       margin: auto 0 auto 12px;
-      color: #FFFFFF;
+      color: $snow-white;
     }
 
     svg {
@@ -49,7 +49,7 @@
     align-content: flex-end;
 
     font-family: National2-Reg, sans-serif;
-    color: #FFFFFF;
+    color: $snow-white;
 
     svg {
       margin: 0 auto 3px;
@@ -58,7 +58,7 @@
     a {
       margin: 0 auto;
       text-align: center;
-      color: #FFFFFF;
+      color: $snow-white;
       text-decoration: none;
 
       &:hover {

@@ -12,7 +12,7 @@
     max-width: 900px;
 
     font-family: National2-Reg, sans-serif;
-    color: #ffffff;
+    color: $snow-white;
 
     div {
       p, a {
@@ -21,7 +21,7 @@
       }
 
       a {
-        color: white;
+        color: $snow-white;
       }
     }
   }

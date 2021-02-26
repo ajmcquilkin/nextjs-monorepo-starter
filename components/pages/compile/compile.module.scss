@@ -1,3 +1,5 @@
+@import 'styles/variables.scss';
+
 .compileContainer {
     display: flex;
     flex-direction: column;
@@ -9,14 +11,14 @@
     // TODO: Move these to higher-level styling file
 
     h1 {
-        color: #000000;
+        color: $midnight-black;
         font-family: National2-Reg, sans-serif;
         font-size: 48px;
         margin: 48px 0px 36px;
     }
 
     h2 {
-        color: #12312B;
+        color: $forest-green;
         font-family: National2-Reg, sans-serif;
         font-size: 30px;
         letter-spacing: 0.05px;
@@ -30,7 +32,7 @@
             font-family: National2-Reg, sans-serif;
             font-size: 17px;
             letter-spacing: 0.12px;
-            color: #424141;
+            color: $granite-gray;
             line-height: 42px;
             width: 100%;
 
@@ -42,7 +44,7 @@
 
     input[type="text"] {
         width: 100%;
-        background-color: #E8E8E8;
+        background-color: $web-gray-two;
         border-radius: 10px;
         border: none;
         padding: 3px 21px;
@@ -52,7 +54,7 @@
         width: 330px;
         height: 330px;
         border-radius: 4px;
-        border: 1px dashed #424141;
+        border: 1px dashed $granite-gray;
     }
 
     // -------- END GENERICS -------- //

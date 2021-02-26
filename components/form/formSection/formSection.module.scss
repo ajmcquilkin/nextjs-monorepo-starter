@@ -1,7 +1,9 @@
+@import 'styles/variables.scss';
+
 .formSectionContainer {
     padding-top: 45px;
     margin-top: 45px;
-    border-top: 5px solid #E2E2E2;
+    border-top: 5px solid $web-gray-two;
     
     h2 {
       text-transform: uppercase;

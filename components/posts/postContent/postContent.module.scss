@@ -1,10 +1,12 @@
+@import 'styles/variables.scss';
+
 .item {
     width: 100%;
     padding: 14px 0px;
-    border-bottom: 3px #E2E2E2 solid;
+    border-bottom: 3px $web-gray-two solid;
   
     &:firstChild {
-      border-top: 3px #E2E2E2 solid;
+      border-top: 3px $web-gray-two solid;
     }
     
     .itemPaddingContainer {
