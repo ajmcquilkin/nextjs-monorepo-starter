@@ -5,12 +5,16 @@ import { createDefaultHandler, createSuccessPayload } from 'utils/api';
 import { useDB } from 'utils/db';
 
 import { FetchReleaseData } from 'types/release';
+import ForbiddenResourceError from 'errors/ForbiddenResourceError';
 import { IncompleteRequestError } from 'errors';
 
 const handler = createDefaultHandler()
   .use(useDB)
 
   .post(async (req, res) => {
+    const { session: { info } } = req;
+    if (!info.isReviewer) { throw new ForbiddenResourceError(); }
+
     const {
       subject, headerImage, quoteOfDay, quotedContext, featuredPost, date, news, announcements, events
     } = req.body;

@@ -1,5 +1,7 @@
 import * as postController from 'controllers/postController';
 
+import { ForbiddenResourceError } from 'errors';
+
 import { createDefaultHandler, createSuccessPayload, requireUrlParam } from 'utils/api';
 import { useDB } from 'utils/db';
 
@@ -16,9 +18,17 @@ const handler = createDefaultHandler()
   })
 
   .put(async (req, res) => {
+    const { session: { info } } = req;
+    if (!info.isStaff && !info.isReviewer) { throw new ForbiddenResourceError(); }
+
     const { id } = req.query;
+    const foundPost = await postController.read(id as string);
+    if (foundPost.submitterNetId.toLowerCase() !== info.netId?.toLowerCase()) { throw new ForbiddenResourceError(); }
+
+    const submitterNetId = info.netId;
+
     const {
-      fromName, fromAddress, submitterNetId, recipientGroups,
+      fromName, fromAddress, recipientGroups,
       type, fullContent, briefContent, url, requestedPublicationDate,
       status, rejectionComment, rejectionReason, featuredImage, eventDate
     }: Post = req.body;
@@ -44,7 +54,13 @@ const handler = createDefaultHandler()
   })
 
   .delete(async (req, res) => {
+    const { session: { info } } = req;
+    if (!info.isStaff && !info.isReviewer) { throw new ForbiddenResourceError(); }
+
     const { id } = req.query;
+    const foundPost = await postController.read(id as string);
+    if (foundPost.submitterNetId !== info.netId) { throw new ForbiddenResourceError(); }
+
     await postController.remove(id as string);
     return res.status(200).json(createSuccessPayload<DeletePostData>({ id: id as string }));
   });
