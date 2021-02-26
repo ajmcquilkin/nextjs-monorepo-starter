@@ -22,7 +22,7 @@ const Header = ({ isStaff, isReviewer }: HeaderProps): JSX.Element => (
   <header className={styles.headerContainer}>
     <div className={styles.headerBrandContainer}>
       <img
-        src="/dPineWhite.svg"
+        src="/icons/dPineWhite.svg"
         alt="Vox Daily"
         width={40}
         height={40}

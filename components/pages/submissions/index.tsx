@@ -66,7 +66,7 @@ const Submissions = ({
         <div className={styles.filterBar}>
           <div className={styles.filterBarRow}>
             <div className={styles.buttonContainer}>
-              <img src="/add.svg" alt="create new submission icon" />
+              <img src="/icons/add.svg" alt="create new submission icon" />
               <Link href="/form/new">
                 <a className={styles.createButton}>
                   New Submission

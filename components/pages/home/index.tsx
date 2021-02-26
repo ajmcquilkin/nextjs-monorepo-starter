@@ -70,7 +70,7 @@ const Home = ({
                 });
               }}
             >
-              <img src="/left.svg" alt="left arrow" />
+              <img src="/icons/left.svg" alt="left arrow" />
               <p>{getFullDate(previousDate)}</p>
             </button>
           </div>
@@ -93,7 +93,7 @@ const Home = ({
                 onClick={() => { fetchReleaseByDate(nextDate); }}
               >
                 <p>{getFullDate(nextDate)}</p>
-                <img src="/right.svg" alt="right arrow - next release" />
+                <img src="/icons/right.svg" alt="right arrow - next release" />
               </button>
             </div>
           ) : null}

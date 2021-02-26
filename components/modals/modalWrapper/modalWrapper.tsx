@@ -63,7 +63,7 @@ const ModalWrapper = ({
       }}
     >
       <button className={styles.closeButton} type="button" onClick={() => closeModal()}>
-        <img src="/close.svg" alt="close modal" />
+        <img src="/icons/close.svg" alt="close modal" />
       </button>
 
       {getModalContent()}
