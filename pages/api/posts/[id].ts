@@ -1,10 +1,11 @@
 import * as postController from 'controllers/postController';
 
+import { ForbiddenResourceError } from 'errors';
+
 import { createDefaultHandler, createSuccessPayload, requireUrlParam } from 'utils/api';
 import { useDB } from 'utils/db';
 
 import { DeletePostData, FetchPostData, Post } from 'types/post';
-import { ForbiddenResourceError } from 'errors';
 
 const handler = createDefaultHandler()
   .use(useDB)
@@ -22,7 +23,7 @@ const handler = createDefaultHandler()
 
     const { id } = req.query;
     const foundPost = await postController.read(id as string);
-    if (foundPost.submitterNetId !== info.netId) { throw new ForbiddenResourceError(); }
+    if (foundPost.submitterNetId.toLowerCase() !== info.netId?.toLowerCase()) { throw new ForbiddenResourceError(); }
 
     const submitterNetId = info.netId;
 

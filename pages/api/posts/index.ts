@@ -1,5 +1,7 @@
 import * as postController from 'controllers/postController';
 
+import { ForbiddenResourceError, IncompleteRequestError } from 'errors';
+
 import { createDefaultHandler, createSuccessPayload } from 'utils/api';
 import { useDB } from 'utils/db';
 
@@ -7,7 +9,6 @@ import {
   FetchPostData, FetchPostResultsData, FetchPostsData,
   PostStatus
 } from 'types/post';
-import { ForbiddenResourceError, IncompleteRequestError } from 'errors';
 
 const handler = createDefaultHandler()
   .use(useDB)
@@ -40,6 +41,7 @@ const handler = createDefaultHandler()
     if (!info.isStaff && !info.isReviewer) { throw new ForbiddenResourceError(); }
 
     const submitterNetId = info.netId;
+    if (!submitterNetId) throw new Error('No session "netId" field found');
 
     const {
       type, requestedPublicationDate, fromName, fromAddress,
@@ -48,7 +50,6 @@ const handler = createDefaultHandler()
 
     if (!type) throw new IncompleteRequestError('type');
     if (!requestedPublicationDate) throw new IncompleteRequestError('requestedPublicationDate');
-    if (!submitterNetId) throw new IncompleteRequestError('submitterNetId');
 
     const newPost = await postController.create({
       type,
