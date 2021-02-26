@@ -1,3 +1,149 @@
+/* ---- National 2 ---- */
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-Thin.otf');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-ThinItalic.otf');
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-Extralight.otf');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-ExtralightItalic.otf');
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-Light.otf');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-LightItalic.otf');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-Regular.otf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-RegularItalic.otf');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-Medium.otf');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-MediumItalic.otf');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-Bold.otf');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-BoldItalic.otf');
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-Extrabold.otf');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-ExtraboldItalic.otf');
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-Black.otf');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'national';
+  src: url('/fonts/national/National2-BlackItalic.otf');
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* ---- Ruzicka ---- */
+
+@font-face {
+  font-family: 'ruzicka';
+  src: url('/fonts/ruzicka/DartmouthRuzicka-Regular.ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ruzicka';
+  src: url('/fonts/ruzicka/DartmouthRuzicka-RegularItalic.ttf');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'ruzicka';
+  src: url('/fonts/ruzicka/DartmouthRuzicka-Bold.ttf');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ruzicka';
+  src: url('/fonts/ruzicka/DartmouthRuzicka-BoldItalic.ttf');
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* ---- General Styling ---- */
+
 html, body {
   padding: 0;
   margin: 0;
