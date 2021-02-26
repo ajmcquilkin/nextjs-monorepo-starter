@@ -1,3 +1,5 @@
+@import 'styles/variables.scss';
+
 .formContainer {
     display: flex;
     flex-direction: column;
@@ -19,15 +21,15 @@
         border-style: solid;
         border-width: 6px;
         font-size: 12pt;
-        border-color: rgb(0, 105, 62);
-        background-color: #fffbec;
+        border-color: $dartmouth-green;
+        background-color: $web-gray-one;
       }
     }
   }
   
   .formErrorContainer {
     font-size: 12px;
-    color: red;
+    color: $tuck-orange;
   }
   
   // Styled below because of FormSection implementation
@@ -39,12 +41,12 @@
       padding: 3px 18px 6px;
       width: 400px;
     
-      background-color: #E8E8E8;
+      background-color: $web-gray-two;
       border-radius: 10px;
       border: none;
       
       &::placeholder {
-        color: #424141;
+        color: $granite-gray;
         font-family: National2-Reg, sans-serif;
         font-size: 18px;
         letter-spacing: 0.13px;
@@ -92,9 +94,9 @@
           text-transform: uppercase;
           cursor: pointer;
   
-          background: #00693E;
+          background: $dartmouth-green;
           border: none;
-          color: white;
+          color: $snow-white;
           box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
         }
       }
@@ -138,7 +140,7 @@
       padding: 3px 18px 6px;
       width: 400px;
   
-      background-color: #E8E8E8;
+      background-color: $web-gray-two;
       border-radius: 10px;
       border: none;
     }
@@ -159,19 +161,19 @@
     }
   
     .formSubmitButton {
-      background-color: #00693E;
-      color: white;
+      background-color: $dartmouth-green;
+      color: $snow-white;
     }
     
     .formSaveButton {
-      background-color: #F0F6E1;
-      color: #00693E;
+      background-color: $web-gray-one;
+      color: $dartmouth-green;
     }
   
     .formCancelButton {
-      background-color: white;
-      color: gray;
-      border: 1.09969px solid gray;
+      background-color: $snow-white;
+      color: $granite-gray;
+      border: 1.09969px solid $granite-gray;
     }
   }
   
@@ -179,7 +181,7 @@
     font-family: National2-Reg, sans-serif;
     font-size: 17px;
     letter-spacing: 0.12px;
-    color: #424141;
+    color: $granite-gray;
     line-height: 42px;
   }
   
@@ -187,10 +189,10 @@
     font-family: National2-Reg, sans-serif;
     font-size: 26px;
     letter-spacing: 0.16px;
-    color: #424141;
+    color: $granite-gray;
   }
   
   .formRequiredField {
-    color: #E32D1C;
+    color: $tuck-orange;
   }
   

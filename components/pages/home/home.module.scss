@@ -1,3 +1,5 @@
+@import 'styles/variables.scss';
+
 .homeContainer {
   display: flex;
   align-items: center;
@@ -48,7 +50,7 @@
                         margin: 0;
                         font-size: 18px;
                         font-weight: 400;
-                        color: #12312B;
+                        color: $forest-green;
                     }
 
                 }
@@ -58,14 +60,14 @@
 
                 .homeHeaderTopBar {
                     height: 8px;
-                    background-color: #00693e;
+                    background-color: $dartmouth-green;
                     border-radius: 6px;
                     margin-top: 40px;
                 }
         
                 .homeHeaderBottomBar {
                     height: 8px;
-                    background-color: #00693e;
+                    background-color: $dartmouth-green;
                     border-radius: 6px;
                     margin-bottom: 40px;
                 }
@@ -167,7 +169,7 @@
             max-width: 800px;
 
             h4 {
-                color: #00693e;
+                color: $dartmouth-green;
                 font-family: National2-Bold, sans-serif;
                 font-size: 26px;
                 letter-spacing: 0.0679583px;
@@ -190,7 +192,7 @@
                 @mixin quote-style {
                     position: absolute;
                     font-size: 420px;
-                    color: #00693e;
+                    color: $dartmouth-green;
                     opacity: 0.12;
                     z-index: -1;
                 }
@@ -198,7 +200,7 @@
 
             div {
                 max-width: 600px;
-                color: #373f41;
+                color: $granite-gray;
                 font-size: 18px;
                 line-height: 36px;
                 

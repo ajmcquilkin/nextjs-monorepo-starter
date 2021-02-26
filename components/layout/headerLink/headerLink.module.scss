@@ -1,3 +1,5 @@
+@import 'styles/variables.scss';
+
 .headerLinkContainer {
   margin: 0px 6px;
   padding: 9px 24px;
@@ -8,12 +10,12 @@
   font-family: National2-Reg, sans-serif;
   text-align: center;
   
-  color: #FFFFFF;
+  color: $snow-white;
   text-decoration: none;
   
   &.active {
     font-family: National2-Bold, sans-serif;
-    color: #00693E;
-    background: #FFFFFF;
+    color: $dartmouth-green;
+    background: $snow-white;
   }
 }

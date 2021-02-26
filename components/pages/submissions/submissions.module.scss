@@ -1,3 +1,5 @@
+@import 'styles/variables.scss';
+
 .submissionsContainer {
   display: flex;
   align-items: center;
@@ -17,7 +19,7 @@
     
     a {
       margin: auto 0px 0px 0px;
-      color: #267ABA;
+      color: $river-blue;
     }
   }
 
@@ -42,7 +44,7 @@
         flex-direction: row;
         padding: 9px 36px;
         
-        background-color: #00693E;
+        background-color: $dartmouth-green;
         box-shadow: 3.34452px 5px 10px rgba(0, 0, 0, 0.05);
         border-radius: 12px;
     
@@ -52,7 +54,7 @@
         
         .createButton {
           margin: auto 0px auto 15px;
-          color: #FFFFFF;
+          color: $snow-white;
           text-decoration: none;
         }
       }

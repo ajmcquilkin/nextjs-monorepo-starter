@@ -1,7 +1,9 @@
+@import 'styles/variables.scss';
+
 .headerContainer {
   display: flex;
   flex-direction: row;
-  background-color: #00693E;
+  background-color: $dartmouth-green;
 
   & > div {
     display: flex;

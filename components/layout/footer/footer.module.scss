@@ -1,6 +1,8 @@
+@import 'styles/variables.scss';
+
 .footerContainer {
   margin-top: auto;
-  background-color: #00693E;
+  background-color: $dartmouth-green;
 
   .footerContentContainer {
     display: flex;
