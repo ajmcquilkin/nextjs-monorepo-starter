@@ -1,5 +1,7 @@
 // Reference: https://stackoverflow.com/questions/39733287/how-can-i-do-a-css3-shimmer-animation-to-an-html-target-object
 
+@import 'styles/variables.scss';
+
 .submissionSkeletonContainer {
     display: flex;
     flex-direction: column;
@@ -10,8 +12,8 @@
     border-radius: 16px;
     border-left: 16px solid;
 
-    background: #FFFFFF;
-    box-shadow: 0px 8.36129px 33.4452px #E2E2E2;
+    background: $snow-white;
+    box-shadow: 0px 8.36129px 33.4452px $web-gray-two;
 
     $shimmer: linear-gradient(160deg,
         rgba(255,255,255,0) 0%,

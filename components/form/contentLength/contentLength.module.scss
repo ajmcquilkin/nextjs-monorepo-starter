@@ -1,6 +1,8 @@
+@import 'styles/variables.scss';
+
 .contentLengthContainer {
-  color: #00693E;
-  &.invalid { color: #A60D0D; }
+  color: $dartmouth-green;
+  &.invalid { color: $tuck-orange; }
   
   font-family: National2-Reg, sans-serif;
   font-size: 18px;

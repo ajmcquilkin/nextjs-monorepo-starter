@@ -1,3 +1,5 @@
+@import 'styles/variables.scss';
+
 .postSectionContainer {
   max-width: 900px;
   // .section-bar {
@@ -11,7 +13,7 @@
 
     text-transform: uppercase;
     font-family: National2-Reg, sans-serif;
-    color: #00693E;
+    color: $dartmouth-green;
     
     * {
       margin: auto 12px 0 0;

@@ -1,3 +1,5 @@
+@import 'styles/variables.scss';
+
 .modalContainer {
   display: flex;
   flex-direction: column;
@@ -9,7 +11,7 @@
 
     h1 {
       margin: 0px;
-      color: #12312B;
+      color: $forest-green;
     }
   }
 
@@ -32,19 +34,18 @@
       cursor: pointer;
       
       &.confirm {
-        color: #FFFFFF;
-        background-color: #00693E;
+        color: $snow-white;
+        background-color: $dartmouth-green;
       }
       
       &.reject {
-        color: #FFFFFF;
-        background-color: #00693E;
+        color: $snow-white;
+        background-color: $dartmouth-green;
       }
       
       &.cancel {
-        color: #424141;
-        // background-color: #FFFFFF;
-        border: 1px solid #424141;
+        color: $granite-gray;
+        border: 1px solid $granite-gray;
       }
     }
   }

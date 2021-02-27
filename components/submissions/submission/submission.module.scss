@@ -1,3 +1,5 @@
+@import 'styles/variables.scss';
+
 .submissionContainer {
     $left-border-width: 18px;
     $container-padding: 24px;
@@ -9,7 +11,7 @@
 
     padding: $container-padding calc(#{$left-border-width} + #{$container-padding});
 
-    box-shadow: 0px 8.36129px 33.4452px #E2E2E2;
+    box-shadow: 0px 8.36129px 33.4452px $web-gray-two;
     border-radius: $left-border-width;
     border-left: $left-border-width solid;
 
@@ -60,9 +62,9 @@
                 border: none;
                 border-radius: 8px;
                 padding: 6px 15px;
-                background-color: #E2E2E2;
+                background-color: $web-gray-two;
                 letter-spacing: 0.2px;
-                color: #424141;
+                color: $granite-gray;
 
                 &:hover {
                     text-decoration: underline;

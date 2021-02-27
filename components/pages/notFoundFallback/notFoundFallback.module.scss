@@ -1,3 +1,5 @@
+@import 'styles/variables.scss';
+
 .notFoundFallbackContainer {
   display: flex;
   flex-direction: column;
@@ -8,7 +10,7 @@
     margin: 0px 0px 18px 0px;
     font-size: 60px;
     font-weight: 400;
-    color: #424141;
+    color: $granite-gray;
   }
 
   p {
@@ -20,10 +22,10 @@
   a {
     margin-right: auto;
     padding: 9px 24px;
-    color: #FFFFFF;
+    color: $snow-white;
 
     border-radius: 8px;
-    background-color: #00693E;
+    background-color: $dartmouth-green;
     text-decoration: none;
   }
 }

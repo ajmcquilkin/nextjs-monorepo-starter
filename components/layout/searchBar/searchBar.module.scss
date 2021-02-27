@@ -1,3 +1,5 @@
+@import 'styles/variables.scss';
+
 .searchBarContainer {
   display: flex;
   flex-direction: row;
@@ -21,6 +23,6 @@
 
     border: none;
     border-radius: 16px;
-    background-color: #E2E2E2;
+    background-color: $web-gray-two;
   }
 }
