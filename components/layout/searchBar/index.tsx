@@ -7,7 +7,7 @@ export interface SearchBarProps {
 
 const SearchBar = ({ query, setQuery }: SearchBarProps): JSX.Element => (
   <div className={styles.searchBarContainer}>
-    <img src="/search.svg" alt="magnifying glass" />
+    <img src="/icons/search.svg" alt="magnifying glass" />
     <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Filter your posts here" />
   </div>
 );
