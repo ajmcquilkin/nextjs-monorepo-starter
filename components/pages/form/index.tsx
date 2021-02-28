@@ -7,6 +7,9 @@ import { EditorState, ContentState } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML, Options as DraftJSExportOptions } from 'draft-js-export-html';
 
+import SkeletonArea from 'components/helpers/skeletonArea';
+import GenericSkeletonWrapper from 'components/helpers/genericSkeletonWrapper';
+
 import FormSection from 'components/form/formSection';
 import ContentLength from 'components/form/contentLength';
 import RichTextEditor from 'components/form/richTextEditor';
@@ -176,198 +179,222 @@ const Form = ({
     }
   };
 
-  if (postIsLoading) return (<div>Loading...</div>);
-
   return (
     <div className={styles.formContainer}>
-      <h1>{post ? 'Edit Submission' : 'New Submission'}</h1>
-      <form>
-        <FormSection title="Recipients">
-          <div className={styles.formFromContainer}>
-            <label className={styles.formLabelLarge}>
-              <p>
-                From Name
-                <span className={styles.formRequiredField}>*</span>
-              </p>
-              <input
-                placeholder="Type department or division name here"
-                type="text"
-                value={fromName}
-                onChange={(e) => setFromName(e.target.value)}
-              />
-            </label>
-          </div>
-
-          <div className={styles.formFromContainer}>
-            <label className={styles.formLabelLarge}>
-              <p>
-                From Address
-                <span className={styles.formRequiredField}>*</span>
-              </p>
-              <input
-                placeholder="Type email of sending individual or department"
-                type="email"
-                value={fromAddress}
-                onChange={(e) => setFromAddress(e.target.value)}
-              />
-            </label>
-          </div>
-
-          <div className={styles.formToContainer}>
-            <div className={styles.formLabelLarge}>
-              To
-              <span className={styles.formRequiredField}>*</span>
-            </div>
-
-            <ul className={styles.formListsCheckboxContainer}>
-              {groups.map((group) => (
-                <li key={group.name} className={styles.formListsCheckboxContainer}>
-                  <FormGroup
-                    group={group}
-                    headerDepth={3}
-                    selectedElements={recipientGroups}
-                    setSelectedState={(groupName, newState) => setRecipientGroups({ ...recipientGroups, [groupName]: newState })}
+      <SkeletonArea isLoading={postIsLoading}>
+        <h1>{post ? 'Edit Submission' : 'New Submission'}</h1>
+        <form>
+          <FormSection title="Recipients">
+            <div className={styles.formFromContainer}>
+              <GenericSkeletonWrapper>
+                <label className={styles.formLabelLarge}>
+                  <p>
+                    From Name
+                    <span className={styles.formRequiredField}>*</span>
+                  </p>
+                  <input
+                    placeholder="Type department or division name here"
+                    type="text"
+                    value={fromName}
+                    onChange={(e) => setFromName(e.target.value)}
                   />
-                </li>
-              ))}
-              {/* <button type="button">All</button> */}
-            </ul>
-          </div>
-        </FormSection>
-
-        <FormSection title="Publish Date">
-          <label className={[styles.formPublishContainer, styles.formLabelLarge].join(' ')}>
-            <p>Select Publish Date</p>
-            <input
-              type="date"
-              value={handleEncodeDate(requestedPublicationDate)}
-              min={handleEncodeDate(addNDays(Date.now(), 1))}
-              onChange={(e) => setRequestedPublicationDate(handleDecodeDate(e.target.value))}
-            />
-          </label>
-        </FormSection>
-
-        <FormSection title="Type">
-          <div className={styles.formTypeRadioContainer}>
-            <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
-              <input
-                type="radio"
-                name="form-type"
-                value="news"
-                checked={postType === 'news'}
-                onChange={() => setPostType('news')}
-              />
-              News
-            </label>
-
-            <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
-              <input
-                type="radio"
-                name="form-type"
-                value="announcement"
-                checked={postType === 'announcement'}
-                onChange={() => setPostType('announcement')}
-              />
-              Announcement
-            </label>
-
-            <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
-              <input
-                type="radio"
-                name="form-type"
-                value="event"
-                checked={postType === 'event'}
-                onChange={() => setPostType('event')}
-              />
-              Event
-            </label>
-          </div>
-          <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(postTypeError)}</div>
-        </FormSection>
-
-        {postType === 'event' ? (
-          <FormSection title="Event Date">
-            <label className={[styles.formPublishContainer, styles.formLabelLarge].join(' ')}>
-              <p>Select Event Date</p>
-              <input
-                type="date"
-                value={handleEncodeDate(eventDate || Date.now())}
-                min={handleEncodeDate(addNDays(Date.now(), 1))}
-                onChange={(e) => setEventDate(handleDecodeDate(e.target.value))}
-              />
-            </label>
-          </FormSection>
-        ) : null}
-
-        <FormSection title="Body">
-          <div className={styles.formContentContainer}>
-            <label className={styles.formLabelSmall}>
-              <p>Headline</p>
-              <input
-                type="text"
-                placeholder="Enter headline text"
-                value={briefContent}
-                onChange={(e) => setBriefContent(e.target.value)}
-              />
-              <ContentLength contentLength={briefContent.length} maxContentLength={50} />
-              <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(briefContentError)}</div>
-            </label>
-
-            <label className={styles.formLabelSmall} htmlFor="form-editor-container">Summary</label>
-            <div id="form-editor-container" className={styles.formEditorContainer}>
-              <RichTextEditor
-                incomingState={editorState}
-                onChange={(state) => setEditorState(state)}
-              />
-
-              <ContentLength
-                contentLength={editorState.getCurrentContent()?.getPlainText()?.length || 0}
-                maxContentLength={maxContentLength}
-              />
-
-              <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(fullContentError)}</div>
+                </label>
+              </GenericSkeletonWrapper>
             </div>
 
-            <label className={styles.formLabelSmall}>
-              <p>URL</p>
-              {' '}
-              <input
-                type="text"
-                placeholder="Enter post URL"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-              />
-            </label>
-          </div>
-        </FormSection>
+            <div className={styles.formFromContainer}>
+              <GenericSkeletonWrapper>
+                <label className={styles.formLabelLarge}>
+                  <p>
+                    From Address
+                    <span className={styles.formRequiredField}>*</span>
+                  </p>
+                  <input
+                    placeholder="Type email of sending individual or department"
+                    type="email"
+                    value={fromAddress}
+                    onChange={(e) => setFromAddress(e.target.value)}
+                  />
+                </label>
+              </GenericSkeletonWrapper>
+            </div>
 
-        <FormSection title="Graphics">
-          <div className={styles.formContentContainer}>
-            <label className={styles.formLabelSmall}>
-              <p>Attach Image</p>
-              <input
-                type="file"
-                alt="Select image to upload"
-                id="headerImage"
-                onChange={(e) => { upload(e); }}
-              />
-              <div className={styles.formErrorContainer}>{generateFrontendErrorMessage('')}</div>
-            </label>
-            <div>
-              <div className="imagePreview">
-                {/* eslint-disable-next-line no-nested-ternary */}
-                {imageUploading ? <div>Image is uploading...</div> : (featuredImage ? <img src={featuredImage} alt="optional headerImage" /> : <div>No image uploaded yet</div>)}
+            <div className={styles.formToContainer}>
+              <div className={styles.formLabelLarge}>
+                To
+                <span className={styles.formRequiredField}>*</span>
               </div>
-            </div>
-          </div>
-        </FormSection>
 
-        <section className={styles.formButtonsContainer}>
-          <button type="button" className={styles.formSubmitButton} onClick={handleUpdate('pending')}>Submit</button>
-          <button type="button" className={styles.formSaveButton} onClick={handleUpdate('draft')}>Save Draft</button>
-          <button type="button" className={styles.formCancelButton} onClick={handleDiscard}>Discard Post</button>
-        </section>
-      </form>
+              <GenericSkeletonWrapper>
+                <ul className={styles.formListsCheckboxContainer}>
+                  {groups.map((group) => (
+                    <li key={group.name} className={styles.formListsCheckboxContainer}>
+                      <FormGroup
+                        group={group}
+                        headerDepth={3}
+                        selectedElements={recipientGroups}
+                        setSelectedState={(groupName, newState) => setRecipientGroups({ ...recipientGroups, [groupName]: newState })}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </GenericSkeletonWrapper>
+            </div>
+          </FormSection>
+
+          <FormSection title="Publish Date">
+            <GenericSkeletonWrapper>
+              <label className={[styles.formPublishContainer, styles.formLabelLarge].join(' ')}>
+                <p>Select Publish Date</p>
+                <input
+                  type="date"
+                  value={handleEncodeDate(requestedPublicationDate)}
+                  min={handleEncodeDate(addNDays(Date.now(), 1))}
+                  onChange={(e) => setRequestedPublicationDate(handleDecodeDate(e.target.value))}
+                />
+              </label>
+            </GenericSkeletonWrapper>
+          </FormSection>
+
+          <FormSection title="Type">
+            <GenericSkeletonWrapper>
+              <div className={styles.formTypeRadioContainer}>
+                <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
+                  <input
+                    type="radio"
+                    name="form-type"
+                    value="news"
+                    checked={postType === 'news'}
+                    onChange={() => setPostType('news')}
+                  />
+                  News
+                </label>
+
+                <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
+                  <input
+                    type="radio"
+                    name="form-type"
+                    value="announcement"
+                    checked={postType === 'announcement'}
+                    onChange={() => setPostType('announcement')}
+                  />
+                  Announcement
+                </label>
+
+                <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
+                  <input
+                    type="radio"
+                    name="form-type"
+                    value="event"
+                    checked={postType === 'event'}
+                    onChange={() => setPostType('event')}
+                  />
+                  Event
+                </label>
+              </div>
+            </GenericSkeletonWrapper>
+            <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(postTypeError)}</div>
+          </FormSection>
+
+          {postType === 'event' ? (
+            <FormSection title="Event Date">
+              <GenericSkeletonWrapper>
+                <label className={[styles.formPublishContainer, styles.formLabelLarge].join(' ')}>
+                  <p>Select Event Date</p>
+                  <input
+                    type="date"
+                    value={handleEncodeDate(eventDate || Date.now())}
+                    min={handleEncodeDate(addNDays(Date.now(), 1))}
+                    onChange={(e) => setEventDate(handleDecodeDate(e.target.value))}
+                  />
+                </label>
+              </GenericSkeletonWrapper>
+            </FormSection>
+          ) : null}
+
+          <FormSection title="Body">
+            <div className={styles.formContentContainer}>
+              <GenericSkeletonWrapper>
+                <label className={styles.formLabelSmall}>
+                  <p>Headline</p>
+                  <input
+                    type="text"
+                    placeholder="Enter headline text"
+                    value={briefContent}
+                    onChange={(e) => setBriefContent(e.target.value)}
+                  />
+                  <ContentLength contentLength={briefContent.length} maxContentLength={50} />
+                  <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(briefContentError)}</div>
+                </label>
+              </GenericSkeletonWrapper>
+
+              <GenericSkeletonWrapper>
+                <label className={styles.formLabelSmall} htmlFor="form-editor-container">Summary</label>
+                <div id="form-editor-container" className={styles.formEditorContainer}>
+                  <RichTextEditor
+                    incomingState={editorState}
+                    onChange={(state) => setEditorState(state)}
+                  />
+
+                  <ContentLength
+                    contentLength={editorState.getCurrentContent()?.getPlainText()?.length || 0}
+                    maxContentLength={maxContentLength}
+                  />
+
+                  <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(fullContentError)}</div>
+                </div>
+              </GenericSkeletonWrapper>
+
+              <GenericSkeletonWrapper>
+                <label className={styles.formLabelSmall}>
+                  <p>URL</p>
+                  {' '}
+                  <input
+                    type="text"
+                    placeholder="Enter post URL"
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                  />
+                </label>
+              </GenericSkeletonWrapper>
+            </div>
+          </FormSection>
+
+          <FormSection title="Graphics">
+            <div className={styles.formContentContainer}>
+              <GenericSkeletonWrapper>
+                <label className={styles.formLabelSmall}>
+                  <p>Attach Image</p>
+                  <input
+                    type="file"
+                    alt="Select image to upload"
+                    id="headerImage"
+                    onChange={(e) => { upload(e); }}
+                  />
+                  <div className={styles.formErrorContainer}>{generateFrontendErrorMessage('')}</div>
+                </label>
+              </GenericSkeletonWrapper>
+
+              <GenericSkeletonWrapper>
+                <div>
+                  <div className="imagePreview">
+                    {/* eslint-disable-next-line no-nested-ternary */}
+                    {imageUploading ? <div>Image is uploading...</div> : (featuredImage ? <img src={featuredImage} alt="optional headerImage" /> : <div>No image uploaded yet</div>)}
+                  </div>
+                </div>
+              </GenericSkeletonWrapper>
+            </div>
+          </FormSection>
+
+          <section className={styles.formButtonsContainer}>
+            <GenericSkeletonWrapper>
+              <button type="button" className={styles.formSubmitButton} onClick={handleUpdate('pending')}>Submit</button>
+              <button type="button" className={styles.formSaveButton} onClick={handleUpdate('draft')}>Save Draft</button>
+              <button type="button" className={styles.formCancelButton} onClick={handleDiscard}>Discard Post</button>
+            </GenericSkeletonWrapper>
+          </section>
+        </form>
+      </SkeletonArea>
     </div>
   );
 };
