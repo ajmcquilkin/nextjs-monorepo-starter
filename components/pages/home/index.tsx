@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import HomeTab from 'components/layout/homeTab';
 import HomeSubmission from 'components/submissions/homeSubmission';
 
 import { openModal as openModalImport } from 'store/actionCreators/modalActionCreators';
@@ -56,6 +55,20 @@ const Home = ({
 
   const previousDate = addNDays(release.date, -1);
   const nextDate = addNDays(release.date, 1);
+
+  const getActiveStyleClass = (): string => {
+    switch (active) {
+      case 'news':
+        return styles.news;
+
+      case 'announcement':
+        return styles.announcements;
+
+      case 'event':
+      default:
+        return styles.events;
+    }
+  };
 
   return (
     <div className={styles.homeContainer}>
@@ -115,34 +128,63 @@ const Home = ({
         ) : null}
 
         <div className={styles.homeQuoteContainer}>
-          <h4>Quote of the Day</h4>
+          <h4>QUOTE OF THE DAY</h4>
           <blockquote>{release.quoteOfDay}</blockquote>
           <p>{release.quotedContext}</p>
         </div>
 
         <div className={styles.postTypeSelector}>
-          <HomeTab
-            title="NEWS"
-            active={active === 'news'}
-            onClick={() => setActive('news')}
-          />
+          <div
+            role="tablist"
+            aria-label="Post Type"
+            className={styles.postTypeTabContainer}
+          >
+            <button
+              role="tab"
+              aria-controls="news-content"
+              aria-selected={active === 'news'}
+              onClick={() => setActive('news')}
+              type="button"
+              id="news-tab"
+            >
+              NEWS
+            </button>
 
-          <HomeTab
-            title="ANNOUNCEMENTS"
-            active={active === 'announcement'}
-            onClick={() => setActive('announcement')}
-          />
+            <button
+              role="tab"
+              aria-controls="announcements-content"
+              aria-selected={active === 'announcement'}
+              onClick={() => setActive('announcement')}
+              type="button"
+              id="announcements-tab"
+            >
+              ANNOUNCEMENTS
+            </button>
 
-          <HomeTab
-            title="EVENTS"
-            active={active === 'event'}
-            onClick={() => setActive('event')}
-          />
+            <button
+              role="tab"
+              aria-controls="events-content"
+              aria-selected={active === 'event'}
+              onClick={() => setActive('event')}
+              type="button"
+              id="events-tab"
+            >
+              EVENTS
+            </button>
+          </div>
+
+          <div className={styles.tabUnderlineContainer}>
+            <div className={[styles.tabUnderline, getActiveStyleClass()].join(' ')} />
+          </div>
         </div>
 
         <div
+          role="tabpanel"
           aria-hidden={active !== 'news'}
+          aria-labelledby="news-tab"
           style={{ display: active === 'news' ? 'block' : 'none' }}
+          className={styles.postListContainer}
+          id="news-content"
         >
           {news.length
             ? news.map((post) => <HomeSubmission key={post._id} content={post} />)
@@ -150,8 +192,12 @@ const Home = ({
         </div>
 
         <div
+          role="tabpanel"
           aria-hidden={active !== 'announcement'}
+          aria-labelledby="announcements-tab"
           style={{ display: active === 'announcement' ? 'block' : 'none' }}
+          className={styles.postListContainer}
+          id="announcements-content"
         >
           {announcements.length
             ? announcements.map((post) => <HomeSubmission key={post._id} content={post} />)
@@ -159,8 +205,12 @@ const Home = ({
         </div>
 
         <div
+          role="tabpanel"
           aria-hidden={active !== 'event'}
+          aria-labelledby="events-tab"
           style={{ display: active === 'event' ? 'block' : 'none' }}
+          className={styles.postListContainer}
+          id="events-content"
         >
           {events.length
             ? events.map((post) => <HomeSubmission key={post._id} content={post} />)

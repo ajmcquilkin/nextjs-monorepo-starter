@@ -9,6 +9,10 @@
   padding-bottom: 36px;
   border-bottom: 1px solid $web-gray-two;
 
+  &:last-child {
+    border-bottom: none;
+  }
+
   .postContentContainer {
     display: flex;
     flex-direction: column;
