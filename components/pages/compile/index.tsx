@@ -9,7 +9,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import SkeletonArea from 'components/helpers/skeletonArea';
 import GenericSkeletonWrapper from 'components/helpers/genericSkeletonWrapper';
-import SubmissionSkeleton from 'components/submissions/submission/submission.skeleton';
+import SubmissionSkeleton from 'components/submissions/submissionSkeleton';
 
 import CompileSection from 'components/layout/compileSection';
 import DraggablePost from 'components/posts/draggablePost';

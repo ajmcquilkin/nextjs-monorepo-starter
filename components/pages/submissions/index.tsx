@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
 import FilterBar from 'components/layout/filterBar';
@@ -10,6 +11,7 @@ import SkeletonArea from 'components/helpers/skeletonArea';
 import {
   createPost as createPostImport,
   fetchAllPosts as fetchAllPostsImport,
+  updatePostById as updatePostByIdImport,
   deletePostById as deletePostByIdImport
 } from 'store/actionCreators/postActionCreators';
 
@@ -19,7 +21,7 @@ import { ConnectedThunkCreator } from 'types/state';
 import styles from './submissions.module.scss';
 
 export interface SubmissionsPassedProps {
-  isAuthenticated: boolean,
+  isAuthenticated: boolean
 }
 
 export interface SubmissionsStateProps {
@@ -30,15 +32,20 @@ export interface SubmissionsStateProps {
 export interface SubmissionsDispatchProps {
   createPost: ConnectedThunkCreator<typeof createPostImport>,
   fetchAllPosts: ConnectedThunkCreator<typeof fetchAllPostsImport>,
+  updatePostById: ConnectedThunkCreator<typeof updatePostByIdImport>,
   deletePostById: ConnectedThunkCreator<typeof deletePostByIdImport>
 }
 
 export type SubmissionsProps = SubmissionsPassedProps & SubmissionsStateProps & SubmissionsDispatchProps;
 
 const Submissions = ({
-  userPosts, isLoading, fetchAllPosts
+  userPosts, isLoading,
+  fetchAllPosts, updatePostById
 }: SubmissionsProps): JSX.Element => {
+  const router = useRouter();
+
   useEffect(() => { fetchAllPosts(); }, []);
+
   const [status, setStatus] = useState<PostStatus | ''>('');
   const [postType, setPostType] = useState<PostPublishType | ''>('');
   const [query, setQuery] = useState<string>('');
@@ -95,11 +102,66 @@ const Submissions = ({
         </div>
 
         <div className={styles.contentContainer}>
-          {(!status || status === 'draft') && <SubmissionSection title="Drafts" posts={getFilteredPosts('draft')} status="draft" />}
-          {(!status || status === 'pending') && <SubmissionSection title="Pending" posts={getFilteredPosts('pending')} status="pending" />}
-          {(!status || status === 'rejected') && <SubmissionSection title="Rejected" posts={getFilteredPosts('rejected')} status="rejected" />}
-          {(!status || status === 'approved') && <SubmissionSection title="Approved" posts={getFilteredPosts('approved')} status="approved" />}
-          {(!status || status === 'published') && <SubmissionSection title="Published" posts={getFilteredPosts('published')} status="published" />}
+          {(!status || status === 'draft') && (
+            <SubmissionSection
+              title="Drafts"
+              posts={getFilteredPosts('draft')}
+              status="draft"
+              renderAdditionalPostButtons={(_id) => ([
+                <button
+                  type="button"
+                  onClick={() => router.push(`/form/${_id}`)}
+                  key="0"
+                >
+                  <img src="/icons/edit.svg" alt="edit post" />
+                  <p>Edit</p>
+                </button>
+              ])}
+            />
+          )}
+
+          {(!status || status === 'pending') && (
+            <SubmissionSection
+              title="Pending"
+              posts={getFilteredPosts('pending')}
+              status="pending"
+            />
+          )}
+
+          {(!status || status === 'rejected') && (
+            <SubmissionSection
+              title="Rejected"
+              posts={getFilteredPosts('rejected')}
+              status="rejected"
+              renderAdditionalPostButtons={(_id) => ([
+                <button
+                  type="button"
+                  onClick={() => updatePostById(_id, { status: 'pending' })}
+                  key="0"
+                >
+                  <img src="/icons/resubmit.svg" alt="resubmit post" />
+                  <p>Resubmit</p>
+                </button>
+              ])}
+            />
+          )}
+
+          {(!status || status === 'approved') && (
+            <SubmissionSection
+              title="Approved"
+              posts={getFilteredPosts('approved')}
+              status="approved"
+            />
+          )}
+
+          {(!status || status === 'published') && (
+            <SubmissionSection
+              title="Published"
+              posts={getFilteredPosts('published')}
+              status="published"
+            />
+          )}
+
         </div>
       </div>
     </SkeletonArea>

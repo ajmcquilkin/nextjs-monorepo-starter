@@ -7,8 +7,6 @@ class CustomDocument extends Document {
     return (
       <Html>
         <Head>
-          <title>ITC Vox</title>
-
           <link rel="preload" href="/fonts/national/National2-Thin.otf" as="font" crossOrigin="" />
           <link rel="preload" href="/fonts/national/National2-ThinItalic.otf" as="font" crossOrigin="" />
           <link rel="preload" href="/fonts/national/National2-Extralight.otf" as="font" crossOrigin="" />
