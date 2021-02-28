@@ -3,10 +3,13 @@ import { useEffect, useState } from 'react';
 import FilterBar from 'components/layout/filterBar';
 import SearchBar from 'components/layout/searchBar';
 
-import Submission from 'components/submissions/submission';
+// import Submission from 'components/submissions/submission';
+import ReviewSubmission from 'components/submissions/reviewSubmission';
 import SubmissionSkeleton from 'components/submissions/submission/submission.skeleton';
 
-import { fetchWithStatus as fetchWithStatusImport } from 'store/actionCreators/postActionCreators';
+import { openModal as openModalImport } from 'store/actionCreators/modalActionCreators';
+import { fetchWithStatus as fetchWithStatusImport, updatePostById as updatePostByIdImport } from 'store/actionCreators/postActionCreators';
+
 import { Post, PostPublishType, PostStatus } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
 
@@ -22,12 +25,17 @@ export interface ReviewStateProps {
 }
 
 export interface ReviewDispatchProps {
-  fetchWithStatus: ConnectedThunkCreator<typeof fetchWithStatusImport>
+  fetchWithStatus: ConnectedThunkCreator<typeof fetchWithStatusImport>,
+  updatePostById: ConnectedThunkCreator<typeof updatePostByIdImport>,
+  openModal: ConnectedThunkCreator<typeof openModalImport>
 }
 
 export type ReviewProps = ReviewPassedProps & ReviewStateProps & ReviewDispatchProps;
 
-const Review = ({ currentPosts, isLoading, fetchWithStatus }: ReviewProps): JSX.Element => {
+const Review = ({
+  currentPosts, isLoading,
+  fetchWithStatus, updatePostById, openModal
+}: ReviewProps): JSX.Element => {
   useEffect(() => { fetchWithStatus('pending'); }, []);
 
   const [query, setQuery] = useState<string>('');
@@ -88,7 +96,11 @@ const Review = ({ currentPosts, isLoading, fetchWithStatus }: ReviewProps): JSX.
           )
           : filteredPosts.map((post) => (
             <div key={post._id} className={styles.submissionContainer}>
-              <Submission postContent={post} />
+              <ReviewSubmission
+                content={post}
+                onApprove={(_id) => updatePostById(_id, { status: 'approved' })}
+                onReject={(_id) => openModal('REJECTION_MODAL', { postId: _id })}
+              />
             </div>
           ))}
       </div>

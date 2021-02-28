@@ -27,16 +27,16 @@ const RejectionModal = ({ updatePostById }: RejectionModalProps): JSX.Element =>
   const [rejectionComment, setRejectionComment] = useState<string>('');
   const [rejectionReason, setRejectionReason] = useState<PostRejectionReason>('guidelines');
 
-  const { title, postId, closeModal } = useModal();
+  const { postId, closeModal } = useModal();
 
   const handleConfirm = () => {
     if (!postId) console.error('No valid postId found:', postId);
-    else updatePostById(postId, { rejectionComment, rejectionReason }, { successCallback: closeModal });
+    else updatePostById(postId, { status: 'rejected', rejectionComment, rejectionReason }, { successCallback: closeModal });
   };
 
   return (
     <ModalContainer
-      title={title}
+      title="Rejection Reasoning"
       confirmText="Reject"
       onConfirm={handleConfirm}
     >
