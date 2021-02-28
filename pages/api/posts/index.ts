@@ -48,6 +48,8 @@ const handler = createDefaultHandler()
       fullContent, briefContent, url, recipientGroups, featuredImage, eventDate, status = 'draft'
     } = req.body;
 
+    if (status === 'approved') throw new ForbiddenResourceError('Insufficient permissions to initialize post as "approved"');
+
     if (!type) throw new IncompleteRequestError('type');
     if (!requestedPublicationDate) throw new IncompleteRequestError('requestedPublicationDate');
 
