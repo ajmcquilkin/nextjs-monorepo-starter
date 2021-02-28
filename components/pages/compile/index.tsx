@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import { useRouter } from 'next/router';
 import {
   useEffect, useState, ChangeEvent, useCallback
 } from 'react';
@@ -15,12 +16,12 @@ import DraggablePost from 'components/posts/draggablePost';
 import DraggablePostTarget from 'components/posts/draggablePostTarget';
 import CompileSubmission from 'components/submissions/compileSubmission';
 
+import { openModal as openModalImport } from 'store/actionCreators/modalActionCreators';
 import {
   fetchReleaseByDate as fetchReleaseByDateImport,
   updateReleaseById as updateReleaseByIdImport,
   createRelease as createReleaseImport
 } from 'store/actionCreators/releaseActionCreators';
-
 import { fetchPostsByDate as fetchPostsByDateImport } from 'store/actionCreators/postActionCreators';
 
 import { addNDays, DragItemTypes, getFullDate } from 'utils';
@@ -46,16 +47,19 @@ export interface CompileStateProps {
 export interface CompileDispatchProps {
   fetchReleaseByDate: ConnectedThunkCreator<typeof fetchReleaseByDateImport>,
   createRelease: ConnectedThunkCreator<typeof createReleaseImport>,
-  updateReleaseById: ConnectedThunkCreator<typeof updateReleaseByIdImport>
-  fetchPostsByDate: ConnectedThunkCreator<typeof fetchPostsByDateImport>
+  updateReleaseById: ConnectedThunkCreator<typeof updateReleaseByIdImport>,
+  fetchPostsByDate: ConnectedThunkCreator<typeof fetchPostsByDateImport>,
+  openModal: ConnectedThunkCreator<typeof openModalImport>
 }
 
 export type CompileProps = CompilePassedProps & CompileStateProps & CompileDispatchProps;
 
 const Compile = ({
   postMap, release, postResults, isLoading,
-  fetchReleaseByDate, createRelease, updateReleaseById, fetchPostsByDate
+  fetchReleaseByDate, createRelease, updateReleaseById, fetchPostsByDate, openModal
 }: CompileProps): JSX.Element => {
+  const router = useRouter();
+
   const [imageUploading, setImageUploading] = useState<boolean>(false);
 
   const [subject, setSubject] = useState<Release['subject']>('');
@@ -128,6 +132,9 @@ const Compile = ({
     [immutableArray[dragIndex], immutableArray[hoverIndex]] = [immutableArray[hoverIndex], immutableArray[dragIndex]];
     setter(immutableArray);
   }, [news, announcements, events]);
+
+  const handleEdit = (_id: string) => router.push(`/form/${_id}`);
+  const handleReject = (_id: string) => openModal('REJECTION_MODAL', { postId: _id });
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -236,7 +243,22 @@ const Compile = ({
                 : (
                   <>
                     {featuredPost
-                      ? <CompileSubmission postContent={postMap[featuredPost]} />
+                      ? (
+                        <div>
+                          <CompileSubmission
+                            postContent={postMap[featuredPost]}
+                            handleEdit={handleEdit}
+                            handleReject={handleReject}
+                          />
+
+                          <button
+                            type="button"
+                            onClick={() => setFeaturedPost(null)}
+                          >
+                            Remove Featured Post
+                          </button>
+                        </div>
+                      )
                       : <div>No featured post</div>}
                   </>
                 )}
@@ -258,6 +280,8 @@ const Compile = ({
                     type={DragItemTypes.NEWS}
                     index={idx}
                     movePost={movePost(news, setNews)}
+                    handleEdit={handleEdit}
+                    handleReject={handleReject}
                     key={id}
                   />
                 ))}
@@ -278,6 +302,8 @@ const Compile = ({
                     type={DragItemTypes.ANNOUNCEMENT}
                     index={idx}
                     movePost={movePost(announcements, setAnnouncements)}
+                    handleEdit={handleEdit}
+                    handleReject={handleReject}
                     key={id}
                   />
                 ))}
@@ -298,6 +324,8 @@ const Compile = ({
                     type={DragItemTypes.EVENT}
                     index={idx}
                     movePost={movePost(events, setEvents)}
+                    handleEdit={handleEdit}
+                    handleReject={handleReject}
                     key={id}
                   />
                 ))}

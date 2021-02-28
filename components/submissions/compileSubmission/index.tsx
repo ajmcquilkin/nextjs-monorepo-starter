@@ -6,10 +6,12 @@ import sanitizeHtml from 'sanitize-html';
 import { Post } from 'types/post';
 
 export interface CompileSubmissionProps {
-  postContent: Post
+  postContent: Post,
+  handleEdit: (_id: string) => void,
+  handleReject: (_id: string) => void
 }
 
-const CompileSubmission = ({ postContent }: CompileSubmissionProps): JSX.Element => {
+const CompileSubmission = ({ postContent, handleEdit, handleReject }: CompileSubmissionProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const sanitizedHTML = sanitizeHtml(postContent.fullContent);
 
@@ -37,12 +39,12 @@ const CompileSubmission = ({ postContent }: CompileSubmissionProps): JSX.Element
         </Link>
 
         <div>
-          <button type="button">
+          <button type="button" onClick={() => handleEdit(postContent._id)}>
             <img src="/icons/edit.svg" alt="edit post" />
             <p>Edit</p>
           </button>
 
-          <button type="button">
+          <button type="button" onClick={() => handleReject(postContent._id)}>
             <img src="/icons/reject.svg" alt="reject post" />
             <p>Reject</p>
           </button>

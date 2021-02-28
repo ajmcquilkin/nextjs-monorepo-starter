@@ -13,11 +13,15 @@ export interface DraggablePostProps {
   postContent: Post,
   type: string,
   index: number,
+
   movePost: (dragIndex: number, hoverIndex: number) => void,
+  handleEdit: (_id: string) => void,
+  handleReject: (_id: string) => void
 }
 
 const DraggablePost = ({
-  postContent, type, index, movePost
+  postContent, type, index,
+  movePost, handleEdit, handleReject
 }: DraggablePostProps): JSX.Element => {
   const ref = useRef<HTMLDivElement>(null);
   const isLoading = useSkeletonLoading();
@@ -65,7 +69,13 @@ const DraggablePost = ({
     >
       {isLoading
         ? <div style={{ background: 'gray', width: '100%', height: '100px' }} />
-        : <CompileSubmission postContent={postContent} />}
+        : (
+          <CompileSubmission
+            postContent={postContent}
+            handleEdit={handleEdit}
+            handleReject={handleReject}
+          />
+        )}
     </div>
   );
 };
