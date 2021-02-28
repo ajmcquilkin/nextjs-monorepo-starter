@@ -1,6 +1,7 @@
 import { getColorsForStatus } from 'utils';
 import { PostStatus } from 'types/post';
-import styles from './submission.skeleton.module.scss';
+
+import styles from './submissionSkeleton.module.scss';
 
 export interface SubmissionSkeletonProps {
   status: PostStatus

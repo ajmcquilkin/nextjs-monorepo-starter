@@ -5,7 +5,7 @@ import { getColorsForStatus } from 'utils';
 import { Post } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
 
-import styles from './submission.module.scss';
+import styles from './submissionsSubmission.module.scss';
 
 export interface SubmissionPassedProps {
   postContent: Post,

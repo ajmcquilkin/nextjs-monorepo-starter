@@ -5,7 +5,7 @@ import SearchBar from 'components/layout/searchBar';
 
 // import Submission from 'components/submissions/submission';
 import ReviewSubmission from 'components/submissions/reviewSubmission';
-import SubmissionSkeleton from 'components/submissions/submission/submission.skeleton';
+import SubmissionSkeleton from 'components/submissions/submissionSkeleton';
 
 import { openModal as openModalImport } from 'store/actionCreators/modalActionCreators';
 import { fetchWithStatus as fetchWithStatusImport, updatePostById as updatePostByIdImport } from 'store/actionCreators/postActionCreators';

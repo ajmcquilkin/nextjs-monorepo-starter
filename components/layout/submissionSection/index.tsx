@@ -1,6 +1,6 @@
-import Submission from 'components/submissions/submission';
 import { useSkeletonLoading } from 'components/helpers/skeletonArea';
-import SubmissionSkeleton from 'components/submissions/submission/submission.skeleton';
+import Submission from 'components/submissions/submissionsSubmission';
+import SubmissionSkeleton from 'components/submissions/submissionSkeleton';
 
 import { Post, PostStatus } from 'types/post';
 
