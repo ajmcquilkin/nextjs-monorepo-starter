@@ -2,8 +2,9 @@ import { connect } from 'react-redux';
 
 import Review, { ReviewStateProps, ReviewDispatchProps, ReviewPassedProps } from 'components/pages/review';
 
+import { openModal } from 'store/actionCreators/modalActionCreators';
 import { createLoadingSelector } from 'store/actionCreators/requestActionCreators';
-import { fetchWithStatus } from 'store/actionCreators/postActionCreators';
+import { fetchWithStatus, updatePostById } from 'store/actionCreators/postActionCreators';
 
 import { RootState } from 'types/state';
 
@@ -15,7 +16,9 @@ const mapStateToProps = (state: RootState): ReviewStateProps => ({
 });
 
 const mapDispatchToProps: ReviewDispatchProps = {
-  fetchWithStatus
+  fetchWithStatus,
+  updatePostById,
+  openModal
 };
 
 const connector = connect<ReviewStateProps, ReviewDispatchProps, ReviewPassedProps>(mapStateToProps, mapDispatchToProps);

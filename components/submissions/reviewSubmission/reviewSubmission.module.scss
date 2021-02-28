@@ -1,0 +1,102 @@
+@import 'styles/variables.scss';
+
+.reviewSubmissionContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 30px 30px 36px;
+
+  border-radius: 12px;
+  border-left-width: 12px;
+  border-left-style: solid;
+
+  background: $snow-white;
+  box-shadow: 0px 9.61789px 38.4715px #E2E2E2;
+
+  .titleContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 3px;
+
+    h3 {
+      margin: 0px;
+      font-size: 27px;
+    }
+      
+    p {
+      margin: auto 0px 0px;
+      font-size: 18px;
+      
+      span {
+        color: $tuck-orange;
+      }
+    }
+  }
+  
+  .subtitle {
+    margin: 0px 0px 18px;
+    color: $forest-green;
+  }
+  
+  .sendingInfo {
+    margin: 0px 0px 18px;
+    width: 50%;
+  }
+
+  .contentContainer {
+    margin: 0px 0px 36px;
+
+    .content {
+      margin-bottom: 18px;
+      
+      p {
+        margin: 0px 0px 9px;
+      }
+    }
+
+    .contentLink {
+      color: $river-blue;
+    }
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: row;
+
+    button {
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    button, a {
+      display: flex;
+      flex-direction: row;
+      
+      border-radius: 12px;
+      padding: 9px 15px;
+      margin-right: 18px;
+
+      p {
+        font-size: 16px;
+        margin: auto 0px auto 9px;
+      }
+    }
+
+    .approve {
+      color: $snow-white;
+      background: $dartmouth-green;
+    }
+    
+    .edit {
+      color: $forest-green;
+      background: $spring-green;
+      text-decoration: none;
+    }
+    
+    .reject {
+      color: $granite-gray;
+      border: 1px solid $granite-gray;
+    }
+  }
+}
