@@ -236,7 +236,12 @@ const Compile = ({
                 : (
                   <>
                     {featuredPost
-                      ? <CompileSubmission postContent={postMap[featuredPost]} />
+                      ? (
+                        <div>
+                          <CompileSubmission postContent={postMap[featuredPost]} />
+                          <button type="button" onClick={() => setFeaturedPost(null)}>Remove Featured Post</button>
+                        </div>
+                      )
                       : <div>No featured post</div>}
                   </>
                 )}
