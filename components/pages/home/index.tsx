@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 
-import PostContent from 'components/posts/postContent';
-import PostSection from 'components/posts/postSection';
-import HomeNavigation from 'components/layout/homeNavigation';
+import HomeTab from 'components/layout/homeTab';
+import HomeSubmission from 'components/submissions/homeSubmission';
 
 import { openModal as openModalImport } from 'store/actionCreators/modalActionCreators';
 import { fetchReleaseByDate as fetchReleaseByDateImport } from 'store/actionCreators/releaseActionCreators';
 
 import { getFullDate, addNDays } from 'utils';
 
-import { Post } from 'types/post';
+import { Post, PostPublishType } from 'types/post';
 import { Release } from 'types/release';
 import { ConnectedThunkCreator } from 'types/state';
 
@@ -39,6 +38,8 @@ const Home = ({
 }: HomeProps): JSX.Element => {
   const [release, setRelease] = useState<Release | null>(initialRelease);
   const [postMap, setPostMap] = useState<Record<string, Post>>(initialPostMap);
+
+  const [active, setActive] = useState<PostPublishType>('news');
 
   useEffect(() => {
     if (reduxRelease) setRelease(reduxRelease);
@@ -109,7 +110,7 @@ const Home = ({
         {featuredPost ? (
           <div className={styles.homeFeaturedStoryContainer}>
             <h3>Featured Story</h3>
-            <PostContent content={featuredPost} />
+            <HomeSubmission content={featuredPost} />
           </div>
         ) : null}
 
@@ -121,35 +122,37 @@ const Home = ({
       </section>
 
       <div className={styles.mobileNavContainer}>
-        <HomeNavigation
-          newsLength={news.length}
-          announcementeLength={announcements.length}
-          eventsLength={events.length}
-          active="news"
-        />
+        <HomeTab title="News" onClick={() => setActive('news')} />
+        <HomeTab title="Announcements" onClick={() => setActive('announcement')} />
+        <HomeTab title="Events" onClick={() => setActive('event')} />
       </div>
 
       <section>
-        <div id="news" className={styles.postSectionContainerActive}>
-          <PostSection
-            title="News"
-            subtitle="from the office of communications"
-            posts={news}
-          />
+        <div
+          aria-hidden={active !== 'news'}
+          style={{ display: active === 'news' ? 'block' : 'none' }}
+        >
+          {news.length
+            ? news.map((post) => <HomeSubmission key={post._id} content={post} />)
+            : <p>No content</p>}
         </div>
 
-        <div id="announcement" className={styles.postSectionContainer}>
-          <PostSection
-            title="Announcements"
-            posts={announcements}
-          />
+        <div
+          aria-hidden={active !== 'announcement'}
+          style={{ display: active === 'announcement' ? 'block' : 'none' }}
+        >
+          {announcements.length
+            ? announcements.map((post) => <HomeSubmission key={post._id} content={post} />)
+            : <p>No content</p>}
         </div>
 
-        <div id="event" className={styles.postSectionContainer}>
-          <PostSection
-            title="Events"
-            posts={events}
-          />
+        <div
+          aria-hidden={active !== 'event'}
+          style={{ display: active === 'event' ? 'block' : 'none' }}
+        >
+          {events.length
+            ? events.map((post) => <HomeSubmission key={post._id} content={post} />)
+            : <p>No content</p>}
         </div>
       </section>
     </div>
