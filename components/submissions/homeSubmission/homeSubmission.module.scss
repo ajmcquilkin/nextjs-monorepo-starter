@@ -1,0 +1,62 @@
+@import 'styles/variables.scss';
+
+.homeSubmissionContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+  margin: 36px 0px 0px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid $web-gray-two;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .postContentContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-right: 36px;
+
+    h3 {
+      font-size: 24px;
+      margin: 0px 0px 9px;
+    }
+
+    .subheader {
+      font-size: 18px;
+      margin: 0px 0px 24px;
+    }
+
+    .content {
+      margin-bottom: 12px;
+
+      p {
+        margin: 0px 0px 18px;
+      }
+    }
+
+    .linkContainer {
+      display: flex;
+      flex-direction: row;
+      
+      img {
+        margin: auto 12px auto 0px;
+        height: 18px;
+      }
+
+      a {
+        margin: auto 0px;
+        color: $river-blue;
+      }
+    }
+  }
+
+  .featuredImage {
+    margin: auto 0px;
+    object-fit: contain;
+    max-width: 27%;
+    height: 100%;
+  }
+}
