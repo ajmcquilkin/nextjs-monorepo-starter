@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { createPost as createPostImport, deletePostById as deletePostByIdImport } from 'store/actionCreators/postActionCreators';
 
 import { getColorsForStatus } from 'utils';
@@ -9,7 +8,8 @@ import { ConnectedThunkCreator } from 'types/state';
 import styles from './submission.module.scss';
 
 export interface SubmissionPassedProps {
-  postContent: Post
+  postContent: Post,
+  renderAdditionalButtons?: (_id: string) => JSX.Element[]
 }
 
 export interface SubmissionStateProps {
@@ -23,14 +23,15 @@ export interface SubmissionDispatchProps {
 
 export type SubmissionProps = SubmissionPassedProps & SubmissionStateProps & SubmissionDispatchProps;
 
-const Submission = ({ postContent, createPost, deletePostById }: SubmissionProps): JSX.Element => {
+const Submission = ({
+  postContent,
+  createPost, deletePostById, renderAdditionalButtons
+}: SubmissionProps): JSX.Element => {
   const duplicatePost = (): void => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { _id, ...fields } = postContent;
     createPost(fields);
   };
-
-  const editable: boolean = postContent.status === 'draft' || postContent.status === 'pending' || postContent.status === 'rejected';
 
   return (
     <div className={styles.submissionContainer} style={{ borderLeftColor: getColorsForStatus(postContent.status).primary }}>
@@ -55,10 +56,11 @@ const Submission = ({ postContent, createPost, deletePostById }: SubmissionProps
             </span>
           </b>
         </div>
+
         <div className={styles.submissionControlButtonContainer}>
-          {editable && <button type="button" onClick={() => deletePostById(postContent._id)}>Delete</button>}
+          {renderAdditionalButtons ? renderAdditionalButtons(postContent._id) : null}
           <button type="button" onClick={() => duplicatePost()}>Duplicate</button>
-          {editable && <Link href={`/form/${postContent._id}`}><button type="button">Edit</button></Link>}
+          <button type="button" onClick={() => deletePostById(postContent._id)}>Delete</button>
         </div>
       </div>
     </div>

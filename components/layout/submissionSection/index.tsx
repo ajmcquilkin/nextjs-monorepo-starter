@@ -9,11 +9,13 @@ import styles from './submissionSection.module.scss';
 export interface SubmissionSectionProps {
   title: string,
   posts: Post[],
-  status: PostStatus
+  status: PostStatus,
+  renderAdditionalPostButtons?: (_id: string) => JSX.Element[]
 }
 
 const SubmissionSection = ({
-  title, posts, status
+  title, posts, status,
+  renderAdditionalPostButtons
 }: SubmissionSectionProps): JSX.Element => {
   const isLoading = useSkeletonLoading();
 
@@ -27,7 +29,10 @@ const SubmissionSection = ({
           : (posts.length
             ? posts.map((post) => (
               <div className={styles.submissionSpacingContainer} key={post._id}>
-                <Submission postContent={post} />
+                <Submission
+                  postContent={post}
+                  renderAdditionalButtons={renderAdditionalPostButtons}
+                />
               </div>
             )) : <p>No Posts</p>)}
       </div>
