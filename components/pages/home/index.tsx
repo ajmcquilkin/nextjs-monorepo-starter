@@ -119,15 +119,27 @@ const Home = ({
           <blockquote>{release.quoteOfDay}</blockquote>
           <p>{release.quotedContext}</p>
         </div>
-      </section>
 
-      <div className={styles.mobileNavContainer}>
-        <HomeTab title="News" onClick={() => setActive('news')} />
-        <HomeTab title="Announcements" onClick={() => setActive('announcement')} />
-        <HomeTab title="Events" onClick={() => setActive('event')} />
-      </div>
+        <div className={styles.postTypeSelector}>
+          <HomeTab
+            title="NEWS"
+            active={active === 'news'}
+            onClick={() => setActive('news')}
+          />
 
-      <section>
+          <HomeTab
+            title="ANNOUNCEMENTS"
+            active={active === 'announcement'}
+            onClick={() => setActive('announcement')}
+          />
+
+          <HomeTab
+            title="EVENTS"
+            active={active === 'event'}
+            onClick={() => setActive('event')}
+          />
+        </div>
+
         <div
           aria-hidden={active !== 'news'}
           style={{ display: active === 'news' ? 'block' : 'none' }}

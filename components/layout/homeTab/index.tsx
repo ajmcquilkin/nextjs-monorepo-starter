@@ -1,10 +1,19 @@
+import styles from './homeTab.module.scss';
+
 export interface HomeTabProps {
   title: string,
-  onClick: () => void
+  active: boolean,
+  onClick: () => void,
+
+  className?: string
 }
 
-const HomeTab = ({ title, onClick }: HomeTabProps): JSX.Element => (
-  <button type="button" onClick={onClick}>{title}</button>
+const HomeTab = ({
+  title, active, onClick, className = ''
+}: HomeTabProps): JSX.Element => (
+  <div className={[styles.homeTabContainer, className].join(' ')}>
+    <button className={active ? styles.active : ''} type="button" onClick={onClick}>{title}</button>
+  </div>
 );
 
 export default HomeTab;

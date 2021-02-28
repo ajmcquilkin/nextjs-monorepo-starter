@@ -96,23 +96,25 @@
             width: 100%;
         }
     }
-
-    .mobileNavContainer {
-        width: 100%;
-        margin-bottom: 0px;
-    }
-
-    @media(max-width: 768px) {
-        .mobileNavContainer {
-            width: 100%;
-            display: block;
-        }
-    }
-
+    
     .homeMainContentContainer {
         max-width: 900px;
         margin-left: 10%;
         margin-right: 10%;
+        
+        .postTypeSelector {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-bottom: 48px;   
+        }
+        
+        @media(max-width: 768px) {
+            .postTypeSelector {
+                width: 100%;
+                display: block;
+            }
+        }
         
         .homeFeaturedStoryContainer {
             h3 {
