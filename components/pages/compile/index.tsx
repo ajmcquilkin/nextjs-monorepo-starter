@@ -7,13 +7,12 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import SkeletonArea from 'components/helpers/skeletonArea';
+import SubmissionSkeleton from 'components/submissions/submission/submission.skeleton';
 
 import CompileSection from 'components/layout/compileSection';
 import DraggablePost from 'components/posts/draggablePost';
 import DraggablePostTarget from 'components/posts/draggablePostTarget';
-import PostContent from 'components/posts/postContent';
-
-import SubmissionSkeleton from 'components/submissions/submission/submission.skeleton';
+import CompileSubmission from 'components/submissions/compileSubmission';
 
 import {
   fetchReleaseByDate as fetchReleaseByDateImport,
@@ -225,7 +224,9 @@ const Compile = ({
               acceptType={[DragItemTypes.NEWS, DragItemTypes.ANNOUNCEMENT, DragItemTypes.EVENT]}
               onDrop={(item) => setFeaturedPost(item.id)}
             >
-              {featuredPost ? <PostContent content={postMap?.[featuredPost]} /> : <div>No featured post</div>}
+              {featuredPost
+                ? <CompileSubmission postContent={postMap[featuredPost]} />
+                : <div>No featured post</div>}
             </DraggablePostTarget>
           </CompileSection>
 
