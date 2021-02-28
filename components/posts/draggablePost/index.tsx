@@ -3,8 +3,8 @@
 import { useRef } from 'react';
 import { useDrag, useDrop, XYCoord } from 'react-dnd';
 
-import PostContent from 'components/posts/postContent';
 import { useSkeletonLoading } from 'components/helpers/skeletonArea';
+import CompileSubmission from 'components/submissions/compileSubmission';
 
 import { PostDragItem } from 'types/dnd';
 import { Post } from 'types/post';
@@ -65,7 +65,7 @@ const DraggablePost = ({
     >
       {isLoading
         ? <div style={{ background: 'gray', width: '100%', height: '100px' }} />
-        : <PostContent content={postContent} />}
+        : <CompileSubmission postContent={postContent} />}
     </div>
   );
 };

@@ -13,7 +13,7 @@ import SubmissionSkeleton from 'components/submissions/submission/submission.ske
 import CompileSection from 'components/layout/compileSection';
 import DraggablePost from 'components/posts/draggablePost';
 import DraggablePostTarget from 'components/posts/draggablePostTarget';
-import PostContent from 'components/posts/postContent';
+import CompileSubmission from 'components/submissions/compileSubmission';
 
 import {
   fetchReleaseByDate as fetchReleaseByDateImport,
@@ -236,7 +236,7 @@ const Compile = ({
                 : (
                   <>
                     {featuredPost
-                      ? <PostContent content={postMap?.[featuredPost]} />
+                      ? <CompileSubmission postContent={postMap[featuredPost]} />
                       : <div>No featured post</div>}
                   </>
                 )}
