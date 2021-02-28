@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import Compile, { CompileStateProps, CompileDispatchProps, CompilePassedProps } from 'components/pages/compile';
 
+import { openModal } from 'store/actionCreators/modalActionCreators';
 import { fetchPostsByDate } from 'store/actionCreators/postActionCreators';
 import { createRelease, fetchReleaseByDate, updateReleaseById } from 'store/actionCreators/releaseActionCreators';
 import { createLoadingSelector } from 'store/actionCreators/requestActionCreators';
@@ -21,7 +22,8 @@ const mapDispatchToProps: CompileDispatchProps = {
   fetchReleaseByDate,
   createRelease,
   updateReleaseById,
-  fetchPostsByDate
+  fetchPostsByDate,
+  openModal
 };
 
 const connector = connect<CompileStateProps, CompileDispatchProps, CompilePassedProps>(mapStateToProps, mapDispatchToProps);
