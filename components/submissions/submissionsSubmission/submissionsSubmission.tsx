@@ -1,6 +1,12 @@
-import { createPost as createPostImport, deletePostById as deletePostByIdImport } from 'store/actionCreators/postActionCreators';
+import Link from 'next/link';
+import sanitizeHtml from 'sanitize-html';
 
-import { getColorsForStatus } from 'utils';
+import {
+  createPost as createPostImport,
+  deletePostById as deletePostByIdImport
+} from 'store/actionCreators/postActionCreators';
+
+import { getColorsForStatus, getFullDate, uppercaseFirstLetter } from 'utils';
 
 import { Post } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
@@ -27,6 +33,8 @@ const Submission = ({
   postContent,
   createPost, deletePostById, renderAdditionalButtons
 }: SubmissionProps): JSX.Element => {
+  const sanitizedHTML = sanitizeHtml(postContent.fullContent);
+
   const duplicatePost = (): void => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { _id, ...fields } = postContent;
@@ -35,32 +43,51 @@ const Submission = ({
 
   return (
     <div className={styles.submissionContainer} style={{ borderLeftColor: getColorsForStatus(postContent.status).primary }}>
-      <div className={styles.submissionContentContainer}>
+      <div className={styles.header}>
         <h3>{postContent.briefContent}</h3>
-        {/* eslint-disable-next-line react/no-danger */}
-        {/* <div dangerouslySetInnerHTML={{ __html: cleanHTML }} /> */}
-        <a target="_blank" rel="noreferrer" href={postContent.url.startsWith('http') ? postContent.url : `http://${postContent.url}`}>{postContent.url}</a>
+        <p>
+          {postContent.type === 'event' && postContent.eventDate
+            && (
+              <>
+                {getFullDate(postContent.eventDate)}
+                {' '}
+                &bull;
+                {' '}
+              </>
+            )}
+          {uppercaseFirstLetter(postContent.type)}
+          {' '}
+          &bull;
+          {' '}
+          <span style={{ color: getColorsForStatus(postContent.status).primary }}>{uppercaseFirstLetter(postContent.status)}</span>
+        </p>
       </div>
 
-      <div className={styles.submissionControlContainer}>
-        <div>
-          <p>{postContent.type}</p>
-          {' '}
-          &middot; Status:
-          {' '}
-          <b style={{ color: getColorsForStatus(postContent.status).primary }}>
-            {' '}
-            <span style={{ color: getColorsForStatus(postContent.status).primary }}>
-              {' '}
-              {postContent.status}
-            </span>
-          </b>
-        </div>
+      <div className={styles.content} dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
 
-        <div className={styles.submissionControlButtonContainer}>
+      <div className={styles.bottomContainer}>
+        <Link href={postContent.url}>
+          <a>{postContent.url}</a>
+        </Link>
+
+        <div className={styles.buttonContainer}>
           {renderAdditionalButtons ? renderAdditionalButtons(postContent._id) : null}
-          <button type="button" onClick={() => duplicatePost()}>Duplicate</button>
-          <button type="button" onClick={() => deletePostById(postContent._id)}>Delete</button>
+
+          <button
+            type="button"
+            onClick={() => duplicatePost()}
+          >
+            <img src="/icons/duplicate.svg" alt="duplicate post" />
+            <p>Duplicate</p>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => deletePostById(postContent._id)}
+          >
+            <img src="/icons/discard.svg" alt="discard post" />
+            <p>Discard</p>
+          </button>
         </div>
       </div>
     </div>
