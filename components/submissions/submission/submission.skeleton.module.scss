@@ -15,27 +15,8 @@
     background: $snow-white;
     box-shadow: 0px 8.36129px 33.4452px $web-gray-two;
 
-    $shimmer: linear-gradient(160deg,
-        rgba(255,255,255,0) 0%,
-        rgba(255,255,255,0) 25%,
-        rgba(255,255,255,0.6) 60%,
-        rgba(255,255,255,0) 100%
-    );
-    
-    @mixin shimmerMixin($width) {
-        background: $shimmer;
-        background-repeat: repeat-y;
-        background-position: calc(-1 * #{$width}) 0px;
-        animation: shimmerBackground 2s linear infinite;
-
-        @keyframes shimmerBackground {
-            0% { background-position: calc(-1 * #{$width}) 0px; }
-            100% { background-position: $width 0px; }
-        }
-    }
-
     .submissionSkeletonTitle {
-        @include shimmerMixin(1000px);
+        @include shimmerMixin();
 
         margin-bottom: 12px;
         width: 60%;
