@@ -5,6 +5,7 @@ import Form, {
   FormProps, FormStateProps, FormDispatchProps, FormPassedProps
 } from 'components/pages/form';
 
+import { openModal } from 'store/actionCreators/modalActionCreators';
 import {
   createPost, fetchPostById, updatePostById, deletePostById
 } from 'store/actionCreators/postActionCreators';
@@ -33,6 +34,7 @@ const mapDispatchToProps: FormDispatchProps = {
   createPost,
   updatePostById,
   deletePostById,
+  openModal,
   setError
 };
 

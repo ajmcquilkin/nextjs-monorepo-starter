@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/router';
 import { useState, useEffect, ChangeEvent } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { EditorState, ContentState } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
@@ -14,6 +15,10 @@ import FormSection from 'components/form/formSection';
 import ContentLength from 'components/form/contentLength';
 import RichTextEditor from 'components/form/richTextEditor';
 import FormGroup from 'components/layout/formGroup';
+
+import {
+  openModal as openModalImport
+} from 'store/actionCreators/modalActionCreators';
 
 import {
   createPost as createPostImport,
@@ -35,7 +40,7 @@ import uploadImage from 'utils/s3';
 import { HTML } from 'types/email';
 import { Group } from 'types/group';
 import { Post, PostStatus } from 'types/post';
-import { ConnectedThunkCreator } from 'types/state';
+import { ConnectedThunkCreator, GlobalDispatch } from 'types/state';
 
 import styles from './form.module.scss';
 
@@ -59,7 +64,7 @@ export interface FormDispatchProps {
   fetchPostById: ConnectedThunkCreator<typeof fetchPostByIdImport>,
   updatePostById: ConnectedThunkCreator<typeof updatePostByIdImport>,
   deletePostById: ConnectedThunkCreator<typeof deletePostByIdImport>,
-
+  openModal: ConnectedThunkCreator<typeof openModalImport>,
   setError: ConnectedThunkCreator<typeof setErrorImport>
 }
 
@@ -72,9 +77,11 @@ const exportOptions: DraftJSExportOptions = {
 const Form = ({
   groups, postIsLoading, postErrorMessage,
   id, post, netId,
-  createPost, fetchPostById, updatePostById, deletePostById, setError,
+  createPost, fetchPostById, updatePostById, deletePostById,
+  openModal, setError,
 }: FormProps): JSX.Element => {
   const router = useRouter();
+  const dispatch = useDispatch<GlobalDispatch>();
 
   const [fromName, setFromName] = useState<Post['fromName']>('');
   const [fromAddress, setFromAddress] = useState<Post['fromAddress']>('');
@@ -150,18 +157,18 @@ const Form = ({
       eventDate
     };
 
-    if (post) updatePostById(post._id, payload);
+    dispatch({
+      type: 'FETCH_POST',
+      status: 'SUCCESS',
+      payload: { data: { post: { _id: 'form', ...payload } as Post } }
+    });
 
-    else {
-      createPost(payload, {
-        successCallback: (res) => { router.push(`/form/${res?.data?.data?.post?._id || ''}`); }
-      });
-    }
+    openModal('SUBMIT_POST_MODAL', { postId: post ? post._id : 'form' });
   };
 
   const handleDiscard = () => {
-    if (post) deletePostById(id, { successCallback: () => { router.push('/'); } });
-    else router.push('/');
+    if (post) deletePostById(id, { successCallback: () => { router.push('/submissions'); } });
+    else router.push('/submissions');
   };
 
   const upload = async (e: ChangeEvent<HTMLInputElement>) => {
