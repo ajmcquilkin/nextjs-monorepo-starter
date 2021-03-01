@@ -143,7 +143,7 @@ const Compile = ({
           <h1>Compile</h1>
 
           <section className="compileHeaderContainer">
-            <h2>{getFullDate()}</h2>
+            <h2>{getFullDate(nextDate)}</h2>
             <div id="compileHeaderTextContainer">
               <p>* Click on the dots on the left and drag and drop to re-order.</p>
             </div>
