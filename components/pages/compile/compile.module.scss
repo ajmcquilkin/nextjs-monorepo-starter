@@ -41,19 +41,24 @@
     }
 
     input[type="text"] {
+        padding: 12px 24px;
         width: 100%;
+        
         background-color: $web-gray-two;
-        border-radius: 10px;
+        border-radius: 8px;
         border: none;
-        padding: 3px 21px;
+        
+        &::placeholder {
+            color: $granite-gray;
+        }
     }
 
-    input[type="file"] {
-        width: 330px;
-        height: 330px;
-        border-radius: 4px;
-        border: 1px dashed $granite-gray;
-    }
+    // input[type="file"] {
+    //     width: 330px;
+    //     height: 330px;
+    //     border-radius: 4px;
+    //     border: 1px dashed $granite-gray;
+    // }
 
     // -------- END GENERICS -------- //
 

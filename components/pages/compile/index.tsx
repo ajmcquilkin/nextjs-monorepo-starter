@@ -142,7 +142,7 @@ const Compile = ({
         <div className={styles.compileContainer}>
           <h1>Compile</h1>
 
-          <section className="compileHeaderContainer">
+          <section>
             <h2>{getFullDate(nextDate)}</h2>
             <div id="compileHeaderTextContainer">
               <p>* Click on the dots on the left and drag and drop to re-order.</p>
@@ -154,6 +154,7 @@ const Compile = ({
               <label>
                 <input
                   type="text"
+                  placeholder="Enter subject line for email"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                 />
@@ -164,7 +165,6 @@ const Compile = ({
           <CompileSection title="Header Image (optional)">
             <GenericSkeletonWrapper>
               <label>
-                <p>Image</p>
                 <input
                   type="file"
                   alt="Select image to upload"
@@ -172,14 +172,17 @@ const Compile = ({
                   onChange={(e) => { upload(e); }}
                 />
 
-                <div className="imagePreview">
-                  {imageUploading === true ? <div>Image is uploading...</div> : <span />}
+                <div>
+                  {imageUploading === true ? <p>Uploading...</p> : <span />}
                   {headerImage ? (
-                    <img
-                      src={headerImage}
-                      alt="optional headerImage"
-                      width={400}
-                    />
+                    <>
+                      <p>Uploaded Image</p>
+                      <img
+                        src={headerImage}
+                        alt="optional headerImage"
+                        width={400}
+                      />
+                    </>
                   ) : <div />}
                 </div>
               </label>
@@ -190,6 +193,7 @@ const Compile = ({
                 <p>Image Caption</p>
                 <input
                   type="text"
+                  placeholder="Give a caption for the featured image"
                   value={imageCaption}
                   onChange={(e) => setImageCaption(e.target.value)}
                 />
@@ -203,6 +207,7 @@ const Compile = ({
                 <p>Headline</p>
                 <input
                   type="text"
+                  placeholder="Enter quote of the day"
                   value={quoteOfDay}
                   onChange={(e) => setQuoteOfDay(e.target.value)}
                 />
@@ -214,6 +219,7 @@ const Compile = ({
                 <p>Context</p>
                 <input
                   type="text"
+                  placeholder="Give context about the quoted individual"
                   value={quotedContext}
                   onChange={(e) => setQuotedContext(e.target.value)}
                 />
