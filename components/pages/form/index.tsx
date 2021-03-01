@@ -167,8 +167,7 @@ const Form = ({
   };
 
   const handleDiscard = () => {
-    if (post) deletePostById(id, { successCallback: () => { router.push('/submissions'); } });
-    else router.push('/submissions');
+    openModal('DISCARD_POST_MODAL', { postId: post ? post._id : 'form' });
   };
 
   const upload = async (e: ChangeEvent<HTMLInputElement>) => {

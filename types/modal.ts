@@ -3,7 +3,7 @@ import { Action } from './state';
 
 /* -------- Generic -------- */
 
-export type ModalType = 'ERROR_MODAL' | 'REJECTION_MODAL' | 'SUBMIT_POST_MODAL';
+export type ModalType = 'ERROR_MODAL' | 'REJECTION_MODAL' | 'SUBMIT_POST_MODAL' | 'DISCARD_POST_MODAL';
 
 export interface ModalConfig {
   title: string,

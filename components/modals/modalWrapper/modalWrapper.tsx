@@ -2,6 +2,7 @@ import ReactModal from 'react-modal';
 
 import ErrorModal from 'components/modals/errorModal';
 import RejectionModal from 'components/modals/rejectionModal';
+import PostDeletionModal from 'components/modals/postDeletionModal';
 import SubmitPostModal from 'components/modals/submitPostModal';
 
 import { closeModal as closeModalImport } from 'store/actionCreators/modalActionCreators';
@@ -46,6 +47,9 @@ const ModalWrapper = ({
 
       case 'SUBMIT_POST_MODAL':
         return <SubmitPostModal />;
+
+      case 'DISCARD_POST_MODAL':
+        return <PostDeletionModal />;
 
       default:
         return <div />;
