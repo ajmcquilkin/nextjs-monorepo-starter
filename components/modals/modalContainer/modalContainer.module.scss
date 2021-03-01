@@ -7,7 +7,8 @@
   .titleContainer {
     display: flex;
     flex-direction: column;
-    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid $web-gray-two;
 
     h1 {
       margin: 0px;
