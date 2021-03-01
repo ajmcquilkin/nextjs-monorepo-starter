@@ -23,9 +23,10 @@ const handler = createDefaultHandler()
 
     const { id } = req.query;
     const foundPost = await postController.read(id as string);
-    if (foundPost.submitterNetId.toLowerCase() !== info.netId?.toLowerCase()) { throw new ForbiddenResourceError(); }
+    if (!info.isReviewer && foundPost.submitterNetId.toLowerCase() !== info.netId?.toLowerCase()) { throw new ForbiddenResourceError(); }
 
     const submitterNetId = info.netId;
+    if (!submitterNetId) throw new Error('Invalid CAS netId configuration');
 
     const {
       fromName, fromAddress, recipientGroups,
@@ -34,7 +35,7 @@ const handler = createDefaultHandler()
     }: Post = req.body;
 
     if (status === 'approved' && !info.isReviewer) throw new ForbiddenResourceError('Insufficient permissions to approve post');
-    if (status === 'approved' && info.netId.toLowerCase() === foundPost.submitterNetId.toLowerCase()) throw new ForbiddenResourceError('Insufficient permissions to approve own post');
+    if (status === 'approved' && submitterNetId.toLowerCase() === foundPost.submitterNetId.toLowerCase()) throw new ForbiddenResourceError('Insufficient permissions to approve own post');
 
     const updatedPost = await postController.update(id as string, {
       fromName,
