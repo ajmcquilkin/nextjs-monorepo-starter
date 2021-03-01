@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 
 import ModalContainer from 'components/modals/modalContainer';
+import HomeSubmission from 'components/submissions/homeSubmission';
 
 import { createPost as createPostImport, updatePostById as updatePostByIdImport } from 'store/actionCreators/postActionCreators';
 import { useModal } from 'utils/modal';
@@ -40,7 +41,7 @@ const SubmitPostModal = ({ activePost, createPost, updatePostById }: SubmitPostM
       confirmText="Confirm"
       onConfirm={handleConfirm}
     >
-      <div>aasdkfj</div>
+      <HomeSubmission content={activePost} />
     </ModalContainer>
   );
 };
