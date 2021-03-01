@@ -93,6 +93,14 @@ const Compile = ({
     setEvents(release?.events || []);
   }, [release]);
 
+  useEffect(() => {
+    if (!release) {
+      setNews(postResults.filter((post) => post.type === 'news').map((post) => post._id));
+      setAnnouncements(postResults.filter((post) => post.type === 'announcement').map((post) => post._id));
+      setEvents(postResults.filter((post) => post.type === 'event').map((post) => post._id));
+    }
+  }, [postResults]);
+
   const upload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target?.files?.[0];
     if (!file) throw new Error('file not found');
@@ -263,58 +271,49 @@ const Compile = ({
           <CompileSection title="News">
             {isLoading
               ? <SubmissionSkeleton status="approved" />
-              : (release ? news : postResults
-                .filter((post) => post.type === 'news')
-                .map((post) => post._id))
-                .map((id, idx) => (
-                  <DraggablePost
-                    postContent={postMap?.[id]}
-                    type={DragItemTypes.NEWS}
-                    index={idx}
-                    movePost={movePost(news, setNews)}
-                    handleEdit={handleEdit}
-                    handleReject={handleReject}
-                    key={id}
-                  />
-                ))}
+              : news.map((id, idx) => (
+                <DraggablePost
+                  postContent={postMap?.[id]}
+                  type={DragItemTypes.NEWS}
+                  index={idx}
+                  movePost={movePost(news, setNews)}
+                  handleEdit={handleEdit}
+                  handleReject={handleReject}
+                  key={id}
+                />
+              ))}
           </CompileSection>
 
           <CompileSection title="Announcements">
             {isLoading
               ? <SubmissionSkeleton status="approved" />
-              : (release ? announcements : postResults
-                .filter((post) => post.type === 'announcement')
-                .map((post) => post._id))
-                .map((id, idx) => (
-                  <DraggablePost
-                    postContent={postMap?.[id]}
-                    type={DragItemTypes.ANNOUNCEMENT}
-                    index={idx}
-                    movePost={movePost(announcements, setAnnouncements)}
-                    handleEdit={handleEdit}
-                    handleReject={handleReject}
-                    key={id}
-                  />
-                ))}
+              : announcements.map((id, idx) => (
+                <DraggablePost
+                  postContent={postMap?.[id]}
+                  type={DragItemTypes.ANNOUNCEMENT}
+                  index={idx}
+                  movePost={movePost(announcements, setAnnouncements)}
+                  handleEdit={handleEdit}
+                  handleReject={handleReject}
+                  key={id}
+                />
+              ))}
           </CompileSection>
 
           <CompileSection title="Events">
             {isLoading
               ? <SubmissionSkeleton status="approved" />
-              : (release ? events : postResults
-                .filter((post) => post.type === 'event')
-                .map((post) => post._id))
-                .map((id, idx) => (
-                  <DraggablePost
-                    postContent={postMap?.[id]}
-                    type={DragItemTypes.EVENT}
-                    index={idx}
-                    movePost={movePost(events, setEvents)}
-                    handleEdit={handleEdit}
-                    handleReject={handleReject}
-                    key={id}
-                  />
-                ))}
+              : events.map((id, idx) => (
+                <DraggablePost
+                  postContent={postMap?.[id]}
+                  type={DragItemTypes.EVENT}
+                  index={idx}
+                  movePost={movePost(events, setEvents)}
+                  handleEdit={handleEdit}
+                  handleReject={handleReject}
+                  key={id}
+                />
+              ))}
           </CompileSection>
 
           <button type="button" onClick={handleReleaseUpdate}>Publish  (undesigned)</button>

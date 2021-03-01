@@ -18,6 +18,10 @@ $main-radius: 8px;
     
     &.open {
       border-radius: $main-radius $main-radius 0px 0px;
+
+      button > svg {
+        transform: rotate(180deg);
+      }
     }
     
     .grabIcon {
@@ -37,6 +41,12 @@ $main-radius: 8px;
       background: none;
       border: none;
       cursor: pointer;
+
+      svg {
+        fill: $granite-gray;
+        transform: rotate(0deg);
+        transition: 0.3s ease-in-out transform;
+      }
     }
   }
 

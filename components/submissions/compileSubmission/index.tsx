@@ -21,7 +21,19 @@ const CompileSubmission = ({ postContent, handleEdit, handleReject }: CompileSub
         <img className={styles.grabIcon} src="/icons/grab.svg" alt="selection dots" role="presentation" />
         <p>{postContent.briefContent}</p>
         <button type="button" onClick={() => setIsOpen(!isOpen)}>
-          <img alt={isOpen ? 'close post' : 'open post'} />
+          <svg
+            width="10"
+            height="5"
+            viewBox="0 0 10 5"
+            fillRule="evenodd"
+          >
+            <title>
+              {isOpen ? 'Close' : 'Open'}
+              {' '}
+              drop down
+            </title>
+            <path d="M10 0L5 5 0 0z" />
+          </svg>
         </button>
       </div>
 
