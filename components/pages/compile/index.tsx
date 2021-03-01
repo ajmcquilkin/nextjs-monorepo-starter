@@ -149,10 +149,7 @@ const Compile = ({
             </div>
           </section>
 
-          <CompileSection
-            title="Release Subject"
-            className="compileSubjectContainer"
-          >
+          <CompileSection title="Release Subject">
             <GenericSkeletonWrapper>
               <label>
                 <input
@@ -164,10 +161,7 @@ const Compile = ({
             </GenericSkeletonWrapper>
           </CompileSection>
 
-          <CompileSection
-            title="Header Image (optional)"
-            className="compileImageContainer"
-          >
+          <CompileSection title="Header Image (optional)">
             <GenericSkeletonWrapper>
               <label>
                 <p>Image</p>
@@ -179,7 +173,7 @@ const Compile = ({
                 />
 
                 <div className="imagePreview">
-                  {imageUploading === true ? <div>Image is uploading</div> : <span />}
+                  {imageUploading === true ? <div>Image is uploading...</div> : <span />}
                   {headerImage ? (
                     <img
                       src={headerImage}
@@ -203,10 +197,7 @@ const Compile = ({
             </GenericSkeletonWrapper>
           </CompileSection>
 
-          <CompileSection
-            title="Quote of the Day (optional)"
-            className="compileQodContainer"
-          >
+          <CompileSection title="Quote of the Day (optional)">
             <GenericSkeletonWrapper>
               <label>
                 <p>Headline</p>
@@ -230,10 +221,7 @@ const Compile = ({
             </GenericSkeletonWrapper>
           </CompileSection>
 
-          <CompileSection
-            title="Featured Story (optional)"
-            className="compileFeaturedContainer"
-          >
+          <CompileSection title="Featured Story (optional)">
             <DraggablePostTarget
               acceptType={[DragItemTypes.NEWS, DragItemTypes.ANNOUNCEMENT, DragItemTypes.EVENT]}
               onDrop={(item) => setFeaturedPost(item.id)}
@@ -241,7 +229,7 @@ const Compile = ({
               {isLoading
                 ? <SubmissionSkeleton status="approved" />
                 : (
-                  <>
+                  <div className={styles.featuredPostContainer}>
                     {featuredPost
                       ? (
                         <div>
@@ -252,23 +240,21 @@ const Compile = ({
                           />
 
                           <button
+                            className={styles.featuredPostClear}
                             type="button"
                             onClick={() => setFeaturedPost(null)}
                           >
-                            Remove Featured Post
+                            Clear Featured Post
                           </button>
                         </div>
                       )
-                      : <div>No featured post</div>}
-                  </>
+                      : <div className={styles.featuredPostEmpty}>Drag featured post here</div>}
+                  </div>
                 )}
             </DraggablePostTarget>
           </CompileSection>
 
-          <CompileSection
-            title="News"
-            className="compileNewsContainer"
-          >
+          <CompileSection title="News">
             {isLoading
               ? <SubmissionSkeleton status="approved" />
               : (release ? news : postResults
@@ -287,10 +273,7 @@ const Compile = ({
                 ))}
           </CompileSection>
 
-          <CompileSection
-            title="Announcements"
-            className="compileAnnouncementsContainer"
-          >
+          <CompileSection title="Announcements">
             {isLoading
               ? <SubmissionSkeleton status="approved" />
               : (release ? announcements : postResults
@@ -309,10 +292,7 @@ const Compile = ({
                 ))}
           </CompileSection>
 
-          <CompileSection
-            title="Events"
-            className="compileEventsContainer"
-          >
+          <CompileSection title="Events">
             {isLoading
               ? <SubmissionSkeleton status="approved" />
               : (release ? events : postResults
