@@ -1,9 +1,11 @@
 @import 'styles/variables.scss';
 
 .homeContainer {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    @include mainPageLayout();
 
     .homeHeaderContentContainer {
         max-width: 400px;
@@ -98,10 +100,6 @@
     }
     
     .homeMainContentContainer {
-        max-width: 900px;
-        margin-left: 10%;
-        margin-right: 10%;
-         
         .postTypeSelector {
             display: flex;
             flex-direction: column;

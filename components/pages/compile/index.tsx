@@ -73,11 +73,11 @@ const Compile = ({
   const [announcements, setAnnouncements] = useState<string[]>(release?.announcements || []);
   const [events, setEvents] = useState<string[]>(release?.events || []);
 
-  const nextDate = addNDays(Date.now(), 1);
+  const releaseDate = addNDays(Date.now(), 1);
 
   useEffect(() => {
-    fetchReleaseByDate(nextDate);
-    fetchPostsByDate(nextDate);
+    fetchReleaseByDate(releaseDate);
+    fetchPostsByDate(releaseDate);
   }, []);
 
   useEffect(() => {
@@ -124,7 +124,7 @@ const Compile = ({
       quoteOfDay,
       quotedContext,
       featuredPost,
-      date: nextDate,
+      date: releaseDate,
 
       news,
       announcements,
@@ -151,7 +151,7 @@ const Compile = ({
           <h1>Compile</h1>
 
           <section>
-            <h2>{getFullDate(nextDate)}</h2>
+            <h2>{getFullDate(releaseDate)}</h2>
             <div id="compileHeaderTextContainer">
               <p>* Click on the dots on the left and drag and drop to re-order.</p>
             </div>
@@ -316,7 +316,8 @@ const Compile = ({
               ))}
           </CompileSection>
 
-          <button type="button" onClick={handleReleaseUpdate}>Publish  (undesigned)</button>
+          <button type="button" onClick={handleReleaseUpdate}>Save Release</button>
+          <button type="button" onClick={() => router.push('/')}>Discard Changes</button>
         </div>
       </SkeletonArea>
     </DndProvider>

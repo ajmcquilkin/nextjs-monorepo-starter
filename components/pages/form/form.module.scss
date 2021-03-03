@@ -3,7 +3,8 @@
 .formContainer {
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    
+    @include mainPageLayout();
   
     h1 {
       font-family: National2-Bold, sans-serif;
