@@ -25,13 +25,13 @@ export interface SubmitPostModalDispatchProps {
 export type SubmitPostModalProps = SubmitPostModalPassedProps & SubmitPostModalStateProps & SubmitPostModalDispatchProps;
 
 const SubmitPostModal = ({ activePost, createPost, updatePostById }: SubmitPostModalProps): JSX.Element => {
-  const { postId, closeModal } = useModal();
+  const { postId, action, closeModal } = useModal();
   const router = useRouter();
 
   const handleConfirm = (): void => {
     if (!postId) console.error('No valid postId found:', postId);
     else if (!activePost) console.error('No post found with postId', postId);
-    else if (postId !== 'form') updatePostById(postId, { status: 'pending' }, { successCallback: (res) => { closeModal(); router.push(`/form/${res.data.data.post._id}`); } });
+    else if (action === 'UPDATE') updatePostById(postId, activePost, { successCallback: (res) => { closeModal(); router.push(`/form/${res.data.data.post._id}`); } });
     else createPost(activePost, { successCallback: (res) => { closeModal(); router.push(`/form/${res.data.data.post._id}`); } });
   };
 

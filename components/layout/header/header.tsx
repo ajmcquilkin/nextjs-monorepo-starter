@@ -32,7 +32,7 @@ const Header = ({ isStaff, isReviewer }: HeaderProps): JSX.Element => (
 
     <nav className={styles.headerLinksContainer}>
       <AuthSwitch
-        renderLoading={() => 'Loading...'}
+        renderLoading={() => null}
         renderFailure={() => null}
       >
         <HeaderLink to="/" label="Home" />

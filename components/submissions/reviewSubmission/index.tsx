@@ -28,7 +28,7 @@ const ReviewSubmission = ({ content, onApprove, onReject }: ReviewSubmissionProp
           {' '}
           &bull;
           {' '}
-          <span>{uppercaseFirstLetter(content.status)}</span>
+          <span style={{ color: getColorsForStatus(content.status).primary }}>{uppercaseFirstLetter(content.status)}</span>
         </p>
       </div>
 
