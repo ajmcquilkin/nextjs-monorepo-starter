@@ -73,11 +73,11 @@ const Compile = ({
   const [announcements, setAnnouncements] = useState<string[]>(release?.announcements || []);
   const [events, setEvents] = useState<string[]>(release?.events || []);
 
-  const nextDate = addNDays(Date.now(), 1);
+  const releaseDate = addNDays(Date.now(), 1);
 
   useEffect(() => {
-    fetchReleaseByDate(nextDate);
-    fetchPostsByDate(nextDate);
+    fetchReleaseByDate(releaseDate);
+    fetchPostsByDate(releaseDate);
   }, []);
 
   useEffect(() => {
@@ -92,6 +92,14 @@ const Compile = ({
     setAnnouncements(release?.announcements || []);
     setEvents(release?.events || []);
   }, [release]);
+
+  useEffect(() => {
+    if (!release) {
+      setNews(postResults.filter((post) => post.type === 'news').map((post) => post._id));
+      setAnnouncements(postResults.filter((post) => post.type === 'announcement').map((post) => post._id));
+      setEvents(postResults.filter((post) => post.type === 'event').map((post) => post._id));
+    }
+  }, [postResults]);
 
   const upload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target?.files?.[0];
@@ -116,7 +124,7 @@ const Compile = ({
       quoteOfDay,
       quotedContext,
       featuredPost,
-      date: nextDate,
+      date: releaseDate,
 
       news,
       announcements,
@@ -142,21 +150,19 @@ const Compile = ({
         <div className={styles.compileContainer}>
           <h1>Compile</h1>
 
-          <section className="compileHeaderContainer">
-            <h2>{getFullDate()}</h2>
+          <section>
+            <h2>{getFullDate(releaseDate)}</h2>
             <div id="compileHeaderTextContainer">
               <p>* Click on the dots on the left and drag and drop to re-order.</p>
             </div>
           </section>
 
-          <CompileSection
-            title="Release Subject"
-            className="compileSubjectContainer"
-          >
+          <CompileSection title="Release Subject">
             <GenericSkeletonWrapper>
               <label>
                 <input
                   type="text"
+                  placeholder="Enter subject line for email"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                 />
@@ -164,13 +170,9 @@ const Compile = ({
             </GenericSkeletonWrapper>
           </CompileSection>
 
-          <CompileSection
-            title="Header Image (optional)"
-            className="compileImageContainer"
-          >
+          <CompileSection title="Header Image (optional)">
             <GenericSkeletonWrapper>
               <label>
-                <p>Image</p>
                 <input
                   type="file"
                   alt="Select image to upload"
@@ -178,14 +180,17 @@ const Compile = ({
                   onChange={(e) => { upload(e); }}
                 />
 
-                <div className="imagePreview">
-                  {imageUploading === true ? <div>Image is uploading</div> : <span />}
+                <div>
+                  {imageUploading === true ? <p>Uploading...</p> : <span />}
                   {headerImage ? (
-                    <img
-                      src={headerImage}
-                      alt="optional headerImage"
-                      width={400}
-                    />
+                    <>
+                      <p>Uploaded Image</p>
+                      <img
+                        src={headerImage}
+                        alt="optional headerImage"
+                        width={400}
+                      />
+                    </>
                   ) : <div />}
                 </div>
               </label>
@@ -196,6 +201,7 @@ const Compile = ({
                 <p>Image Caption</p>
                 <input
                   type="text"
+                  placeholder="Give a caption for the featured image"
                   value={imageCaption}
                   onChange={(e) => setImageCaption(e.target.value)}
                 />
@@ -203,15 +209,13 @@ const Compile = ({
             </GenericSkeletonWrapper>
           </CompileSection>
 
-          <CompileSection
-            title="Quote of the Day (optional)"
-            className="compileQodContainer"
-          >
+          <CompileSection title="Quote of the Day (optional)">
             <GenericSkeletonWrapper>
               <label>
                 <p>Headline</p>
                 <input
                   type="text"
+                  placeholder="Enter quote of the day"
                   value={quoteOfDay}
                   onChange={(e) => setQuoteOfDay(e.target.value)}
                 />
@@ -223,6 +227,7 @@ const Compile = ({
                 <p>Context</p>
                 <input
                   type="text"
+                  placeholder="Give context about the quoted individual"
                   value={quotedContext}
                   onChange={(e) => setQuotedContext(e.target.value)}
                 />
@@ -230,10 +235,7 @@ const Compile = ({
             </GenericSkeletonWrapper>
           </CompileSection>
 
-          <CompileSection
-            title="Featured Story (optional)"
-            className="compileFeaturedContainer"
-          >
+          <CompileSection title="Featured Story (optional)">
             <DraggablePostTarget
               acceptType={[DragItemTypes.NEWS, DragItemTypes.ANNOUNCEMENT, DragItemTypes.EVENT]}
               onDrop={(item) => setFeaturedPost(item.id)}
@@ -241,7 +243,7 @@ const Compile = ({
               {isLoading
                 ? <SubmissionSkeleton status="approved" />
                 : (
-                  <>
+                  <div className={styles.featuredPostContainer}>
                     {featuredPost
                       ? (
                         <div>
@@ -252,86 +254,87 @@ const Compile = ({
                           />
 
                           <button
+                            className={styles.featuredPostClear}
                             type="button"
                             onClick={() => setFeaturedPost(null)}
                           >
-                            Remove Featured Post
+                            Clear Featured Post
                           </button>
                         </div>
                       )
-                      : <div>No featured post</div>}
-                  </>
+                      : <div className={styles.featuredPostEmpty}>Drag featured post here</div>}
+                  </div>
                 )}
             </DraggablePostTarget>
           </CompileSection>
 
-          <CompileSection
-            title="News"
-            className="compileNewsContainer"
-          >
+          <CompileSection title="News">
             {isLoading
               ? <SubmissionSkeleton status="approved" />
-              : (release ? news : postResults
-                .filter((post) => post.type === 'news')
-                .map((post) => post._id))
-                .map((id, idx) => (
-                  <DraggablePost
-                    postContent={postMap?.[id]}
-                    type={DragItemTypes.NEWS}
-                    index={idx}
-                    movePost={movePost(news, setNews)}
-                    handleEdit={handleEdit}
-                    handleReject={handleReject}
-                    key={id}
-                  />
-                ))}
+              : (
+                <>
+                  {news.length ? news.map((id, idx) => (
+                    <DraggablePost
+                      postContent={postMap?.[id]}
+                      type={DragItemTypes.NEWS}
+                      index={idx}
+                      movePost={movePost(news, setNews)}
+                      handleEdit={handleEdit}
+                      handleReject={handleReject}
+                      className={styles.compilePost}
+                      key={id}
+                    />
+                  )) : <p className={styles.noContent}>No content.</p>}
+                </>
+              )}
           </CompileSection>
 
-          <CompileSection
-            title="Announcements"
-            className="compileAnnouncementsContainer"
-          >
+          <CompileSection title="Announcements">
             {isLoading
               ? <SubmissionSkeleton status="approved" />
-              : (release ? announcements : postResults
-                .filter((post) => post.type === 'announcement')
-                .map((post) => post._id))
-                .map((id, idx) => (
-                  <DraggablePost
-                    postContent={postMap?.[id]}
-                    type={DragItemTypes.ANNOUNCEMENT}
-                    index={idx}
-                    movePost={movePost(announcements, setAnnouncements)}
-                    handleEdit={handleEdit}
-                    handleReject={handleReject}
-                    key={id}
-                  />
-                ))}
+              : (
+                <>
+                  {announcements.length ? announcements.map((id, idx) => (
+                    <DraggablePost
+                      postContent={postMap?.[id]}
+                      type={DragItemTypes.ANNOUNCEMENT}
+                      index={idx}
+                      movePost={movePost(announcements, setAnnouncements)}
+                      handleEdit={handleEdit}
+                      handleReject={handleReject}
+                      className={styles.compilePost}
+                      key={id}
+                    />
+                  )) : <p className={styles.noContent}>No content.</p>}
+                </>
+              )}
           </CompileSection>
 
-          <CompileSection
-            title="Events"
-            className="compileEventsContainer"
-          >
+          <CompileSection title="Events">
             {isLoading
               ? <SubmissionSkeleton status="approved" />
-              : (release ? events : postResults
-                .filter((post) => post.type === 'event')
-                .map((post) => post._id))
-                .map((id, idx) => (
-                  <DraggablePost
-                    postContent={postMap?.[id]}
-                    type={DragItemTypes.EVENT}
-                    index={idx}
-                    movePost={movePost(events, setEvents)}
-                    handleEdit={handleEdit}
-                    handleReject={handleReject}
-                    key={id}
-                  />
-                ))}
+              : (
+                <>
+                  {events.length ? events.map((id, idx) => (
+                    <DraggablePost
+                      postContent={postMap?.[id]}
+                      type={DragItemTypes.EVENT}
+                      index={idx}
+                      movePost={movePost(events, setEvents)}
+                      handleEdit={handleEdit}
+                      handleReject={handleReject}
+                      className={styles.compilePost}
+                      key={id}
+                    />
+                  )) : <p className={styles.noContent}>No content.</p>}
+                </>
+              )}
           </CompileSection>
 
-          <button type="button" onClick={handleReleaseUpdate}>Publish  (undesigned)</button>
+          <div className={styles.buttonContainer}>
+            <button className={styles.confirm} type="button" onClick={handleReleaseUpdate}>Save Release</button>
+            <button className={styles.reject} type="button" onClick={() => router.push('/')}>Discard Changes</button>
+          </div>
         </div>
       </SkeletonArea>
     </DndProvider>

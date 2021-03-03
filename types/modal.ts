@@ -13,7 +13,8 @@ export interface ModalConfig {
   reject: string,
   cancel: string,
 
-  bgColor: string
+  bgColor: string,
+  action: 'CREATE' | 'UPDATE' | 'DELETE' | null,
 }
 
 export type Modal = ModalConfig & {
@@ -29,7 +30,8 @@ export type ModalState = {
   content: Modal['content'],
 
   bgColor: Modal['bgColor'],
-  postId: string | null
+  postId: string | null,
+  action: Modal['action']
 }
 
 /* -------- Action Types -------- */
