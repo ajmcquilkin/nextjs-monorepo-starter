@@ -33,7 +33,7 @@ import {
 } from 'store/actionCreators/requestActionCreators';
 
 import {
-  maxContentLength, generateFrontendErrorMessage, addNDays,
+  maxContentLength, generateFrontendErrorMessage, addNDays, isValidUrl,
   handleEncodeDate, handleDecodeDate, encodeRecipientGroups, decodeRecipientGroups
 } from 'utils';
 import uploadImage from 'utils/s3';
@@ -136,6 +136,8 @@ const Form = ({
 
     if (!postType) { setPostTypeError('Type is a required field'); isValid = false; }
     if (!briefContent) { setBriefContentError('Brief content is a required field'); isValid = false; }
+
+    if (!isValidUrl(url)) { isValid = false; }
 
     return isValid;
   };

@@ -140,6 +140,15 @@ export const getColorsForStatus = (status: PostStatus): PostStatusColors => {
 
 export const uppercaseFirstLetter = (s: string): string => (s.length ? `${s[0].toUpperCase()}${s.slice(1)}` : '');
 
+export const isValidUrl = (url: string): boolean => {
+  try {
+    const _url = new URL(url);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
 /**
  * Middleware function to generate standard user-facing error message
  * * Note: to maintain truthiness state of message, if message is considered falsy this function will return an empty string
