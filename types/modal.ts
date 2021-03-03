@@ -14,7 +14,7 @@ export interface ModalConfig {
   cancel: string,
 
   bgColor: string,
-  action: 'CREATE' | 'UPDATE' | 'DELETE'
+  action: 'CREATE' | 'UPDATE' | 'DELETE' | null,
 }
 
 export type Modal = ModalConfig & {
