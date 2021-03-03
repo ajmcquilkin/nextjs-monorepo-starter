@@ -89,6 +89,7 @@
       border: none;
 
       &::placeholder { color: $granite-gray; }
+      &.invalid { border: 1px solid $tuck-orange; }
     }
 
     .formGroupListContainer {
