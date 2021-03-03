@@ -1,198 +1,143 @@
 @import 'styles/variables.scss';
 
 .formContainer {
+  display: flex;
+  flex-direction: column;
+
+  margin: 36px auto;
+  max-width: 960px;
+  width: 100%;
+
+  .titleContainer {
     display: flex;
     flex-direction: column;
-    padding: 20px;
-  
-    h1 {
-      font-family: National2-Bold, sans-serif;
-    }
-  
-    form {
-      .previewHeader {
-        margin-top:20px;
-      }
     
-      .preview {
-        font-family: Ruzicka, serif;
-        padding:20px;
-        margin-top:20px;
-        border-style: solid;
-        border-width: 6px;
-        font-size: 12pt;
-        border-color: $dartmouth-green;
-        background-color: $web-gray-one;
-      }
-    }
-  }
-  
-  .formErrorContainer {
-    font-size: 12px;
-    color: $tuck-orange;
-  }
-  
-  // Styled below because of FormSection implementation
-  .formFromContainer {
-    margin-top: 24px;
-  
-    label > input {
-      margin-top: 12px;
-      padding: 3px 18px 6px;
-      width: 400px;
-    
-      background-color: $web-gray-two;
-      border-radius: 10px;
-      border: none;
-      
-      &::placeholder {
-        color: $granite-gray;
-        font-family: National2-Reg, sans-serif;
-        font-size: 18px;
-        letter-spacing: 0.13px;
-        vertical-align: middle;
-      }
-    }
-  }
-  
-  .formToContainer {
-    margin-top: 48px;
-  
-    .formListsCheckboxContainer {
+    button {
       display: flex;
       flex-direction: row;
-      flex-wrap: wrap;
-      max-width: 1000px;
-      margin: 18px 60px 0px 0px;
-      padding-left: 0px;
+      
+      background: none;
+      border: none;
+      cursor: pointer;
 
-      .formCheckboxColumnContainer {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-  
-        h3 {
-          font-size: 18px;
-          font-family: "Roboto", sans-serif;
-          font-weight: bold;
-          text-transform: uppercase;
-        }
-  
-        label {
-          line-height: 26px;
-  
-          input {
-            margin: 6px 12px 6px auto;
-          }
-        }
-  
-        button {
-          margin-right: auto;
-          margin-top: 24px;
-          padding: 7px 30px;
-          border-radius: 5px;
-          text-transform: uppercase;
-          cursor: pointer;
-  
-          background: $dartmouth-green;
-          border: none;
-          color: $snow-white;
-          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
-        }
+      img {
+        margin: auto 12px auto 0px;
       }
-    }
-  }
-  
-  .formTypeRadioContainer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-  
-    label {
-      margin-right: 30px;
-  
-      input {
-        margin: 6px 9px 6px auto;
-      }
-    }
-  }
-  
-  .formPublishContainer {
-    margin-top: 36px;
-  
-    label {
+      
       p {
-        // Label text
-      }
-
-      input {
-        margin-top: 12px;
-        // TODO: Update this styling
+        margin: auto 0px;
+        color: $forest-green;
+        font-size: 16px;
       }
     }
-  }
-  
-  .formContentContainer {
+    
+    h1 {
+
+    }  
+
+    p {
+      color: $granite-gray;
+
+      a {
+        color: $river-blue;
+      }
+    }
+  } 
+
+  .formInputContainer {
     display: flex;
     flex-direction: column;
-  
-    label > input {
-      padding: 3px 18px 6px;
-      width: 400px;
-  
+    margin-bottom: 36px;
+
+    &.row {
+      flex-direction: row;
+    }
+
+    label, .label {
+      display: flex;
+      
+      &.small {
+        flex-direction: row;
+
+        p {
+          margin-left: 12px;
+          font-size: 18px; 
+        }
+      }
+      
+      &.large {
+        flex-direction: column;
+
+        p {
+          margin-bottom: 12px;
+          font-size: 21px;
+        }
+      }
+
+      .required { color: $tuck-orange; }
+
+      p {
+        margin: 0px;
+        color: $granite-gray;
+      }
+    }
+
+    input[type="text"], input[type="email"] {
+      padding: 12px 24px;
+      width: 100%;
+
       background-color: $web-gray-two;
-      border-radius: 10px;
+      border-radius: 8px;
       border: none;
+
+      &::placeholder { color: $granite-gray; }
+    }
+
+    .formGroupListContainer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin: 0px;
+
+      .formGroupList {
+        margin-bottom: 36px;
+      }
+    }
+
+    .formTypeSelector {
+      margin-right: 24px;
     }
   }
-  
-  // TODO: Use Montserrat
-  .formButtonsContainer {
+
+  .actionButtonsContainer {
     margin-top: 60px;
     
     button {
-      margin-right: 14px;
-      padding: 8px 30px;
-      font-family: National2-Reg, sans-serif;
-      font-size: 20px;
-      border-radius: 9px;
+      margin-right: 18px;
+      padding: 12px 30px;
+      border-radius: 8px;
+      font-size: 16px;
+
+      background: none;
       border: none;
       cursor: pointer;
     }
-  
+
     .formSubmitButton {
       background-color: $dartmouth-green;
       color: $snow-white;
     }
     
     .formSaveButton {
-      background-color: $web-gray-one;
+      background-color: $spring-green;
       color: $dartmouth-green;
     }
-  
+
     .formCancelButton {
       background-color: $snow-white;
       color: $granite-gray;
       border: 1.09969px solid $granite-gray;
     }
   }
-  
-  .formLabelSmall {
-    font-family: National2-Reg, sans-serif;
-    font-size: 17px;
-    letter-spacing: 0.12px;
-    color: $granite-gray;
-    line-height: 42px;
-  }
-  
-  .formLabelLarge {
-    font-family: National2-Reg, sans-serif;
-    font-size: 26px;
-    letter-spacing: 0.16px;
-    color: $granite-gray;
-  }
-  
-  .formRequiredField {
-    color: $tuck-orange;
-  }
-  
+}

@@ -36,22 +36,22 @@ export const FormGroups: Group[] = [
   {
     name: 'All Staff',
     list: [
-      'Arts and Sciences Faculty',
-      'Tuck Faculty',
-      'Thayer Faculty',
-      'Geisel Faculty',
-      'Emeriti / Special Faculty'
+      'College Staff',
+      'Tuck Staff',
+      'Thayer Staff',
+      'Geisel Staff',
+      'Sponsored Accounts'
     ]
   },
 
   {
     name: 'All Faculty',
     list: [
-      'College Staff',
-      'Tuck Staff',
-      'Thayer Staff',
-      'Geisel Staff',
-      'Sponsored Accounts'
+      'Arts and Sciences Faculty',
+      'Tuck Faculty',
+      'Thayer Faculty',
+      'Geisel Faculty',
+      'Emeriti / Special Faculty'
     ]
   }
 ];
