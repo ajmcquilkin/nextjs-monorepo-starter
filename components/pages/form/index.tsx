@@ -165,11 +165,11 @@ const Form = ({
       payload: { data: { post: { _id: 'form', ...payload } as Post } }
     });
 
-    openModal('SUBMIT_POST_MODAL', { postId: post ? post._id : 'form' });
+    openModal('SUBMIT_POST_MODAL', { postId: 'form', action: post ? 'UPDATE' : 'CREATE' });
   };
 
   const handleDiscard = () => {
-    openModal('DISCARD_POST_MODAL', { postId: post ? post._id : 'form' });
+    openModal('DISCARD_POST_MODAL', { postId: 'form', action: 'DELETE' });
   };
 
   const upload = async (e: ChangeEvent<HTMLInputElement>) => {

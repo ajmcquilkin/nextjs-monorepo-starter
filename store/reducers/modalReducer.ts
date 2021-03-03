@@ -8,6 +8,7 @@ const initialState: ModalState = {
   content: '',
 
   bgColor: '#FFFFFF',
+  action: null,
   postId: null
 };
 

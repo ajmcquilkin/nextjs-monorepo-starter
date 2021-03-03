@@ -4,7 +4,8 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 60px 108px;
+
+  @include mainPageLayout();
 
   .titleContainer {
     display: flex;

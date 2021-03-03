@@ -1,8 +1,10 @@
+@import 'styles/variables.scss';
+
 .reviewContainer {
   display: flex;
   flex-direction: column;
-  padding: 60px 108px;
-  width: 100%;
+  
+  @include mainPageLayout();
 
   .titleContainer {
     margin-bottom: 36px;

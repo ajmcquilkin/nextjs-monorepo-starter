@@ -3,62 +3,50 @@
 .compileContainer {
     display: flex;
     flex-direction: column;
-    width: 900px;
-    margin: auto;
-
-    // -------- START GENERICS -------- //
-
-    // TODO: Move these to higher-level styling file
+    
+    @include mainPageLayout();
 
     h1 {
-        color: $midnight-black;
-        font-family: National2-Reg, sans-serif;
-        font-size: 48px;
-        margin: 48px 0px 36px;
+        margin: 0px 0px 24px;
     }
 
     h2 {
         color: $forest-green;
-        font-family: National2-Reg, sans-serif;
         font-size: 30px;
-        letter-spacing: 0.05px;
-        margin-bottom: 15px;
+        margin: 0px 0px 15px;
     }
 
     section {
         margin-bottom: 48px;
 
         label {
-            font-family: National2-Reg, sans-serif;
-            font-size: 17px;
-            letter-spacing: 0.12px;
-            color: $granite-gray;
-            line-height: 42px;
             width: 100%;
-
+            font-size: 17px;
+            color: $granite-gray;
+            
             p {
-                margin: 0;
+                margin: 9px 0px;
+            }
+            
+            input {
+                margin-bottom: 15px;
             }
         }
     }
 
     input[type="text"] {
+        padding: 12px 24px;
         width: 100%;
+        
         background-color: $web-gray-two;
-        border-radius: 10px;
+        border-radius: 8px;
         border: none;
-        padding: 3px 21px;
+        
+        &::placeholder {
+            color: $granite-gray;
+        }
     }
-
-    input[type="file"] {
-        width: 330px;
-        height: 330px;
-        border-radius: 4px;
-        border: 1px dashed $granite-gray;
-    }
-
-    // -------- END GENERICS -------- //
-
+    
     .compileHeaderContainer {
         margin-bottom: 55px;
 
@@ -66,6 +54,61 @@
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+        }
+    }
+
+    .featuredPostContainer {
+
+        .featuredPostClear {
+            margin-top: 6px;
+
+            font-size: 13px;
+            color: $granite-gray;
+            
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .featuredPostEmpty {
+            padding: 12px 24px;
+            border: 1px dashed $granite-gray;
+            border-radius: 8px;
+            color: $granite-gray;
+        }
+    }
+
+    .compilePost {
+        margin-bottom: 12px;
+    }
+
+    .noContent {
+        color: $granite-gray;
+    }
+
+    .buttonContainer {
+        display: flex;
+        flex-direction: row;
+
+        button {
+            margin-right: 15px;
+            padding: 12px 30px;
+            border-radius: 8px;
+            
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            
+            &.confirm {
+                background: $dartmouth-green;
+                color: $snow-white;
+            }
+            
+            &.reject {
+                background: $snow-white;
+                color: $granite-gray;
+                border: 1px solid $granite-gray;
+            }
         }
     }
 }
