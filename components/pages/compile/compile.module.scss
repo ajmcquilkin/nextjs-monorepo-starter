@@ -77,4 +77,30 @@
             color: $granite-gray;
         }
     }
+
+    .buttonContainer {
+        display: flex;
+        flex-direction: row;
+
+        button {
+            margin-right: 15px;
+            padding: 12px 30px;
+            border-radius: 8px;
+            
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            
+            &.confirm {
+                background: $dartmouth-green;
+                color: $snow-white;
+            }
+            
+            &.reject {
+                background: $snow-white;
+                color: $granite-gray;
+                border: 1px solid $granite-gray;
+            }
+        }
+    }
 }

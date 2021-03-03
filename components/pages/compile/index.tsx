@@ -316,8 +316,10 @@ const Compile = ({
               ))}
           </CompileSection>
 
-          <button type="button" onClick={handleReleaseUpdate}>Save Release</button>
-          <button type="button" onClick={() => router.push('/')}>Discard Changes</button>
+          <div className={styles.buttonContainer}>
+            <button className={styles.confirm} type="button" onClick={handleReleaseUpdate}>Save Release</button>
+            <button className={styles.reject} type="button" onClick={() => router.push('/')}>Discard Changes</button>
+          </div>
         </div>
       </SkeletonArea>
     </DndProvider>
