@@ -30,7 +30,7 @@
     }
     
     h1 {
-
+      
     }  
 
     p {
@@ -95,16 +95,28 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+
       flex-wrap: wrap;
       margin: 0px;
+      padding: 0px;
+      list-style: none;
 
       .formGroupList {
         margin-bottom: 36px;
+
+        h3, h4, h5, h6 {
+          color: $granite-gray;
+        }
       }
     }
 
     .formTypeSelector {
       margin-right: 24px;
+    }
+
+    .formImageStatus {
+      margin-top: 15px;
+      color: $granite-gray;
     }
   }
 

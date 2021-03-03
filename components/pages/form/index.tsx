@@ -366,9 +366,13 @@ const Form = ({
                     value={briefContent}
                     onChange={(e) => setBriefContent(e.target.value)}
                   />
-                  <ContentLength contentLength={briefContent.length} maxContentLength={50} />
                 </GenericSkeletonWrapper>
               </label>
+
+              <ContentLength
+                contentLength={briefContent.length}
+                maxContentLength={50}
+              />
             </div>
 
             <div className={styles.formInputContainer}>
@@ -426,7 +430,7 @@ const Form = ({
               </label>
 
               <GenericSkeletonWrapper>
-                <div>
+                <div className={styles.formImageStatus}>
                   {imageUploading
                     ? <div>Image is uploading...</div>
                     : (
