@@ -4,6 +4,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  padding: 36px 36px 0px;
 
     .homeHeaderContentContainer {
         max-width: 400px;
@@ -15,44 +16,65 @@
             position: relative;
 
             width: 100%;
+
+            .homeDateSelectorContainer {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                flex-wrap: wrap;
+
+                .homeDateSelector {
+                    margin: auto 0;
+                    position: absolute;
     
-            .homeDateSelector {
-                margin: auto 0;
-                position: absolute;
-
-                top: 50%;
-                transform: translate(0, -50%);
-                
-                &.left {
-                    left: -216px;
-                    button > img { margin-right: 27px; }
-                }
-                
-                &.right {
-                    right: -216px;
-                    button > img { margin-left: 27px; }
-                }
-                
-                button {
-                    display: flex;
-                    flex-direction: row;
+                    top: 50%;
+                    transform: translate(0, -50%);
                     
-                    border: none;
-                    background: none;
-                    cursor: pointer;
-
-                    img {
-                        margin: auto;
-                        height: 21px;
+                    &.left {
+                        left: -216px;
+                        button > img { margin-right: 27px; }
                     }
                     
-                    p {
-                        margin: 0;
-                        font-size: 18px;
-                        font-weight: 400;
-                        color: $forest-green;
+                    &.right {
+                        right: -216px;
+                        button > img { margin-left: 27px; }
                     }
+    
+                    @media only screen and (max-width: $tablet-collapse) {
+                        margin: 12px 0px;
+                        position: relative;
+                        top: 0px;
+                        transform: translate(0%, 0%);
 
+                        &.left {
+                            left: 0px;
+                        }
+
+                        &.right {
+                            right: 0px;
+                        }
+                    }
+                    
+                    button {
+                        display: flex;
+                        flex-direction: row;
+                        
+                        border: none;
+                        background: none;
+                        cursor: pointer;
+    
+                        img {
+                            margin: auto;
+                            height: 21px;
+                        }
+                        
+                        p {
+                            margin: 0;
+                            font-size: 18px;
+                            font-weight: 400;
+                            color: $forest-green;
+                        }
+                    }
                 }
             }
 
@@ -98,9 +120,8 @@
     }
     
     .homeMainContentContainer {
+        width: 100%;
         max-width: 900px;
-        margin-left: 10%;
-        margin-right: 10%;
          
         .postTypeSelector {
             display: flex;
@@ -120,7 +141,7 @@
                     border: none;
                     background: none;
                 
-                    font-size: 24px;
+                    font-size: calc(0.4em + 1.2vw);
                     text-align: center;
                     color: $dartmouth-green;
                     cursor: pointer;
@@ -159,7 +180,7 @@
             }
         }
         
-        @media(max-width: 768px) {
+        @media(max-width: $tablet-collapse) {
             .postTypeSelector {
                 width: 100%;
                 display: block;
@@ -171,6 +192,8 @@
         }
         
         .homeFeaturedStoryContainer {
+            width: 100%;
+
             h3 {
                 font-family: Ruzicka, serif;
                 font-weight: bold;
@@ -180,6 +203,22 @@
                 font-family: National2-Reg, sans-serif;
                 line-height: 24px;
                 letter-spacing: 0.23324px;
+            }
+        }
+
+        @media(max-width: $tablet-collapse) {
+            .homeFeaturedStoryContainer {
+                
+                h3 {
+                    font-family: Ruzicka, serif;
+                    font-weight: bold;
+                }
+    
+                p {
+                    font-family: National2-Reg, sans-serif;
+                    line-height: 24px;
+                    letter-spacing: 0.23324px;
+                } 
             }
         }
 
