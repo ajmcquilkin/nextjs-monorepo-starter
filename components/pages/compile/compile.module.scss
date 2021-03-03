@@ -13,7 +13,7 @@
     h2 {
         color: $forest-green;
         font-size: 30px;
-        margin-bottom: 15px;
+        margin: 0px 0px 15px;
     }
 
     section {
@@ -76,6 +76,14 @@
             border-radius: 8px;
             color: $granite-gray;
         }
+    }
+
+    .compilePost {
+        margin-bottom: 12px;
+    }
+
+    .noContent {
+        color: $granite-gray;
     }
 
     .buttonContainer {

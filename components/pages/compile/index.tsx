@@ -271,49 +271,64 @@ const Compile = ({
           <CompileSection title="News">
             {isLoading
               ? <SubmissionSkeleton status="approved" />
-              : news.map((id, idx) => (
-                <DraggablePost
-                  postContent={postMap?.[id]}
-                  type={DragItemTypes.NEWS}
-                  index={idx}
-                  movePost={movePost(news, setNews)}
-                  handleEdit={handleEdit}
-                  handleReject={handleReject}
-                  key={id}
-                />
-              ))}
+              : (
+                <>
+                  {news.length ? news.map((id, idx) => (
+                    <DraggablePost
+                      postContent={postMap?.[id]}
+                      type={DragItemTypes.NEWS}
+                      index={idx}
+                      movePost={movePost(news, setNews)}
+                      handleEdit={handleEdit}
+                      handleReject={handleReject}
+                      className={styles.compilePost}
+                      key={id}
+                    />
+                  )) : <p className={styles.noContent}>No content.</p>}
+                </>
+              )}
           </CompileSection>
 
           <CompileSection title="Announcements">
             {isLoading
               ? <SubmissionSkeleton status="approved" />
-              : announcements.map((id, idx) => (
-                <DraggablePost
-                  postContent={postMap?.[id]}
-                  type={DragItemTypes.ANNOUNCEMENT}
-                  index={idx}
-                  movePost={movePost(announcements, setAnnouncements)}
-                  handleEdit={handleEdit}
-                  handleReject={handleReject}
-                  key={id}
-                />
-              ))}
+              : (
+                <>
+                  {announcements.length ? announcements.map((id, idx) => (
+                    <DraggablePost
+                      postContent={postMap?.[id]}
+                      type={DragItemTypes.ANNOUNCEMENT}
+                      index={idx}
+                      movePost={movePost(announcements, setAnnouncements)}
+                      handleEdit={handleEdit}
+                      handleReject={handleReject}
+                      className={styles.compilePost}
+                      key={id}
+                    />
+                  )) : <p className={styles.noContent}>No content.</p>}
+                </>
+              )}
           </CompileSection>
 
           <CompileSection title="Events">
             {isLoading
               ? <SubmissionSkeleton status="approved" />
-              : events.map((id, idx) => (
-                <DraggablePost
-                  postContent={postMap?.[id]}
-                  type={DragItemTypes.EVENT}
-                  index={idx}
-                  movePost={movePost(events, setEvents)}
-                  handleEdit={handleEdit}
-                  handleReject={handleReject}
-                  key={id}
-                />
-              ))}
+              : (
+                <>
+                  {events.length ? events.map((id, idx) => (
+                    <DraggablePost
+                      postContent={postMap?.[id]}
+                      type={DragItemTypes.EVENT}
+                      index={idx}
+                      movePost={movePost(events, setEvents)}
+                      handleEdit={handleEdit}
+                      handleReject={handleReject}
+                      className={styles.compilePost}
+                      key={id}
+                    />
+                  )) : <p className={styles.noContent}>No content.</p>}
+                </>
+              )}
           </CompileSection>
 
           <div className={styles.buttonContainer}>
