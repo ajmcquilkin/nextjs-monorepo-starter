@@ -24,8 +24,11 @@ export interface Post {
   url: string,
   requestedPublicationDate: number,
   recipientGroups: string[],
+
   featuredImage: string,
+  featuredImageAlt: string,
   eventDate: number | null,
+  eventTime: string,
 
   status: PostStatus,
   dateItemCreated: Date,

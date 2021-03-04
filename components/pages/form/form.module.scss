@@ -118,6 +118,11 @@
     .formImageStatus {
       margin-top: 15px;
       color: $granite-gray;
+
+      img {
+        max-width: 60%;
+        max-height: 600px;
+      }
     }
 
     .formInputError {

@@ -11,14 +11,14 @@ import { Post, PostDocument, PostStatus } from 'types/post';
 import { Release } from 'types/release';
 
 type CreatePostType = Pick<Post,
-  'fromName' | 'fromAddress' | 'submitterNetId' | 'type' | 'fullContent' | 'briefContent'
-  | 'url' | 'requestedPublicationDate' | 'status' | 'recipientGroups' | 'featuredImage' | 'eventDate'
+  'fromName' | 'fromAddress' | 'submitterNetId' | 'type' | 'fullContent' | 'briefContent' | 'url' |
+  'requestedPublicationDate' | 'status' | 'recipientGroups' | 'featuredImage' | 'featuredImageAlt' | 'eventDate' | 'eventTime'
 >;
 
 export const create = async (fields: CreatePostType): Promise<Post> => {
   const {
-    fromName, fromAddress, submitterNetId, type, fullContent, recipientGroups,
-    briefContent, url, requestedPublicationDate, status, featuredImage, eventDate
+    fromName, fromAddress, submitterNetId, type, fullContent, recipientGroups, briefContent,
+    url, requestedPublicationDate, status, featuredImage, featuredImageAlt, eventDate, eventTime
   } = fields;
 
   const post = new PostModel();
@@ -31,8 +31,11 @@ export const create = async (fields: CreatePostType): Promise<Post> => {
   post.briefContent = briefContent;
   post.url = url;
   post.status = status;
+
   post.featuredImage = featuredImage;
+  post.featuredImageAlt = featuredImageAlt;
   post.eventDate = eventDate;
+  post.eventTime = eventTime;
 
   post.recipientGroups = recipientGroups;
   post.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
@@ -53,9 +56,9 @@ export const read = async (id: string): Promise<Post> => {
 
 export const update = async (id: string, fields: Partial<Post>): Promise<Post> => {
   const {
-    fromName, fromAddress, submitterNetId,
-    type, fullContent, briefContent, url, requestedPublicationDate, recipientGroups,
-    status, rejectionComment, rejectionReason, featuredImage, eventDate
+    fromName, fromAddress, submitterNetId, type, fullContent,
+    briefContent, url, requestedPublicationDate, recipientGroups, status,
+    rejectionComment, rejectionReason, featuredImage, featuredImageAlt, eventDate, eventTime
   } = fields;
 
   const foundPost: PostDocument = await PostModel.findOne({ _id: id });
@@ -73,8 +76,11 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
   if (status) foundPost.status = status;
   if (rejectionComment) foundPost.rejectionComment = rejectionComment;
   if (rejectionReason) foundPost.rejectionReason = rejectionReason;
+
   if (featuredImage) foundPost.featuredImage = featuredImage;
+  if (featuredImageAlt) foundPost.featuredImageAlt = featuredImageAlt;
   if (eventDate) foundPost.eventDate = eventDate;
+  if (eventTime) foundPost.eventTime = eventTime;
 
   if (requestedPublicationDate) foundPost.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
   if (fullContent) foundPost.fullContent = sanitizeHTML(fullContent);

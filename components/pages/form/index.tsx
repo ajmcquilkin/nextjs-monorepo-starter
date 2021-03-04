@@ -92,9 +92,12 @@ const Form = ({
   const [postType, setPostType] = useState<Post['type']>('announcement');
 
   const [briefContent, setBriefContent] = useState<Post['briefContent']>('');
-  const [featuredImage, setFeaturedImage] = useState<Post['featuredImage']>('');
-  const [eventDate, setEventDate] = useState<Post['eventDate']>(null);
   const [url, setUrl] = useState<Post['url']>('');
+
+  const [featuredImage, setFeaturedImage] = useState<Post['featuredImage']>('');
+  const [featuredImageAlt, setFeaturedImageAlt] = useState<Post['featuredImageAlt']>('');
+  const [eventDate, setEventDate] = useState<Post['eventDate']>(null);
+  const [eventTime, setEventTime] = useState<Post['eventTime']>('');
 
   const [recipientGroups, setRecipientGroups] = useState<Record<Group['name'], boolean>>({});
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
@@ -107,12 +110,14 @@ const Form = ({
   const [requestedPublicationDateError, setRequestedPublicationDateError] = useState<string>(''); // validated
   const [briefContentError, setBriefContentError] = useState<string>('');
 
-  // * Validated fields
-  const [eventDateError, setEventDateError] = useState<string>(''); // future
-  const [fullContentError, setFullContentError] = useState<string>(''); // length
-  const [imageError, setImageError] = useState<string>(''); // size
+  const [eventDateError, setEventDateError] = useState<string>(''); // validated
+  const [eventTimeError, setEventTimeError] = useState<string>('');
 
-  const [urlError, setUrlError] = useState<string>('');
+  // * Validated fields
+  const [fullContentError, setFullContentError] = useState<string>(''); // length
+  const [featuredImageError, setFeaturedImageError] = useState<string>(''); // size
+  const [featuredImageAltError, setFeaturedImageAltError] = useState<string>(''); // exists
+  const [urlError, setUrlError] = useState<string>(''); // valid or nonexistant
 
   useEffect(() => { if (id !== 'new') fetchPostById(id); }, []);
   useEffect(() => { setEditorState(EditorState.createWithContent(ContentState.createFromText(''))); }, []);
@@ -121,18 +126,36 @@ const Form = ({
     setFromName(post?.fromName || '');
     setFromAddress(post?.fromAddress || '');
     setRequestedPublicationDate(post?.requestedPublicationDate || addNDays(Date.now(), 1));
-    setPostType(post?.type || 'announcement');
 
+    setPostType(post?.type || 'announcement');
     setBriefContent(post?.briefContent || '');
-    setFeaturedImage(post?.featuredImage || '');
-    setEventDate(post?.eventDate || null);
     setUrl(post?.url || '');
+
+    setFeaturedImage(post?.featuredImage || '');
+    setFeaturedImageAlt(post?.featuredImageAlt || '');
+    setEventDate(post?.eventDate || null);
+    setEventTime(post?.eventTime || '');
 
     setRecipientGroups(post?.recipientGroups ? encodeRecipientGroups(post.recipientGroups) : {});
     setEditorState(post?.fullContent ? EditorState.createWithContent(stateFromHTML(post.fullContent)) : EditorState.createEmpty());
   }, [post]);
 
   const getFullContent = (state: EditorState): HTML => stateToHTML(state.getCurrentContent(), exportOptions);
+
+  const clearErrors = () => {
+    setFromNameError('');
+    setFromAddressError('');
+    setRequestedPublicationDateError('');
+    setBriefContentError('');
+
+    setEventDateError('');
+    setEventTimeError('');
+
+    setFullContentError('');
+    setFeaturedImageError('');
+    setFeaturedImageAltError('');
+    setUrlError('');
+  };
 
   const submissionIsValid = (state: EditorState): boolean => {
     let isValid = true;
@@ -158,11 +181,6 @@ const Form = ({
       isValid = false;
     }
 
-    if ((eventDate ?? 0) < addNDays(Date.now(), 1)) {
-      setEventDateError('Event date must be at least one day in the future');
-      isValid = false;
-    }
-
     if (plainContent.length > maxContentLength) {
       setFullContentError(`Content has a max length of ${maxContentLength} characters, current length is ${plainContent.length} characters`);
       isValid = false;
@@ -178,9 +196,33 @@ const Form = ({
       isValid = false;
     }
 
-    if (!isValidUrl(url)) {
+    if (url && !isValidUrl(url)) {
       setUrlError(`"${url}" is not a valid url`);
       isValid = false;
+    }
+
+    if (postType === 'event') {
+      if ((eventDate ?? 0) < addNDays(Date.now(), 1)) {
+        setEventDateError('Event date must be at least one day in the future');
+        isValid = false;
+      }
+
+      if (!eventTime) {
+        setEventTimeError('Event time is a required field');
+        isValid = false;
+      }
+    }
+
+    if (featuredImage) {
+      if (featuredImageAlt.length > 50) {
+        setFeaturedImageAltError(`Featured image description has a max length of 50 characters, current length is ${featuredImageAlt.length} characters`);
+        isValid = false;
+      }
+
+      if (!featuredImageAlt) {
+        setFeaturedImageAltError('Featured image description is a required field');
+        isValid = false;
+      }
     }
 
     return isValid;
@@ -188,34 +230,39 @@ const Form = ({
 
   const handleUpdate = (status: PostStatus) => (): void => {
     if (!submissionIsValid(editorState)) return;
+    clearErrors();
 
     const payload = {
       fromName,
       fromAddress,
       requestedPublicationDate,
-      briefContent,
-      url,
-      featuredImage,
-      type: postType,
       fullContent: getFullContent(editorState),
+      briefContent,
+
+      type: postType,
+      url,
       status,
+
+      featuredImage,
+      featuredImageAlt,
+      eventDate,
+      eventTime,
 
       submitterNetId: netId,
       recipientGroups: decodeRecipientGroups(recipientGroups),
-      eventDate
     };
 
     dispatch({
       type: 'FETCH_POST',
       status: 'SUCCESS',
-      payload: { data: { post: { _id: 'form', ...payload } as Post } }
+      payload: { data: { post: { _id: post?._id || 'form', ...payload } as Post } }
     });
 
-    openModal('SUBMIT_POST_MODAL', { postId: 'form', action: post ? 'UPDATE' : 'CREATE' });
+    openModal('SUBMIT_POST_MODAL', { postId: post?._id || 'form', action: post?._id ? 'UPDATE' : 'CREATE' });
   };
 
   const handleDiscard = () => {
-    openModal('DISCARD_POST_MODAL', { postId: 'form', action: 'DELETE' });
+    openModal('DISCARD_POST_MODAL', { postId: post?._id || 'form', action: 'DELETE' });
   };
 
   const upload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -223,7 +270,7 @@ const Form = ({
     if (!file) throw new Error('file not found');
 
     if (file.size > maxFileSize) {
-      setImageError(`File size too large (${file.size / 1024 / 1024}MB > 5MB)`);
+      setFeaturedImageError(`File size too large (${file.size / 1024 / 1024}MB > 5MB)`);
     } else {
       try {
         setImageUploading(true);
@@ -256,7 +303,7 @@ const Form = ({
         </div>
 
         <form>
-          <FormSection title="Recipients">
+          <FormSection title="Sender Information">
             <div className={styles.formInputContainer}>
               <label className={styles.large}>
                 <p>
@@ -301,7 +348,9 @@ const Form = ({
 
               <p className={styles.formInputError}>{fromAddressError}</p>
             </div>
+          </FormSection>
 
+          <FormSection title="Recipient Information">
             <div className={styles.formInputContainer}>
               <div className={[styles.label, styles.large].join(' ')}>
                 <p>To</p>
@@ -324,7 +373,7 @@ const Form = ({
             </div>
           </FormSection>
 
-          <FormSection title="Publish Date">
+          <FormSection title="Post Information">
             <div className={styles.formInputContainer}>
               <label className={styles.large}>
                 <p>
@@ -348,7 +397,7 @@ const Form = ({
             </div>
           </FormSection>
 
-          <FormSection title="Type">
+          <FormSection title="Post Type">
             <GenericSkeletonWrapper>
               <div className={[styles.formInputContainer, styles.row].join(' ')}>
                 <RadioSelector
@@ -384,7 +433,7 @@ const Form = ({
           </FormSection>
 
           {postType === 'event' ? (
-            <FormSection title="Event Date">
+            <FormSection title="Event Information">
               <div className={styles.formInputContainer}>
                 <label className={styles.large}>
                   <p>
@@ -406,10 +455,31 @@ const Form = ({
 
                 <p className={styles.formInputError}>{eventDateError}</p>
               </div>
+
+              <div className={styles.formInputContainer}>
+                <label className={styles.large}>
+                  <p>
+                    Select Event Time
+                    {' '}
+                    <span className={styles.required}>*</span>
+                  </p>
+
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="text"
+                      required
+                      value={eventTime}
+                      onChange={(e) => setEventTime(e.target.value)}
+                    />
+                  </GenericSkeletonWrapper>
+                </label>
+
+                <p className={styles.formInputError}>{eventTimeError}</p>
+              </div>
             </FormSection>
           ) : null}
 
-          <FormSection title="Body">
+          <FormSection title="Post Content">
             <div className={styles.formInputContainer}>
               <label className={styles.large}>
                 <p>
@@ -482,7 +552,7 @@ const Form = ({
             </div>
           </FormSection>
 
-          <FormSection title="Graphics">
+          <FormSection title="Post Graphics">
             <div className={styles.formInputContainer}>
               <label className={styles.large}>
                 <p>Attach Image</p>
@@ -510,14 +580,43 @@ const Form = ({
                 </div>
               </GenericSkeletonWrapper>
 
-              <p className={styles.formInputError}>{imageError}</p>
+              <p className={styles.formInputError}>{featuredImageError}</p>
             </div>
+
+            {featuredImage && (
+              <div className={styles.formInputContainer}>
+                <label className={styles.large}>
+                  <p>
+                    Image Description
+                    {' '}
+                    <span className={styles.required}>*</span>
+                  </p>
+
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Briefly describe the featured image for this post"
+                      value={featuredImageAlt}
+                      onChange={(e) => setFeaturedImageAlt(e.target.value)}
+                    />
+                  </GenericSkeletonWrapper>
+                </label>
+
+                <ContentLength
+                  contentLength={featuredImageAlt.length}
+                  maxContentLength={50}
+                />
+
+                <p className={styles.formInputError}>{featuredImageAltError}</p>
+              </div>
+            )}
           </FormSection>
 
           <section className={styles.actionButtonsContainer}>
             <GenericSkeletonWrapper>
-              <button type="button" className={styles.formSubmitButton} onClick={handleUpdate('pending')}>Submit</button>
-              <button type="button" className={styles.formSaveButton} onClick={handleUpdate('draft')}>Save Draft</button>
+              <button type="button" className={styles.formSubmitButton} onClick={handleUpdate('pending')}>Submit for Review</button>
+              {post?.status === 'draft' && <button type="button" className={styles.formSaveButton} onClick={handleUpdate('draft')}>Save as Draft</button>}
               <button type="button" className={styles.formCancelButton} onClick={handleDiscard}>Discard Post</button>
             </GenericSkeletonWrapper>
           </section>

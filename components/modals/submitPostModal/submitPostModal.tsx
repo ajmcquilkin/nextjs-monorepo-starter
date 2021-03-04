@@ -31,8 +31,18 @@ const SubmitPostModal = ({ activePost, createPost, updatePostById }: SubmitPostM
   const handleConfirm = (): void => {
     if (!postId) console.error('No valid postId found:', postId);
     else if (!activePost) console.error('No post found with postId', postId);
-    else if (action === 'UPDATE') updatePostById(postId, activePost, { successCallback: (res) => { closeModal(); router.push(`/form/${res.data.data.post._id}`); } });
-    else createPost(activePost, { successCallback: (res) => { closeModal(); router.push(`/form/${res.data.data.post._id}`); } });
+    else if (action === 'CREATE') {
+      const { _id, ...post } = activePost;
+      createPost(post, {
+        successCallback: (res) => { closeModal(); router.push(`/form/${res.data.data.post._id}`); },
+        failureCallback: closeModal
+      });
+    } else {
+      updatePostById(postId, activePost, {
+        successCallback: (res) => { closeModal(); router.push(`/form/${res.data.data.post._id}`); },
+        failureCallback: closeModal
+      });
+    }
   };
 
   return (

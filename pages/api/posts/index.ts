@@ -44,8 +44,8 @@ const handler = createDefaultHandler()
     if (!submitterNetId) throw new Error('No session "netId" field found');
 
     const {
-      type, requestedPublicationDate, fromName, fromAddress,
-      fullContent, briefContent, url, recipientGroups, featuredImage, eventDate, status = 'draft'
+      type, requestedPublicationDate, fromName, fromAddress, fullContent, briefContent,
+      url, recipientGroups, featuredImage, featuredImageAlt, eventDate, eventTime, status = 'draft'
     } = req.body;
 
     if (status === 'approved') throw new ForbiddenResourceError('Cannot initialize post as "approved"');
@@ -65,7 +65,9 @@ const handler = createDefaultHandler()
       recipientGroups,
       status,
       featuredImage,
-      eventDate
+      featuredImageAlt,
+      eventDate,
+      eventTime,
     });
 
     return res.status(201).json(createSuccessPayload<FetchPostData>({ post: newPost }));

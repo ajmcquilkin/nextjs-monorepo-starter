@@ -30,8 +30,8 @@ const handler = createDefaultHandler()
 
     const {
       fromName, fromAddress, recipientGroups,
-      type, fullContent, briefContent, url, requestedPublicationDate,
-      status, rejectionComment, rejectionReason, featuredImage, eventDate
+      type, fullContent, briefContent, url, requestedPublicationDate, status,
+      rejectionComment, rejectionReason, featuredImage, featuredImageAlt, eventDate, eventTime
     }: Post = req.body;
 
     if (status === 'approved' && !info.isReviewer) throw new ForbiddenResourceError('Insufficient permissions to approve post');
@@ -51,7 +51,9 @@ const handler = createDefaultHandler()
       rejectionComment,
       rejectionReason,
       featuredImage,
-      eventDate
+      featuredImageAlt,
+      eventDate,
+      eventTime
     });
 
     return res.status(200).json(createSuccessPayload<FetchPostData>({ post: updatedPost }));
