@@ -14,6 +14,7 @@ import GenericSkeletonWrapper from 'components/helpers/genericSkeletonWrapper';
 
 import FormSection from 'components/form/formSection';
 import ContentLength from 'components/form/contentLength';
+import RadioSelector from 'components/form/radioSelector';
 import RichTextEditor from 'components/form/richTextEditor';
 import FormGroup from 'components/layout/formGroup';
 
@@ -293,38 +294,32 @@ const Form = ({
           <FormSection title="Type">
             <GenericSkeletonWrapper>
               <div className={[styles.formInputContainer, styles.row].join(' ')}>
-                <label className={[styles.small, styles.formTypeSelector].join(' ')}>
-                  <input
-                    type="radio"
-                    name="form-type"
-                    value="news"
-                    checked={postType === 'news'}
-                    onChange={() => setPostType('news')}
-                  />
-                  <p>News</p>
-                </label>
+                <RadioSelector
+                  name="form-type"
+                  value="news"
+                  label="News"
+                  isChecked={postType === 'news'}
+                  onClick={() => setPostType('news')}
+                  className={[styles.small, styles.formTypeSelector].join(' ')}
+                />
 
-                <label className={[styles.small, styles.formTypeSelector].join(' ')}>
-                  <input
-                    type="radio"
-                    name="form-type"
-                    value="announcement"
-                    checked={postType === 'announcement'}
-                    onChange={() => setPostType('announcement')}
-                  />
-                  <p>Announcement</p>
-                </label>
+                <RadioSelector
+                  name="form-type"
+                  value="announcement"
+                  label="Announcement"
+                  isChecked={postType === 'announcement'}
+                  onClick={() => setPostType('announcement')}
+                  className={[styles.small, styles.formTypeSelector].join(' ')}
+                />
 
-                <label className={[styles.small, styles.formTypeSelector].join(' ')}>
-                  <input
-                    type="radio"
-                    name="form-type"
-                    value="event"
-                    checked={postType === 'event'}
-                    onChange={() => setPostType('event')}
-                  />
-                  <p>Event</p>
-                </label>
+                <RadioSelector
+                  name="form-type"
+                  value="event"
+                  label="Event"
+                  isChecked={postType === 'event'}
+                  onClick={() => setPostType('event')}
+                  className={[styles.small, styles.formTypeSelector].join(' ')}
+                />
               </div>
             </GenericSkeletonWrapper>
           </FormSection>

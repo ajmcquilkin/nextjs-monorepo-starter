@@ -1,5 +1,6 @@
-import Checkbox from 'components/form/checkbox';
 import { createElement } from 'react';
+import Checkbox from 'components/form/checkbox';
+
 import { Group } from 'types/group';
 
 import styles from './formGroup.module.scss';
