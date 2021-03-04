@@ -25,6 +25,7 @@ const modalReducer = (state = initialState, action: Actions): ModalState => {
         content: action.payload.data.config.content || '',
 
         bgColor: action.payload.data.config.bgColor || initialState.bgColor,
+        action: action.payload.data.config.action || initialState.action,
         postId: action.payload.data.config.postId || initialState.postId
       };
 
@@ -37,6 +38,7 @@ const modalReducer = (state = initialState, action: Actions): ModalState => {
         content: initialState.content,
 
         bgColor: initialState.bgColor,
+        action: initialState.action,
         postId: initialState.postId
       };
 

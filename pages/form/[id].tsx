@@ -19,7 +19,7 @@ const postLoadingSelector = createLoadingSelector(['FETCH_POST', 'DELETE_POST'])
 
 const mapStateToProps = (state: RootState, ownProps: FormProps): FormStateProps => ({
   isAuthenticated: state.user.isAuthenticated,
-  isReviewer: false,
+  isReviewer: state.user.isReviewer,
 
   groups: FormGroups,
   netId: state.user.netId || '',

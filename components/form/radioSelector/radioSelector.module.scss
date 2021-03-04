@@ -1,0 +1,62 @@
+@import 'styles/variables.scss';
+
+$checkbox-size: 24px;
+
+.radioSelectorContainer {
+  position: relative;
+  margin-bottom: 18px;
+  padding-left: calc(#{$checkbox-size} + 12px);
+
+  font-size: 16px;
+  user-select: none;
+  cursor: pointer;
+
+  &:hover input ~ .radioSelector {
+    background-color: $web-gray-one;
+  }
+  
+  input {
+    position: absolute;
+    height: 0;
+    width: 0;
+    
+    opacity: 0;
+    cursor: pointer;
+
+    &:checked ~ .radioSelector {
+      background-color: $dartmouth-green;
+    }
+
+    &:checked ~ .radioSelector::after {
+      display: block;
+    }
+  }
+
+  .radioSelector {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: $checkbox-size;
+    height: $checkbox-size;
+    background-color: $web-gray-two;
+    border-radius: 50%;
+
+    &::after {
+      content: "";
+      position: absolute;
+      display: none;
+
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: calc(#{$checkbox-size} / 3);
+      height: calc(#{$checkbox-size} / 3);
+      border-radius: 50%;
+      background: $snow-white;
+    }
+  }
+
+  p {
+    margin: auto 0px;
+  }
+}

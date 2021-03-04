@@ -6,14 +6,19 @@ import { Release, ReleaseDocument, CreateReleaseType } from 'types/release';
 
 export const create = async (fields: CreateReleaseType): Promise<Release> => {
   const {
-    date, subject, headerImage, quoteOfDay, quotedContext, featuredPost, news, announcements, events
+    date, subject, headerImage, headerImageCaption, headerImageAlt,
+    quoteOfDay, quotedContext, featuredPost, news, announcements, events
   } = fields;
 
   const release = new ReleaseModel();
 
   release.date = getMidnightDate(date);
+
   release.subject = subject;
   release.headerImage = headerImage;
+  release.headerImageCaption = headerImageCaption;
+  release.headerImageAlt = headerImageAlt;
+
   release.quoteOfDay = quoteOfDay;
   release.quotedContext = quotedContext;
   release.featuredPost = featuredPost;
@@ -46,6 +51,9 @@ export const fetchOrCreateReleaseByDate = async (requestedPublicationDate: numbe
       date: requestedPublicationDate,
 
       headerImage: '',
+      headerImageCaption: '',
+      headerImageAlt: '',
+
       subject: '',
       quoteOfDay: '',
       quotedContext: '',
@@ -62,15 +70,20 @@ export const fetchOrCreateReleaseByDate = async (requestedPublicationDate: numbe
 
 export const update = async (id: string, fields: Partial<Release>): Promise<Release> => {
   const {
-    date, subject, headerImage, quoteOfDay, quotedContext, featuredPost, news, announcements, events
+    date, subject, headerImage, headerImageCaption, headerImageAlt,
+    quoteOfDay, quotedContext, featuredPost, news, announcements, events
   } = fields;
 
   const foundRelease: ReleaseDocument = await ReleaseModel.findOne({ _id: id });
   if (!foundRelease) throw new DocumentNotFoundError(id);
 
   if (date) foundRelease.date = getMidnightDate(date);
+
   if (subject) foundRelease.subject = subject;
   if (headerImage) foundRelease.headerImage = headerImage;
+  if (headerImageCaption) foundRelease.headerImageCaption = headerImageCaption;
+  if (headerImageAlt) foundRelease.headerImageAlt = headerImageAlt;
+
   if (quoteOfDay) foundRelease.quoteOfDay = quoteOfDay;
   if (quotedContext) foundRelease.quotedContext = quotedContext;
   if (featuredPost) foundRelease.featuredPost = featuredPost;

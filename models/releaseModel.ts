@@ -6,7 +6,9 @@ const releaseSchemaFields: Record<keyof Omit<Release, '_id'>, any> = {
 
   subject: { type: String, default: '' },
   headerImage: { type: String, default: '' },
-  imageCaption: { type: String, default: '' },
+  headerImageCaption: { type: String, default: '' },
+  headerImageAlt: { type: String, default: '' },
+
   quoteOfDay: { type: String, default: '' },
   quotedContext: { type: String, default: '' },
   featuredPost: { type: Schema.Types.ObjectId, ref: 'Post', default: null },
@@ -15,7 +17,7 @@ const releaseSchemaFields: Record<keyof Omit<Release, '_id'>, any> = {
   announcements: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
   events: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
 
-  // ?? Maybe add lastedited Date?
+  lastEdited: { type: Date, default: Date.now }
 };
 
 const ReleaseSchema = new Schema(releaseSchemaFields);

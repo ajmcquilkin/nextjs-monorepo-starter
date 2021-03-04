@@ -1,0 +1,73 @@
+// Reference: https://www.w3schools.com/howto/howto_css_custom_checkbox.asp
+// Reference: https://www.w3schools.com/cssref/css_selectors.asp
+
+@import 'styles/variables.scss';
+
+$checkbox-size: 24px;
+
+.checkboxContainer {
+  margin-bottom: 18px;
+  padding-left: calc(#{$checkbox-size} + 12px);
+  position: relative;
+
+  user-select: none;
+  cursor: pointer;
+
+  // Hover state
+  &:hover input ~ .checkmark {
+    background-color: $web-gray-one;
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(0px, -50%);
+
+    height: $checkbox-size;
+    width: $checkbox-size;
+
+    border-radius: 4px;
+    background-color: $snow-white;
+    border: 2px solid $web-gray-two;
+
+    &::after {
+      content: "";
+      position: absolute;
+      display: none;
+
+      left: calc(#{$checkbox-size} / 2.8);
+      top: calc(#{$checkbox-size} / 5.5);
+      width: calc(#{$checkbox-size} / 6);
+      height: calc(#{$checkbox-size} / 2.5);
+      transform: rotate(45deg);
+
+      border: solid $snow-white;
+      border-width: 0 calc(#{$checkbox-size} / 8) calc(#{$checkbox-size} / 8) 0;
+    }
+  }
+
+  input {
+    position: absolute;
+    height: 0;
+    width: 0;
+    
+    opacity: 0;
+    cursor: pointer;
+
+    &:checked ~ .checkmark {
+      background-color: $dartmouth-green;
+      border: none;
+    }
+
+    &:checked ~ .checkmark::after {
+      display: block;
+      background-color: $dartmouth-green;
+    }
+  }
+
+  p {
+    margin: auto 0px;
+    font-size: 16px;
+  }
+}

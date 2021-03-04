@@ -6,9 +6,12 @@ import { Action } from './state';
 
 export interface Release {
     date: number,
+
     subject: string,
     headerImage: string,
-    imageCaption: string,
+    headerImageCaption: string,
+    headerImageAlt: string,
+
     quoteOfDay: string,
     quotedContext: string,
     featuredPost: string | null,
@@ -17,11 +20,13 @@ export interface Release {
     announcements: string[],
     events: string[],
 
+    lastEdited: number,
     _id: string
 }
 
 export type ReleaseDocument = Release & Document<string>;
-export type CreateReleaseType = Pick<Release, 'date' | 'subject' | 'headerImage' | 'quoteOfDay' | 'quotedContext' | 'featuredPost' | 'news' | 'announcements' | 'events'>;
+export type CreateReleaseType = Pick<Release, 'date' | 'subject' | 'headerImage' | 'headerImageCaption' | 'headerImageAlt'
+    | 'quoteOfDay' | 'quotedContext' | 'featuredPost' | 'news' | 'announcements' | 'events'>;
 
 /* -------- State -------- */
 

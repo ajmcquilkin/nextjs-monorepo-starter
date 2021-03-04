@@ -1,4 +1,6 @@
 import { createElement } from 'react';
+import Checkbox from 'components/form/checkbox';
+
 import { Group } from 'types/group';
 
 import styles from './formGroup.module.scss';
@@ -20,13 +22,11 @@ const FormGroup = ({
         {group?.list?.map((g) => (typeof g === 'string'
           ? (
             <li key={g}>
-              <input
-                type="checkbox"
+              <Checkbox
                 value={g}
-                checked={!!selectedElements[g]}
-                onChange={() => setSelectedState(g, !selectedElements[g])}
+                isChecked={!!selectedElements[g]}
+                onCheck={() => setSelectedState(g, !selectedElements[g])}
               />
-              <p>{g}</p>
             </li>
           )
           : (

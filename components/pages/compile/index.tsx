@@ -11,6 +11,7 @@ import SkeletonArea from 'components/helpers/skeletonArea';
 import GenericSkeletonWrapper from 'components/helpers/genericSkeletonWrapper';
 import SubmissionSkeleton from 'components/submissions/submissionSkeleton';
 
+import ContentLength from 'components/form/contentLength';
 import CompileSection from 'components/layout/compileSection';
 import DraggablePost from 'components/posts/draggablePost';
 import DraggablePostTarget from 'components/posts/draggablePostTarget';
@@ -64,7 +65,9 @@ const Compile = ({
 
   const [subject, setSubject] = useState<Release['subject']>('');
   const [headerImage, setHeaderImage] = useState<Release['headerImage']>('');
-  const [imageCaption, setImageCaption] = useState<Release['imageCaption']>('');
+  const [headerImageCaption, setHeaderImageCaption] = useState<Release['headerImageCaption']>('');
+  const [headerImageAlt, setHeaderImageAlt] = useState<Release['headerImageAlt']>('');
+
   const [quoteOfDay, setQuoteOfDay] = useState<Release['quoteOfDay']>('');
   const [quotedContext, setQuotedContext] = useState<Release['quotedContext']>('');
   const [featuredPost, setFeaturedPost] = useState<Release['featuredPost']>(null);
@@ -75,6 +78,12 @@ const Compile = ({
 
   const releaseDate = addNDays(Date.now(), 1);
 
+  // * Required fields
+  const [subjectError, setSubjectError] = useState<string>('');
+  const [headerImageAltError, setHeaderImageAltError] = useState<string>(''); // validated
+
+  // * Validated fields
+
   useEffect(() => {
     fetchReleaseByDate(releaseDate);
     fetchPostsByDate(releaseDate);
@@ -83,7 +92,9 @@ const Compile = ({
   useEffect(() => {
     setSubject(release?.subject || '');
     setHeaderImage(release?.headerImage || '');
-    setImageCaption(release?.imageCaption || '');
+    setHeaderImageCaption(release?.headerImageCaption || '');
+    setHeaderImageAlt(release?.headerImageAlt || '');
+
     setQuoteOfDay(release?.quoteOfDay || '');
     setQuotedContext(release?.quotedContext || '');
     setFeaturedPost(release?.featuredPost || null);
@@ -116,11 +127,42 @@ const Compile = ({
     }
   };
 
+  const clearErrors = () => {
+    setSubjectError('');
+    setHeaderImageAltError('');
+  };
+
+  const submissionIsValid = (): boolean => {
+    let isValid = true;
+
+    if (!subject) {
+      setSubjectError('Subject is a required field');
+      isValid = false;
+    }
+
+    if (headerImage && !headerImageAlt) {
+      setHeaderImageAltError('Image description is a required field');
+      isValid = false;
+    }
+
+    if (headerImage && headerImageAlt.length > 50) {
+      setHeaderImageAltError(`Image description has a max length of 50 characters, current length is ${headerImageAlt.length} characters`);
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
   const handleReleaseUpdate = async () => {
+    if (!submissionIsValid()) return;
+    clearErrors();
+
     const body = {
       subject,
       headerImage,
-      imageCaption,
+      headerImageCaption,
+      headerImageAlt,
+
       quoteOfDay,
       quotedContext,
       featuredPost,
@@ -153,86 +195,141 @@ const Compile = ({
           <section>
             <h2>{getFullDate(releaseDate)}</h2>
             <div id="compileHeaderTextContainer">
-              <p>* Click on the dots on the left and drag and drop to re-order.</p>
+              <p>Click on the dots on the left and drag and drop to re-order.</p>
             </div>
           </section>
 
-          <CompileSection title="Release Subject">
-            <GenericSkeletonWrapper>
+          <CompileSection title="General">
+            <div className="formInputContainer">
               <label>
-                <input
-                  type="text"
-                  placeholder="Enter subject line for email"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                />
+                <p className="labelText">
+                  Release Headline
+                  {' '}
+                  <span className="required">*</span>
+                </p>
+
+                <GenericSkeletonWrapper>
+                  <input
+                    placeholder="Enter subject line for email"
+                    type="text"
+                    required
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                  />
+                </GenericSkeletonWrapper>
+
+                <p className="formInputError">{subjectError}</p>
               </label>
-            </GenericSkeletonWrapper>
-          </CompileSection>
+            </div>
 
-          <CompileSection title="Header Image (optional)">
-            <GenericSkeletonWrapper>
+            <div className="formInputContainer">
               <label>
-                <input
-                  type="file"
-                  alt="Select image to upload"
-                  id="headerImage"
-                  onChange={(e) => { upload(e); }}
-                />
+                <p className="labelText">Header Image</p>
 
-                <div>
-                  {imageUploading === true ? <p>Uploading...</p> : <span />}
-                  {headerImage ? (
-                    <>
-                      <p>Uploaded Image</p>
-                      <img
-                        src={headerImage}
-                        alt="optional headerImage"
-                        width={400}
+                <GenericSkeletonWrapper>
+                  <input
+                    type="file"
+                    alt="Select image to upload"
+                    accept="image/*"
+                    id="headerImage"
+                    onChange={(e) => { upload(e); }}
+                  />
+
+                  <div>
+                    {imageUploading === true ? <p>Uploading...</p> : null}
+                    {headerImage ? (
+                      <>
+                        <img
+                          src={headerImage}
+                          alt={headerImageAlt}
+                          width={400}
+                        />
+                        <p>Uploaded Image</p>
+                      </>
+                    ) : null}
+                  </div>
+                </GenericSkeletonWrapper>
+              </label>
+            </div>
+
+            {headerImage && (
+              <div className="formInputContainer">
+                <label>
+                  <p className="labelText">Image Caption</p>
+
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="text"
+                      placeholder="Give a caption for the featured image"
+                      value={headerImageCaption}
+                      onChange={(e) => setHeaderImageCaption(e.target.value)}
+                    />
+                  </GenericSkeletonWrapper>
+                </label>
+              </div>
+            )}
+
+            <GenericSkeletonWrapper>
+              {headerImage && (
+                <div className="formInputContainer">
+                  <label className="large">
+                    <p className="labelText">
+                      Image Description
+                      {' '}
+                      <span className="required">*</span>
+                    </p>
+
+                    <GenericSkeletonWrapper>
+                      <input
+                        type="text"
+                        required
+                        placeholder="Briefly describe the featured image"
+                        value={headerImageAlt}
+                        onChange={(e) => setHeaderImageAlt(e.target.value)}
                       />
-                    </>
-                  ) : <div />}
-                </div>
-              </label>
-            </GenericSkeletonWrapper>
+                    </GenericSkeletonWrapper>
+                  </label>
 
-            <GenericSkeletonWrapper>
-              <label>
-                <p>Image Caption</p>
-                <input
-                  type="text"
-                  placeholder="Give a caption for the featured image"
-                  value={imageCaption}
-                  onChange={(e) => setImageCaption(e.target.value)}
-                />
-              </label>
+                  <ContentLength
+                    contentLength={headerImageAlt.length}
+                    maxContentLength={50}
+                  />
+
+                  <p className="formInputError">{headerImageAltError}</p>
+                </div>
+              )}
             </GenericSkeletonWrapper>
           </CompileSection>
 
           <CompileSection title="Quote of the Day (optional)">
-            <GenericSkeletonWrapper>
+            <div className="formInputContainer">
               <label>
-                <p>Headline</p>
-                <input
-                  type="text"
-                  placeholder="Enter quote of the day"
-                  value={quoteOfDay}
-                  onChange={(e) => setQuoteOfDay(e.target.value)}
-                />
+                <p className="labelText">Quote Text</p>
+                <GenericSkeletonWrapper>
+                  <input
+                    type="text"
+                    placeholder="Enter quote of the day"
+                    value={quoteOfDay}
+                    onChange={(e) => setQuoteOfDay(e.target.value)}
+                  />
+                </GenericSkeletonWrapper>
               </label>
-            </GenericSkeletonWrapper>
+            </div>
 
-            <GenericSkeletonWrapper>
-              <label>
-                <p>Context</p>
-                <input
-                  type="text"
-                  placeholder="Give context about the quoted individual"
-                  value={quotedContext}
-                  onChange={(e) => setQuotedContext(e.target.value)}
-                />
-              </label>
-            </GenericSkeletonWrapper>
+            <div className="formInputContainer">
+
+              <GenericSkeletonWrapper>
+                <label>
+                  <p className="labelText">Quote Attribution</p>
+                  <input
+                    type="text"
+                    placeholder="Give context about the quoted individual"
+                    value={quotedContext}
+                    onChange={(e) => setQuotedContext(e.target.value)}
+                  />
+                </label>
+              </GenericSkeletonWrapper>
+            </div>
           </CompileSection>
 
           <CompileSection title="Featured Story (optional)">

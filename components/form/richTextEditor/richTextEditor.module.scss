@@ -1,6 +1,25 @@
+@import 'styles/variables.scss';
+
 .rteContainer {
+    border-radius: 8px;
+
     .rteMenuContainer {
         display: flex;
         flex-direction: row;
+        padding: 3px;
+
+        background: #CACCCF;
+        border-radius: 8px 8px 0px 0px;
+
+        button {
+            color: $granite-gray;
+            padding: 6px 15px;
+            font-size: 12px;
+            font-weight: 600;
+            
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
     }
 }

@@ -32,13 +32,15 @@ const HomeSubmission = ({ content }: HomeSubmissionProps): JSX.Element => {
 
         <div className={styles.content} dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
 
-        <div className={styles.linkContainer}>
-          <img src="/icons/link.svg" alt="link chain" />
-          <Link href={content.url}><a>{content.url}</a></Link>
-        </div>
+        {content.url && (
+          <div className={styles.linkContainer}>
+            <img src="/icons/link.svg" alt="link chain" />
+            <Link href={content.url}><a>{content.url}</a></Link>
+          </div>
+        )}
       </div>
 
-      {content.featuredImage ? <img className={styles.featuredImage} src={content.featuredImage} alt="featured story" /> : null}
+      {content.featuredImage ? <img className={styles.featuredImage} src={content.featuredImage} alt={content?.featuredImageAlt || ''} /> : null}
     </div>
   );
 };

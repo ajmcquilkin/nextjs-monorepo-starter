@@ -1,4 +1,4 @@
-import './contentLength.module.scss';
+import styles from './contentLength.module.scss';
 
 export interface ContentLengthProps {
   contentLength: number,
@@ -7,13 +7,15 @@ export interface ContentLengthProps {
 }
 
 const ContentLength = ({ contentLength, maxContentLength, className = '' }: ContentLengthProps): JSX.Element => (
-  <p className={`clc-container${className ? ` ${className}` : ''}${contentLength <= maxContentLength ? '' : ' invalid'}`}>
-    {contentLength}
-    /
-    {maxContentLength}
-    {' '}
-    characters
-  </p>
+  <div className={className}>
+    <p className={[styles.contentLengthContainer, contentLength <= maxContentLength ? '' : styles.invalid].join(' ')}>
+      {contentLength}
+      /
+      {maxContentLength}
+      {' '}
+      characters
+    </p>
+  </div>
 );
 
 export default ContentLength;

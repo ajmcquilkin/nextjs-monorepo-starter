@@ -16,13 +16,25 @@ const handler = createDefaultHandler()
     if (!info.isReviewer) { throw new ForbiddenResourceError(); }
 
     const {
-      subject, headerImage, quoteOfDay, quotedContext, featuredPost, date, news, announcements, events
+      subject, headerImage, headerImageCaption, headerImageAlt,
+      quoteOfDay, quotedContext, featuredPost, date,
+      news, announcements, events
     } = req.body;
 
     if (!date) throw new IncompleteRequestError('date');
 
     const newRelease = await releaseController.create({
-      subject, headerImage, quoteOfDay, quotedContext, featuredPost, date, news, announcements, events
+      subject,
+      headerImage,
+      headerImageCaption,
+      headerImageAlt,
+      quoteOfDay,
+      quotedContext,
+      featuredPost,
+      date,
+      news,
+      announcements,
+      events
     });
 
     const foundPosts = await postController.fetchPostsForRelease(newRelease);

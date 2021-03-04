@@ -1,8 +1,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
+import { validate } from 'email-validator';
 
 import { EditorState, ContentState } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
@@ -13,6 +15,7 @@ import GenericSkeletonWrapper from 'components/helpers/genericSkeletonWrapper';
 
 import FormSection from 'components/form/formSection';
 import ContentLength from 'components/form/contentLength';
+import RadioSelector from 'components/form/radioSelector';
 import RichTextEditor from 'components/form/richTextEditor';
 import FormGroup from 'components/layout/formGroup';
 
@@ -32,8 +35,9 @@ import {
 } from 'store/actionCreators/requestActionCreators';
 
 import {
-  maxContentLength, generateFrontendErrorMessage, addNDays,
-  handleEncodeDate, handleDecodeDate, encodeRecipientGroups, decodeRecipientGroups
+  maxContentLength, addNDays, isValidUrl, maxFileSize,
+  handleEncodeDate, handleDecodeDate, handleEncodeTime, handleDecodeTime,
+  encodeRecipientGroups, decodeRecipientGroups
 } from 'utils';
 import uploadImage from 'utils/s3';
 
@@ -64,6 +68,7 @@ export interface FormDispatchProps {
   fetchPostById: ConnectedThunkCreator<typeof fetchPostByIdImport>,
   updatePostById: ConnectedThunkCreator<typeof updatePostByIdImport>,
   deletePostById: ConnectedThunkCreator<typeof deletePostByIdImport>,
+
   openModal: ConnectedThunkCreator<typeof openModalImport>,
   setError: ConnectedThunkCreator<typeof setErrorImport>
 }
@@ -75,10 +80,9 @@ const exportOptions: DraftJSExportOptions = {
 };
 
 const Form = ({
-  groups, postIsLoading, postErrorMessage,
-  id, post, netId,
-  createPost, fetchPostById, updatePostById, deletePostById,
-  openModal, setError,
+  groups, postIsLoading,
+  id, post, netId, isReviewer,
+  fetchPostById, updatePostById, openModal,
 }: FormProps): JSX.Element => {
   const router = useRouter();
   const dispatch = useDispatch<GlobalDispatch>();
@@ -89,18 +93,32 @@ const Form = ({
   const [postType, setPostType] = useState<Post['type']>('announcement');
 
   const [briefContent, setBriefContent] = useState<Post['briefContent']>('');
-  const [featuredImage, setFeaturedImage] = useState<Post['featuredImage']>('');
-  const [eventDate, setEventDate] = useState<Post['eventDate']>(null);
   const [url, setUrl] = useState<Post['url']>('');
+
+  const [featuredImage, setFeaturedImage] = useState<Post['featuredImage']>('');
+  const [featuredImageAlt, setFeaturedImageAlt] = useState<Post['featuredImageAlt']>('');
+  const [eventDate, setEventDate] = useState<Post['eventDate']>(null);
+  const [eventTime, setEventTime] = useState<Post['eventTime']>(null);
 
   const [recipientGroups, setRecipientGroups] = useState<Record<Group['name'], boolean>>({});
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
 
   const [imageUploading, setImageUploading] = useState<boolean>(false);
 
-  const [postTypeError, setPostTypeError] = useState<string>('');
+  // * Required fields
+  const [fromNameError, setFromNameError] = useState<string>('');
+  const [fromAddressError, setFromAddressError] = useState<string>(''); // validated
+  const [requestedPublicationDateError, setRequestedPublicationDateError] = useState<string>(''); // validated
   const [briefContentError, setBriefContentError] = useState<string>('');
-  const [fullContentError, setFullContentError] = useState<string>('');
+
+  const [eventDateError, setEventDateError] = useState<string>(''); // validated
+  const [eventTimeError, setEventTimeError] = useState<string>('');
+
+  // * Validated fields
+  const [fullContentError, setFullContentError] = useState<string>(''); // length
+  const [featuredImageError, setFeaturedImageError] = useState<string>(''); // size
+  const [featuredImageAltError, setFeaturedImageAltError] = useState<string>(''); // exists
+  const [urlError, setUrlError] = useState<string>(''); // valid or nonexistant
 
   useEffect(() => { if (id !== 'new') fetchPostById(id); }, []);
   useEffect(() => { setEditorState(EditorState.createWithContent(ContentState.createFromText(''))); }, []);
@@ -109,12 +127,15 @@ const Form = ({
     setFromName(post?.fromName || '');
     setFromAddress(post?.fromAddress || '');
     setRequestedPublicationDate(post?.requestedPublicationDate || addNDays(Date.now(), 1));
-    setPostType(post?.type || 'announcement');
 
+    setPostType(post?.type || 'announcement');
     setBriefContent(post?.briefContent || '');
-    setFeaturedImage(post?.featuredImage || '');
-    setEventDate(post?.eventDate || null);
     setUrl(post?.url || '');
+
+    setFeaturedImage(post?.featuredImage || '');
+    setFeaturedImageAlt(post?.featuredImageAlt || '');
+    setEventDate(post?.eventDate || null);
+    setEventTime(post?.eventTime ?? 0);
 
     setRecipientGroups(post?.recipientGroups ? encodeRecipientGroups(post.recipientGroups) : {});
     setEditorState(post?.fullContent ? EditorState.createWithContent(stateFromHTML(post.fullContent)) : EditorState.createEmpty());
@@ -122,119 +143,224 @@ const Form = ({
 
   const getFullContent = (state: EditorState): HTML => stateToHTML(state.getCurrentContent(), exportOptions);
 
+  const clearErrors = () => {
+    setFromNameError('');
+    setFromAddressError('');
+    setRequestedPublicationDateError('');
+    setBriefContentError('');
+
+    setEventDateError('');
+    setEventTimeError('');
+
+    setFullContentError('');
+    setFeaturedImageError('');
+    setFeaturedImageAltError('');
+    setUrlError('');
+  };
+
   const submissionIsValid = (state: EditorState): boolean => {
     let isValid = true;
     const plainContent = state.getCurrentContent().getPlainText();
 
-    if (!plainContent.length) { setFullContentError('Content is a required field'); isValid = false; }
+    if (!fromName) {
+      setFromNameError('"From Name" is a required field');
+      isValid = false;
+    }
+
+    if (!fromAddress) {
+      setFromAddressError('"From Address" is a required field');
+      isValid = false;
+    }
+
+    if (fromAddress && !validate(fromAddress)) {
+      setFromAddressError(`"${fromAddress}" is not a valid email`);
+      isValid = false;
+    }
+
+    if (requestedPublicationDate < addNDays(Date.now(), 1)) {
+      setRequestedPublicationDateError('Publication date must be at least one day in the future');
+      isValid = false;
+    }
+
     if (plainContent.length > maxContentLength) {
       setFullContentError(`Content has a max length of ${maxContentLength} characters, current length is ${plainContent.length} characters`);
       isValid = false;
     }
 
-    if (!postType) { setPostTypeError('Type is a required field'); isValid = false; }
-    if (!briefContent) { setBriefContentError('Brief content is a required field'); isValid = false; }
+    if (!briefContent) {
+      setBriefContentError('Brief content is a required field');
+      isValid = false;
+    }
+
+    if (briefContent.length > 50) {
+      setBriefContentError(`Headline has a max length of 50 characters, current length is ${briefContent.length} characters`);
+      isValid = false;
+    }
+
+    if (url && !isValidUrl(url)) {
+      setUrlError(`"${url}" is not a valid url`);
+      isValid = false;
+    }
+
+    if (postType === 'event') {
+      if ((eventDate ?? 0) < addNDays(Date.now(), 1)) {
+        setEventDateError('Event date must be at least one day in the future');
+        isValid = false;
+      }
+
+      if (eventTime == null) {
+        setEventTimeError('Event time is a required field');
+        isValid = false;
+      }
+    }
+
+    if (featuredImage) {
+      if (featuredImageAlt.length > 50) {
+        setFeaturedImageAltError(`Featured image description has a max length of 50 characters, current length is ${featuredImageAlt.length} characters`);
+        isValid = false;
+      }
+
+      if (!featuredImageAlt) {
+        setFeaturedImageAltError('Featured image description is a required field');
+        isValid = false;
+      }
+    }
 
     return isValid;
   };
 
   const handleUpdate = (status: PostStatus) => (): void => {
     if (!submissionIsValid(editorState)) return;
+    clearErrors();
 
     const payload = {
       fromName,
       fromAddress,
       requestedPublicationDate,
-      briefContent,
-      url,
-      featuredImage,
-      type: postType,
       fullContent: getFullContent(editorState),
+      briefContent,
+
+      type: postType,
+      url,
       status,
+
+      featuredImage,
+      featuredImageAlt,
+      eventDate,
+      eventTime,
 
       submitterNetId: netId,
       recipientGroups: decodeRecipientGroups(recipientGroups),
-      eventDate
     };
 
     dispatch({
       type: 'FETCH_POST',
       status: 'SUCCESS',
-      payload: { data: { post: { _id: 'form', ...payload } as Post } }
+      payload: { data: { post: { _id: post?._id || 'form', ...payload } as Post } }
     });
 
-    openModal('SUBMIT_POST_MODAL', { postId: 'form', action: post ? 'UPDATE' : 'CREATE' });
+    openModal('SUBMIT_POST_MODAL', { postId: post?._id || 'form', action: post?._id ? 'UPDATE' : 'CREATE' });
   };
 
   const handleDiscard = () => {
-    openModal('DISCARD_POST_MODAL', { postId: 'form', action: 'DELETE' });
+    openModal('DISCARD_POST_MODAL', { postId: post?._id || 'form', action: 'DELETE' });
   };
 
   const upload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target?.files?.[0];
     if (!file) throw new Error('file not found');
 
-    try {
-      setImageUploading(true);
-      const imageURL = await uploadImage(file);
-      setImageUploading(false);
-      setFeaturedImage(imageURL);
-      if (post) { updatePostById(post._id, { featuredImage: imageURL }); }
-    } catch (error) {
-      console.error(error.message);
+    if (file.size > maxFileSize) {
+      setFeaturedImageError(`File size too large (${file.size / 1024 / 1024}MB > 5MB)`);
+    } else {
+      try {
+        setImageUploading(true);
+        const imageURL = await uploadImage(file);
+        setImageUploading(false);
+        setFeaturedImage(imageURL);
+        if (post) { updatePostById(post._id, { featuredImage: imageURL }); }
+      } catch (error) {
+        console.error(error.message);
+      }
     }
   };
 
   return (
     <div className={styles.formContainer}>
       <SkeletonArea isLoading={postIsLoading}>
-        <h1>{post ? 'Edit Submission' : 'New Submission'}</h1>
+        <div className={styles.titleContainer}>
+          <button type="button" onClick={() => router.push('/submissions')}>
+            <img src="/icons/left.svg" alt="back to submissions" />
+            <p>Submissions</p>
+          </button>
+
+          <h1>{post ? 'Edit Submission' : 'New Submission'}</h1>
+          <p>
+            View Vox Submission Guidelines
+            {' '}
+            <Link href="https://communications.dartmouth.edu/faculty-and-staff/vox-daily-guidelines"><a>here</a></Link>
+            .
+          </p>
+        </div>
+
         <form>
-          <FormSection title="Recipients">
-            <div className={styles.formFromContainer}>
-              <GenericSkeletonWrapper>
-                <label className={styles.formLabelLarge}>
-                  <p>
-                    From Name
-                    <span className={styles.formRequiredField}>*</span>
-                  </p>
+          <FormSection title="Sender Information">
+            <div className="formInputContainer">
+              <label>
+                <p className="labelText">
+                  From Name
+                  {' '}
+                  <span className="required">*</span>
+                </p>
+
+                <GenericSkeletonWrapper>
                   <input
                     placeholder="Type department or division name here"
+                    required
                     type="text"
                     value={fromName}
                     onChange={(e) => setFromName(e.target.value)}
                   />
-                </label>
-              </GenericSkeletonWrapper>
+
+                </GenericSkeletonWrapper>
+              </label>
+
+              <p className="formInputError">{fromNameError}</p>
             </div>
 
-            <div className={styles.formFromContainer}>
-              <GenericSkeletonWrapper>
-                <label className={styles.formLabelLarge}>
-                  <p>
-                    From Address
-                    <span className={styles.formRequiredField}>*</span>
-                  </p>
+            <div className="formInputContainer">
+              <label>
+                <p className="labelText">
+                  From Address
+                  {' '}
+                  <span className="required">*</span>
+                </p>
+
+                <GenericSkeletonWrapper>
                   <input
                     placeholder="Type email of sending individual or department"
+                    required
                     type="email"
                     value={fromAddress}
                     onChange={(e) => setFromAddress(e.target.value)}
                   />
-                </label>
-              </GenericSkeletonWrapper>
-            </div>
+                </GenericSkeletonWrapper>
+              </label>
 
-            <div className={styles.formToContainer}>
-              <div className={styles.formLabelLarge}>
-                To
-                <span className={styles.formRequiredField}>*</span>
+              <p className="formInputError">{fromAddressError}</p>
+            </div>
+          </FormSection>
+
+          <FormSection title="Recipient Information">
+            <div className="formInputContainer">
+              <div className={['label', 'large'].join(' ')}>
+                <p className="labelText">To</p>
               </div>
 
               <GenericSkeletonWrapper>
-                <ul className={styles.formListsCheckboxContainer}>
+                <ul className={styles.formGroupListContainer}>
                   {groups.map((group) => (
-                    <li key={group.name} className={styles.formListsCheckboxContainer}>
+                    <li key={group.name} className={styles.formGroupList}>
                       <FormGroup
                         group={group}
                         headerDepth={3}
@@ -248,154 +374,247 @@ const Form = ({
             </div>
           </FormSection>
 
-          <FormSection title="Publish Date">
-            <GenericSkeletonWrapper>
-              <label className={[styles.formPublishContainer, styles.formLabelLarge].join(' ')}>
-                <p>Select Publish Date</p>
-                <input
-                  type="date"
-                  value={handleEncodeDate(requestedPublicationDate)}
-                  min={handleEncodeDate(addNDays(Date.now(), 1))}
-                  onChange={(e) => setRequestedPublicationDate(handleDecodeDate(e.target.value))}
-                />
+          <FormSection title="Post Information">
+            <div className="formInputContainer">
+              <label>
+                <p className="labelText">
+                  Select Publish Date
+                  {' '}
+                  <span className="required">*</span>
+                </p>
+
+                <GenericSkeletonWrapper>
+                  <input
+                    type="date"
+                    required
+                    value={handleEncodeDate(requestedPublicationDate)}
+                    min={handleEncodeDate(addNDays(Date.now(), 1))}
+                    onChange={(e) => setRequestedPublicationDate(handleDecodeDate(e.target.value))}
+                  />
+                </GenericSkeletonWrapper>
               </label>
-            </GenericSkeletonWrapper>
+
+              <p className="formInputError">{requestedPublicationDateError}</p>
+            </div>
           </FormSection>
 
-          <FormSection title="Type">
+          <FormSection title="Post Type">
             <GenericSkeletonWrapper>
-              <div className={styles.formTypeRadioContainer}>
-                <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
-                  <input
-                    type="radio"
-                    name="form-type"
-                    value="news"
-                    checked={postType === 'news'}
-                    onChange={() => setPostType('news')}
-                  />
-                  News
-                </label>
+              <div className={['formInputContainer', 'row'].join(' ')}>
+                <RadioSelector
+                  name="form-type"
+                  value="news"
+                  label="News"
+                  isChecked={postType === 'news'}
+                  onClick={() => setPostType('news')}
+                  className={['small', styles.formTypeSelector].join(' ')}
+                />
 
-                <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
-                  <input
-                    type="radio"
-                    name="form-type"
-                    value="announcement"
-                    checked={postType === 'announcement'}
-                    onChange={() => setPostType('announcement')}
-                  />
-                  Announcement
-                </label>
+                <RadioSelector
+                  name="form-type"
+                  value="announcement"
+                  label="Announcement"
+                  isChecked={postType === 'announcement'}
+                  onClick={() => setPostType('announcement')}
+                  className={['small', styles.formTypeSelector].join(' ')}
+                />
 
-                <label className={[styles.formTypeContainer, styles.formLabelSmall].join(' ')}>
-                  <input
-                    type="radio"
+                {isReviewer && (
+                  <RadioSelector
                     name="form-type"
                     value="event"
-                    checked={postType === 'event'}
-                    onChange={() => setPostType('event')}
+                    label="Event"
+                    isChecked={postType === 'event'}
+                    onClick={() => setPostType('event')}
+                    className={['small', styles.formTypeSelector].join(' ')}
                   />
-                  Event
-                </label>
+                )}
               </div>
             </GenericSkeletonWrapper>
-            <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(postTypeError)}</div>
           </FormSection>
 
           {postType === 'event' ? (
-            <FormSection title="Event Date">
-              <GenericSkeletonWrapper>
-                <label className={[styles.formPublishContainer, styles.formLabelLarge].join(' ')}>
-                  <p>Select Event Date</p>
-                  <input
-                    type="date"
-                    value={handleEncodeDate(eventDate || Date.now())}
-                    min={handleEncodeDate(addNDays(Date.now(), 1))}
-                    onChange={(e) => setEventDate(handleDecodeDate(e.target.value))}
-                  />
+            <FormSection title="Event Information">
+              <div className="formInputContainer">
+                <label>
+                  <p className="labelText">
+                    Select Event Date
+                    {' '}
+                    <span className="required">*</span>
+                  </p>
+
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="date"
+                      required
+                      value={handleEncodeDate(eventDate ?? addNDays(Date.now(), 1))}
+                      min={handleEncodeDate(addNDays(Date.now(), 1))}
+                      onChange={(e) => setEventDate(handleDecodeDate(e.target.value))}
+                    />
+                  </GenericSkeletonWrapper>
                 </label>
-              </GenericSkeletonWrapper>
+
+                <p className="formInputError">{eventDateError}</p>
+              </div>
+
+              <div className="formInputContainer">
+                <label>
+                  <p className="labelText">
+                    Select Event Time
+                    {' '}
+                    <span className="required">*</span>
+                  </p>
+
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="time"
+                      required
+                      value={handleEncodeTime(eventTime ?? 0)}
+                      onChange={(e) => setEventTime(handleDecodeTime(e.target.value))}
+                    />
+                  </GenericSkeletonWrapper>
+                </label>
+
+                <p className="formInputError">{eventTimeError}</p>
+              </div>
             </FormSection>
           ) : null}
 
-          <FormSection title="Body">
-            <div className={styles.formContentContainer}>
-              <GenericSkeletonWrapper>
-                <label className={styles.formLabelSmall}>
-                  <p>Headline</p>
+          <FormSection title="Post Content">
+            <div className="formInputContainer">
+              <label>
+                <p className="labelText">
+                  Headline
+                  {' '}
+                  <span className="required">*</span>
+                </p>
+
+                <GenericSkeletonWrapper>
                   <input
                     type="text"
+                    required
                     placeholder="Enter headline text"
                     value={briefContent}
                     onChange={(e) => setBriefContent(e.target.value)}
                   />
-                  <ContentLength contentLength={briefContent.length} maxContentLength={50} />
-                  <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(briefContentError)}</div>
-                </label>
-              </GenericSkeletonWrapper>
+                </GenericSkeletonWrapper>
+              </label>
 
-              <GenericSkeletonWrapper>
-                <label className={styles.formLabelSmall} htmlFor="form-editor-container">Summary</label>
-                <div id="form-editor-container" className={styles.formEditorContainer}>
-                  <RichTextEditor
-                    incomingState={editorState}
-                    onChange={(state) => setEditorState(state)}
-                  />
+              <ContentLength
+                contentLength={briefContent.length}
+                maxContentLength={50}
+              />
+
+              <p className="formInputError">{briefContentError}</p>
+            </div>
+
+            <div className="formInputContainer">
+              <div className="formInputContainer">
+                <label htmlFor="form-editor-container">
+                  <p className="labelText">Post Content</p>
+                </label>
+
+                <GenericSkeletonWrapper>
+                  <div id="form-editor-container">
+                    <RichTextEditor
+                      incomingState={editorState}
+                      onChange={(state) => setEditorState(state)}
+                    />
+                  </div>
 
                   <ContentLength
                     contentLength={editorState.getCurrentContent()?.getPlainText()?.length || 0}
                     maxContentLength={maxContentLength}
                   />
 
-                  <div className={styles.formErrorContainer}>{generateFrontendErrorMessage(fullContentError)}</div>
-                </div>
-              </GenericSkeletonWrapper>
+                  <p className="formInputError">{fullContentError}</p>
+                </GenericSkeletonWrapper>
+              </div>
 
-              <GenericSkeletonWrapper>
-                <label className={styles.formLabelSmall}>
-                  <p>URL</p>
-                  {' '}
-                  <input
-                    type="text"
-                    placeholder="Enter post URL"
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
-                  />
+              <div className="formInputContainer">
+                <label>
+                  <p className="labelText">URL</p>
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="text"
+                      placeholder="Enter post URL"
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
+                      className={!url || isValidUrl(url) ? '' : 'invalid'}
+                    />
+                  </GenericSkeletonWrapper>
                 </label>
-              </GenericSkeletonWrapper>
+
+                <p className="formInputError">{urlError}</p>
+              </div>
             </div>
           </FormSection>
 
-          <FormSection title="Graphics">
-            <div className={styles.formContentContainer}>
-              <GenericSkeletonWrapper>
-                <label className={styles.formLabelSmall}>
-                  <p>Attach Image</p>
+          <FormSection title="Post Graphics">
+            <div className="formInputContainer">
+              <label>
+                <p className="labelText">Attach Image</p>
+                <GenericSkeletonWrapper>
                   <input
                     type="file"
                     alt="Select image to upload"
                     id="headerImage"
                     onChange={(e) => { upload(e); }}
                   />
-                  <div className={styles.formErrorContainer}>{generateFrontendErrorMessage('')}</div>
-                </label>
-              </GenericSkeletonWrapper>
+                </GenericSkeletonWrapper>
+              </label>
 
               <GenericSkeletonWrapper>
-                <div>
-                  <div className="imagePreview">
-                    {/* eslint-disable-next-line no-nested-ternary */}
-                    {imageUploading ? <div>Image is uploading...</div> : (featuredImage ? <img src={featuredImage} alt="optional headerImage" /> : <div>No image uploaded yet</div>)}
-                  </div>
+                <div className={styles.formImageStatus}>
+                  {imageUploading
+                    ? <div>Image is uploading...</div>
+                    : (
+                      <>
+                        {featuredImage
+                          ? <img src={featuredImage} alt="optional header preview" />
+                          : <div>No uploaded image.</div>}
+                      </>
+                    )}
                 </div>
               </GenericSkeletonWrapper>
+
+              <p className="formInputError">{featuredImageError}</p>
             </div>
+
+            {featuredImage && (
+              <div className="formInputContainer">
+                <label>
+                  <p className="labelText">
+                    Image Description
+                    {' '}
+                    <span className="required">*</span>
+                  </p>
+
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Briefly describe the featured image for this post"
+                      value={featuredImageAlt}
+                      onChange={(e) => setFeaturedImageAlt(e.target.value)}
+                    />
+                  </GenericSkeletonWrapper>
+                </label>
+
+                <ContentLength
+                  contentLength={featuredImageAlt.length}
+                  maxContentLength={50}
+                />
+
+                <p className="formInputError">{featuredImageAltError}</p>
+              </div>
+            )}
           </FormSection>
 
-          <section className={styles.formButtonsContainer}>
+          <section className={styles.actionButtonsContainer}>
             <GenericSkeletonWrapper>
-              <button type="button" className={styles.formSubmitButton} onClick={handleUpdate('pending')}>Submit</button>
-              <button type="button" className={styles.formSaveButton} onClick={handleUpdate('draft')}>Save Draft</button>
+              <button type="button" className={styles.formSubmitButton} onClick={handleUpdate('pending')}>Submit for Review</button>
+              {(!post?.status || post?.status === 'draft') && <button type="button" className={styles.formSaveButton} onClick={handleUpdate('draft')}>Save as Draft</button>}
               <button type="button" className={styles.formCancelButton} onClick={handleDiscard}>Discard Post</button>
             </GenericSkeletonWrapper>
           </section>

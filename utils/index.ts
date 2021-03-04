@@ -6,6 +6,8 @@ export const requestTimeout = 5000; // ms
 
 export const maxContentLength = 500;
 
+export const maxFileSize = 5242880; // 5MB
+
 export const DragItemTypes = {
   NEWS: 'news',
   ANNOUNCEMENT: 'announcement',
@@ -36,22 +38,22 @@ export const FormGroups: Group[] = [
   {
     name: 'All Staff',
     list: [
-      'Arts and Sciences Faculty',
-      'Tuck Faculty',
-      'Thayer Faculty',
-      'Geisel Faculty',
-      'Emeriti / Special Faculty'
+      'College Staff',
+      'Tuck Staff',
+      'Thayer Staff',
+      'Geisel Staff',
+      'Sponsored Accounts'
     ]
   },
 
   {
     name: 'All Faculty',
     list: [
-      'College Staff',
-      'Tuck Staff',
-      'Thayer Staff',
-      'Geisel Staff',
-      'Sponsored Accounts'
+      'Arts and Sciences Faculty',
+      'Tuck Faculty',
+      'Thayer Faculty',
+      'Geisel Faculty',
+      'Emeriti / Special Faculty'
     ]
   }
 ];
@@ -90,6 +92,29 @@ export const handleEncodeDate = (date: number): string => {
 export const handleDecodeDate = (dateString: string): number => {
   const newDate = new Date(dateString);
   return getMidnightDate(newDate.getTime());
+};
+
+export const HOURS_MULT = 3600;
+export const MINUTES_MULT = 60;
+export const SECONDS_MULT = 1;
+
+export const handleEncodeTime = (time: number): string => { // 12,600
+  const hours = Math.floor(time / HOURS_MULT);
+  const _minutesInit = time % HOURS_MULT;
+
+  const minutes = Math.floor(_minutesInit / MINUTES_MULT);
+  const _secondsInit = _minutesInit % MINUTES_MULT;
+
+  const seconds = _secondsInit % SECONDS_MULT;
+
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+};
+
+export const handleDecodeTime = (timeString: string): number => {
+  const hours = Number(timeString.slice(0, 2));
+  const minutes = Number(timeString.slice(3, 5));
+  const seconds = Number(timeString.slice(6, 8) || 0);
+  return (HOURS_MULT * hours) + (MINUTES_MULT * minutes) + (SECONDS_MULT * seconds);
 };
 
 export const encodeRecipientGroups = (recipientGroups: Post['recipientGroups']): Record<string, boolean> => recipientGroups
@@ -139,6 +164,9 @@ export const getColorsForStatus = (status: PostStatus): PostStatusColors => {
 };
 
 export const uppercaseFirstLetter = (s: string): string => (s.length ? `${s[0].toUpperCase()}${s.slice(1)}` : '');
+
+// Resource: https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url#3809435
+export const isValidUrl = (url: string): boolean => /https?:\/\/(www\.)?([-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6})\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(url);
 
 /**
  * Middleware function to generate standard user-facing error message

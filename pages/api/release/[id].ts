@@ -26,21 +26,28 @@ const handler = createDefaultHandler()
 
     const { id } = req.query;
     const {
-      date, subject, headerImage, imageCaption, quoteOfDay, quotedContext, featuredPost, news, announcements, events
+      date, subject, headerImage, headerImageCaption, headerImageAlt,
+      quoteOfDay, quotedContext, featuredPost,
+      news, announcements, events
     }: Partial<Release> = req.body;
 
     const updatedRelease = await releaseController.update(id as string, {
+      date,
+
       subject,
       headerImage,
-      imageCaption,
+      headerImageCaption,
+      headerImageAlt,
+
       quoteOfDay,
       quotedContext,
       featuredPost,
-      date,
 
       news,
       announcements,
-      events
+      events,
+
+      lastEdited: Date.now()
     });
 
     const foundPosts = await postController.fetchPostsForRelease(updatedRelease);
