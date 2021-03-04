@@ -393,7 +393,7 @@ const Form = ({
                   <GenericSkeletonWrapper>
                     <input
                       type="date"
-                      value={handleEncodeDate(eventDate ?? Date.now())}
+                      value={handleEncodeDate(eventDate ?? addNDays(Date.now(), 1))}
                       min={handleEncodeDate(addNDays(Date.now(), 1))}
                       onChange={(e) => setEventDate(handleDecodeDate(e.target.value))}
                     />
