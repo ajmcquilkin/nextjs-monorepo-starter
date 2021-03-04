@@ -268,6 +268,7 @@ const Form = ({
                 <GenericSkeletonWrapper>
                   <input
                     placeholder="Type department or division name here"
+                    required
                     type="text"
                     value={fromName}
                     onChange={(e) => setFromName(e.target.value)}
@@ -290,6 +291,7 @@ const Form = ({
                 <GenericSkeletonWrapper>
                   <input
                     placeholder="Type email of sending individual or department"
+                    required
                     type="email"
                     value={fromAddress}
                     onChange={(e) => setFromAddress(e.target.value)}
@@ -334,6 +336,7 @@ const Form = ({
                 <GenericSkeletonWrapper>
                   <input
                     type="date"
+                    required
                     value={handleEncodeDate(requestedPublicationDate)}
                     min={handleEncodeDate(addNDays(Date.now(), 1))}
                     onChange={(e) => setRequestedPublicationDate(handleDecodeDate(e.target.value))}
@@ -393,6 +396,7 @@ const Form = ({
                   <GenericSkeletonWrapper>
                     <input
                       type="date"
+                      required
                       value={handleEncodeDate(eventDate ?? addNDays(Date.now(), 1))}
                       min={handleEncodeDate(addNDays(Date.now(), 1))}
                       onChange={(e) => setEventDate(handleDecodeDate(e.target.value))}
@@ -417,6 +421,7 @@ const Form = ({
                 <GenericSkeletonWrapper>
                   <input
                     type="text"
+                    required
                     placeholder="Enter headline text"
                     value={briefContent}
                     onChange={(e) => setBriefContent(e.target.value)}
