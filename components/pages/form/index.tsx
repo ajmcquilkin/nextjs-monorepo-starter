@@ -410,7 +410,7 @@ const Form = ({
                       placeholder="Enter post URL"
                       value={url}
                       onChange={(e) => setUrl(e.target.value)}
-                      className={isValidUrl(url) ? '' : styles.invalid}
+                      className={!url || isValidUrl(url) ? '' : styles.invalid}
                     />
                   </GenericSkeletonWrapper>
                 </label>
