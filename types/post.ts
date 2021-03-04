@@ -28,7 +28,7 @@ export interface Post {
   featuredImage: string,
   featuredImageAlt: string,
   eventDate: number | null,
-  eventTime: string,
+  eventTime: number | null,
 
   status: PostStatus,
   dateItemCreated: Date,

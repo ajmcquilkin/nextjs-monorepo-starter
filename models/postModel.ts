@@ -17,7 +17,7 @@ const postSchemaFields: Record<keyof Omit<Post, '_id'>, any> = {
   featuredImage: { type: String, default: '' },
   featuredImageAlt: { type: String, default: '' },
   eventDate: { type: Number, default: null },
-  eventTime: { type: String, default: '' },
+  eventTime: { type: String, default: null },
 
   status: { type: String, default: 'draft' }, // 'draft' | 'pending' | 'approved' | 'rejected' | 'published'
   dateItemCreated: { type: Date, default: Date.now },

@@ -35,8 +35,9 @@ import {
 } from 'store/actionCreators/requestActionCreators';
 
 import {
-  maxContentLength, addNDays, isValidUrl,
-  handleEncodeDate, handleDecodeDate, encodeRecipientGroups, decodeRecipientGroups, maxFileSize
+  maxContentLength, addNDays, isValidUrl, maxFileSize,
+  handleEncodeDate, handleDecodeDate, handleEncodeTime, handleDecodeTime,
+  encodeRecipientGroups, decodeRecipientGroups
 } from 'utils';
 import uploadImage from 'utils/s3';
 
@@ -97,7 +98,7 @@ const Form = ({
   const [featuredImage, setFeaturedImage] = useState<Post['featuredImage']>('');
   const [featuredImageAlt, setFeaturedImageAlt] = useState<Post['featuredImageAlt']>('');
   const [eventDate, setEventDate] = useState<Post['eventDate']>(null);
-  const [eventTime, setEventTime] = useState<Post['eventTime']>('');
+  const [eventTime, setEventTime] = useState<Post['eventTime']>(null);
 
   const [recipientGroups, setRecipientGroups] = useState<Record<Group['name'], boolean>>({});
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
@@ -134,7 +135,7 @@ const Form = ({
     setFeaturedImage(post?.featuredImage || '');
     setFeaturedImageAlt(post?.featuredImageAlt || '');
     setEventDate(post?.eventDate || null);
-    setEventTime(post?.eventTime || '');
+    setEventTime(post?.eventTime ?? 0);
 
     setRecipientGroups(post?.recipientGroups ? encodeRecipientGroups(post.recipientGroups) : {});
     setEditorState(post?.fullContent ? EditorState.createWithContent(stateFromHTML(post.fullContent)) : EditorState.createEmpty());
@@ -207,7 +208,7 @@ const Form = ({
         isValid = false;
       }
 
-      if (!eventTime) {
+      if (eventTime == null) {
         setEventTimeError('Event time is a required field');
         isValid = false;
       }
@@ -466,10 +467,10 @@ const Form = ({
 
                   <GenericSkeletonWrapper>
                     <input
-                      type="text"
+                      type="time"
                       required
-                      value={eventTime}
-                      onChange={(e) => setEventTime(e.target.value)}
+                      value={handleEncodeTime(eventTime ?? 0)}
+                      onChange={(e) => setEventTime(handleDecodeTime(e.target.value))}
                     />
                   </GenericSkeletonWrapper>
                 </label>

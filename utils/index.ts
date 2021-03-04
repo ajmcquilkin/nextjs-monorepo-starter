@@ -94,6 +94,29 @@ export const handleDecodeDate = (dateString: string): number => {
   return getMidnightDate(newDate.getTime());
 };
 
+export const HOURS_MULT = 3600;
+export const MINUTES_MULT = 60;
+export const SECONDS_MULT = 1;
+
+export const handleEncodeTime = (time: number): string => { // 12,600
+  const hours = Math.floor(time / HOURS_MULT);
+  const _minutesInit = time % HOURS_MULT;
+
+  const minutes = Math.floor(_minutesInit / MINUTES_MULT);
+  const _secondsInit = _minutesInit % MINUTES_MULT;
+
+  const seconds = _secondsInit % SECONDS_MULT;
+
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+};
+
+export const handleDecodeTime = (timeString: string): number => {
+  const hours = Number(timeString.slice(0, 2));
+  const minutes = Number(timeString.slice(3, 5));
+  const seconds = Number(timeString.slice(6, 8) || 0);
+  return (HOURS_MULT * hours) + (MINUTES_MULT * minutes) + (SECONDS_MULT * seconds);
+};
+
 export const encodeRecipientGroups = (recipientGroups: Post['recipientGroups']): Record<string, boolean> => recipientGroups
   .reduce((accum, name) => ({ ...accum, [name]: true }), {});
 
@@ -142,7 +165,8 @@ export const getColorsForStatus = (status: PostStatus): PostStatusColors => {
 
 export const uppercaseFirstLetter = (s: string): string => (s.length ? `${s[0].toUpperCase()}${s.slice(1)}` : '');
 
-export const isValidUrl = (url: string): boolean => /(https?):\/\/www(\.\w*){2,}/.test(url);
+// Reference: https://www.cambiaresearch.com/articles/46/parsing-urls-with-regular-expressions-and-the-regex-object
+export const isValidUrl = (url: string): boolean => /^(?<s1>(?<s0>[^:\/\?#]+):)?(?<a1>\/\/(?<a0>[^\/\?#]*))?(?<p0>[^\?#]*)(?<q1>\?(?<q0>[^#]*))?(?<f1>#(?<f0>.*))?/.test(url);
 
 /**
  * Middleware function to generate standard user-facing error message
