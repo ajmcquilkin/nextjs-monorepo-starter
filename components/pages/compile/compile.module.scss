@@ -18,43 +18,6 @@
 
     section {
         margin-bottom: 48px;
-
-        label {
-            width: 100%;
-            font-size: 17px;
-            color: $granite-gray;
-            
-            p {
-                margin: 9px 0px;
-            }
-            
-            input {
-                margin-bottom: 15px;
-            }
-        }
-    }
-
-    input[type="text"] {
-        padding: 12px 24px;
-        width: 100%;
-        
-        background-color: $web-gray-two;
-        border-radius: 8px;
-        border: none;
-        
-        &::placeholder {
-            color: $granite-gray;
-        }
-    }
-    
-    .compileHeaderContainer {
-        margin-bottom: 55px;
-
-        #compileHeaderTextContainer {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-        }
     }
 
     .featuredPostContainer {

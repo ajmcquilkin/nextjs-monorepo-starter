@@ -42,92 +42,36 @@
     }
   } 
 
-  .formInputContainer {
+  .formGroupListContainer {
     display: flex;
-    flex-direction: column;
-    margin-bottom: 36px;
+    flex-direction: row;
+    justify-content: space-between;
 
-    &.row {
-      flex-direction: row;
-    }
+    flex-wrap: wrap;
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
 
-    label, .label {
-      display: flex;
-      
-      &.small {
-        flex-direction: row;
+    .formGroupList {
+      margin-bottom: 36px;
 
-        p {
-          margin-left: 12px;
-          font-size: 18px; 
-        }
-      }
-      
-      &.large {
-        flex-direction: column;
-
-        p {
-          margin-bottom: 12px;
-          font-size: 21px;
-        }
-      }
-
-      .required { color: $tuck-orange; }
-
-      p {
-        margin: 0px;
+      h3, h4, h5, h6 {
         color: $granite-gray;
       }
     }
+  }
 
-    input[type="text"], input[type="email"] {
-      padding: 12px 24px;
-      width: 100%;
+  .formTypeSelector {
+    margin-right: 24px;
+  }
 
-      background-color: $web-gray-two;
-      border-radius: 8px;
-      border: none;
+  .formImageStatus {
+    margin-top: 15px;
+    color: $granite-gray;
 
-      &::placeholder { color: $granite-gray; }
-      &.invalid { border: 1px solid $tuck-orange; }
-    }
-
-    .formGroupListContainer {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-
-      flex-wrap: wrap;
-      margin: 0px;
-      padding: 0px;
-      list-style: none;
-
-      .formGroupList {
-        margin-bottom: 36px;
-
-        h3, h4, h5, h6 {
-          color: $granite-gray;
-        }
-      }
-    }
-
-    .formTypeSelector {
-      margin-right: 24px;
-    }
-
-    .formImageStatus {
-      margin-top: 15px;
-      color: $granite-gray;
-
-      img {
-        max-width: 60%;
-        max-height: 600px;
-      }
-    }
-
-    .formInputError {
-      font-size: 16px;
-      color: $tuck-orange;
+    img {
+      max-width: 60%;
+      max-height: 600px;
     }
   }
 

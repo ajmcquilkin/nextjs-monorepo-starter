@@ -305,12 +305,12 @@ const Form = ({
 
         <form>
           <FormSection title="Sender Information">
-            <div className={styles.formInputContainer}>
-              <label className={styles.large}>
-                <p>
+            <div className="formInputContainer">
+              <label>
+                <p className="labelText">
                   From Name
                   {' '}
-                  <span className={styles.required}>*</span>
+                  <span className="required">*</span>
                 </p>
 
                 <GenericSkeletonWrapper>
@@ -325,15 +325,15 @@ const Form = ({
                 </GenericSkeletonWrapper>
               </label>
 
-              <p className={styles.formInputError}>{fromNameError}</p>
+              <p className="formInputError">{fromNameError}</p>
             </div>
 
-            <div className={styles.formInputContainer}>
-              <label className={styles.large}>
-                <p>
+            <div className="formInputContainer">
+              <label>
+                <p className="labelText">
                   From Address
                   {' '}
-                  <span className={styles.required}>*</span>
+                  <span className="required">*</span>
                 </p>
 
                 <GenericSkeletonWrapper>
@@ -347,14 +347,14 @@ const Form = ({
                 </GenericSkeletonWrapper>
               </label>
 
-              <p className={styles.formInputError}>{fromAddressError}</p>
+              <p className="formInputError">{fromAddressError}</p>
             </div>
           </FormSection>
 
           <FormSection title="Recipient Information">
-            <div className={styles.formInputContainer}>
-              <div className={[styles.label, styles.large].join(' ')}>
-                <p>To</p>
+            <div className="formInputContainer">
+              <div className={['label', 'large'].join(' ')}>
+                <p className="labelText">To</p>
               </div>
 
               <GenericSkeletonWrapper>
@@ -375,12 +375,12 @@ const Form = ({
           </FormSection>
 
           <FormSection title="Post Information">
-            <div className={styles.formInputContainer}>
-              <label className={styles.large}>
-                <p>
+            <div className="formInputContainer">
+              <label>
+                <p className="labelText">
                   Select Publish Date
                   {' '}
-                  <span className={styles.required}>*</span>
+                  <span className="required">*</span>
                 </p>
 
                 <GenericSkeletonWrapper>
@@ -394,20 +394,20 @@ const Form = ({
                 </GenericSkeletonWrapper>
               </label>
 
-              <p className={styles.formInputError}>{requestedPublicationDateError}</p>
+              <p className="formInputError">{requestedPublicationDateError}</p>
             </div>
           </FormSection>
 
           <FormSection title="Post Type">
             <GenericSkeletonWrapper>
-              <div className={[styles.formInputContainer, styles.row].join(' ')}>
+              <div className={['formInputContainer', 'row'].join(' ')}>
                 <RadioSelector
                   name="form-type"
                   value="news"
                   label="News"
                   isChecked={postType === 'news'}
                   onClick={() => setPostType('news')}
-                  className={[styles.small, styles.formTypeSelector].join(' ')}
+                  className={['small', styles.formTypeSelector].join(' ')}
                 />
 
                 <RadioSelector
@@ -416,7 +416,7 @@ const Form = ({
                   label="Announcement"
                   isChecked={postType === 'announcement'}
                   onClick={() => setPostType('announcement')}
-                  className={[styles.small, styles.formTypeSelector].join(' ')}
+                  className={['small', styles.formTypeSelector].join(' ')}
                 />
 
                 {isReviewer && (
@@ -426,7 +426,7 @@ const Form = ({
                     label="Event"
                     isChecked={postType === 'event'}
                     onClick={() => setPostType('event')}
-                    className={[styles.small, styles.formTypeSelector].join(' ')}
+                    className={['small', styles.formTypeSelector].join(' ')}
                   />
                 )}
               </div>
@@ -435,12 +435,12 @@ const Form = ({
 
           {postType === 'event' ? (
             <FormSection title="Event Information">
-              <div className={styles.formInputContainer}>
-                <label className={styles.large}>
-                  <p>
+              <div className="formInputContainer">
+                <label>
+                  <p className="labelText">
                     Select Event Date
                     {' '}
-                    <span className={styles.required}>*</span>
+                    <span className="required">*</span>
                   </p>
 
                   <GenericSkeletonWrapper>
@@ -454,15 +454,15 @@ const Form = ({
                   </GenericSkeletonWrapper>
                 </label>
 
-                <p className={styles.formInputError}>{eventDateError}</p>
+                <p className="formInputError">{eventDateError}</p>
               </div>
 
-              <div className={styles.formInputContainer}>
-                <label className={styles.large}>
-                  <p>
+              <div className="formInputContainer">
+                <label>
+                  <p className="labelText">
                     Select Event Time
                     {' '}
-                    <span className={styles.required}>*</span>
+                    <span className="required">*</span>
                   </p>
 
                   <GenericSkeletonWrapper>
@@ -475,18 +475,18 @@ const Form = ({
                   </GenericSkeletonWrapper>
                 </label>
 
-                <p className={styles.formInputError}>{eventTimeError}</p>
+                <p className="formInputError">{eventTimeError}</p>
               </div>
             </FormSection>
           ) : null}
 
           <FormSection title="Post Content">
-            <div className={styles.formInputContainer}>
-              <label className={styles.large}>
-                <p>
+            <div className="formInputContainer">
+              <label>
+                <p className="labelText">
                   Headline
                   {' '}
-                  <span className={styles.required}>*</span>
+                  <span className="required">*</span>
                 </p>
 
                 <GenericSkeletonWrapper>
@@ -505,16 +505,13 @@ const Form = ({
                 maxContentLength={50}
               />
 
-              <p className={styles.formInputError}>{briefContentError}</p>
+              <p className="formInputError">{briefContentError}</p>
             </div>
 
-            <div className={styles.formInputContainer}>
-              <div className={styles.formInputContainer}>
-                <label
-                  className={styles.large}
-                  htmlFor="form-editor-container"
-                >
-                  <p>Post Content</p>
+            <div className="formInputContainer">
+              <div className="formInputContainer">
+                <label htmlFor="form-editor-container">
+                  <p className="labelText">Post Content</p>
                 </label>
 
                 <GenericSkeletonWrapper>
@@ -530,33 +527,33 @@ const Form = ({
                     maxContentLength={maxContentLength}
                   />
 
-                  <p className={styles.formInputError}>{fullContentError}</p>
+                  <p className="formInputError">{fullContentError}</p>
                 </GenericSkeletonWrapper>
               </div>
 
-              <div className={styles.formInputContainer}>
-                <label className={styles.large}>
-                  <p>URL</p>
+              <div className="formInputContainer">
+                <label>
+                  <p className="labelText">URL</p>
                   <GenericSkeletonWrapper>
                     <input
                       type="text"
                       placeholder="Enter post URL"
                       value={url}
                       onChange={(e) => setUrl(e.target.value)}
-                      className={!url || isValidUrl(url) ? '' : styles.invalid}
+                      className={!url || isValidUrl(url) ? '' : 'invalid'}
                     />
                   </GenericSkeletonWrapper>
                 </label>
 
-                <p className={styles.formInputError}>{urlError}</p>
+                <p className="formInputError">{urlError}</p>
               </div>
             </div>
           </FormSection>
 
           <FormSection title="Post Graphics">
-            <div className={styles.formInputContainer}>
-              <label className={styles.large}>
-                <p>Attach Image</p>
+            <div className="formInputContainer">
+              <label>
+                <p className="labelText">Attach Image</p>
                 <GenericSkeletonWrapper>
                   <input
                     type="file"
@@ -581,16 +578,16 @@ const Form = ({
                 </div>
               </GenericSkeletonWrapper>
 
-              <p className={styles.formInputError}>{featuredImageError}</p>
+              <p className="formInputError">{featuredImageError}</p>
             </div>
 
             {featuredImage && (
-              <div className={styles.formInputContainer}>
-                <label className={styles.large}>
-                  <p>
+              <div className="formInputContainer">
+                <label>
+                  <p className="labelText">
                     Image Description
                     {' '}
-                    <span className={styles.required}>*</span>
+                    <span className="required">*</span>
                   </p>
 
                   <GenericSkeletonWrapper>
@@ -609,7 +606,7 @@ const Form = ({
                   maxContentLength={50}
                 />
 
-                <p className={styles.formInputError}>{featuredImageAltError}</p>
+                <p className="formInputError">{featuredImageAltError}</p>
               </div>
             )}
           </FormSection>
@@ -617,7 +614,7 @@ const Form = ({
           <section className={styles.actionButtonsContainer}>
             <GenericSkeletonWrapper>
               <button type="button" className={styles.formSubmitButton} onClick={handleUpdate('pending')}>Submit for Review</button>
-              {post?.status === 'draft' && <button type="button" className={styles.formSaveButton} onClick={handleUpdate('draft')}>Save as Draft</button>}
+              {(!post?.status || post?.status === 'draft') && <button type="button" className={styles.formSaveButton} onClick={handleUpdate('draft')}>Save as Draft</button>}
               <button type="button" className={styles.formCancelButton} onClick={handleDiscard}>Discard Post</button>
             </GenericSkeletonWrapper>
           </section>

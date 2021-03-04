@@ -10,7 +10,6 @@ $checkbox-size: 24px;
   padding-left: calc(#{$checkbox-size} + 12px);
   position: relative;
 
-  font-size: 16px;
   user-select: none;
   cursor: pointer;
 
@@ -69,5 +68,6 @@ $checkbox-size: 24px;
 
   p {
     margin: auto 0px;
+    font-size: 16px;
   }
 }

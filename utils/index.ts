@@ -165,8 +165,8 @@ export const getColorsForStatus = (status: PostStatus): PostStatusColors => {
 
 export const uppercaseFirstLetter = (s: string): string => (s.length ? `${s[0].toUpperCase()}${s.slice(1)}` : '');
 
-// Reference: https://www.cambiaresearch.com/articles/46/parsing-urls-with-regular-expressions-and-the-regex-object
-export const isValidUrl = (url: string): boolean => /^(?<s1>(?<s0>[^:\/\?#]+):)?(?<a1>\/\/(?<a0>[^\/\?#]*))?(?<p0>[^\?#]*)(?<q1>\?(?<q0>[^#]*))?(?<f1>#(?<f0>.*))?/.test(url);
+// Resource: https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url#3809435
+export const isValidUrl = (url: string): boolean => /https?:\/\/(www\.)?([-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6})\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(url);
 
 /**
  * Middleware function to generate standard user-facing error message
