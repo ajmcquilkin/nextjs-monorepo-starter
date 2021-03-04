@@ -6,6 +6,8 @@ export const requestTimeout = 5000; // ms
 
 export const maxContentLength = 500;
 
+export const maxFileSize = 5242880; // 5MB
+
 export const DragItemTypes = {
   NEWS: 'news',
   ANNOUNCEMENT: 'announcement',

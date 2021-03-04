@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
+import { validate } from 'email-validator';
 
 import { EditorState, ContentState } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
@@ -34,8 +35,8 @@ import {
 } from 'store/actionCreators/requestActionCreators';
 
 import {
-  maxContentLength, generateFrontendErrorMessage, addNDays, isValidUrl,
-  handleEncodeDate, handleDecodeDate, encodeRecipientGroups, decodeRecipientGroups
+  maxContentLength, addNDays, isValidUrl,
+  handleEncodeDate, handleDecodeDate, encodeRecipientGroups, decodeRecipientGroups, maxFileSize
 } from 'utils';
 import uploadImage from 'utils/s3';
 
@@ -78,10 +79,9 @@ const exportOptions: DraftJSExportOptions = {
 };
 
 const Form = ({
-  groups, postIsLoading, postErrorMessage,
-  id, post, netId,
-  createPost, fetchPostById, updatePostById, deletePostById,
-  openModal, setError,
+  groups, postIsLoading,
+  id, post, netId, isReviewer,
+  fetchPostById, updatePostById, openModal,
 }: FormProps): JSX.Element => {
   const router = useRouter();
   const dispatch = useDispatch<GlobalDispatch>();
@@ -101,9 +101,18 @@ const Form = ({
 
   const [imageUploading, setImageUploading] = useState<boolean>(false);
 
-  const [postTypeError, setPostTypeError] = useState<string>('');
+  // * Required fields
+  const [fromNameError, setFromNameError] = useState<string>('');
+  const [fromAddressError, setFromAddressError] = useState<string>(''); // validated
+  const [requestedPublicationDateError, setRequestedPublicationDateError] = useState<string>(''); // validated
   const [briefContentError, setBriefContentError] = useState<string>('');
-  const [fullContentError, setFullContentError] = useState<string>('');
+
+  // * Validated fields
+  const [eventDateError, setEventDateError] = useState<string>(''); // future
+  const [fullContentError, setFullContentError] = useState<string>(''); // length
+  const [imageError, setImageError] = useState<string>(''); // size
+
+  const [urlError, setUrlError] = useState<string>('');
 
   useEffect(() => { if (id !== 'new') fetchPostById(id); }, []);
   useEffect(() => { setEditorState(EditorState.createWithContent(ContentState.createFromText(''))); }, []);
@@ -129,16 +138,50 @@ const Form = ({
     let isValid = true;
     const plainContent = state.getCurrentContent().getPlainText();
 
-    if (!plainContent.length) { setFullContentError('Content is a required field'); isValid = false; }
+    if (!fromName) {
+      setFromNameError('"From Name" is a required field');
+      isValid = false;
+    }
+
+    if (!fromAddress) {
+      setFromAddressError('"From Address" is a required field');
+      isValid = false;
+    }
+
+    if (fromAddress && !validate(fromAddress)) {
+      setFromAddressError(`"${fromAddress}" is not a valid email`);
+      isValid = false;
+    }
+
+    if (requestedPublicationDate < addNDays(Date.now(), 1)) {
+      setRequestedPublicationDateError('Publication date must be at least one day in the future');
+      isValid = false;
+    }
+
+    if ((eventDate ?? 0) < addNDays(Date.now(), 1)) {
+      setEventDateError('Event date must be at least one day in the future');
+      isValid = false;
+    }
+
     if (plainContent.length > maxContentLength) {
       setFullContentError(`Content has a max length of ${maxContentLength} characters, current length is ${plainContent.length} characters`);
       isValid = false;
     }
 
-    if (!postType) { setPostTypeError('Type is a required field'); isValid = false; }
-    if (!briefContent) { setBriefContentError('Brief content is a required field'); isValid = false; }
+    if (!briefContent) {
+      setBriefContentError('Brief content is a required field');
+      isValid = false;
+    }
 
-    if (!isValidUrl(url)) { isValid = false; }
+    if (briefContent.length > 50) {
+      setBriefContentError(`Headline has a max length of 50 characters, current length is ${briefContent.length} characters`);
+      isValid = false;
+    }
+
+    if (!isValidUrl(url)) {
+      setUrlError(`"${url}" is not a valid url`);
+      isValid = false;
+    }
 
     return isValid;
   };
@@ -179,14 +222,18 @@ const Form = ({
     const file = e.target?.files?.[0];
     if (!file) throw new Error('file not found');
 
-    try {
-      setImageUploading(true);
-      const imageURL = await uploadImage(file);
-      setImageUploading(false);
-      setFeaturedImage(imageURL);
-      if (post) { updatePostById(post._id, { featuredImage: imageURL }); }
-    } catch (error) {
-      console.error(error.message);
+    if (file.size > maxFileSize) {
+      setImageError(`File size too large (${file.size / 1024 / 1024}MB > 5MB)`);
+    } else {
+      try {
+        setImageUploading(true);
+        const imageURL = await uploadImage(file);
+        setImageUploading(false);
+        setFeaturedImage(imageURL);
+        if (post) { updatePostById(post._id, { featuredImage: imageURL }); }
+      } catch (error) {
+        console.error(error.message);
+      }
     }
   };
 
@@ -225,8 +272,11 @@ const Form = ({
                     value={fromName}
                     onChange={(e) => setFromName(e.target.value)}
                   />
+
                 </GenericSkeletonWrapper>
               </label>
+
+              <p className={styles.formInputError}>{fromNameError}</p>
             </div>
 
             <div className={styles.formInputContainer}>
@@ -246,6 +296,8 @@ const Form = ({
                   />
                 </GenericSkeletonWrapper>
               </label>
+
+              <p className={styles.formInputError}>{fromAddressError}</p>
             </div>
 
             <div className={styles.formInputContainer}>
@@ -288,6 +340,8 @@ const Form = ({
                   />
                 </GenericSkeletonWrapper>
               </label>
+
+              <p className={styles.formInputError}>{requestedPublicationDateError}</p>
             </div>
           </FormSection>
 
@@ -312,14 +366,16 @@ const Form = ({
                   className={[styles.small, styles.formTypeSelector].join(' ')}
                 />
 
-                <RadioSelector
-                  name="form-type"
-                  value="event"
-                  label="Event"
-                  isChecked={postType === 'event'}
-                  onClick={() => setPostType('event')}
-                  className={[styles.small, styles.formTypeSelector].join(' ')}
-                />
+                {isReviewer && (
+                  <RadioSelector
+                    name="form-type"
+                    value="event"
+                    label="Event"
+                    isChecked={postType === 'event'}
+                    onClick={() => setPostType('event')}
+                    className={[styles.small, styles.formTypeSelector].join(' ')}
+                  />
+                )}
               </div>
             </GenericSkeletonWrapper>
           </FormSection>
@@ -337,12 +393,14 @@ const Form = ({
                   <GenericSkeletonWrapper>
                     <input
                       type="date"
-                      value={handleEncodeDate(eventDate || Date.now())}
+                      value={handleEncodeDate(eventDate ?? Date.now())}
                       min={handleEncodeDate(addNDays(Date.now(), 1))}
                       onChange={(e) => setEventDate(handleDecodeDate(e.target.value))}
                     />
                   </GenericSkeletonWrapper>
                 </label>
+
+                <p className={styles.formInputError}>{eventDateError}</p>
               </div>
             </FormSection>
           ) : null}
@@ -370,6 +428,8 @@ const Form = ({
                 contentLength={briefContent.length}
                 maxContentLength={50}
               />
+
+              <p className={styles.formInputError}>{briefContentError}</p>
             </div>
 
             <div className={styles.formInputContainer}>
@@ -393,6 +453,8 @@ const Form = ({
                     contentLength={editorState.getCurrentContent()?.getPlainText()?.length || 0}
                     maxContentLength={maxContentLength}
                   />
+
+                  <p className={styles.formInputError}>{fullContentError}</p>
                 </GenericSkeletonWrapper>
               </div>
 
@@ -409,6 +471,8 @@ const Form = ({
                     />
                   </GenericSkeletonWrapper>
                 </label>
+
+                <p className={styles.formInputError}>{urlError}</p>
               </div>
             </div>
           </FormSection>
@@ -440,6 +504,8 @@ const Form = ({
                     )}
                 </div>
               </GenericSkeletonWrapper>
+
+              <p className={styles.formInputError}>{imageError}</p>
             </div>
           </FormSection>
 
