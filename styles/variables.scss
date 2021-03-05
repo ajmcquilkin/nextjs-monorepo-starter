@@ -42,16 +42,26 @@ $river-navy: #003c73;
   color: $midnight-black;
 }
 
+@mixin headerFour {
+  font-family: national, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: $forest-green;
+}
+
+@mixin paragraphText {
+  font-family: national, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 155%;
+}
+
 @mixin postContent {
   p,
   a,
   li {
     margin: 0px 0px 9px;
-
-    font-family: national, sans-serif;
-    font-size: 16px;
-    font-weight: 300;
-    line-height: 155%;
+    @include paragraphText();
   }
 }
 

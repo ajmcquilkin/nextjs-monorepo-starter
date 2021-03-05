@@ -30,8 +30,7 @@
     p {
       margin: auto 0px 0px;
 
-      font-family: national, sans-serif;
-      font-size: 16px;
+      @include paragraphText();
       font-weight: 400;
       color: $granite-gray;
     }

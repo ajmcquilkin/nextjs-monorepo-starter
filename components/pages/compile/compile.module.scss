@@ -8,12 +8,17 @@
 
   h1 {
     margin: 0px 0px 24px;
+    @include headerOne();
   }
 
   h2 {
-    color: $forest-green;
-    font-size: 30px;
     margin: 0px 0px 15px;
+    @include headerTwo();
+  }
+
+  .subtitle {
+    @include paragraphText();
+    color: $granite-gray;
   }
 
   section {
@@ -24,7 +29,7 @@
     .featuredPostClear {
       margin-top: 6px;
 
-      font-size: 13px;
+      @include paragraphText();
       color: $granite-gray;
 
       background: none;
@@ -36,6 +41,8 @@
       padding: 12px 24px;
       border: 1px dashed $granite-gray;
       border-radius: 8px;
+
+      @include paragraphText();
       color: $granite-gray;
     }
   }
@@ -45,6 +52,7 @@
   }
 
   .noContent {
+    @include paragraphText();
     color: $granite-gray;
   }
 
@@ -54,8 +62,8 @@
 
     button {
       margin-right: 15px;
-      border: none;
       @include siteButton();
+      border: none;
 
       &.confirm {
         background: $dartmouth-green;
