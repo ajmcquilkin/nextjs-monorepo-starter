@@ -56,6 +56,16 @@ const handler = createDefaultHandler()
       eventTime
     });
 
+    if (status === 'rejected' || rejectionReason || rejectionComment) {
+      // * Rejection email framework
+      // console.log({ rejectionReason, rejectionComment, id: foundPost._id });
+    }
+
+    if (status === 'approved') {
+      // * Approval email framework
+      // console.log({ id: foundPost._id });
+    }
+
     return res.status(200).json(createSuccessPayload<FetchPostData>({ post: updatedPost }));
   })
 
