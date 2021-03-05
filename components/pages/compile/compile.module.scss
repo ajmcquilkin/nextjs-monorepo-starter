@@ -43,7 +43,18 @@
       border-radius: 8px;
 
       @include paragraphText();
+      background-color: $snow-white;
       color: $granite-gray;
+
+      &.hovered {
+        background-color: $web-gray-two;
+      }
+
+      &.valid {
+        background-color: $web-gray-one;
+      }
+
+      transition: 0.18s ease-in-out background-color;
     }
   }
 
