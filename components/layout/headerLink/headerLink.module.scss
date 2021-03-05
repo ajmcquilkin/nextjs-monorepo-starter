@@ -1,20 +1,21 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .headerLinkContainer {
-  margin: 0px 6px;
+  margin: auto 6px 0px;
   padding: 9px 24px;
   display: inline-block;
   border-radius: 10px 10px 0px 0px;
 
-  font-size: 20px;
-  font-family: National2-Reg, sans-serif;
+  font-family: national, sans-serif;
+  font-size: 21px;
+  font-weight: 400;
   text-align: center;
-  
+
   color: $snow-white;
   text-decoration: none;
-  
+  background: none;
+
   &.active {
-    font-family: National2-Bold, sans-serif;
     color: $dartmouth-green;
     background: $snow-white;
   }

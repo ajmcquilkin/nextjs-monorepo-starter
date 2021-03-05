@@ -93,7 +93,7 @@ const Home = ({
             <div className={styles.homeHeaderTopBar} />
 
             <div className={styles.homeTitleTextContainer}>
-              <h2>Vox Daily News</h2>
+              <h1>Vox Daily News</h1>
               <p>{getFullDate(release.date)}</p>
             </div>
 
@@ -122,13 +122,13 @@ const Home = ({
       <section className={styles.homeMainContentContainer}>
         {featuredPost ? (
           <div className={styles.homeFeaturedStoryContainer}>
-            <h3>Featured Story</h3>
+            <h2>Featured Story</h2>
             <HomeSubmission content={featuredPost} />
           </div>
         ) : null}
 
         <div className={styles.homeQuoteContainer}>
-          <h4>QUOTE OF THE DAY</h4>
+          <h2>QUOTE OF THE DAY</h2>
           <blockquote>{release.quoteOfDay}</blockquote>
           <p>{release.quotedContext}</p>
         </div>

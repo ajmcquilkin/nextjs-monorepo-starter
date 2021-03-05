@@ -1,276 +1,279 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .homeContainer {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 
-    @include mainPageLayout();
+  @include mainPageLayout();
 
-    .homeHeaderContentContainer {
-        max-width: 400px;
-        margin-bottom: 40px;
-        
-        .homeHeaderContainer {
-            display: flex;
-            flex-direction: column;
-            position: relative;
+  .homeHeaderContentContainer {
+    max-width: 400px;
+    margin-bottom: 40px;
 
-            width: 100%;
-    
-            .homeDateSelector {
-                margin: auto 0;
-                position: absolute;
+    .homeHeaderContainer {
+      display: flex;
+      flex-direction: column;
+      position: relative;
 
-                top: 50%;
-                transform: translate(0, -50%);
-                
-                &.left {
-                    left: -216px;
-                    button > img { margin-right: 27px; }
-                }
-                
-                &.right {
-                    right: -216px;
-                    button > img { margin-left: 27px; }
-                }
-                
-                button {
-                    display: flex;
-                    flex-direction: row;
-                    
-                    border: none;
-                    background: none;
-                    cursor: pointer;
+      width: 100%;
 
-                    img {
-                        margin: auto;
-                        height: 21px;
-                    }
-                    
-                    p {
-                        margin: 0;
-                        font-size: 18px;
-                        font-weight: 400;
-                        color: $forest-green;
-                    }
+      .homeDateSelector {
+        margin: auto 0;
+        position: absolute;
 
-                }
-            }
+        top: 50%;
+        transform: translate(0, -50%);
 
-            .homeTitleContainer {
-
-                .homeHeaderTopBar {
-                    height: 8px;
-                    background-color: $dartmouth-green;
-                    border-radius: 6px;
-                    margin-top: 40px;
-                }
-        
-                .homeHeaderBottomBar {
-                    height: 8px;
-                    background-color: $dartmouth-green;
-                    border-radius: 6px;
-                    margin-bottom: 40px;
-                }
-        
-                .homeTitleTextContainer {
-                    padding: 24px 0;
-        
-                    h2 {
-                        font-family: National2-Bold, sans-serif;
-                    }
-                    
-                    p {
-                        font-family: National2-Reg, sans-serif;
-                    }
-                    
-                    * {
-                        text-align: center;
-                        margin: 0 auto;
-                    } 
-                }
-            }
-            
+        &.left {
+          left: -216px;
+          button > img {
+            margin-right: 27px;
+          }
         }
 
-        img {
-            width: 100%;
-        }
-    }
-    
-    .homeMainContentContainer {
-        .postTypeSelector {
-            display: flex;
-            flex-direction: column;
-
-            .postTypeTabContainer {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                margin-bottom: 9px;
-                    
-                button {
-                    margin: 0px auto;
-                    padding: 9px 18px;
-                    flex: 1;
-
-                    border: none;
-                    background: none;
-                
-                    font-size: 24px;
-                    text-align: center;
-                    color: $dartmouth-green;
-                    cursor: pointer;
-                }
-            }
-            
-            .tabUnderlineContainer {
-                position: relative;
-                width: 100%;
-                height: 8px;
-                
-                background: $web-gray-two;
-                border-radius: 4px;
-                
-                .tabUnderline {
-                    position: relative;
-                    width: 33.3%;
-                    height: 100%;
-                    
-                    border-radius: 4px;
-                    background: $dartmouth-green;
-                    transition: 0.4s ease-in-out margin;
-    
-                    &.news {
-                        margin-left: 0%;
-                    }
-                    
-                    &.announcements {
-                        margin-left: 33.35%;
-                    }
-                    
-                    &.events {
-                        margin-left: 66.7%;
-                    }
-                }
-            }
-        }
-        
-        @media(max-width: 768px) {
-            .postTypeSelector {
-                width: 100%;
-                display: block;
-            }
+        &.right {
+          right: -216px;
+          button > img {
+            margin-left: 27px;
+          }
         }
 
-        .postListContainer {
-            margin-bottom: 48px;
+        button {
+          display: flex;
+          flex-direction: row;
+
+          font-family: national;
+          font-size: 15px;
+          font-weight: 400;
+          color: $forest-green;
+
+          border: none;
+          background: none;
+          cursor: pointer;
+
+          img {
+            margin: auto;
+            height: 21px;
+          }
+
+          p {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 400;
+            color: $forest-green;
+          }
         }
-        
-        .homeFeaturedStoryContainer {
-            h3 {
-                font-family: Ruzicka, serif;
-                font-weight: bold;
-            }
+      }
 
-            p {
-                font-family: National2-Reg, sans-serif;
-                line-height: 24px;
-                letter-spacing: 0.23324px;
-            }
-        }
-
-        .homeItemSectionSummaryContainer {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            margin: 84px 0px;
-
-            width: 100%;
-            height: 540px;
-            flex: 1;
-
-            .itemSummaryContainer {
-                flex: 2;
-            }
-
-            .homeItemSectionSummaryContainerLeft {
-                display: flex;
-                flex-direction: column;
-                margin-right: 60px;
-                flex: 3;
-
-                .itemSummaryContainer {
-                    &:first-child {
-                        margin-bottom: 60px;
-                        flex: 2;
-                    }
-
-                    &:last-child {
-                        flex: 3;
-                    }
-                }
-            }
+      .homeTitleContainer {
+        .homeHeaderTopBar {
+          height: 8px;
+          background-color: $dartmouth-green;
+          border-radius: 6px;
+          margin-top: 40px;
         }
 
-        .homeQuoteContainer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0 auto 96px;
-            margin-top: 40px;
-            max-width: 800px;
-
-            h4 {
-                color: $dartmouth-green;
-                font-family: National2-Bold, sans-serif;
-                font-size: 26px;
-                letter-spacing: 0.0679583px;
-                margin-bottom: 20px;
-            }
-            
-            blockquote {
-                position: relative;
-                margin-bottom: 24px;
-                
-                font-family: National2-Bold, sans-serif;
-                font-size: 22px;
-                text-align: center;
-                letter-spacing: 0.153225px;
-                line-height: 42px;
-
-                $quote-margin-top: 42%;
-                $quote-margin-sides: 9%;
-
-                @mixin quote-style {
-                    position: absolute;
-                    font-size: 420px;
-                    color: $dartmouth-green;
-                    opacity: 0.12;
-                    z-index: -1;
-                }
-            }
-       
-            p {
-                margin: 0px;
-                max-width: 600px;
-
-                color: $granite-gray;
-                font-size: 18px;
-                line-height: 36px;
-                text-align: center;
-            }
+        .homeHeaderBottomBar {
+          height: 8px;
+          background-color: $dartmouth-green;
+          border-radius: 6px;
+          margin-bottom: 40px;
         }
+
+        .homeTitleTextContainer {
+          padding: 24px 0;
+
+          h1 {
+            font-family: national, sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: $forest-green;
+          }
+
+          p {
+            font-family: national, sans-serif;
+            font-size: 21px;
+            font-weight: 400;
+            color: $forest-green;
+          }
+
+          * {
+            text-align: center;
+            margin: 0 auto;
+          }
+        }
+      }
     }
 
-    .postSectionContainerActive {
+    img {
+      width: 100%;
+    }
+  }
+
+  .homeMainContentContainer {
+    .postTypeSelector {
+      display: flex;
+      flex-direction: column;
+
+      .postTypeTabContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 9px;
+
+        button {
+          margin: 0px auto;
+          padding: 9px 18px;
+          flex: 1;
+
+          font-family: national, sans-serif;
+          font-weight: 500;
+          font-size: 24px;
+          color: $dartmouth-green;
+          text-align: center;
+
+          border: none;
+          background: none;
+          cursor: pointer;
+        }
+      }
+
+      .tabUnderlineContainer {
+        position: relative;
+        width: 100%;
+        height: 8px;
+
+        background: $web-gray-two;
+        border-radius: 4px;
+
+        .tabUnderline {
+          position: relative;
+          width: 33.3%;
+          height: 100%;
+
+          border-radius: 4px;
+          background: $dartmouth-green;
+          transition: 0.4s ease-in-out margin;
+
+          &.news {
+            margin-left: 0%;
+          }
+
+          &.announcements {
+            margin-left: 33.35%;
+          }
+
+          &.events {
+            margin-left: 66.7%;
+          }
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      .postTypeSelector {
+        width: 100%;
         display: block;
-        margin-left: 10%;
-        margin-right: 10%;
+      }
     }
 
-    .postSectionContainer {
-        display: none;
+    .postListContainer {
+      margin-bottom: 48px;
     }
+
+    .homeFeaturedStoryContainer {
+      h2 {
+        font-family: ruzicka, serif;
+        font-size: 30px;
+        font-weight: 700;
+      }
+    }
+
+    .homeItemSectionSummaryContainer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 84px 0px;
+
+      width: 100%;
+      height: 540px;
+      flex: 1;
+
+      .itemSummaryContainer {
+        flex: 2;
+      }
+
+      .homeItemSectionSummaryContainerLeft {
+        display: flex;
+        flex-direction: column;
+        margin-right: 60px;
+        flex: 3;
+
+        .itemSummaryContainer {
+          &:first-child {
+            margin-bottom: 60px;
+            flex: 2;
+          }
+
+          &:last-child {
+            flex: 3;
+          }
+        }
+      }
+    }
+
+    .homeQuoteContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 auto 96px;
+      margin-top: 40px;
+      max-width: 800px;
+
+      h2 {
+        margin: 0px;
+
+        font-family: national, sans-serif;
+        font-size: 27px;
+        font-weight: 700;
+        color: $dartmouth-green;
+      }
+
+      blockquote {
+        position: relative;
+        margin-bottom: 24px;
+
+        font-family: national, sans-serif;
+        font-size: 21px;
+        font-weight: 400;
+
+        line-height: 155%;
+        text-align: center;
+      }
+
+      p {
+        margin: 0px;
+        max-width: 600px;
+
+        font-family: national, sans-serif;
+        font-size: 16px;
+        font-weight: 400px;
+
+        color: $granite-gray;
+        line-height: 155%;
+        text-align: center;
+      }
+    }
+  }
+
+  .postSectionContainerActive {
+    display: block;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+
+  .postSectionContainer {
+    display: none;
+  }
 }

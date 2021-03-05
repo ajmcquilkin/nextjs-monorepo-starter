@@ -1,4 +1,4 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .headerContainer {
   display: flex;
@@ -13,16 +13,21 @@
   .headerBrandContainer {
     margin: 12px auto 12px 24px;
 
-    h1 {
-      font-family: National2-Reg, sans-serif;
-      font-size: 20px;
-      margin: auto 0 auto 12px;
-      color: $snow-white;
+    img {
+      margin: auto 12px auto 0px;
+      object-fit: contain;
+      width: 40px;
+      height: 40px;
     }
 
-    svg {
-      object-fit: contain;
-      height: 48px;
+    p {
+      margin: auto 0px;
+      padding-top: 3px;
+
+      font-family: national, sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: $snow-white;
     }
   }
 
@@ -41,41 +46,16 @@
       display: none;
     }
   }
-
-  .headerSignoutContainer {
-    display: flex;
-    flex-direction: column;
-    margin: auto 9px auto 30px;
-    align-content: flex-end;
-
-    font-family: National2-Reg, sans-serif;
-    color: $snow-white;
-
-    svg {
-      margin: 0 auto 3px;
-    }
-
-    a {
-      margin: 0 auto;
-      text-align: center;
-      color: $snow-white;
-      text-decoration: none;
-
-      &:hover {
-          text-decoration: underline;
-      }
-    }
-  }
 }
 
 @media (max-width: 700px) {
   .headerContainer {
     display: flex;
     justify-content: center;
-    
+
     .headerBrandContainer {
       margin: unset;
-    
+
       img {
         object-fit: contain;
         margin-top: 10px;
@@ -84,4 +64,3 @@
     }
   }
 }
-
