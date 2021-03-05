@@ -55,9 +55,9 @@ const Submissions = ({
   ): Post[] => userPosts.filter((post) => post.status === keyword
     && (!postType || post.type === postType)
     && (
-      post.briefContent.toLowerCase().includes(query)
-      || post.fullContent.toLowerCase().includes(query)
-      || post.fromName.toLowerCase().includes(query)
+      post.briefContent.toLowerCase().includes(query.toLowerCase())
+      || post.fullContent.toLowerCase().includes(query.toLowerCase())
+      || post.fromName.toLowerCase().includes(query.toLowerCase())
     ));
 
   return (

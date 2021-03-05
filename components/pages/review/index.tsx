@@ -47,9 +47,9 @@ const Review = ({
       && (!status || post.status === status)
       && (!type || post.type === type)
       && (
-        post.briefContent.toLowerCase().includes(query)
-        || post.fullContent.toLowerCase().includes(query)
-        || post.fromName.toLowerCase().includes(query)
+        post.briefContent.toLowerCase().includes(query.toLowerCase())
+        || post.fullContent.toLowerCase().includes(query.toLowerCase())
+        || post.fromName.toLowerCase().includes(query.toLowerCase())
       ))
     .sort((p1, p2) => (p1.type < p2.type || p1.briefContent < p2.briefContent ? -1 : 1));
 
