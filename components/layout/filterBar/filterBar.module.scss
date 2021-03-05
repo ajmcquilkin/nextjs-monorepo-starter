@@ -1,3 +1,5 @@
+@import "styles/variables.scss";
+
 .filterBarContainer {
   display: flex;
   flex-direction: row;
@@ -10,13 +12,21 @@
     &:first-child {
       margin-left: 0;
     }
-    
+
     p {
       margin: 0px 9px 0px;
+
+      font-family: national, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: $granite-gray;
     }
 
-    // select {
-
-    // }
+    select {
+      font-family: national, sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: $granite-gray;
+    }
   }
 }

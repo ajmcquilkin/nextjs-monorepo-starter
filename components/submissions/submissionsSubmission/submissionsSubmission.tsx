@@ -36,7 +36,6 @@ const Submission = ({
   const sanitizedHTML = sanitizeHtml(postContent.fullContent);
 
   const duplicatePost = (): void => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { _id, ...fields } = postContent;
     createPost(fields);
   };

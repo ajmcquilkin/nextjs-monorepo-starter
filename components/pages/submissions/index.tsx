@@ -72,14 +72,14 @@ const Submissions = ({
 
         <div className={styles.filterBar}>
           <div className={styles.filterBarRow}>
-            <div className={styles.buttonContainer}>
+            <button
+              type="button"
+              onClick={() => router.push('/form/new')}
+              className={styles.buttonContainer}
+            >
               <img src="/icons/add.svg" alt="create new submission icon" />
-              <Link href="/form/new">
-                <a className={styles.createButton}>
-                  New Submission
-                </a>
-              </Link>
-            </div>
+              <p className={styles.createButton}>New Submission</p>
+            </button>
 
             <div className={styles.searchBarContainer}>
               <SearchBar

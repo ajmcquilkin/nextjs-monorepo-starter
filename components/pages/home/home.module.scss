@@ -85,10 +85,7 @@
           padding: 24px 0;
 
           h1 {
-            font-family: national, sans-serif;
-            font-size: 36px;
-            font-weight: 700;
-            color: $forest-green;
+            @include headerOne();
           }
 
           p {
