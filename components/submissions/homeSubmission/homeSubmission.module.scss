@@ -72,7 +72,7 @@
     height: 100%;
   }
 
-  @media(max-width: $tablet-collapse) {
+  @media only screen and (max-width: $tablet-collapse) {
     .featuredImage {
       max-width: 100%;
       margin-bottom: 24px;

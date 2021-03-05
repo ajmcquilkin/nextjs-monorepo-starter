@@ -150,7 +150,7 @@
                 }
             }
 
-            @media(max-width: $tablet-collapse) {
+            @media only screen and (max-width: $tablet-collapse) {
                 .postTypeTabContainer {
                     margin-bottom: 9px;
                         
@@ -195,7 +195,7 @@
             }
         }
         
-        @media(max-width: $tablet-collapse) {
+        @media only screen and (max-width: $tablet-collapse) {
             .postTypeSelector {
                 width: 100%;
                 display: block;
@@ -227,7 +227,7 @@
             }
         }
 
-        @media(max-width: $tablet-collapse) {
+        @media only screen and (max-width: $tablet-collapse) {
             .homeFeaturedStoryContainer {
                 
                 h3 {
@@ -314,7 +314,7 @@
                 }
             }
 
-            @media(max-width: $tablet-collapse) {
+            @media only screen and (max-width: $tablet-collapse) {
                 blockquote {
                     margin: 10px 8% 20px;
                 }
