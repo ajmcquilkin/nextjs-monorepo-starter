@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 import { useDrop } from 'react-dnd';
 
+import TargetArea from 'components/helpers/targetArea';
+
 import { PostDragItem } from 'types/dnd';
 
 export interface DraggablePostTargetProps {
@@ -10,17 +12,23 @@ export interface DraggablePostTargetProps {
 }
 
 const DraggablePostTarget = ({ onDrop, acceptType, children }: DraggablePostTargetProps): JSX.Element => {
-  const [{ isOver }, drop] = useDrop({
+  const [{ isOver, isValidTarget }, drop] = useDrop({
     accept: acceptType,
     drop: onDrop,
     collect: (monitor) => ({
-      isOver: !!monitor.isOver()
+      isOver: !!monitor.isOver(),
+      isValidTarget: !!monitor.canDrop()
     })
   });
 
   return (
     <div ref={drop}>
-      {children}
+      <TargetArea
+        isHovered={isOver}
+        isValidTarget={isValidTarget}
+      >
+        {children}
+      </TargetArea>
     </div>
   );
 };
