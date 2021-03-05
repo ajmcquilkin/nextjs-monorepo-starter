@@ -15,53 +15,76 @@
       display: flex;
       flex-direction: column;
       position: relative;
-
       width: 100%;
 
-      .homeDateSelector {
-        margin: auto 0;
-        position: absolute;
+      .homeDateSelectorContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
 
-        top: 50%;
-        transform: translate(0, -50%);
+        .homeDateSelector {
+          margin: auto 0;
+          position: absolute;
 
-        &.left {
-          left: -216px;
-          button > img {
-            margin-right: 27px;
-          }
-        }
+          top: 50%;
+          transform: translate(0, -50%);
 
-        &.right {
-          right: -216px;
-          button > img {
-            margin-left: 27px;
-          }
-        }
+          &.left {
+            left: -216px;
 
-        button {
-          display: flex;
-          flex-direction: row;
-
-          font-family: national;
-          font-size: 15px;
-          font-weight: 400;
-          color: $forest-green;
-
-          border: none;
-          background: none;
-          cursor: pointer;
-
-          img {
-            margin: auto;
-            height: 21px;
+            button > img {
+              margin-right: 27px;
+            }
           }
 
-          p {
-            margin: 0;
-            font-size: 18px;
+          &.right {
+            right: -216px;
+
+            button > img {
+              margin-left: 27px;
+            }
+          }
+
+          button {
+            display: flex;
+            flex-direction: row;
+
+            font-family: national;
+            font-size: 15px;
             font-weight: 400;
             color: $forest-green;
+
+            border: none;
+            background: none;
+            cursor: pointer;
+
+            img {
+              margin: auto;
+              height: 21px;
+            }
+
+            p {
+              margin: 0;
+              font-size: 18px;
+              font-weight: 400;
+              color: $forest-green;
+            }
+          }
+
+          @media only screen and (max-width: $tablet-collapse) {
+            margin: 12px 0px;
+            position: relative;
+            top: 0px;
+            transform: translate(0%, 0%);
+
+            &.left {
+              left: 0px;
+            }
+
+            &.right {
+              right: 0px;
+            }
           }
         }
       }
@@ -82,7 +105,7 @@
         }
 
         .homeTitleTextContainer {
-          padding: 24px 0;
+          padding: 24px 0px;
 
           h1 {
             @include headerOne();
@@ -117,6 +140,8 @@
   }
 
   .homeMainContentContainer {
+    width: 100%;
+
     .postTypeSelector {
       display: flex;
       flex-direction: column;
@@ -141,6 +166,15 @@
           border: none;
           background: none;
           cursor: pointer;
+        }
+
+        @media only screen and (max-width: $tablet-collapse) {
+          button {
+            padding: 9px 5px;
+            flex: 1;
+
+            font-size: 14px;
+          }
         }
       }
 
@@ -176,15 +210,12 @@
       }
     }
 
-    @media (max-width: 768px) {
-      .postTypeSelector {
-        width: 100%;
-        display: block;
-      }
-    }
-
     .postListContainer {
       margin-bottom: 48px;
+
+      @media only screen and (max-width: $tablet-collapse) {
+        margin-bottom: 0px;
+      }
     }
 
     .homeFeaturedStoryContainer {
@@ -192,6 +223,12 @@
         font-family: ruzicka, serif;
         font-size: 30px;
         font-weight: 700;
+      }
+
+      @media only screen and (max-width: $tablet-collapse) {
+        img {
+          display: none;
+        }
       }
     }
 
@@ -269,11 +306,24 @@
         line-height: 155%;
         text-align: center;
       }
+
+      @media only screen and (max-width: $tablet-collapse) {
+        blockquote {
+          margin: 10px 8% 20px;
+        }
+      }
     }
 
     .noContent {
       @include paragraphText();
       color: $granite-gray;
+    }
+
+    @media only screen and (max-width: $tablet-collapse) {
+      .postTypeSelector {
+        width: 100%;
+        display: block;
+      }
     }
   }
 

@@ -100,8 +100,11 @@ $shimmer: linear-gradient(
   }
 }
 
+$tablet-collapse: 768px;
+
 @mixin mainPageLayout {
   margin: 36px auto;
+  padding: 0px 36px;
   max-width: $page-width;
   width: 100%;
 }
