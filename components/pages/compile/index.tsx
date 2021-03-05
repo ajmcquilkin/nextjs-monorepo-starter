@@ -8,7 +8,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import SkeletonArea from 'components/helpers/skeletonArea';
-import GenericDragTarget from 'components/helpers/genericDragTarget';
+import GenericDropTarget from 'components/helpers/genericDropTarget';
 import GenericSkeletonWrapper from 'components/helpers/genericSkeletonWrapper';
 import SubmissionSkeleton from 'components/submissions/submissionSkeleton';
 
@@ -361,13 +361,13 @@ const Compile = ({
                         </div>
                       )
                       : (
-                        <GenericDragTarget
+                        <GenericDropTarget
                           className={styles.featuredPostEmpty}
                           hoveredClassName={styles.hovered}
                           validClassName={styles.valid}
                         >
                           Drag featured post here
-                        </GenericDragTarget>
+                        </GenericDropTarget>
                       )}
                   </div>
                 )}

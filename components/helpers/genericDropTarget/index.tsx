@@ -1,17 +1,17 @@
 import { ReactNode } from 'react';
 import { useTarget } from 'components/helpers/targetArea';
 
-export interface GenericDragTargetProps {
+export interface GenericDropTargetProps {
   children: ReactNode,
   className?: string,
   hoveredClassName?: string,
   validClassName?: string,
 }
 
-const GenericDragTarget = ({
+const GenericDropTarget = ({
   children, className = '',
   hoveredClassName = '', validClassName = ''
-}: GenericDragTargetProps): JSX.Element => {
+}: GenericDropTargetProps): JSX.Element => {
   const { isHovered, isValidTarget } = useTarget();
 
   return (
@@ -26,4 +26,4 @@ const GenericDragTarget = ({
   );
 };
 
-export default GenericDragTarget;
+export default GenericDropTarget;
