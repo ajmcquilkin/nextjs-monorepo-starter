@@ -75,18 +75,32 @@ const Home = ({
       <section className={styles.homeHeaderContentContainer}>
 
         <div className={styles.homeHeaderContainer}>
-          <div className={[styles.homeDateSelector, styles.left].join(' ')}>
-            <button
-              type="button"
-              onClick={() => {
-                fetchReleaseByDate(previousDate, {
-                  failureCallback: () => openModal('ERROR_MODAL', { content: 'There are no articles for this selected date.', bgColor: '#E7E7E7' })
-                });
-              }}
-            >
-              <img src="/icons/left.svg" alt="left arrow" />
-              <p>{getFullDate(previousDate)}</p>
-            </button>
+          <div className={styles.homeDateSelectorContainer}>
+            <div className={[styles.homeDateSelector, styles.left].join(' ')}>
+              <button
+                type="button"
+                onClick={() => {
+                  fetchReleaseByDate(previousDate, {
+                    failureCallback: () => openModal('ERROR_MODAL', { content: 'There are no articles for this selected date.', bgColor: '#E7E7E7' })
+                  });
+                }}
+              >
+                <img src="/icons/left.svg" alt="left arrow" />
+                <p>{getFullDate(previousDate)}</p>
+              </button>
+            </div>
+
+            {nextDate < Date.now() ? (
+              <div className={[styles.homeDateSelector, styles.right].join(' ')}>
+                <button
+                  type="button"
+                  onClick={() => { fetchReleaseByDate(nextDate); }}
+                >
+                  <p>{getFullDate(nextDate)}</p>
+                  <img src="/icons/right.svg" alt="right arrow - next release" />
+                </button>
+              </div>
+            ) : null}
           </div>
 
           <div className={styles.homeTitleContainer}>
@@ -99,18 +113,6 @@ const Home = ({
 
             <div className={styles.homeHeaderBottomBar} />
           </div>
-
-          {nextDate < Date.now() ? (
-            <div className={[styles.homeDateSelector, styles.right].join(' ')}>
-              <button
-                type="button"
-                onClick={() => { fetchReleaseByDate(nextDate); }}
-              >
-                <p>{getFullDate(nextDate)}</p>
-                <img src="/icons/right.svg" alt="right arrow - next release" />
-              </button>
-            </div>
-          ) : null}
         </div>
 
         <img
@@ -127,11 +129,13 @@ const Home = ({
           </div>
         ) : null}
 
-        <div className={styles.homeQuoteContainer}>
-          <h4>QUOTE OF THE DAY</h4>
-          <blockquote>{release.quoteOfDay}</blockquote>
-          <p>{release.quotedContext}</p>
-        </div>
+        {release.quoteOfDay ? (
+          <div className={styles.homeQuoteContainer}>
+            <h4>QUOTE OF THE DAY</h4>
+            <blockquote>{release.quoteOfDay}</blockquote>
+            <p>{release.quotedContext}</p>
+          </div>
+        ) : <div />}
 
         <div className={styles.postTypeSelector}>
           <div

@@ -2,11 +2,14 @@
 
 .footerContainer {
   margin-top: auto;
+  width: 100%;
   background-color: $dartmouth-green;
 
   .footerContentContainer {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+
     margin: 0 auto;
     padding: 36px 72px;
     max-width: $page-width;
