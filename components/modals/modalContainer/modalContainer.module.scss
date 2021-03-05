@@ -1,9 +1,9 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .modalContainer {
   display: flex;
   flex-direction: column;
-  
+
   .titleContainer {
     display: flex;
     flex-direction: column;
@@ -12,6 +12,8 @@
 
     h1 {
       margin: 0px;
+
+      @include headerOne();
       color: $forest-green;
     }
   }
@@ -27,23 +29,20 @@
 
     button {
       margin: 0px 6px;
-      padding: 12px 30px;
-
-      font-size: 16px;
-      border-radius: 10px;
+      @include siteButton();
       border: none;
       cursor: pointer;
-      
+
       &.confirm {
         color: $snow-white;
         background-color: $dartmouth-green;
       }
-      
+
       &.reject {
         color: $snow-white;
         background-color: $dartmouth-green;
       }
-      
+
       &.cancel {
         color: $granite-gray;
         border: 1px solid $granite-gray;

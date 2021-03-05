@@ -47,9 +47,9 @@ const Review = ({
       && (!status || post.status === status)
       && (!type || post.type === type)
       && (
-        post.briefContent.toLowerCase().includes(query)
-        || post.fullContent.toLowerCase().includes(query)
-        || post.fromName.toLowerCase().includes(query)
+        post.briefContent.toLowerCase().includes(query.toLowerCase())
+        || post.fullContent.toLowerCase().includes(query.toLowerCase())
+        || post.fromName.toLowerCase().includes(query.toLowerCase())
       ))
     .sort((p1, p2) => (p1.type < p2.type || p1.briefContent < p2.briefContent ? -1 : 1));
 
@@ -68,7 +68,7 @@ const Review = ({
         </div>
 
         <div className={styles.subtitleContainer}>
-          <h2>This Week</h2>
+          <h2>Pending Posts</h2>
 
           <div className={styles.filterBarContainer}>
             <FilterBar
@@ -94,15 +94,21 @@ const Review = ({
               </div>
             </>
           )
-          : filteredPosts.map((post) => (
-            <div key={post._id} className={styles.submissionContainer}>
-              <ReviewSubmission
-                content={post}
-                onApprove={(_id) => updatePostById(_id, { status: 'approved' })}
-                onReject={(_id) => openModal('REJECTION_MODAL', { postId: _id })}
-              />
-            </div>
-          ))}
+          : (
+            <>
+              {filteredPosts.length ? filteredPosts.map((post) => (
+                <div key={post._id} className={styles.submissionContainer}>
+                  <ReviewSubmission
+                    content={post}
+                    onApprove={(_id) => updatePostById(_id, { status: 'approved' })}
+                    onReject={(_id) => openModal('REJECTION_MODAL', { postId: _id })}
+                  />
+                </div>
+              )) : <p className={styles.noContent}>No pending posts.</p>}
+              {' '}
+
+            </>
+          )}
       </div>
     </div>
   );

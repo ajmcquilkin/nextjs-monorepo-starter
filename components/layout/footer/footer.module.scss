@@ -1,4 +1,4 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .footerContainer {
   margin-top: auto;
@@ -14,17 +14,37 @@
     padding: 36px 72px;
     max-width: $page-width;
 
-    font-family: National2-Reg, sans-serif;
-    color: $snow-white;
+    .footerContent {
+      display: flex;
+      flex-direction: column;
+      margin: 0px auto 18px;
 
-    div {
-      p, a {
+      p,
+      a {
+        margin: 0px 0px 9px;
+
+        font-family: national, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+
+        color: $snow-white;
         text-align: left;
-        margin: 6px 0px;
       }
 
-      a {
-        color: $snow-white;
+      img {
+        height: 50px;
+      }
+    }
+
+    @media only screen and (max-width: $tablet-collapse) {
+      justify-content: center;
+      flex-wrap: wrap;
+
+      .footerContent {
+        p,
+        a {
+          text-align: center;
+        }
       }
     }
   }

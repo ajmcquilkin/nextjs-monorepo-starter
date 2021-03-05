@@ -40,7 +40,7 @@ const HomeSubmission = ({ content }: HomeSubmissionProps): JSX.Element => {
         )}
       </div>
 
-      {content.featuredImage ? <img className={styles.featuredImage} src={content.featuredImage} alt={content?.featuredImageAlt || ''} /> : null}
+      {content.featuredImage ? <img className={styles.featuredImage} src={content.featuredImage} alt={content.featuredImageAlt} /> : null}
     </div>
   );
 };

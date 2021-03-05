@@ -1,31 +1,27 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .loadingScreenContainer {
   display: flex;
   flex-direction: column;
   margin: auto;
-  
+
   h1 {
     margin: 0px auto 12px;
-    
-    font-size: 36px;
-    color: $dartmouth-green;
+    @include headerOne();
     text-align: center;
   }
-  
+
   h2 {
     margin: 0px auto 12px;
 
-    font-size: 21px;
-    color: $forest-green;
+    @include headerTwo();
     text-align: center;
   }
-  
+
   a {
     margin: 0px auto;
-    
-    font-size: 16px;
-    color: $river-blue;
+
+    @include siteLink();
     text-align: center;
   }
 

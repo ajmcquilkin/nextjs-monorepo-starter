@@ -1,344 +1,340 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .homeContainer {
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 0px 36px 0px;
 
-    @include mainPageLayout();
+  @include mainPageLayout();
 
-    .homeHeaderContentContainer {
-        max-width: 400px;
-        margin-bottom: 40px;
-        
-        .homeHeaderContainer {
-            display: flex;
-            flex-direction: column;
-            position: relative;
+  .homeHeaderContentContainer {
+    max-width: 400px;
+    width: 100%;
+    margin-bottom: 40px;
 
-            width: 100%;
+    .homeHeaderContainer {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      width: 100%;
 
-            .homeDateSelectorContainer {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                flex-wrap: wrap;
+      .homeDateSelectorContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
 
-                .homeDateSelector {
-                    margin: auto 0;
-                    position: absolute;
-    
-                    top: 50%;
-                    transform: translate(0, -50%);
-                    
-                    &.left {
-                        left: -216px;
-                        button > img { margin-right: 27px; }
-                    }
-                    
-                    &.right {
-                        right: -216px;
-                        button > img { margin-left: 27px; }
-                    }
-    
-                    @media only screen and (max-width: $tablet-collapse) {
-                        margin: 12px 0px;
-                        position: relative;
-                        top: 0px;
-                        transform: translate(0%, 0%);
+        .homeDateSelector {
+          margin: auto 0;
+          position: absolute;
 
-                        &.left {
-                            left: 0px;
-                        }
+          top: 50%;
+          transform: translate(0, -50%);
 
-                        &.right {
-                            right: 0px;
-                        }
-                    }
-                    
-                    button {
-                        display: flex;
-                        flex-direction: row;
-                        
-                        border: none;
-                        background: none;
-                        cursor: pointer;
-    
-                        img {
-                            margin: auto;
-                            height: 21px;
-                        }
-                        
-                        p {
-                            margin: 0;
-                            font-size: 18px;
-                            font-weight: 400;
-                            color: $forest-green;
-                        }
-                    }
-                }
+          &.left {
+            left: -216px;
+
+            button > img {
+              margin-right: 27px;
             }
+          }
 
-            .homeTitleContainer {
+          &.right {
+            right: -216px;
 
-                .homeHeaderTopBar {
-                    height: 8px;
-                    background-color: $dartmouth-green;
-                    border-radius: 6px;
-                    margin-top: 40px;
-                }
-        
-                .homeHeaderBottomBar {
-                    height: 8px;
-                    background-color: $dartmouth-green;
-                    border-radius: 6px;
-                    margin-bottom: 40px;
-                }
-        
-                .homeTitleTextContainer {
-                    padding: 24px 0;
-        
-                    h2 {
-                        font-family: National2-Bold, sans-serif;
-                    }
-                    
-                    p {
-                        font-family: National2-Reg, sans-serif;
-                    }
-                    
-                    * {
-                        text-align: center;
-                        margin: 0 auto;
-                    } 
-                }
+            button > img {
+              margin-left: 27px;
             }
-            
-        }
+          }
 
-        img {
-            width: 100%;
-        }
-    }
-    
-    .homeMainContentContainer {
-        width: 100%;
-        max-width: 900px;
-         
-        .postTypeSelector {
-            display: flex;
-            flex-direction: column;
-
-            .postTypeTabContainer {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                margin-bottom: 9px;
-                    
-                button {
-                    margin: 0px auto;
-                    padding: 9px 18px;
-                    flex: 1;
-
-                    border: none;
-                    background: none;
-                
-                    font-size: 21px;
-                    text-align: center;
-                    color: $dartmouth-green;
-                    cursor: pointer;
-                }
-            }
-
-            @media only screen and (max-width: $tablet-collapse) {
-                .postTypeTabContainer {
-                    margin-bottom: 9px;
-                        
-                    button {
-                        padding: 9px 5px;
-                        flex: 1;
-                    
-                        font-size: 14px;
-                    }
-                }
-            }
-            
-            .tabUnderlineContainer {
-                position: relative;
-                width: 100%;
-                height: 8px;
-                
-                background: $web-gray-two;
-                border-radius: 4px;
-                
-                .tabUnderline {
-                    position: relative;
-                    width: 33.3%;
-                    height: 100%;
-                    
-                    border-radius: 4px;
-                    background: $dartmouth-green;
-                    transition: 0.4s ease-in-out margin;
-    
-                    &.news {
-                        margin-left: 0%;
-                    }
-                    
-                    &.announcements {
-                        margin-left: 33.35%;
-                    }
-                    
-                    &.events {
-                        margin-left: 66.7%;
-                    }
-                }
-            }
-        }
-        
-        @media only screen and (max-width: $tablet-collapse) {
-            .postTypeSelector {
-                width: 100%;
-                display: block;
-            }
-        }
-
-        .postListContainer {
-            margin-bottom: 48px;
-        }
-        
-        .homeFeaturedStoryContainer {
-            width: 100%;
-
-            h3 {
-                font-family: Ruzicka, serif;
-                font-weight: bold;
-            }
-
-            p {
-                font-family: National2-Reg, sans-serif;
-                line-height: 24px;
-                letter-spacing: 0.23324px;
-            }
-
-            @media only screen and (max-width: $tablet-collapse) {
-                img {
-                    display: none;
-                }
-            }
-        }
-
-        @media only screen and (max-width: $tablet-collapse) {
-            .homeFeaturedStoryContainer {
-                
-                h3 {
-                    font-family: Ruzicka, serif;
-                    font-weight: bold;
-                }
-    
-                p {
-                    font-family: National2-Reg, sans-serif;
-                    line-height: 24px;
-                    letter-spacing: 0.23324px;
-                } 
-            }
-        }
-
-        .homeItemSectionSummaryContainer {
+          button {
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
-            margin: 84px 0px;
 
-            width: 100%;
-            height: 540px;
+            font-family: national;
+            font-size: 15px;
+            font-weight: 400;
+            color: $forest-green;
+
+            border: none;
+            background: none;
+            cursor: pointer;
+
+            img {
+              margin: auto;
+              height: 21px;
+            }
+
+            p {
+              margin: 0;
+              font-size: 18px;
+              font-weight: 400;
+              color: $forest-green;
+            }
+          }
+
+          @media only screen and (max-width: $tablet-collapse) {
+            margin: 12px 0px;
+            position: relative;
+            top: 0px;
+            transform: translate(0%, 0%);
+
+            &.left {
+              left: 0px;
+            }
+
+            &.right {
+              right: 0px;
+            }
+          }
+        }
+      }
+
+      .homeTitleContainer {
+        .homeHeaderTopBar {
+          height: 8px;
+          background-color: $dartmouth-green;
+          border-radius: 6px;
+          margin-top: 40px;
+        }
+
+        .homeHeaderBottomBar {
+          height: 8px;
+          background-color: $dartmouth-green;
+          border-radius: 6px;
+          margin-bottom: 40px;
+        }
+
+        .homeTitleTextContainer {
+          padding: 24px 0px;
+
+          h1 {
+            @include headerOne();
+          }
+
+          p {
+            font-family: national, sans-serif;
+            font-size: 21px;
+            font-weight: 400;
+            color: $forest-green;
+          }
+
+          * {
+            text-align: center;
+            margin: 0 auto;
+          }
+        }
+      }
+    }
+
+    .featuredImageContainer {
+      img {
+        width: 100%;
+      }
+
+      p {
+        @include paragraphText();
+        color: $granite-gray;
+        text-align: center;
+      }
+    }
+  }
+
+  .homeMainContentContainer {
+    width: 100%;
+
+    .postTypeSelector {
+      display: flex;
+      flex-direction: column;
+
+      .postTypeTabContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 9px;
+
+        button {
+          margin: 0px auto;
+          padding: 9px 18px;
+          flex: 1;
+
+          font-family: national, sans-serif;
+          font-weight: 500;
+          font-size: 24px;
+          color: $dartmouth-green;
+          text-align: center;
+
+          border: none;
+          background: none;
+          cursor: pointer;
+        }
+
+        @media only screen and (max-width: $tablet-collapse) {
+          button {
+            padding: 9px 5px;
             flex: 1;
 
-            .itemSummaryContainer {
-                flex: 2;
-            }
-
-            .homeItemSectionSummaryContainerLeft {
-                display: flex;
-                flex-direction: column;
-                margin-right: 60px;
-                flex: 3;
-
-                .itemSummaryContainer {
-                    &:first-child {
-                        margin-bottom: 60px;
-                        flex: 2;
-                    }
-
-                    &:last-child {
-                        flex: 3;
-                    }
-                }
-            }
+            font-size: 14px;
+          }
         }
+      }
 
-        .homeQuoteContainer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0 auto 66px;
-            margin-top: 40px;
-            max-width: 800px;
+      .tabUnderlineContainer {
+        position: relative;
+        width: 100%;
+        height: 8px;
 
-            h4 {
-                color: $dartmouth-green;
-                font-family: National2-Bold, sans-serif;
-                font-size: 26px;
-                letter-spacing: 0.0679583px;
-                margin-bottom: 20px;
-            }
-            
-            blockquote {
-                position: relative;
-                margin-bottom: 24px;
-                
-                font-family: National2-Bold, sans-serif;
-                font-size: 22px;
-                text-align: center;
-                letter-spacing: 0.153225px;
-                line-height: 42px;
+        background: $web-gray-two;
+        border-radius: 4px;
 
-                $quote-margin-top: 42%;
-                $quote-margin-sides: 9%;
+        .tabUnderline {
+          position: relative;
+          width: 33.3%;
+          height: 100%;
 
-                @mixin quote-style {
-                    position: absolute;
-                    font-size: 420px;
-                    color: $dartmouth-green;
-                    opacity: 0.12;
-                    z-index: -1;
-                }
-            }
+          border-radius: 4px;
+          background: $dartmouth-green;
+          transition: 0.4s ease-in-out margin;
 
-            @media only screen and (max-width: $tablet-collapse) {
-                blockquote {
-                    margin: 10px 8% 20px;
-                }
-            }
-       
-            p {
-                margin: 0px;
-                max-width: 600px;
+          &.news {
+            margin-left: 0%;
+          }
 
-                color: $granite-gray;
-                font-size: 18px;
-                line-height: 36px;
-                text-align: center;
-            }
+          &.announcements {
+            margin-left: 33.35%;
+          }
+
+          &.events {
+            margin-left: 66.7%;
+          }
         }
+      }
     }
 
-    .postSectionContainerActive {
+    .postListContainer {
+      margin-bottom: 48px;
+
+      @media only screen and (max-width: $tablet-collapse) {
+        margin-bottom: 0px;
+      }
+    }
+
+    .homeFeaturedStoryContainer {
+      h2 {
+        font-family: ruzicka, serif;
+        font-size: 30px;
+        font-weight: 700;
+      }
+
+      @media only screen and (max-width: $tablet-collapse) {
+        img {
+          display: none;
+        }
+      }
+    }
+
+    .homeItemSectionSummaryContainer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 84px 0px;
+
+      width: 100%;
+      height: 540px;
+      flex: 1;
+
+      .itemSummaryContainer {
+        flex: 2;
+      }
+
+      .homeItemSectionSummaryContainerLeft {
+        display: flex;
+        flex-direction: column;
+        margin-right: 60px;
+        flex: 3;
+
+        .itemSummaryContainer {
+          &:first-child {
+            margin-bottom: 60px;
+            flex: 2;
+          }
+
+          &:last-child {
+            flex: 3;
+          }
+        }
+      }
+    }
+
+    .homeQuoteContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 auto 96px;
+      margin-top: 40px;
+      max-width: 800px;
+
+      h2 {
+        margin: 0px;
+
+        font-family: national, sans-serif;
+        font-size: 27px;
+        font-weight: 700;
+        color: $dartmouth-green;
+      }
+
+      blockquote {
+        position: relative;
+        margin-bottom: 24px;
+
+        font-family: national, sans-serif;
+        font-size: 21px;
+        font-weight: 400;
+
+        line-height: 155%;
+        text-align: center;
+      }
+
+      p {
+        margin: 0px;
+        max-width: 600px;
+
+        font-family: national, sans-serif;
+        font-size: 16px;
+        font-weight: 400px;
+
+        color: $granite-gray;
+        line-height: 155%;
+        text-align: center;
+      }
+
+      @media only screen and (max-width: $tablet-collapse) {
+        blockquote {
+          margin: 10px 8% 20px;
+        }
+      }
+    }
+
+    .noContent {
+      @include paragraphText();
+      color: $granite-gray;
+    }
+
+    @media only screen and (max-width: $tablet-collapse) {
+      .postTypeSelector {
+        width: 100%;
         display: block;
-        margin-left: 10%;
-        margin-right: 10%;
+      }
     }
+  }
 
-    .postSectionContainer {
-        display: none;
-    }
+  .postSectionContainerActive {
+    display: block;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+
+  .postSectionContainer {
+    display: none;
+  }
 }

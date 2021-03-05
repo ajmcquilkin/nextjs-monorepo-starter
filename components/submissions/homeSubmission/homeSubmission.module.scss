@@ -1,4 +1,4 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .homeSubmissionContainer {
   display: flex;
@@ -6,17 +6,14 @@
   justify-content: space-between;
   flex-wrap: nowrap;
   width: 100%;
-  
+
   margin: 36px 0px 0px;
   padding-bottom: 36px;
   border-bottom: 1px solid $web-gray-two;
-  
+
   &:last-child {
     border-bottom: none;
-  }
-
-  @media only screen and (max-width: $tablet-collapse) {
-    flex-wrap: wrap-reverse;
+    padding-bottom: 0px;
   }
 
   .postContentContainer {
@@ -26,29 +23,30 @@
     width: 100%;
 
     h3 {
-      font-size: 24px;
       margin: 0px 0px 9px;
+      @include headerThree();
     }
 
     .subheader {
-      font-size: 18px;
       margin: 0px 0px 24px;
+
+      font-family: national, sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: $granite-gray;
     }
 
     .content {
       margin-bottom: 12px;
-
-      p {
-        margin: 0px 0px 18px;
-      }
+      @include postContent();
     }
 
     .linkContainer {
       display: flex;
       flex-direction: row;
-      
+
       img {
-        margin: auto 12px auto 0px;
+        margin: auto 15px auto 0px;
         height: 18px;
 
         @media only screen and (max-width: $tablet-collapse) {
@@ -59,7 +57,8 @@
       a {
         margin: auto 0px;
         width: 100%;
-        color: $river-blue;
+
+        @include siteLink();
         line-break: anywhere;
       }
     }
@@ -73,6 +72,8 @@
   }
 
   @media only screen and (max-width: $tablet-collapse) {
+    flex-wrap: wrap-reverse;
+
     .featuredImage {
       max-width: 100%;
       margin-bottom: 24px;

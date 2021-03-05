@@ -1,50 +1,131 @@
-// Colors
-$dartmouth-green: #00693E;
+/* ---- Colors ---- */
 
-$forest-green: #12312B;
-$snow-white: #FFFFFF;
-$web-gray-one: #F7F7F7;
-$web-gray-two: #E2E2E2;
+$dartmouth-green: #00693e;
+
+$forest-green: #12312b;
+$snow-white: #ffffff;
+$web-gray-one: #f7f7f7;
+$web-gray-two: #e2e2e2;
 $granite-gray: #424141;
 $midnight-black: #000000;
 
-$spring-green: #C4DD88;
-$summer-yellow: #F5DC69;
-$bonfire-orange: #FFA00F;
-$tuck-orange: #E32D1C;
-$bonfire-red: #9D162E;
-$autumn-brown: #643C20;
-$web-violet: #8A6996;
-$river-blue: #267ABA;
-$river-navy: #003C73;
+$spring-green: #c4dd88;
+$summer-yellow: #f5dc69;
+$bonfire-orange: #ffa00f;
+$tuck-orange: #e32d1c;
+$bonfire-red: #9d162e;
+$autumn-brown: #643c20;
+$web-violet: #8a6996;
+$river-blue: #267aba;
+$river-navy: #003c73;
 
-// Other
+/* ---- Text Styling ---- */
+
+@mixin headerOne {
+  font-family: national, sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: $forest-green;
+}
+
+@mixin headerTwo {
+  font-family: national, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: $forest-green;
+}
+
+@mixin headerThree {
+  font-family: national, sans-serif;
+  font-size: 21px;
+  font-weight: 500;
+  color: $midnight-black;
+}
+
+@mixin headerFour {
+  font-family: national, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: $forest-green;
+}
+
+@mixin paragraphText {
+  font-family: national, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 155%;
+}
+
+@mixin postContent {
+  p,
+  a,
+  li {
+    margin: 0px 0px 9px;
+    @include paragraphText();
+  }
+}
+
+@mixin siteLink {
+  font-family: national, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: $river-blue;
+}
+
+/* ---- Other ---- */
 
 $page-width: 960px;
 
-$shimmer: linear-gradient(160deg,
-    rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0) 25%,
-    rgba(255,255,255,0.6) 60%,
-    rgba(255,255,255,0) 100%
+$shimmer: linear-gradient(
+  160deg,
+  rgba(255, 255, 255, 0) 0%,
+  rgba(255, 255, 255, 0) 25%,
+  rgba(255, 255, 255, 0.6) 60%,
+  rgba(255, 255, 255, 0) 100%
 );
 
 @mixin shimmerMixin($width: 1000px) {
-    background: $shimmer;
-    background-repeat: repeat-y;
-    background-position: calc(-1 * #{$width}) 0px;
-    animation: shimmerBackground 2s linear infinite;
+  background: $shimmer;
+  background-repeat: repeat-y;
+  background-position: calc(-1 * #{$width}) 0px;
+  animation: shimmerBackground 2s linear infinite;
 
-    @keyframes shimmerBackground {
-        0% { background-position: calc(-1 * #{$width}) 0px; }
-        100% { background-position: $width 0px; }
+  @keyframes shimmerBackground {
+    0% {
+      background-position: calc(-1 * #{$width}) 0px;
     }
+    100% {
+      background-position: $width 0px;
+    }
+  }
 }
 
 $tablet-collapse: 768px;
 
 @mixin mainPageLayout {
-    margin: 36px auto;
-    max-width: $page-width;
-    width: 100%;
+  margin: 36px auto;
+  padding: 0px 36px;
+  max-width: $page-width;
+  width: 100%;
+}
+
+@mixin siteButton($size: 16px) {
+  display: flex;
+  flex-direction: row;
+  padding: 12px 30px;
+
+  border-radius: 8px;
+  cursor: pointer;
+
+  img {
+    margin: auto 12px auto 0px;
+  }
+
+  p {
+    margin: auto 0px;
+
+    font-family: national, sans-serif;
+    font-size: $size;
+    font-weight: 400;
+  }
 }

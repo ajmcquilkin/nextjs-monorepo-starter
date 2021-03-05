@@ -1,9 +1,9 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .reviewContainer {
   display: flex;
   flex-direction: column;
-  
+
   @include mainPageLayout();
 
   .titleContainer {
@@ -11,6 +11,7 @@
 
     h1 {
       margin: 0px;
+      @include headerOne();
     }
   }
 
@@ -30,8 +31,9 @@
 
       h2 {
         margin: auto auto auto 0px;
+        @include headerTwo();
       }
-      
+
       .filterBarContainer {
         margin: auto 0px;
       }
@@ -41,6 +43,11 @@
   .submissionsContainter {
     .submissionContainer {
       margin-bottom: 24px;
+    }
+
+    .noContent {
+      @include paragraphText();
+      color: $granite-gray;
     }
   }
 }

@@ -24,10 +24,8 @@ const Header = ({ isStaff, isReviewer }: HeaderProps): JSX.Element => (
       <img
         src="/icons/dPineWhite.svg"
         alt="Vox Daily"
-        width={40}
-        height={40}
       />
-      <h1>VOX DAILY</h1>
+      <p>VOX DAILY</p>
     </div>
 
     <nav className={styles.headerLinksContainer}>

@@ -1,4 +1,4 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 $checkbox-size: 24px;
 
@@ -14,12 +14,12 @@ $checkbox-size: 24px;
   &:hover input ~ .radioSelector {
     background-color: $web-gray-one;
   }
-  
+
   input {
     position: absolute;
     height: 0;
     width: 0;
-    
+
     opacity: 0;
     cursor: pointer;
 
@@ -58,5 +58,7 @@ $checkbox-size: 24px;
 
   p {
     margin: auto 0px;
+    @include paragraphText();
+    color: $granite-gray;
   }
 }

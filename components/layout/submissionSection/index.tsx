@@ -21,20 +21,23 @@ const SubmissionSection = ({
 
   return (
     <div className={styles.submissionSectionContainer}>
-      <h3>{`${title} (${posts.length})`}</h3>
+      <h2>{`${title} (${posts.length})`}</h2>
       <div>
-        {/* eslint-disable-next-line no-nested-ternary */}
         {isLoading
           ? <SubmissionSkeleton status={status} />
-          : (posts.length
-            ? posts.map((post) => (
-              <div className={styles.submissionSpacingContainer} key={post._id}>
-                <Submission
-                  postContent={post}
-                  renderAdditionalButtons={renderAdditionalPostButtons}
-                />
-              </div>
-            )) : <p>No Posts</p>)}
+          : (
+            <>
+              {posts.length
+                ? posts.map((post) => (
+                  <div className={styles.submissionSpacingContainer} key={post._id}>
+                    <Submission
+                      postContent={post}
+                      renderAdditionalButtons={renderAdditionalPostButtons}
+                    />
+                  </div>
+                )) : <p className={styles.noContent}>No posts in this category.</p>}
+            </>
+          )}
       </div>
     </div>
   );

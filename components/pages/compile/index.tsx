@@ -195,9 +195,7 @@ const Compile = ({
 
           <section>
             <h2>{getFullDate(releaseDate)}</h2>
-            <div id="compileHeaderTextContainer">
-              <p>Click on the dots on the left and drag and drop to re-order.</p>
-            </div>
+            <p className={styles.subtitle}>Click on the dots on the left and drag and drop to re-order.</p>
           </section>
 
           <CompileSection title="General">
@@ -438,8 +436,21 @@ const Compile = ({
           </CompileSection>
 
           <div className={styles.buttonContainer}>
-            <button className={styles.confirm} type="button" onClick={handleReleaseUpdate}>Save Release</button>
-            <button className={styles.reject} type="button" onClick={() => router.push('/')}>Discard Changes</button>
+            <button
+              className={styles.confirm}
+              type="button"
+              onClick={handleReleaseUpdate}
+            >
+              <p>Save Release</p>
+            </button>
+
+            <button
+              className={styles.reject}
+              type="button"
+              onClick={() => router.push('/')}
+            >
+              <p>Discard Changes</p>
+            </button>
           </div>
         </div>
       </SkeletonArea>

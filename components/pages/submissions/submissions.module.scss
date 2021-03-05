@@ -1,4 +1,4 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .submissionsContainer {
   display: flex;
@@ -16,10 +16,16 @@
 
     h1 {
       margin: auto 0px 0px 0px;
+      @include headerOne();
     }
-    
+
     a {
       margin: auto 0px 0px 0px;
+
+      font-family: national, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      text-align: right;
       color: $river-blue;
     }
   }
@@ -33,7 +39,7 @@
       display: flex;
       flex-direction: row;
       margin-bottom: 18px;
-      
+
       .searchBarContainer {
         width: 54%;
         position: relative;
@@ -44,19 +50,25 @@
         display: flex;
         flex-direction: row;
         padding: 9px 36px;
-        
+
         background-color: $dartmouth-green;
         box-shadow: 3.34452px 5px 10px rgba(0, 0, 0, 0.05);
         border-radius: 12px;
-    
+
+        border: none;
+        cursor: pointer;
+
         img {
           margin: auto 0px;
         }
-        
+
         .createButton {
           margin: auto 0px auto 15px;
+
+          font-family: national, sans-serif;
+          font-size: 18px;
+          font-weight: 500;
           color: $snow-white;
-          text-decoration: none;
         }
       }
 

@@ -1,76 +1,72 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .submissionContainer {
-    $left-border-width: 18px;
-    $container-padding: 30px;
+  $left-border-width: 18px;
+  $container-padding: 30px;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+
+  padding: $container-padding $container-padding $container-padding
+    calc((#{$left-border-width} / 3) + #{$container-padding});
+
+  box-shadow: 0px 8.36129px 33.4452px $web-gray-two;
+  border-radius: $left-border-width;
+  border-left: $left-border-width solid;
+
+  .header {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
-    width: 100%;
+    margin-bottom: 18px;
 
-    padding: $container-padding $container-padding $container-padding calc((#{$left-border-width} / 3) + #{$container-padding});
+    h3 {
+      margin: 0px auto 0px 0px;
+      @include headerThree();
+    }
 
-    box-shadow: 0px 8.36129px 33.4452px $web-gray-two;
-    border-radius: $left-border-width;
-    border-left: $left-border-width solid;
+    p {
+      margin: auto 0px 0px;
 
-    .header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin-bottom: 18px;
-        
-        h3 {
-            margin: 0px auto 0px 0px;
-        }
+      @include paragraphText();
+      font-weight: 400;
+      color: $granite-gray;
+    }
+  }
+
+  .content {
+    margin-bottom: 18px;
+    @include postContent();
+  }
+
+  .bottomContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    a {
+      margin: auto auto auto 0px;
+      @include siteLink();
+    }
+
+    .buttonContainer {
+      display: flex;
+      flex-direction: row;
+      font-size: 14px;
+
+      button {
+        margin: auto 0px auto 12px;
+        @include siteButton();
+
+        border: none;
+        background-color: $web-gray-two;
 
         p {
-            margin: auto 0px 0px;
+          color: $granite-gray;
         }
+      }
     }
-
-    .content {
-        margin-bottom: 18px;
-    }
-
-    .bottomContainer {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-
-        a {
-            margin: auto auto auto 0px;
-            color: $forest-green;
-        }
-
-        .buttonContainer {
-            display: flex;
-            flex-direction: row;
-            font-size: 14px;
-    
-            button {
-                display: flex;
-                flex-direction: row;
-                margin-left: 12px;
-                padding: 9px 21px;
-                
-                border: none;
-                border-radius: 8px;
-                background-color: $web-gray-two;
-                
-                cursor: pointer;
-                
-                img {
-                    margin: auto 12px auto 0px;
-                }
-                
-                p {
-                    margin: auto 0px;
-                    font-size: 16px;
-                    color: $granite-gray;
-                }
-            }
-        }
-    }
+  }
 }

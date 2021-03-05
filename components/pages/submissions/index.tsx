@@ -55,9 +55,9 @@ const Submissions = ({
   ): Post[] => userPosts.filter((post) => post.status === keyword
     && (!postType || post.type === postType)
     && (
-      post.briefContent.toLowerCase().includes(query)
-      || post.fullContent.toLowerCase().includes(query)
-      || post.fromName.toLowerCase().includes(query)
+      post.briefContent.toLowerCase().includes(query.toLowerCase())
+      || post.fullContent.toLowerCase().includes(query.toLowerCase())
+      || post.fromName.toLowerCase().includes(query.toLowerCase())
     ));
 
   return (
@@ -72,14 +72,14 @@ const Submissions = ({
 
         <div className={styles.filterBar}>
           <div className={styles.filterBarRow}>
-            <div className={styles.buttonContainer}>
+            <button
+              type="button"
+              onClick={() => router.push('/form/new')}
+              className={styles.buttonContainer}
+            >
               <img src="/icons/add.svg" alt="create new submission icon" />
-              <Link href="/form/new">
-                <a className={styles.createButton}>
-                  New Submission
-                </a>
-              </Link>
-            </div>
+              <p className={styles.createButton}>New Submission</p>
+            </button>
 
             <div className={styles.searchBarContainer}>
               <SearchBar

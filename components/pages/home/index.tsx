@@ -107,7 +107,7 @@ const Home = ({
             <div className={styles.homeHeaderTopBar} />
 
             <div className={styles.homeTitleTextContainer}>
-              <h2>Vox Daily News</h2>
+              <h1>Vox Daily News</h1>
               <p>{getFullDate(release.date)}</p>
             </div>
 
@@ -115,16 +115,21 @@ const Home = ({
           </div>
         </div>
 
-        <img
-          src="https://www.insubuy.com/assets/img/schools/dartmouth-college.jpg"
-          alt="dartmouth college in the fall"
-        />
+        {release.headerImage && (
+          <div className={styles.featuredImageContainer}>
+            <img
+              src={release.headerImage}
+              alt={release.headerImageAlt}
+            />
+            <p>{release.headerImageCaption}</p>
+          </div>
+        )}
       </section>
 
       <section className={styles.homeMainContentContainer}>
         {featuredPost ? (
           <div className={styles.homeFeaturedStoryContainer}>
-            <h3>Featured Story</h3>
+            <h2>Featured Story</h2>
             <HomeSubmission content={featuredPost} />
           </div>
         ) : null}
@@ -192,7 +197,7 @@ const Home = ({
         >
           {news.length
             ? news.map((post) => <HomeSubmission key={post._id} content={post} />)
-            : <p>No content</p>}
+            : <p className={styles.noContent}>No content</p>}
         </div>
 
         <div
@@ -205,7 +210,7 @@ const Home = ({
         >
           {announcements.length
             ? announcements.map((post) => <HomeSubmission key={post._id} content={post} />)
-            : <p>No content</p>}
+            : <p className={styles.noContent}>No content</p>}
         </div>
 
         <div
@@ -218,7 +223,7 @@ const Home = ({
         >
           {events.length
             ? events.map((post) => <HomeSubmission key={post._id} content={post} />)
-            : <p>No content</p>}
+            : <p className={styles.noContent}>No content</p>}
         </div>
       </section>
     </div>

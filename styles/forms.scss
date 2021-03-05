@@ -1,50 +1,72 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .formInputContainer {
   display: flex;
   flex-direction: column;
   margin-bottom: 36px;
 
+  &:last-child {
+    margin-bottom: 0px;
+  }
+
   &.row {
     flex-direction: row;
   }
 
-  label, .label {
+  label,
+  .label {
     display: flex;
     flex-direction: column;
-    
+
     &.small {
       flex-direction: row;
 
       p {
         margin-left: 12px;
-        font-size: 18px; 
+
+        @include paragraphText();
+        font-size: 18px;
       }
     }
-    
-    .required { color: $tuck-orange; }
-    
+
+    .required {
+      color: $tuck-orange;
+    }
+
     .labelText {
       margin: 0px 0px 12px;
+
+      font-family: national, sans-serif;
       font-size: 21px;
+      font-weight: 400;
       color: $granite-gray;
     }
   }
-  
-  input[type="text"], input[type="email"] {
+
+  input[type="text"],
+  input[type="email"] {
     padding: 12px 24px;
     width: 100%;
-    
+
+    @include paragraphText();
+    color: $granite-gray;
+
     background-color: $web-gray-two;
     border-radius: 8px;
     border: none;
-    
-    &::placeholder { color: $granite-gray; }
-    &.invalid { border: 1px solid $tuck-orange; }
+
+    &::placeholder {
+      @include paragraphText();
+      color: $granite-gray;
+    }
+
+    &.invalid {
+      border: 1px solid $tuck-orange;
+    }
   }
 
   .formInputError {
-    font-size: 16px;
+    @include paragraphText();
     color: $tuck-orange;
   }
 }

@@ -1,7 +1,25 @@
+@import "styles/variables.scss";
+
 .submissionSectionContainer {
   margin-bottom: 60px;
 
+  h2 {
+    margin: 0px 0px 24px;
+
+    font-family: national, sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: $forest-green;
+  }
+
   .submissionSpacingContainer {
     margin-bottom: 24px;
+  }
+
+  .noContent {
+    font-family: national, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: $granite-gray;
   }
 }

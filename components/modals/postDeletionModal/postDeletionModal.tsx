@@ -6,6 +6,8 @@ import { useModal } from 'utils/modal';
 
 import { ConnectedThunkCreator } from 'types/state';
 
+import styles from './postDeletionModal.module.scss';
+
 export interface PostDeletionModalPassedProps {
 
 }
@@ -35,7 +37,9 @@ const PostDeletionModal = ({ deletePostById }: PostDeletionModalProps): JSX.Elem
       confirmText="Delete"
       onConfirm={handleConfirm}
     >
-      <p>Are you sure you want to delete this post?</p>
+      <div className={styles.postDeletionModalContainer}>
+        <p>Are you sure you want to delete this post?</p>
+      </div>
     </ModalContainer>
   );
 };

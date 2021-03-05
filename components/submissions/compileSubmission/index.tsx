@@ -42,13 +42,13 @@ const CompileSubmission = ({ postContent, handleEdit, handleReject }: CompileSub
           <div className={styles.mainContentContainer}>
             <div className={styles.titleContainer}>
               <h4>{postContent.briefContent}</h4>
-              <h5>
+              <p>
                 {postContent.fromName}
                 {' '}
                 &bull;
                 {' '}
                 {postContent.recipientGroups.join(', ')}
-              </h5>
+              </p>
             </div>
 
             <div className={styles.contentContainer}>
