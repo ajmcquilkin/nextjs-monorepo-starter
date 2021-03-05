@@ -1,4 +1,4 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .formContainer {
   display: flex;
@@ -9,11 +9,11 @@
   .titleContainer {
     display: flex;
     flex-direction: column;
-    
+
     button {
       display: flex;
       flex-direction: row;
-      
+
       background: none;
       border: none;
       cursor: pointer;
@@ -21,26 +21,28 @@
       img {
         margin: auto 12px auto 0px;
       }
-      
+
       p {
         margin: auto 0px;
+        @include paragraphText();
         color: $forest-green;
-        font-size: 16px;
       }
     }
-    
+
     h1 {
-      
-    }  
+      margin: 18px 0px;
+      @include headerOne();
+    }
 
     p {
+      margin: 0px 0px 12px;
       color: $granite-gray;
 
       a {
-        color: $river-blue;
+        @include siteLink();
       }
     }
-  } 
+  }
 
   .formGroupListContainer {
     display: flex;
@@ -55,7 +57,11 @@
     .formGroupList {
       margin-bottom: 36px;
 
-      h3, h4, h5, h6 {
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: national, sans-serif;
         color: $granite-gray;
       }
     }
@@ -76,13 +82,13 @@
   }
 
   .actionButtonsContainer {
+    display: flex;
+    flex-direction: row;
     margin-top: 60px;
-    
+
     button {
       margin-right: 18px;
-      padding: 12px 30px;
-      border-radius: 8px;
-      font-size: 16px;
+      @include siteButton();
 
       background: none;
       border: none;
@@ -93,7 +99,7 @@
       background-color: $dartmouth-green;
       color: $snow-white;
     }
-    
+
     .formSaveButton {
       background-color: $spring-green;
       color: $dartmouth-green;

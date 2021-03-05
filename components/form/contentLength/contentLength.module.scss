@@ -1,7 +1,10 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .contentLengthContainer {
-  font-size: 16px;
+  @include paragraphText();
   color: $dartmouth-green;
-  &.invalid { color: $tuck-orange; }
+
+  &.invalid {
+    color: $tuck-orange;
+  }
 }

@@ -1,7 +1,7 @@
 // Reference: https://www.w3schools.com/howto/howto_css_custom_checkbox.asp
 // Reference: https://www.w3schools.com/cssref/css_selectors.asp
 
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 $checkbox-size: 24px;
 
@@ -51,7 +51,7 @@ $checkbox-size: 24px;
     position: absolute;
     height: 0;
     width: 0;
-    
+
     opacity: 0;
     cursor: pointer;
 
@@ -68,6 +68,7 @@ $checkbox-size: 24px;
 
   p {
     margin: auto 0px;
-    font-size: 16px;
+    @include paragraphText();
+    color: $granite-gray;
   }
 }

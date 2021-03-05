@@ -5,6 +5,10 @@
   flex-direction: column;
   margin-bottom: 36px;
 
+  &:last-child {
+    margin-bottom: 0px;
+  }
+
   &.row {
     flex-direction: row;
   }
@@ -44,20 +48,25 @@
     padding: 12px 24px;
     width: 100%;
 
+    @include paragraphText();
+    color: $granite-gray;
+
     background-color: $web-gray-two;
     border-radius: 8px;
     border: none;
 
     &::placeholder {
+      @include paragraphText();
       color: $granite-gray;
     }
+
     &.invalid {
       border: 1px solid $tuck-orange;
     }
   }
 
   .formInputError {
-    font-size: 16px;
+    @include paragraphText();
     color: $tuck-orange;
   }
 }

@@ -1,13 +1,13 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .formSectionContainer {
-    padding-top: 45px;
-    margin-top: 45px;
-    border-top: 2px solid $web-gray-two;
-    
-    h2 {
-      color: $granite-gray;
-      text-transform: uppercase;
-    }
+  padding-top: 24px;
+  margin-top: 24px;
+  border-top: 2px solid $web-gray-two;
+
+  h2 {
+    @include headerTwo();
+    color: $granite-gray;
+    text-transform: uppercase;
   }
-  
+}

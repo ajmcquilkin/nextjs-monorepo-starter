@@ -611,11 +611,35 @@ const Form = ({
             )}
           </FormSection>
 
-          <section className={styles.actionButtonsContainer}>
+          <section>
             <GenericSkeletonWrapper>
-              <button type="button" className={styles.formSubmitButton} onClick={handleUpdate('pending')}>Submit for Review</button>
-              {(!post?.status || post?.status === 'draft') && <button type="button" className={styles.formSaveButton} onClick={handleUpdate('draft')}>Save as Draft</button>}
-              <button type="button" className={styles.formCancelButton} onClick={handleDiscard}>Discard Post</button>
+              <div className={styles.actionButtonsContainer}>
+                <button
+                  type="button"
+                  className={styles.formSubmitButton}
+                  onClick={handleUpdate('pending')}
+                >
+                  <p>Submit for Review</p>
+                </button>
+
+                {(!post?.status || post?.status === 'draft') && (
+                  <button
+                    type="button"
+                    className={styles.formSaveButton}
+                    onClick={handleUpdate('draft')}
+                  >
+                    <p>Save as Draft</p>
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  className={styles.formCancelButton}
+                  onClick={handleDiscard}
+                >
+                  <p>Discard Post</p>
+                </button>
+              </div>
             </GenericSkeletonWrapper>
           </section>
         </form>
