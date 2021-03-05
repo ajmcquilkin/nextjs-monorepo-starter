@@ -44,5 +44,10 @@
     .submissionContainer {
       margin-bottom: 24px;
     }
+
+    .noContent {
+      @include paragraphText();
+      color: $granite-gray;
+    }
   }
 }

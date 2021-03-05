@@ -94,15 +94,21 @@ const Review = ({
               </div>
             </>
           )
-          : filteredPosts.map((post) => (
-            <div key={post._id} className={styles.submissionContainer}>
-              <ReviewSubmission
-                content={post}
-                onApprove={(_id) => updatePostById(_id, { status: 'approved' })}
-                onReject={(_id) => openModal('REJECTION_MODAL', { postId: _id })}
-              />
-            </div>
-          ))}
+          : (
+            <>
+              {filteredPosts.length ? filteredPosts.map((post) => (
+                <div key={post._id} className={styles.submissionContainer}>
+                  <ReviewSubmission
+                    content={post}
+                    onApprove={(_id) => updatePostById(_id, { status: 'approved' })}
+                    onReject={(_id) => openModal('REJECTION_MODAL', { postId: _id })}
+                  />
+                </div>
+              )) : <p className={styles.noContent}>No pending posts.</p>}
+              {' '}
+
+            </>
+          )}
       </div>
     </div>
   );

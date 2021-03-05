@@ -188,7 +188,7 @@ const Home = ({
         >
           {news.length
             ? news.map((post) => <HomeSubmission key={post._id} content={post} />)
-            : <p>No content</p>}
+            : <p className={styles.noContent}>No content</p>}
         </div>
 
         <div
@@ -201,7 +201,7 @@ const Home = ({
         >
           {announcements.length
             ? announcements.map((post) => <HomeSubmission key={post._id} content={post} />)
-            : <p>No content</p>}
+            : <p className={styles.noContent}>No content</p>}
         </div>
 
         <div
@@ -214,7 +214,7 @@ const Home = ({
         >
           {events.length
             ? events.map((post) => <HomeSubmission key={post._id} content={post} />)
-            : <p>No content</p>}
+            : <p className={styles.noContent}>No content</p>}
         </div>
       </section>
     </div>
