@@ -71,4 +71,10 @@
     max-width: 27%;
     height: 100%;
   }
+
+  @media(max-width: $tablet-collapse) {
+    .featuredImage {
+      max-width: 100%;
+    }
+  }
 }
