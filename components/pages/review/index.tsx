@@ -68,7 +68,7 @@ const Review = ({
         </div>
 
         <div className={styles.subtitleContainer}>
-          <h2>This Week</h2>
+          <h2>Pending Posts</h2>
 
           <div className={styles.filterBarContainer}>
             <FilterBar

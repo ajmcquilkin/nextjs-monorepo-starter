@@ -20,12 +20,8 @@
     margin-right: 36px;
 
     h3 {
-      margin: 0px 0px 3px;
-
-      font-family: national, sans-serif;
-      font-size: 24px;
-      font-weight: 700;
-      color: $midnight-black;
+      margin: 0px 0px 9px;
+      @include headerThree();
     }
 
     .subheader {
@@ -34,19 +30,12 @@
       font-family: national, sans-serif;
       font-size: 16px;
       font-weight: 500;
-      color: $midnight-black;
+      color: $granite-gray;
     }
 
     .content {
       margin-bottom: 12px;
-
-      font-family: national, sans-serif;
-      font-size: 16px;
-      line-height: 155%;
-
-      p {
-        margin: 0px 0px 18px;
-      }
+      @include postContent();
     }
 
     .linkContainer {
@@ -60,11 +49,7 @@
 
       a {
         margin: auto 0px;
-
-        font-family: national, sans-serif;
-        font-size: 16px;
-        font-weight: 400;
-        color: $river-blue;
+        @include siteLink();
       }
     }
   }

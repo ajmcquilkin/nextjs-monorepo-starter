@@ -1,4 +1,5 @@
-// Colors
+/* ---- Colors ---- */
+
 $dartmouth-green: #00693e;
 
 $forest-green: #12312b;
@@ -18,7 +19,50 @@ $web-violet: #8a6996;
 $river-blue: #267aba;
 $river-navy: #003c73;
 
-// Other
+/* ---- Text Styling ---- */
+
+@mixin headerOne {
+  font-family: national, sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: $forest-green;
+}
+
+@mixin headerTwo {
+  font-family: national, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: $forest-green;
+}
+
+@mixin headerThree {
+  font-family: national, sans-serif;
+  font-size: 21px;
+  font-weight: 500;
+  color: $midnight-black;
+}
+
+@mixin postContent {
+  p,
+  a,
+  li {
+    margin: 0px 0px 9px;
+
+    font-family: national, sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 155%;
+  }
+}
+
+@mixin siteLink {
+  font-family: national, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: $river-blue;
+}
+
+/* ---- Other ---- */
 
 $page-width: 960px;
 
@@ -52,9 +96,23 @@ $shimmer: linear-gradient(
   width: 100%;
 }
 
-@mixin headerOne {
-  font-family: national, sans-serif;
-  font-size: 36px;
-  font-weight: 700;
-  color: $forest-green;
+@mixin siteButton($size: 16px) {
+  display: flex;
+  flex-direction: row;
+  padding: 12px 30px;
+
+  border-radius: 8px;
+  cursor: pointer;
+
+  img {
+    margin: auto 12px auto 0px;
+  }
+
+  p {
+    margin: auto 0px;
+
+    font-family: national, sans-serif;
+    font-size: $size;
+    font-weight: 400;
+  }
 }

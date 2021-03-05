@@ -24,11 +24,7 @@
 
     h3 {
       margin: 0px auto 0px 0px;
-
-      font-family: national, sans-serif;
-      font-size: 21px;
-      font-weight: 500;
-      color: $forest-green;
+      @include headerThree();
     }
 
     p {
@@ -43,17 +39,7 @@
 
   .content {
     margin-bottom: 18px;
-
-    p,
-    a {
-      // TODO: Standardize this styling
-      margin: 0px 0px 9px;
-
-      font-family: national, sans-serif;
-      font-size: 16px;
-      font-weight: 300;
-      line-height: 155%;
-    }
+    @include postContent();
   }
 
   .bottomContainer {
@@ -63,11 +49,7 @@
 
     a {
       margin: auto auto auto 0px;
-
-      font-family: national, sans-serif;
-      font-size: 16px;
-      font-weight: 400;
-      color: $river-blue;
+      @include siteLink();
     }
 
     .buttonContainer {
@@ -76,28 +58,13 @@
       font-size: 14px;
 
       button {
-        display: flex;
-        flex-direction: row;
         margin-left: 12px;
-        padding: 9px 21px;
+        @include siteButton();
 
         border: none;
-        border-radius: 8px;
         background-color: $web-gray-two;
 
-        font-family: national, sans-serif;
-        font-size: 16px;
-        font-weight: 400;
-
-        cursor: pointer;
-
-        img {
-          margin: auto 12px auto 0px;
-        }
-
         p {
-          margin: auto 0px;
-          font-size: 16px;
           color: $granite-gray;
         }
       }

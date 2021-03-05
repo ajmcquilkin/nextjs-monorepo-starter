@@ -1,77 +1,72 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .compileContainer {
+  display: flex;
+  flex-direction: column;
+
+  @include mainPageLayout();
+
+  h1 {
+    margin: 0px 0px 24px;
+  }
+
+  h2 {
+    color: $forest-green;
+    font-size: 30px;
+    margin: 0px 0px 15px;
+  }
+
+  section {
+    margin-bottom: 48px;
+  }
+
+  .featuredPostContainer {
+    .featuredPostClear {
+      margin-top: 6px;
+
+      font-size: 13px;
+      color: $granite-gray;
+
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .featuredPostEmpty {
+      padding: 12px 24px;
+      border: 1px dashed $granite-gray;
+      border-radius: 8px;
+      color: $granite-gray;
+    }
+  }
+
+  .compilePost {
+    margin-bottom: 12px;
+  }
+
+  .noContent {
+    color: $granite-gray;
+  }
+
+  .buttonContainer {
     display: flex;
-    flex-direction: column;
-    
-    @include mainPageLayout();
+    flex-direction: row;
 
-    h1 {
-        margin: 0px 0px 24px;
-    }
+    button {
+      margin-right: 15px;
+      border: none;
+      @include siteButton();
 
-    h2 {
-        color: $forest-green;
-        font-size: 30px;
-        margin: 0px 0px 15px;
-    }
+      &.confirm {
+        background: $dartmouth-green;
+        color: $snow-white;
+      }
 
-    section {
-        margin-bottom: 48px;
-    }
-
-    .featuredPostContainer {
-
-        .featuredPostClear {
-            margin-top: 6px;
-
-            font-size: 13px;
-            color: $granite-gray;
-            
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .featuredPostEmpty {
-            padding: 12px 24px;
-            border: 1px dashed $granite-gray;
-            border-radius: 8px;
-            color: $granite-gray;
-        }
-    }
-
-    .compilePost {
-        margin-bottom: 12px;
-    }
-
-    .noContent {
+      &.reject {
+        background: $snow-white;
         color: $granite-gray;
+        border: 1px solid $granite-gray;
+      }
     }
-
-    .buttonContainer {
-        display: flex;
-        flex-direction: row;
-
-        button {
-            margin-right: 15px;
-            padding: 12px 30px;
-            border-radius: 8px;
-            
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            
-            &.confirm {
-                background: $dartmouth-green;
-                color: $snow-white;
-            }
-            
-            &.reject {
-                background: $snow-white;
-                color: $granite-gray;
-                border: 1px solid $granite-gray;
-            }
-        }
-    }
+  }
 }
