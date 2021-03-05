@@ -1,13 +1,15 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .notFoundFallbackContainer {
   display: flex;
   flex-direction: column;
   margin: auto 0px;
   padding: 0px 100px;
-  
+
   h1 {
     margin: 0px 0px 18px 0px;
+
+    font-family: national, sans-serif;
     font-size: 60px;
     font-weight: 400;
     color: $granite-gray;
@@ -15,16 +17,16 @@
 
   p {
     margin: 0px 0px 24px 0px;
-    font-size: 16px;
-    font-weight: 400;
+
+    @include paragraphText();
+    color: $granite-gray;
   }
 
   a {
     margin-right: auto;
-    padding: 9px 24px;
-    color: $snow-white;
 
-    border-radius: 8px;
+    @include siteButton();
+    color: $snow-white;
     background-color: $dartmouth-green;
     text-decoration: none;
   }
