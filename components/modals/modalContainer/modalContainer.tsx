@@ -41,9 +41,34 @@ const ModalContainer = ({
     </div>
 
     <div className={styles.buttonContainer}>
-      {confirmText && onConfirm && <button className={styles.confirm} type="button" onClick={() => onConfirm()}>{confirmText}</button>}
-      {rejectText && onReject && <button className={styles.reject} type="button" onClick={() => onReject()}>{rejectText}</button>}
-      <button className={styles.cancel} type="button" onClick={() => closeModal()}>{cancelText || 'Cancel'}</button>
+      {confirmText && onConfirm && (
+        <button
+          className={styles.confirm}
+          type="button"
+          onClick={() => onConfirm()}
+        >
+          <p>{confirmText}</p>
+        </button>
+      )}
+
+      {rejectText && onReject && (
+        <button
+          className={styles.reject}
+          type="button"
+          onClick={() => onReject()}
+        >
+          <p>{rejectText}</p>
+        </button>
+      )}
+
+      <button
+        className={styles.cancel}
+        type="button"
+        onClick={() => closeModal()}
+      >
+        <p>{cancelText || 'Cancel'}</p>
+      </button>
+
     </div>
   </div>
 );

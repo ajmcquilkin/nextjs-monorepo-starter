@@ -57,7 +57,7 @@
       font-size: 14px;
 
       button {
-        margin-left: 12px;
+        margin: auto 0px auto 12px;
         @include siteButton();
 
         border: none;

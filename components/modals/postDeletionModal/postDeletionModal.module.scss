@@ -1,14 +1,11 @@
 @import "styles/variables.scss";
 
-.errorModalContainer {
+.postDeletionModalContainer {
   display: flex;
   flex-direction: column;
 
-  .errorContent {
-    margin: 0px;
-
+  p {
     @include paragraphText();
-    text-align: center;
     color: $granite-gray;
   }
 }
