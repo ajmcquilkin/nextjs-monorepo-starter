@@ -1,23 +1,26 @@
-@import 'styles/variables.scss';
+@import "styles/variables.scss";
 
 .rejectionModalContainer {
   padding-top: 24px;
-  
+
   .rationaleSelector {
     display: flex;
     flex-direction: row;
     margin-bottom: 24px;
 
     p {
-      margin: 0px 18px 0px 0px; 
+      margin: 0px 18px 0px 0px;
+      @include paragraphText();
     }
   }
 
   .commentContainer {
     textarea {
-      padding: 9px 12px;
+      padding: 9px 18px;
       width: 100%;
       height: 6em;
+
+      @include paragraphText();
 
       background-color: $web-gray-one;
       border: 1px solid $granite-gray;
