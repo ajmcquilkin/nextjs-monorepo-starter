@@ -4,7 +4,7 @@ One to two sentence description.
 
 ## Next Steps
 
-- Include a list of next steps with linked [issues](Link) (if applicable)
+- Blocked issue [number](link)
 
 ## Type of Change
 
