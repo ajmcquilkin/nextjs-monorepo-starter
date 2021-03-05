@@ -103,8 +103,16 @@
       }
     }
 
-    img {
-      width: 100%;
+    .featuredImageContainer {
+      img {
+        width: 100%;
+      }
+
+      p {
+        @include paragraphText();
+        color: $granite-gray;
+        text-align: center;
+      }
     }
   }
 

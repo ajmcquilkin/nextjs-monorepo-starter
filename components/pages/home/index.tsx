@@ -113,10 +113,15 @@ const Home = ({
           ) : null}
         </div>
 
-        <img
-          src="https://www.insubuy.com/assets/img/schools/dartmouth-college.jpg"
-          alt="dartmouth college in the fall"
-        />
+        {release.headerImage && (
+          <div className={styles.featuredImageContainer}>
+            <img
+              src={release.headerImage}
+              alt={release.headerImageAlt}
+            />
+            <p>{release.headerImageCaption}</p>
+          </div>
+        )}
       </section>
 
       <section className={styles.homeMainContentContainer}>
