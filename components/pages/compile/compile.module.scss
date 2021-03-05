@@ -35,16 +35,19 @@
     .featuredPostEmpty {
       padding: 12px 24px;
       border: 1px dashed $granite-gray;
+      background-color: $snow-white;
       border-radius: 8px;
       color: $granite-gray;
 
       &.hovered {
-        background-color: yellow;
+        background-color: $web-gray-two;
       }
 
       &.valid {
-        background: green;
+        background-color: $web-gray-one;
       }
+
+      transition: 0.18s ease-in-out background-color;
     }
   }
 
