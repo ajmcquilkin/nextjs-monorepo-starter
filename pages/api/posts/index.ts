@@ -48,6 +48,8 @@ const handler = createDefaultHandler()
       url, recipientGroups, featuredImage, featuredImageAlt, eventDate, eventTime, status = 'draft'
     } = req.body;
 
+    if (!info.isReviewer && type === 'news') { throw new ForbiddenResourceError(); }
+
     if (status === 'approved') throw new ForbiddenResourceError('Cannot initialize post as "approved"');
 
     if (!type) throw new IncompleteRequestError('type');
