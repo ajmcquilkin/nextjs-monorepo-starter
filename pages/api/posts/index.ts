@@ -1,6 +1,6 @@
 import * as postController from 'controllers/postController';
 
-import { ForbiddenResourceError, IncompleteRequestError } from 'errors';
+import { BadCredentialsError, ForbiddenResourceError, IncompleteRequestError } from 'errors';
 
 import { createDefaultHandler, createSuccessPayload } from 'utils/api';
 import { useDB } from 'utils/db';
@@ -15,6 +15,7 @@ const handler = createDefaultHandler()
 
   .get(async (req, res) => {
     const { status, date } = req.query;
+    const { info } = req.session;
 
     if (status && typeof status === 'string') {
       const posts = await postController.readAllByStatus(status as PostStatus);
@@ -32,7 +33,8 @@ const handler = createDefaultHandler()
       return res.status(200).json(createSuccessPayload<FetchPostResultsData>({ posts, results, numResults }));
     }
 
-    const foundPosts = await postController.readAll();
+    if (!info.netId) throw new BadCredentialsError('No valid netId included in request');
+    const foundPosts = await postController.fetchPostsByNetId(info.netId);
     return res.status(200).json(createSuccessPayload<FetchPostsData>({ posts: foundPosts }));
   })
 

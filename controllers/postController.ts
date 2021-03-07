@@ -122,12 +122,7 @@ export const fetchPostsForRelease = async (release: Release): Promise<Post[]> =>
   return foundPosts;
 };
 
-export const fetchPostsForGroups = async (groups: string[]): Promise<Post[]> => {
-  const foundPosts: PostDocument[] = await PostModel.find({
-    recipientGroups: {
-      $in: groups
-    }
-  });
-
+export const fetchPostsByNetId = async (netId: string): Promise<Post[]> => {
+  const foundPosts = await PostModel.find({ submitterNetId: netId });
   return foundPosts;
 };

@@ -7,10 +7,10 @@ export interface ErrorModalProps {
 }
 
 const ErrorModal = (): JSX.Element => {
-  const { content } = useModal();
+  const { title, content } = useModal();
 
   return (
-    <ModalContainer cancelText="Close">
+    <ModalContainer title={title} cancelText="Okay">
       <div className={styles.errorModalContainer}>
         <p className={styles.errorContent}>{content}</p>
       </div>
