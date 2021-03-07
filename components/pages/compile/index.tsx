@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import {
   useEffect, useState, ChangeEvent, useCallback
 } from 'react';
+import unionWith from 'lodash.unionwith';
 
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -56,6 +57,8 @@ export interface CompileDispatchProps {
 
 export type CompileProps = CompilePassedProps & CompileStateProps & CompileDispatchProps;
 
+const combineIdArray = (incoming: string[], existing: string[]): string[] => unionWith(incoming, existing, (a, b) => a === b);
+
 const Compile = ({
   postMap, release, postResults, isLoading,
   fetchReleaseByDate, createRelease, updateReleaseById, fetchPostsByDate, openModal
@@ -100,16 +103,16 @@ const Compile = ({
     setQuotedContext(release?.quotedContext || '');
     setFeaturedPost(release?.featuredPost || null);
 
-    setNews(release?.news || []);
-    setAnnouncements(release?.announcements || []);
-    setEvents(release?.events || []);
+    setNews(combineIdArray(release?.news || [], news));
+    setAnnouncements(combineIdArray(release?.announcements || [], announcements));
+    setEvents(combineIdArray(release?.events || [], events));
   }, [release]);
 
   useEffect(() => {
     if (!release) {
-      setNews(postResults.filter((post) => post.type === 'news').map((post) => post._id));
-      setAnnouncements(postResults.filter((post) => post.type === 'announcement').map((post) => post._id));
-      setEvents(postResults.filter((post) => post.type === 'event').map((post) => post._id));
+      setNews(combineIdArray(postResults.filter((post) => post.type === 'news').map((post) => post._id), news));
+      setAnnouncements(combineIdArray(postResults.filter((post) => post.type === 'announcement').map((post) => post._id), announcements));
+      setEvents(combineIdArray(postResults.filter((post) => post.type === 'event').map((post) => post._id), events));
     }
   }, [postResults]);
 
