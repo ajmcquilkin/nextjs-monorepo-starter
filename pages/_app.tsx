@@ -11,6 +11,7 @@ import MainWrapper from 'components/layout/mainWrapper';
 import ModalWrapper from 'components/modals/modalWrapper';
 
 import rootReducer from 'store/reducers';
+import { useDefaultTimezone } from 'utils/time';
 
 import { Actions, RootState } from 'types/state';
 
@@ -23,6 +24,8 @@ const store = createStore(
     applyMiddleware(thunk as ThunkMiddleware<RootState, Actions>),
   )
 );
+
+useDefaultTimezone();
 
 // http://reactcommunity.org/react-modal/accessibility/
 Modal.setAppElement('#root');

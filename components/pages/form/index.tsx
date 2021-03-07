@@ -622,15 +622,13 @@ const Form = ({
                   <p>Submit for Review</p>
                 </button>
 
-                {(!post?.status || post?.status === 'draft') && (
-                  <button
-                    type="button"
-                    className={styles.formSaveButton}
-                    onClick={handleUpdate('draft')}
-                  >
-                    <p>Save as Draft</p>
-                  </button>
-                )}
+                <button
+                  type="button"
+                  className={styles.formSaveButton}
+                  onClick={handleUpdate('draft')}
+                >
+                  <p>Save as Draft</p>
+                </button>
 
                 <button
                   type="button"

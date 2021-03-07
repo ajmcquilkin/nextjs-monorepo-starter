@@ -5,7 +5,7 @@ import * as releaseController from 'controllers/releaseController';
 import { DocumentNotFoundError } from 'errors';
 import { PostModel } from 'models';
 
-import { getMidnightDate } from 'utils';
+import { getDefaultMidnightDate } from 'utils/time';
 
 import { Post, PostDocument, PostStatus } from 'types/post';
 import { Release } from 'types/release';
@@ -38,7 +38,7 @@ export const create = async (fields: CreatePostType): Promise<Post> => {
   post.eventTime = eventTime;
 
   post.recipientGroups = recipientGroups;
-  post.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
+  post.requestedPublicationDate = +getDefaultMidnightDate(requestedPublicationDate);
   post.fullContent = sanitizeHTML(fullContent);
 
   if (requestedPublicationDate && status === 'approved') {
@@ -82,7 +82,7 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
   if (eventDate) foundPost.eventDate = eventDate;
   if (eventTime) foundPost.eventTime = eventTime;
 
-  if (requestedPublicationDate) foundPost.requestedPublicationDate = getMidnightDate(requestedPublicationDate);
+  if (requestedPublicationDate) foundPost.requestedPublicationDate = +getDefaultMidnightDate(requestedPublicationDate);
   if (fullContent) foundPost.fullContent = sanitizeHTML(fullContent);
 
   if (status === 'approved' && (requestedPublicationDate ?? foundPost.requestedPublicationDate)) {
@@ -105,7 +105,7 @@ export const readAll = async (): Promise<Post[]> => {
 };
 
 export const readAllByDate = async (date: number): Promise<Post[]> => {
-  const foundPosts: PostDocument[] = await PostModel.find({ requestedPublicationDate: getMidnightDate(date) });
+  const foundPosts: PostDocument[] = await PostModel.find({ requestedPublicationDate: +getDefaultMidnightDate(date) });
   return foundPosts;
 };
 
