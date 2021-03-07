@@ -1,7 +1,8 @@
 import { DocumentNotFoundError } from 'errors';
 import { ReleaseModel } from 'models';
 
-import { getMidnightDate } from 'utils';
+import { getDefaultMidnightDate } from 'utils/time';
+
 import { Release, ReleaseDocument, CreateReleaseType } from 'types/release';
 
 export const create = async (fields: CreateReleaseType): Promise<Release> => {
@@ -12,7 +13,7 @@ export const create = async (fields: CreateReleaseType): Promise<Release> => {
 
   const release = new ReleaseModel();
 
-  release.date = getMidnightDate(date);
+  release.date = +getDefaultMidnightDate(date);
 
   release.subject = subject;
   release.headerImage = headerImage;
@@ -37,8 +38,8 @@ export const read = async (id: string): Promise<Release> => {
 };
 
 export const fetchReleaseByDate = async (requestedDate: number): Promise<Release> => {
-  const foundRelease: ReleaseDocument = await ReleaseModel.findOne({ date: getMidnightDate(requestedDate) });
-  if (!foundRelease) throw new DocumentNotFoundError(getMidnightDate(requestedDate).toString());
+  const foundRelease: ReleaseDocument = await ReleaseModel.findOne({ date: +getDefaultMidnightDate(requestedDate) });
+  if (!foundRelease) throw new DocumentNotFoundError(getDefaultMidnightDate(requestedDate).toString());
   return foundRelease.toJSON();
 };
 
@@ -77,7 +78,7 @@ export const update = async (id: string, fields: Partial<Release>): Promise<Rele
   const foundRelease: ReleaseDocument = await ReleaseModel.findOne({ _id: id });
   if (!foundRelease) throw new DocumentNotFoundError(id);
 
-  if (date) foundRelease.date = getMidnightDate(date);
+  if (date) foundRelease.date = +getDefaultMidnightDate(date);
 
   if (subject) foundRelease.subject = subject;
   if (headerImage) foundRelease.headerImage = headerImage;
