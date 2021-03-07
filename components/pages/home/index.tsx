@@ -10,13 +10,12 @@ import { getFullDate, addNDays } from 'utils';
 
 import { Post, PostPublishType } from 'types/post';
 import { Release } from 'types/release';
-import { ConnectedThunkCreator } from 'types/state';
+import { ConnectedThunkCreator, Code } from 'types/state';
 
 import styles from './home.module.scss';
 
 export interface HomePassedProps {
-  initialRelease: Release | null,
-  initialPostMap: Record<string, Post>
+
 }
 
 export interface HomeStateProps {
@@ -34,23 +33,38 @@ export type HomeProps = HomePassedProps & HomeStateProps & HomeDispatchProps;
 
 const Home = ({
   release: reduxRelease, postMap: reduxPostMap, releaseIsLoading,
-  initialRelease, initialPostMap, openModal, fetchReleaseByDate
+  openModal, fetchReleaseByDate
 }: HomeProps): JSX.Element => {
-  const [release, setRelease] = useState<Release | null>(initialRelease);
-  const [postMap, setPostMap] = useState<Record<string, Post>>(initialPostMap);
-
+  const [release, setRelease] = useState<Release | null>(null);
+  const [postMap, setPostMap] = useState<Record<string, Post>>({});
   const [active, setActive] = useState<PostPublishType>('news');
+  const [code, setCode] = useState<Code>(null);
+
+  useEffect(() => {
+    fetchReleaseByDate(Date.now(), {
+      failureCallback: (res) => { setCode(res.response?.status || null); }
+    });
+  }, []);
 
   useEffect(() => {
     if (reduxRelease) setRelease(reduxRelease);
     if (Object.values(reduxPostMap).length) setPostMap(reduxPostMap);
   }, [reduxRelease, reduxPostMap]);
 
-  if (!release || releaseIsLoading) {
+  if (releaseIsLoading) {
+    return (
+      <LoadingScreen
+        title="Loading release..."
+        subtitle="Please wait while we fetch the requested release."
+      />
+    );
+  }
+
+  if (!release || code === 404) {
     return (
       <LoadingScreen
         title="No release exists for today"
-        subtitle="A new release will come out soon."
+        subtitle="Check back soon for an upcoming release."
       />
     );
   }
