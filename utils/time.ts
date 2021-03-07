@@ -2,13 +2,15 @@ import dayjs, { Dayjs } from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 
+export const serverTimeZone = 'America/New_York';
+
 /**
  * Sets default timezone within scope of the dayjs plugin
  */
 export const useDefaultTimezone = (): void => {
   dayjs.extend(utc);
   dayjs.extend(timezone);
-  dayjs.tz.setDefault('America/New_York');
+  dayjs.tz.setDefault(serverTimeZone);
 };
 
 /**

@@ -40,6 +40,7 @@ import {
   encodeRecipientGroups, decodeRecipientGroups
 } from 'utils';
 import uploadImage from 'utils/s3';
+import { serverTimeZone } from 'utils/time';
 
 import { HTML } from 'types/email';
 import { Group } from 'types/group';
@@ -394,6 +395,12 @@ const Form = ({
                 </GenericSkeletonWrapper>
               </label>
 
+              <p className={styles.additionalInformation}>
+                Enter time in the &quot;
+                {serverTimeZone}
+                &quot; timezone
+              </p>
+
               <p className="formInputError">{requestedPublicationDateError}</p>
             </div>
           </FormSection>
@@ -454,6 +461,12 @@ const Form = ({
                   </GenericSkeletonWrapper>
                 </label>
 
+                <p className={styles.additionalInformation}>
+                  Enter time in the &quot;
+                  {serverTimeZone}
+                  &quot; timezone
+                </p>
+
                 <p className="formInputError">{eventDateError}</p>
               </div>
 
@@ -474,6 +487,12 @@ const Form = ({
                     />
                   </GenericSkeletonWrapper>
                 </label>
+
+                <p className={styles.additionalInformation}>
+                  Enter time in the &quot;
+                  {serverTimeZone}
+                  &quot; timezone
+                </p>
 
                 <p className="formInputError">{eventTimeError}</p>
               </div>
