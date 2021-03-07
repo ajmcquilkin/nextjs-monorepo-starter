@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import LoadingScreen from 'components/layout/loadingScreen';
 import HomeSubmission from 'components/submissions/homeSubmission';
 
 import { openModal as openModalImport } from 'store/actionCreators/modalActionCreators';
@@ -45,7 +46,14 @@ const Home = ({
     if (Object.values(reduxPostMap).length) setPostMap(reduxPostMap);
   }, [reduxRelease, reduxPostMap]);
 
-  if (!release || releaseIsLoading) return (<div>Loading...</div>);
+  if (!release || releaseIsLoading) {
+    return (
+      <LoadingScreen
+        title="No release exists for today"
+        subtitle="A new release will come out soon."
+      />
+    );
+  }
 
   const news = release.news.map((id) => postMap?.[id]);
   const announcements = release.announcements.map((id) => postMap?.[id]);
@@ -73,7 +81,6 @@ const Home = ({
   return (
     <div className={styles.homeContainer}>
       <section className={styles.homeHeaderContentContainer}>
-
         <div className={styles.homeHeaderContainer}>
           <div className={styles.homeDateSelectorContainer}>
             <div className={[styles.homeDateSelector, styles.left].join(' ')}>
