@@ -10,7 +10,7 @@ import { ServerResponse } from 'http';
 
 export type AsyncActionCreatorConfig<Data, AddlPayload> = {
   successCallback?: (res: RequestReturnType<Data>) => void,
-  failureCallback?: (res: RequestReturnType<Data>) => void,
+  failureCallback?: (error: AxiosError<ServerPayload<Data>>) => void,
   additionalPayloadFields?: AddlPayload
 }
 
