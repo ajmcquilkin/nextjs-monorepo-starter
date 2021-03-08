@@ -1,8 +1,9 @@
 import sanitizeHTML from 'sanitize-html';
+import { Types } from 'mongoose';
 
 import * as releaseController from 'controllers/releaseController';
 
-import { DocumentNotFoundError } from 'errors';
+import { BaseError, DocumentNotFoundError } from 'errors';
 import { PostModel } from 'models';
 
 import { getDefaultMidnightDate } from 'utils/time';
@@ -49,12 +50,16 @@ export const create = async (fields: CreatePostType): Promise<Post> => {
 };
 
 export const read = async (id: string): Promise<Post> => {
+  if (!Types.ObjectId.isValid(id)) throw new BaseError(`Passed id "${id}" is not a valid ObjectId`, 400);
+
   const foundPost: PostDocument = await PostModel.findOne({ _id: id });
   if (!foundPost) throw new DocumentNotFoundError(id);
   return foundPost.toJSON();
 };
 
 export const update = async (id: string, fields: Partial<Post>): Promise<Post> => {
+  if (!Types.ObjectId.isValid(id)) throw new BaseError(`Passed id "${id}" is not a valid ObjectId`, 400);
+
   const {
     fromName, fromAddress, submitterNetId, type, fullContent,
     briefContent, url, requestedPublicationDate, recipientGroups, status,
@@ -94,6 +99,8 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
 };
 
 export const remove = async (id: string): Promise<void> => {
+  if (!Types.ObjectId.isValid(id)) throw new BaseError(`Passed id "${id}" is not a valid ObjectId`, 400);
+
   const foundPost: PostDocument = await PostModel.findOne({ _id: id });
   if (!foundPost) throw new DocumentNotFoundError(id);
   return foundPost.remove();

@@ -1,4 +1,6 @@
-import { DocumentNotFoundError } from 'errors';
+import { Types } from 'mongoose';
+
+import { BaseError, DocumentNotFoundError } from 'errors';
 import { ReleaseModel } from 'models';
 
 import { getDefaultMidnightDate } from 'utils/time';
@@ -32,6 +34,8 @@ export const create = async (fields: CreateReleaseType): Promise<Release> => {
 };
 
 export const read = async (id: string): Promise<Release> => {
+  if (!Types.ObjectId.isValid(id)) throw new BaseError(`Passed id "${id}" is not a valid ObjectId`, 400);
+
   const foundRelease: ReleaseDocument = await ReleaseModel.findOne({ _id: id });
   if (!foundRelease) throw new DocumentNotFoundError(id);
   return foundRelease.toJSON();
@@ -70,6 +74,8 @@ export const fetchOrCreateReleaseByDate = async (requestedPublicationDate: numbe
 };
 
 export const update = async (id: string, fields: Partial<Release>): Promise<Release> => {
+  if (!Types.ObjectId.isValid(id)) throw new BaseError(`Passed id "${id}" is not a valid ObjectId`, 400);
+
   const {
     date, subject, headerImage, headerImageCaption, headerImageAlt,
     quoteOfDay, quotedContext, featuredPost, news, announcements, events
@@ -97,6 +103,8 @@ export const update = async (id: string, fields: Partial<Release>): Promise<Rele
 };
 
 export const remove = async (id: string): Promise<void> => {
+  if (!Types.ObjectId.isValid(id)) throw new BaseError(`Passed id "${id}" is not a valid ObjectId`, 400);
+
   const foundRelease: ReleaseDocument = await ReleaseModel.findOne({ _id: id });
   if (!foundRelease) throw new DocumentNotFoundError(id);
   return foundRelease.remove();
