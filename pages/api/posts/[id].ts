@@ -28,7 +28,7 @@ const handler = createDefaultHandler()
     if (!info.isReviewer && foundPost.submitterNetId.toLowerCase() !== info.netId?.toLowerCase()) { throw new ForbiddenResourceError(); }
 
     const uneditableNonReviewerStates: PostStatus[] = ['approved', 'published'];
-    if (uneditableNonReviewerStates.includes(foundPost.status) && !info.isReviewer) { throw new ForbiddenResourceError(); }
+    if (uneditableNonReviewerStates.includes(foundPost.status) && !info.isReviewer) { throw new ForbiddenResourceError('Can not edit approved or published posts without reviewer scope'); }
 
     const submitterNetId = info.netId;
     if (!submitterNetId) throw new Error('Invalid CAS netId configuration');
