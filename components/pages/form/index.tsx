@@ -408,14 +408,16 @@ const Form = ({
           <FormSection title="Post Type">
             <GenericSkeletonWrapper>
               <div className={['formInputContainer', 'row'].join(' ')}>
-                <RadioSelector
-                  name="form-type"
-                  value="news"
-                  label="News"
-                  isChecked={postType === 'news'}
-                  onClick={() => setPostType('news')}
-                  className={['small', styles.formTypeSelector].join(' ')}
-                />
+                {isReviewer && (
+                  <RadioSelector
+                    name="form-type"
+                    value="news"
+                    label="News"
+                    isChecked={postType === 'news'}
+                    onClick={() => setPostType('news')}
+                    className={['small', styles.formTypeSelector].join(' ')}
+                  />
+                )}
 
                 <RadioSelector
                   name="form-type"
@@ -426,16 +428,15 @@ const Form = ({
                   className={['small', styles.formTypeSelector].join(' ')}
                 />
 
-                {isReviewer && (
-                  <RadioSelector
-                    name="form-type"
-                    value="event"
-                    label="Event"
-                    isChecked={postType === 'event'}
-                    onClick={() => setPostType('event')}
-                    className={['small', styles.formTypeSelector].join(' ')}
-                  />
-                )}
+                <RadioSelector
+                  name="form-type"
+                  value="event"
+                  label="Event"
+                  isChecked={postType === 'event'}
+                  onClick={() => setPostType('event')}
+                  className={['small', styles.formTypeSelector].join(' ')}
+                />
+
               </div>
             </GenericSkeletonWrapper>
           </FormSection>
