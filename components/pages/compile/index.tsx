@@ -89,8 +89,8 @@ const Compile = ({
   // * Validated fields
 
   useEffect(() => {
-    fetchReleaseByDate(releaseDate);
-    fetchPostsByDate(releaseDate);
+    fetchReleaseByDate(releaseDate, { failureCallback: () => ({}) });
+    fetchPostsByDate(releaseDate, { failureCallback: () => ({}) });
   }, []);
 
   useEffect(() => {
