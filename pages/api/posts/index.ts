@@ -18,6 +18,8 @@ const handler = createDefaultHandler()
     const { info } = req.session;
 
     if (status && typeof status === 'string') {
+      if (!info.isReviewer) throw new ForbiddenResourceError('Insufficient scopes for requesting posts from other users');
+
       const posts = await postController.readAllByStatus(status as PostStatus);
       const results = posts.map((post) => post._id);
       const numResults = results.length;
@@ -26,6 +28,8 @@ const handler = createDefaultHandler()
     }
 
     if (date && typeof date === 'string') {
+      if (!info.isReviewer) throw new ForbiddenResourceError('Insufficient scopes for requesting posts from other users');
+
       const posts = await postController.readAllByDate(Number(date));
       const results = posts.map((post) => post._id);
       const numResults = results.length;
