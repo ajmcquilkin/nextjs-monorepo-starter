@@ -7,6 +7,8 @@ import { handleError } from 'controllers/errorController';
 
 import { casInstance } from 'utils/auth';
 import { dbConnectionOptions } from 'utils/db';
+import { useDefaultTimezone } from 'utils/time';
+
 import { ServerRequestType, ServerResponseType, ServerSuccessPayload } from 'types/server';
 
 const MongoStore = MongoStoreThunk(createSession);
@@ -32,13 +34,15 @@ export interface DefaultHandlerConfigOptions {
 }
 
 /* eslint-disable indent */
-/* eslint-disable @typescript-eslint/no-empty-function */
 export const createDefaultHandler = <Data = unknown>({
   requireAuth = true
-}: DefaultHandlerConfigOptions = {}): NextConnect<ServerRequestType, ServerResponseType<ServerSuccessPayload<Data>>> => nc({
-  onError: handleError
-}).use(session).use(requireAuth ? casInstance.authenticate : (_req, _res, next) => next());
-/* eslint-enable @typescript-eslint/no-empty-function */
+}: DefaultHandlerConfigOptions = {}): NextConnect<ServerRequestType, ServerResponseType<ServerSuccessPayload<Data>>> => {
+  useDefaultTimezone();
+
+  return nc({
+    onError: handleError
+  }).use(session).use(requireAuth ? casInstance.authenticate : (_req, _res, next) => next());
+};
 /* eslint-enable indent */
 
 export const createSuccessPayload = <T>(data: T): ServerSuccessPayload<T> => ({

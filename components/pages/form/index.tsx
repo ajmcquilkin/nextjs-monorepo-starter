@@ -40,6 +40,7 @@ import {
   encodeRecipientGroups, decodeRecipientGroups
 } from 'utils';
 import uploadImage from 'utils/s3';
+import { serverTimeZone } from 'utils/time';
 
 import { HTML } from 'types/email';
 import { Group } from 'types/group';
@@ -394,6 +395,12 @@ const Form = ({
                 </GenericSkeletonWrapper>
               </label>
 
+              <p className={styles.additionalInformation}>
+                Enter time in the &quot;
+                {serverTimeZone}
+                &quot; timezone
+              </p>
+
               <p className="formInputError">{requestedPublicationDateError}</p>
             </div>
           </FormSection>
@@ -401,14 +408,16 @@ const Form = ({
           <FormSection title="Post Type">
             <GenericSkeletonWrapper>
               <div className={['formInputContainer', 'row'].join(' ')}>
-                <RadioSelector
-                  name="form-type"
-                  value="news"
-                  label="News"
-                  isChecked={postType === 'news'}
-                  onClick={() => setPostType('news')}
-                  className={['small', styles.formTypeSelector].join(' ')}
-                />
+                {isReviewer && (
+                  <RadioSelector
+                    name="form-type"
+                    value="news"
+                    label="News"
+                    isChecked={postType === 'news'}
+                    onClick={() => setPostType('news')}
+                    className={['small', styles.formTypeSelector].join(' ')}
+                  />
+                )}
 
                 <RadioSelector
                   name="form-type"
@@ -419,16 +428,15 @@ const Form = ({
                   className={['small', styles.formTypeSelector].join(' ')}
                 />
 
-                {isReviewer && (
-                  <RadioSelector
-                    name="form-type"
-                    value="event"
-                    label="Event"
-                    isChecked={postType === 'event'}
-                    onClick={() => setPostType('event')}
-                    className={['small', styles.formTypeSelector].join(' ')}
-                  />
-                )}
+                <RadioSelector
+                  name="form-type"
+                  value="event"
+                  label="Event"
+                  isChecked={postType === 'event'}
+                  onClick={() => setPostType('event')}
+                  className={['small', styles.formTypeSelector].join(' ')}
+                />
+
               </div>
             </GenericSkeletonWrapper>
           </FormSection>
@@ -454,6 +462,12 @@ const Form = ({
                   </GenericSkeletonWrapper>
                 </label>
 
+                <p className={styles.additionalInformation}>
+                  Enter time in the &quot;
+                  {serverTimeZone}
+                  &quot; timezone
+                </p>
+
                 <p className="formInputError">{eventDateError}</p>
               </div>
 
@@ -474,6 +488,12 @@ const Form = ({
                     />
                   </GenericSkeletonWrapper>
                 </label>
+
+                <p className={styles.additionalInformation}>
+                  Enter time in the &quot;
+                  {serverTimeZone}
+                  &quot; timezone
+                </p>
 
                 <p className="formInputError">{eventTimeError}</p>
               </div>
@@ -622,15 +642,13 @@ const Form = ({
                   <p>Submit for Review</p>
                 </button>
 
-                {(!post?.status || post?.status === 'draft') && (
-                  <button
-                    type="button"
-                    className={styles.formSaveButton}
-                    onClick={handleUpdate('draft')}
-                  >
-                    <p>Save as Draft</p>
-                  </button>
-                )}
+                <button
+                  type="button"
+                  className={styles.formSaveButton}
+                  onClick={handleUpdate('draft')}
+                >
+                  <p>Save as Draft</p>
+                </button>
 
                 <button
                   type="button"

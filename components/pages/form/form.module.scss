@@ -81,6 +81,11 @@
     }
   }
 
+  .additionalInformation {
+    @include paragraphText();
+    color: $granite-gray;
+  }
+
   .actionButtonsContainer {
     display: flex;
     flex-direction: row;

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import LoadingScreen from 'components/layout/loadingScreen';
 import HomeSubmission from 'components/submissions/homeSubmission';
 
 import { openModal as openModalImport } from 'store/actionCreators/modalActionCreators';
@@ -9,13 +10,12 @@ import { getFullDate, addNDays } from 'utils';
 
 import { Post, PostPublishType } from 'types/post';
 import { Release } from 'types/release';
-import { ConnectedThunkCreator } from 'types/state';
+import { ConnectedThunkCreator, Code } from 'types/state';
 
 import styles from './home.module.scss';
 
 export interface HomePassedProps {
-  initialRelease: Release | null,
-  initialPostMap: Record<string, Post>
+
 }
 
 export interface HomeStateProps {
@@ -33,19 +33,41 @@ export type HomeProps = HomePassedProps & HomeStateProps & HomeDispatchProps;
 
 const Home = ({
   release: reduxRelease, postMap: reduxPostMap, releaseIsLoading,
-  initialRelease, initialPostMap, openModal, fetchReleaseByDate
+  openModal, fetchReleaseByDate
 }: HomeProps): JSX.Element => {
-  const [release, setRelease] = useState<Release | null>(initialRelease);
-  const [postMap, setPostMap] = useState<Record<string, Post>>(initialPostMap);
-
+  const [release, setRelease] = useState<Release | null>(null);
+  const [postMap, setPostMap] = useState<Record<string, Post>>({});
   const [active, setActive] = useState<PostPublishType>('news');
+  const [code, setCode] = useState<Code>(null);
+
+  useEffect(() => {
+    fetchReleaseByDate(Date.now(), {
+      failureCallback: (res) => { setCode(res.response?.status || null); }
+    });
+  }, []);
 
   useEffect(() => {
     if (reduxRelease) setRelease(reduxRelease);
     if (Object.values(reduxPostMap).length) setPostMap(reduxPostMap);
   }, [reduxRelease, reduxPostMap]);
 
-  if (!release || releaseIsLoading) return (<div>Loading...</div>);
+  if (releaseIsLoading) {
+    return (
+      <LoadingScreen
+        title="Loading release..."
+        subtitle="Please wait while we fetch the requested release."
+      />
+    );
+  }
+
+  if (!release || code === 404) {
+    return (
+      <LoadingScreen
+        title="No release exists for today"
+        subtitle="Check back soon for an upcoming release."
+      />
+    );
+  }
 
   const news = release.news.map((id) => postMap?.[id]);
   const announcements = release.announcements.map((id) => postMap?.[id]);
@@ -73,7 +95,6 @@ const Home = ({
   return (
     <div className={styles.homeContainer}>
       <section className={styles.homeHeaderContentContainer}>
-
         <div className={styles.homeHeaderContainer}>
           <div className={styles.homeDateSelectorContainer}>
             <div className={[styles.homeDateSelector, styles.left].join(' ')}>

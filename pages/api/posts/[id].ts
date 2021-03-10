@@ -5,7 +5,9 @@ import { ForbiddenResourceError } from 'errors';
 import { createDefaultHandler, createSuccessPayload, requireUrlParam } from 'utils/api';
 import { useDB } from 'utils/db';
 
-import { DeletePostData, FetchPostData, Post } from 'types/post';
+import {
+  DeletePostData, FetchPostData, Post, PostStatus
+} from 'types/post';
 
 const handler = createDefaultHandler()
   .use(useDB)
@@ -24,6 +26,9 @@ const handler = createDefaultHandler()
     const { id } = req.query;
     const foundPost = await postController.read(id as string);
     if (!info.isReviewer && foundPost.submitterNetId.toLowerCase() !== info.netId?.toLowerCase()) { throw new ForbiddenResourceError(); }
+
+    const uneditableNonReviewerStates: PostStatus[] = ['approved', 'published'];
+    if (uneditableNonReviewerStates.includes(foundPost.status) && !info.isReviewer) { throw new ForbiddenResourceError('Can not edit approved or published posts without reviewer scope'); }
 
     const submitterNetId = info.netId;
     if (!submitterNetId) throw new Error('Invalid CAS netId configuration');

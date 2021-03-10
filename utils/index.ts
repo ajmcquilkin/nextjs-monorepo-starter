@@ -1,3 +1,5 @@
+import { getDefaultMidnightDate } from 'utils/time';
+
 import { Group } from 'types/group';
 import { Post, PostStatus, PostStatusColors } from 'types/post';
 
@@ -58,41 +60,11 @@ export const FormGroups: Group[] = [
   }
 ];
 
-export const getMidnightDate = (date: number): number => {
-  const dateInstance = new Date(date);
-  dateInstance.setUTCHours(0, 0, 0, 0);
-  return dateInstance.getTime();
-};
+export const addNDays = (date: number, n: number): number => +getDefaultMidnightDate(date).add(n, 'days');
+export const getFullDate = (date?: number): string => getDefaultMidnightDate(date).format('MMMM D[,] YYYY');
 
-export const addNDays = (date: number, add: number): number => {
-  const d = new Date(getMidnightDate(date) || Date.now());
-  return d.setUTCDate(d.getUTCDate() + add);
-};
-
-export const getFullDate = (date?: number): string => {
-  const currentDate = new Date(getMidnightDate(date || Date.now()));
-
-  const day = currentDate.getUTCDate();
-  const month = currentDate.getUTCMonth() + 1;
-  const year = currentDate.getUTCFullYear();
-
-  return `${month}/${day}/${year}`;
-};
-
-export const handleEncodeDate = (date: number): string => {
-  const dateObject = new Date(getMidnightDate(date));
-
-  const year = dateObject.getUTCFullYear().toString().padStart(4, '0');
-  const month = (dateObject.getUTCMonth() + 1).toString().padStart(2, '0');
-  const day = dateObject.getUTCDate().toString().padStart(2, '0');
-
-  return `${year}-${month}-${day}`;
-};
-
-export const handleDecodeDate = (dateString: string): number => {
-  const newDate = new Date(dateString);
-  return getMidnightDate(newDate.getTime());
-};
+export const handleEncodeDate = (date: number): string => getDefaultMidnightDate(date).format('YYYY[-]MM[-]DD');
+export const handleDecodeDate = (dateString: string): number => +getDefaultMidnightDate(dateString);
 
 export const HOURS_MULT = 3600;
 export const MINUTES_MULT = 60;
