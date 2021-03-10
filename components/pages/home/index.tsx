@@ -32,11 +32,9 @@ export interface HomeDispatchProps {
 export type HomeProps = HomePassedProps & HomeStateProps & HomeDispatchProps;
 
 const Home = ({
-  release: reduxRelease, postMap: reduxPostMap, releaseIsLoading,
+  release, postMap, releaseIsLoading,
   openModal, fetchReleaseByDate
 }: HomeProps): JSX.Element => {
-  const [release, setRelease] = useState<Release | null>(null);
-  const [postMap, setPostMap] = useState<Record<string, Post>>({});
   const [active, setActive] = useState<PostPublishType>('news');
   const [code, setCode] = useState<Code>(null);
 
@@ -45,11 +43,6 @@ const Home = ({
       failureCallback: (res) => { setCode(res.response?.status || null); }
     });
   }, []);
-
-  useEffect(() => {
-    if (reduxRelease) setRelease(reduxRelease);
-    if (Object.values(reduxPostMap).length) setPostMap(reduxPostMap);
-  }, [reduxRelease, reduxPostMap]);
 
   if (releaseIsLoading) {
     return (

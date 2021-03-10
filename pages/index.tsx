@@ -11,8 +11,8 @@ import { RootState } from 'types/state';
 const releaseLoadingSelector = createLoadingSelector(['FETCH_RELEASE']);
 
 const mapStateToProps = (state: RootState): HomeStateProps => ({
-  release: state?.release?.release || null,
-  postMap: state?.post?.posts || {},
+  release: state.release.release,
+  postMap: state.post.posts,
   releaseIsLoading: releaseLoadingSelector(state)
 });
 

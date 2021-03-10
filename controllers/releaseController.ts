@@ -1,11 +1,45 @@
 import { Types } from 'mongoose';
 
+import * as postController from 'controllers/postController';
+
 import { BaseError, DocumentNotFoundError } from 'errors';
-import { ReleaseModel } from 'models';
+import { PostModel, ReleaseModel } from 'models';
 
 import { getDefaultMidnightDate } from 'utils/time';
 
-import { Release, ReleaseDocument, CreateReleaseType } from 'types/release';
+import { Post } from 'types/post';
+import {
+  Release, ReleaseDocument, CreateReleaseType, PopulatedRelease
+} from 'types/release';
+
+export const validate = async (release: Release): Promise<PopulatedRelease> => {
+  const foundPosts = await postController.fetchPostsForRelease(release);
+  const foundPostsMap = foundPosts.reduce((accum, post) => ({ ...accum, [post._id]: !!post }), {});
+
+  const newsMap: Record<string, boolean> = release.news.reduce((accum, id) => ({ ...accum, [id]: foundPostsMap?.[id] || false }), {});
+  const announcementsMap: Record<string, boolean> = release.announcements.reduce((accum, id) => ({ ...accum, [id]: foundPostsMap?.[id] || false }), {});
+  const eventsMap: Record<string, boolean> = release.events.reduce((accum, id) => ({ ...accum, [id]: foundPostsMap?.[id] || false }), {});
+
+  let returnedRelease: Release = release;
+  let returnedPosts: Post[] = foundPosts;
+
+  if (Object.values(foundPostsMap).some((exists) => !exists)) {
+    const updatedNews = release.news.filter((id) => !!newsMap?.[id]);
+    const updatedAnnouncements = release.announcements.filter((id) => !!announcementsMap?.[id]);
+    const updatedEvents = release.events.filter((id) => !!eventsMap?.[id]);
+
+    const updatedRelease: ReleaseDocument = await ReleaseModel.findOne({ id: release._id });
+
+    updatedRelease.news = updatedNews;
+    updatedRelease.announcements = updatedAnnouncements;
+    updatedRelease.events = updatedEvents;
+
+    returnedRelease = (await updatedRelease.save()).toJSON();
+    returnedPosts = foundPosts.filter((post) => !!post);
+  }
+
+  return ({ release: returnedRelease, posts: returnedPosts });
+};
 
 export const create = async (fields: CreateReleaseType): Promise<Release> => {
   const {
@@ -33,21 +67,25 @@ export const create = async (fields: CreateReleaseType): Promise<Release> => {
   return (await release.save()).toJSON();
 };
 
-export const read = async (id: string): Promise<Release> => {
+export const read = async (id: string): Promise<PopulatedRelease> => {
   if (!Types.ObjectId.isValid(id)) throw new BaseError(`Passed id "${id}" is not a valid ObjectId`, 400);
 
   const foundRelease: ReleaseDocument = await ReleaseModel.findOne({ _id: id });
   if (!foundRelease) throw new DocumentNotFoundError(id);
-  return foundRelease.toJSON();
+
+  const { release, posts } = await validate(foundRelease);
+  return ({ release, posts });
 };
 
-export const fetchReleaseByDate = async (requestedDate: number): Promise<Release> => {
+export const fetchReleaseByDate = async (requestedDate: number): Promise<PopulatedRelease> => {
   const foundRelease: ReleaseDocument = await ReleaseModel.findOne({ date: +getDefaultMidnightDate(requestedDate) });
   if (!foundRelease) throw new DocumentNotFoundError(getDefaultMidnightDate(requestedDate).toString());
-  return foundRelease.toJSON();
+
+  const { release, posts } = await validate(foundRelease);
+  return ({ release, posts });
 };
 
-export const fetchOrCreateReleaseByDate = async (requestedPublicationDate: number): Promise<Release> => {
+export const fetchOrCreateReleaseByDate = async (requestedPublicationDate: number): Promise<PopulatedRelease> => {
   try {
     const foundRelease = await fetchReleaseByDate(requestedPublicationDate);
     return foundRelease;
@@ -69,11 +107,13 @@ export const fetchOrCreateReleaseByDate = async (requestedPublicationDate: numbe
       events: []
     });
 
-    return foundRelease;
+    const posts: Post[] = [];
+
+    return ({ release: foundRelease, posts });
   }
 };
 
-export const update = async (id: string, fields: Partial<Release>): Promise<Release> => {
+export const update = async (id: string, fields: Partial<Release>): Promise<PopulatedRelease> => {
   if (!Types.ObjectId.isValid(id)) throw new BaseError(`Passed id "${id}" is not a valid ObjectId`, 400);
 
   const {
@@ -99,7 +139,9 @@ export const update = async (id: string, fields: Partial<Release>): Promise<Rele
   if (announcements) foundRelease.announcements = announcements;
   if (events) foundRelease.events = events;
 
-  return (await foundRelease.save()).toJSON();
+  const newFoundRelease = (await foundRelease.save()).toJSON();
+  const { release, posts } = await validate(newFoundRelease);
+  return ({ release, posts });
 };
 
 export const remove = async (id: string): Promise<void> => {
