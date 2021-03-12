@@ -17,6 +17,7 @@ export const validate = async (release: Release): Promise<PopulatedRelease> => {
   const foundPostsMap = foundPosts.reduce((accum, post) => ({ ...accum, [post._id]: !!post }), {});
 
   let shouldUpdateRelease = false;
+  const shouldUpdateFeaturedPost = !!(release.featuredPost && !foundPostsMap?.[release.featuredPost]);
 
   const newsMap: Record<string, boolean> = release.news.reduce((accum, id) => {
     const doesExist: boolean = foundPostsMap?.[id] || false;
@@ -36,6 +37,8 @@ export const validate = async (release: Release): Promise<PopulatedRelease> => {
     return ({ ...accum, [id]: doesExist });
   }, {});
 
+  shouldUpdateRelease ||= shouldUpdateFeaturedPost;
+
   let returnedRelease: Release = release;
   let returnedPosts: Post[] = foundPosts;
 
@@ -44,9 +47,9 @@ export const validate = async (release: Release): Promise<PopulatedRelease> => {
     const updatedAnnouncements = release.announcements.filter((id) => !!announcementsMap?.[id]);
     const updatedEvents = release.events.filter((id) => !!eventsMap?.[id]);
 
-    // TODO: If post deleted is featured post set to null
     const updatedRelease: ReleaseDocument = await ReleaseModel.findOne({ _id: release._id });
 
+    if (shouldUpdateFeaturedPost) { updatedRelease.featuredPost = null; }
     updatedRelease.news = updatedNews;
     updatedRelease.announcements = updatedAnnouncements;
     updatedRelease.events = updatedEvents;
