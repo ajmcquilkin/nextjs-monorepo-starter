@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 import * as postController from 'controllers/postController';
 
 import { BaseError, DocumentNotFoundError } from 'errors';
-import { PostModel, ReleaseModel } from 'models';
+import { ReleaseModel } from 'models';
 
 import { getDefaultMidnightDate } from 'utils/time';
 
@@ -16,19 +16,36 @@ export const validate = async (release: Release): Promise<PopulatedRelease> => {
   const foundPosts = await postController.fetchPostsForRelease(release);
   const foundPostsMap = foundPosts.reduce((accum, post) => ({ ...accum, [post._id]: !!post }), {});
 
-  const newsMap: Record<string, boolean> = release.news.reduce((accum, id) => ({ ...accum, [id]: foundPostsMap?.[id] || false }), {});
-  const announcementsMap: Record<string, boolean> = release.announcements.reduce((accum, id) => ({ ...accum, [id]: foundPostsMap?.[id] || false }), {});
-  const eventsMap: Record<string, boolean> = release.events.reduce((accum, id) => ({ ...accum, [id]: foundPostsMap?.[id] || false }), {});
+  let shouldUpdateRelease = false;
+
+  const newsMap: Record<string, boolean> = release.news.reduce((accum, id) => {
+    const doesExist: boolean = foundPostsMap?.[id] || false;
+    shouldUpdateRelease ||= !doesExist;
+    return ({ ...accum, [id]: doesExist });
+  }, {});
+
+  const announcementsMap: Record<string, boolean> = release.announcements.reduce((accum, id) => {
+    const doesExist: boolean = foundPostsMap?.[id] || false;
+    shouldUpdateRelease ||= !doesExist;
+    return ({ ...accum, [id]: doesExist });
+  }, {});
+
+  const eventsMap: Record<string, boolean> = release.events.reduce((accum, id) => {
+    const doesExist: boolean = foundPostsMap?.[id] || false;
+    shouldUpdateRelease ||= !doesExist;
+    return ({ ...accum, [id]: doesExist });
+  }, {});
 
   let returnedRelease: Release = release;
   let returnedPosts: Post[] = foundPosts;
 
-  if (Object.values(foundPostsMap).some((exists) => !exists)) {
+  if (shouldUpdateRelease) {
     const updatedNews = release.news.filter((id) => !!newsMap?.[id]);
     const updatedAnnouncements = release.announcements.filter((id) => !!announcementsMap?.[id]);
     const updatedEvents = release.events.filter((id) => !!eventsMap?.[id]);
 
-    const updatedRelease: ReleaseDocument = await ReleaseModel.findOne({ id: release._id });
+    // TODO: If post deleted is featured post set to null
+    const updatedRelease: ReleaseDocument = await ReleaseModel.findOne({ _id: release._id });
 
     updatedRelease.news = updatedNews;
     updatedRelease.announcements = updatedAnnouncements;
