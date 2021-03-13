@@ -4,7 +4,9 @@ import * as postController from 'controllers/postController';
 import { createDefaultHandler, createSuccessPayload, requireUrlParam } from 'utils/api';
 import { useDB } from 'utils/db';
 
-import { FetchReleaseData, Release, DeleteReleaseData } from 'types/release';
+import {
+  FetchReleaseData, Release, DeleteReleaseData, PopulatedRelease
+} from 'types/release';
 import ForbiddenResourceError from 'errors/ForbiddenResourceError';
 
 const handler = createDefaultHandler()
@@ -13,11 +15,8 @@ const handler = createDefaultHandler()
 
   .get(async (req, res) => {
     const { id } = req.query;
-
-    const foundRelease = await releaseController.read(id as string);
-    const foundPosts = await postController.fetchPostsForRelease(foundRelease);
-
-    return res.status(200).json(createSuccessPayload<FetchReleaseData>({ release: foundRelease, posts: foundPosts }));
+    const populatedRelease = await releaseController.read(id as string);
+    return res.status(200).json(createSuccessPayload<PopulatedRelease>(populatedRelease));
   })
 
   .put(async (req, res) => {
@@ -50,8 +49,8 @@ const handler = createDefaultHandler()
       lastEdited: Date.now()
     });
 
-    const foundPosts = await postController.fetchPostsForRelease(updatedRelease);
-    return res.status(200).json(createSuccessPayload<FetchReleaseData>({ release: updatedRelease, posts: foundPosts }));
+    // const foundPosts = await postController.fetchPostsForRelease(updatedRelease);
+    return res.status(200).json(createSuccessPayload<PopulatedRelease>(updatedRelease));
   })
 
   .delete(async (req, res) => {

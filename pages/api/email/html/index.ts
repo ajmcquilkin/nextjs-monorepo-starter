@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 
 import * as releaseController from 'controllers/releaseController';
-import * as postController from 'controllers/postController';
 
 import { BadCredentialsError, ForbiddenResourceError } from 'errors';
 
@@ -28,16 +27,15 @@ const handler = createDefaultHandler()
     const { group, date } = req.query;
     const groupsArray = generateGroupsArray(group);
 
-    const foundRelease = await releaseController.fetchReleaseByDate(Number(date as string) || Date.now());
-    const releasePosts = await postController.fetchPostsForRelease(foundRelease);
-    const filteredPosts = groupsArray.length ? releasePosts.filter((post) => post.recipientGroups.some((g) => groupsArray.includes(g))) : releasePosts;
+    const { release, posts } = await releaseController.fetchReleaseByDate(Number(date as string) || Date.now());
+    const filteredPosts = groupsArray.length ? posts.filter((post) => post.recipientGroups.some((g) => groupsArray.includes(g))) : posts;
 
     const generatedHTML: Email = templateHTML
       // Data replacement
       .replace(/{{__DATE}}/g, getFullDate())
-      .replace(/{{__HEADERIMAGE}}/g, foundRelease.headerImage || 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.thoughtco.com%2Fthmb%2Fbc9Klx19dMQgfRh2I5xT0qorJ_w%3D%2F1500x1000%2Ffilters%3Ano_upscale()%3Amax_bytes(150000)%3Astrip_icc()%2FDartmouthCollegeNH-58b46ae15f9b586046288090.jpg&f=1&nofb=1')
-      .replace(/{{__CAPTION}}/g, foundRelease.headerImageCaption)
-      .replace(/{{__CAPTIONCONTEXT}}/g, foundRelease.quotedContext)
+      .replace(/{{__HEADERIMAGE}}/g, release.headerImage || 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.thoughtco.com%2Fthmb%2Fbc9Klx19dMQgfRh2I5xT0qorJ_w%3D%2F1500x1000%2Ffilters%3Ano_upscale()%3Amax_bytes(150000)%3Astrip_icc()%2FDartmouthCollegeNH-58b46ae15f9b586046288090.jpg&f=1&nofb=1')
+      .replace(/{{__CAPTION}}/g, release.headerImageCaption)
+      .replace(/{{__CAPTIONCONTEXT}}/g, release.quotedContext)
       .replace(/{{__URL}}/g, __APP_URL__)
 
       // HTML replacement

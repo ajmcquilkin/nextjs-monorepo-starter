@@ -1,5 +1,4 @@
 import * as releaseController from 'controllers/releaseController';
-import * as postController from 'controllers/postController';
 
 import { BadCredentialsError, ForbiddenResourceError } from 'errors';
 
@@ -22,11 +21,10 @@ const handler = createDefaultHandler()
     const { group, date } = req.query;
     const groupsArray = generateGroupsArray(group);
 
-    const foundRelease = await releaseController.fetchReleaseByDate(Number(date as string) || Date.now());
-    const releasePosts = await postController.fetchPostsForRelease(foundRelease);
-    const filteredPosts = groupsArray.length ? releasePosts.filter((post) => post.recipientGroups.some((g) => groupsArray.includes(g))) : releasePosts;
+    const { release, posts } = await releaseController.fetchReleaseByDate(Number(date as string) || Date.now());
+    const filteredPosts = groupsArray.length ? posts.filter((post) => post.recipientGroups.some((g) => groupsArray.includes(g))) : posts;
 
-    return res.status(200).send(createSuccessPayload<CuratedGroupPostsData>({ release: foundRelease, posts: filteredPosts }));
+    return res.status(200).send(createSuccessPayload<CuratedGroupPostsData>({ release, posts: filteredPosts }));
   });
 
 export default handler;

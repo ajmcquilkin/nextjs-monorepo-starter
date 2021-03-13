@@ -25,6 +25,7 @@ export interface Release {
 }
 
 export type ReleaseDocument = Release & Document<string>;
+export type PopulatedRelease = { release: Release, posts: Post[] };
 export type CreateReleaseType = Pick<Release, 'date' | 'subject' | 'headerImage' | 'headerImageCaption' | 'headerImageAlt'
     | 'quoteOfDay' | 'quotedContext' | 'featuredPost' | 'news' | 'announcements' | 'events'>;
 
@@ -39,7 +40,7 @@ export interface ReleaseState {
 export const FETCH_RELEASE = 'FETCH_RELEASE';
 export const DELETE_RELEASE = 'DELETE_RELEASE';
 
-export type FetchReleaseData = { release: Release, posts: Post[] };
+export type FetchReleaseData = PopulatedRelease;
 export type DeleteReleaseData = { id: string };
 
 type FetchReleaseAction = Action<typeof FETCH_RELEASE, FetchReleaseData>
