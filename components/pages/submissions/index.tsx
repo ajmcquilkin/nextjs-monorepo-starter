@@ -114,20 +114,20 @@ const Submissions = ({
               renderAdditionalPostButtons={(_id) => ([
                 <button
                   type="button"
-                  onClick={() => handleRequestRejectionReasoning(_id)}
-                  className={styles.rejectionButton}
-                  key="0"
-                >
-                  <img src="/icons/comment.svg" alt="view rejection reasoning" />
-                  <p>Reasoning</p>
-                </button>,
-                <button
-                  type="button"
                   onClick={() => updatePostById(_id, { status: 'pending' })}
-                  key="1"
+                  key="0"
                 >
                   <img src="/icons/resubmit.svg" alt="resubmit post" />
                   <p>Resubmit</p>
+                </button>
+              ])}
+              renderAdditionalPostIcons={(_id) => ([
+                <button
+                  type="button"
+                  onClick={() => handleRequestRejectionReasoning(_id)}
+                  key="0"
+                >
+                  <img src="/icons/info.svg" alt="additional rejection information" />
                 </button>
               ])}
             />

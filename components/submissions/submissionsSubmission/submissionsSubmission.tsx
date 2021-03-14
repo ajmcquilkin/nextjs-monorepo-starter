@@ -15,7 +15,8 @@ import styles from './submissionsSubmission.module.scss';
 
 export interface SubmissionPassedProps {
   postContent: Post,
-  renderAdditionalButtons?: (_id: string) => JSX.Element[]
+  renderAdditionalButtons?: (_id: string) => JSX.Element[],
+  renderAdditionalIcons?: (_id: string) => JSX.Element[]
 }
 
 export interface SubmissionStateProps {
@@ -31,7 +32,8 @@ export type SubmissionProps = SubmissionPassedProps & SubmissionStateProps & Sub
 
 const Submission = ({
   postContent,
-  createPost, deletePostById, renderAdditionalButtons
+  renderAdditionalButtons, renderAdditionalIcons,
+  createPost, deletePostById
 }: SubmissionProps): JSX.Element => {
   const sanitizedHTML = sanitizeHtml(postContent.fullContent);
 
@@ -43,7 +45,11 @@ const Submission = ({
   return (
     <div className={styles.submissionContainer} style={{ borderLeftColor: getColorsForStatus(postContent.status).primary }}>
       <div className={styles.header}>
-        <h3>{postContent.briefContent}</h3>
+        <div className={styles.titleContainer}>
+          <h3>{postContent.briefContent}</h3>
+          <div className={styles.iconContainer}>{renderAdditionalIcons ? renderAdditionalIcons(postContent._id) : null}</div>
+        </div>
+
         <p>
           {postContent.type === 'event' && postContent.eventDate
             && (
