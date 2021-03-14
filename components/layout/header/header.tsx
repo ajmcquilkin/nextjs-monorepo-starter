@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import AuthSwitch from 'components/hocs/authSwitch';
 import HeaderLink from 'components/layout/headerLink';
 
@@ -20,13 +22,15 @@ export type HeaderProps = HeaderPassedProps & HeaderStateProps & HeaderDispatchP
 
 const Header = ({ isStaff, isReviewer }: HeaderProps): JSX.Element => (
   <header className={styles.headerContainer}>
-    <div className={styles.headerBrandContainer}>
-      <img
-        src="/icons/dPineWhite.svg"
-        alt="Vox Daily"
-      />
-      <p>VOX DAILY</p>
-    </div>
+    <Link href="/">
+      <a className={styles.headerBrandContainer}>
+        <img
+          src="/icons/dPineWhite.svg"
+          alt="Vox Daily"
+        />
+        <p>VOX DAILY</p>
+      </a>
+    </Link>
 
     <nav className={styles.headerLinksContainer}>
       <AuthSwitch
