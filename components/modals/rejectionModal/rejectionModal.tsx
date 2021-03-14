@@ -1,9 +1,10 @@
 import { useState } from 'react';
 
 import ModalContainer from 'components/modals/modalContainer';
+
+import { closeModal as closeModalImport } from 'store/actionCreators/modalActionCreators';
 import { updatePostById as updatePostByIdImport } from 'store/actionCreators/postActionCreators';
 
-import { useModal } from 'utils/modal';
 import { PostRejectionReason } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
 
@@ -14,20 +15,19 @@ export interface RejectionModalPassedProps {
 }
 
 export interface RejectionModalStateProps {
-
+  postId: string | null
 }
 
 export interface RejectionModalDispatchProps {
+  closeModal: ConnectedThunkCreator<typeof closeModalImport>,
   updatePostById: ConnectedThunkCreator<typeof updatePostByIdImport>
 }
 
 export type RejectionModalProps = RejectionModalPassedProps & RejectionModalStateProps & RejectionModalDispatchProps;
 
-const RejectionModal = ({ updatePostById }: RejectionModalProps): JSX.Element => {
+const RejectionModal = ({ postId, closeModal, updatePostById }: RejectionModalProps): JSX.Element => {
   const [rejectionComment, setRejectionComment] = useState<string>('');
   const [rejectionReason, setRejectionReason] = useState<PostRejectionReason>('guidelines');
-
-  const { postId, closeModal } = useModal();
 
   const handleConfirm = () => {
     if (!postId) console.error('No valid postId found:', postId);
