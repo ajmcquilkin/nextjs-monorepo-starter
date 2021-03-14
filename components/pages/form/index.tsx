@@ -227,6 +227,7 @@ const Form = ({
       }
     }
 
+    if (!isValid) openModal('ERROR_MODAL', { title: 'Missing Required Information', content: 'Please fill in all required fields within the form to create or update a submission.' });
     return isValid;
   };
 

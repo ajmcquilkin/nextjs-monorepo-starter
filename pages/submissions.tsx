@@ -6,9 +6,8 @@ import { connect } from 'react-redux';
 
 import Submissions, { SubmissionsPassedProps, SubmissionsStateProps, SubmissionsDispatchProps } from 'components/pages/submissions';
 
-import {
-  createPost, fetchAllPosts, updatePostById, deletePostById
-} from 'store/actionCreators/postActionCreators';
+import { openModal } from 'store/actionCreators/modalActionCreators';
+import { fetchAllPosts, updatePostById } from 'store/actionCreators/postActionCreators';
 import { createLoadingSelector } from 'store/actionCreators/requestActionCreators';
 
 import { RootState } from 'types/state';
@@ -24,10 +23,9 @@ const mapStateToProps = (state: RootState): SubmissionsStateProps => ({
 });
 
 const mapDispatchToProps: SubmissionsDispatchProps = {
-  createPost,
+  openModal,
   fetchAllPosts,
-  updatePostById,
-  deletePostById
+  updatePostById
 };
 
 const connector = connect<SubmissionsStateProps, SubmissionsDispatchProps, SubmissionsPassedProps>(mapStateToProps, mapDispatchToProps);
