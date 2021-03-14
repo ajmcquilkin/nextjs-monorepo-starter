@@ -17,9 +17,13 @@ const FilterBar = ({
   <div className={styles.filterBarContainer}>
     {!hideStatus && (
       <div className={styles.selectContainer}>
-        <p>Status</p>
+        <label htmlFor="post-status">
+          Post Status
+        </label>
+
         <select
-          name="status"
+          id="post-status"
+          name="current post status"
           value={status}
           onChange={(e) => setStatus((e.target.value) as (PostStatus | ''))}
         >
@@ -35,9 +39,13 @@ const FilterBar = ({
 
     {!hideType && (
       <div className={styles.selectContainer}>
-        <p>Type</p>
+        <label htmlFor="post-type">
+          Post Type
+        </label>
+
         <select
-          name="postType"
+          id="post-type"
+          name="post type"
           value={type}
           onChange={(e) => setType((e.target.value) as (PostPublishType | ''))}
         >

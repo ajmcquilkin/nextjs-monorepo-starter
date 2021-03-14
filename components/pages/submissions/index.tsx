@@ -82,7 +82,7 @@ const Submissions = ({
               onClick={() => router.push('/form/new')}
               className={styles.buttonContainer}
             >
-              <img src="/icons/add.svg" alt="create new submission icon" />
+              <img src="/icons/add.svg" alt="create new submission icon" aria-hidden="true" />
               <p className={styles.createButton}>New Submission</p>
             </button>
 
