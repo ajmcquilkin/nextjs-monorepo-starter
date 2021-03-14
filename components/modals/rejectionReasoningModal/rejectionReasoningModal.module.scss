@@ -1,0 +1,41 @@
+@import "styles/variables.scss";
+
+.rejectionModalContainer {
+  padding-top: 24px;
+
+  h2 {
+    font-family: national, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 155%;
+    color: $granite-gray;
+  }
+
+  p {
+    @include paragraphText();
+  }
+
+  .rationale {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 24px;
+
+    h2 {
+      margin: 0px 6px 0px 0px;
+    }
+
+    p {
+      margin: 0px 0px 0px;
+    }
+  }
+
+  .commentContainer {
+    h2 {
+      margin: 0px 0px 6px;
+    }
+
+    p {
+      margin: 0px;
+    }
+  }
+}

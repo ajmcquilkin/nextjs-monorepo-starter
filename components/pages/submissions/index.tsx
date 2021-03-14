@@ -60,6 +60,10 @@ const Submissions = ({
       || post.fromName.toLowerCase().includes(query.toLowerCase())
     ));
 
+  const handleRequestRejectionReasoning = (_id: Post['_id']) => {
+    openModal('REJECTION_REASONING_MODAL', { postId: _id });
+  };
+
   return (
     <SkeletonArea isLoading={isLoading}>
       <div className={styles.submissionsContainer}>
@@ -110,7 +114,7 @@ const Submissions = ({
               renderAdditionalPostButtons={(_id) => ([
                 <button
                   type="button"
-                  onClick={() => openModal('ERROR_MODAL', { title: 'test', content: 'test content' })}
+                  onClick={() => handleRequestRejectionReasoning(_id)}
                   className={styles.rejectionButton}
                   key="0"
                 >

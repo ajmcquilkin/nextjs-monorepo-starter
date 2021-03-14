@@ -2,6 +2,7 @@ import ReactModal from 'react-modal';
 
 import ErrorModal from 'components/modals/errorModal';
 import RejectionModal from 'components/modals/rejectionModal';
+import RejectionReasoningModal from 'components/modals/rejectionReasoningModal';
 import PostDeletionModal from 'components/modals/postDeletionModal';
 import SubmitPostModal from 'components/modals/submitPostModal';
 
@@ -27,7 +28,9 @@ export interface ModalWrapperDispatchProps {
 export type ModalWrapperProps = ModalWrapperPassedProps & ModalWrapperStateProps & ModalWrapperDispatchProps;
 
 const modalWrapperStyles: React.CSSProperties = {
-  margin: '48px',
+  margin: '48px auto',
+  maxWidth: '900px',
+
   boxShadow: '0px 8px 20px rgba(37, 40, 43, 0.08)',
   backgroundColor: '',
   borderRadius: '10px',
@@ -44,6 +47,9 @@ const ModalWrapper = ({
 
       case 'REJECTION_MODAL':
         return <RejectionModal />;
+
+      case 'REJECTION_REASONING_MODAL':
+        return <RejectionReasoningModal />;
 
       case 'SUBMIT_POST_MODAL':
         return <SubmitPostModal />;
