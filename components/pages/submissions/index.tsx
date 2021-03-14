@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
@@ -9,10 +8,12 @@ import SubmissionSection from 'components/layout/submissionSection';
 import SkeletonArea from 'components/helpers/skeletonArea';
 
 import {
-  createPost as createPostImport,
+  openModal as openModalImport,
+} from 'store/actionCreators/modalActionCreators';
+
+import {
   fetchAllPosts as fetchAllPostsImport,
   updatePostById as updatePostByIdImport,
-  deletePostById as deletePostByIdImport
 } from 'store/actionCreators/postActionCreators';
 
 import { Post, PostPublishType, PostStatus } from 'types/post';
@@ -30,17 +31,16 @@ export interface SubmissionsStateProps {
 }
 
 export interface SubmissionsDispatchProps {
-  createPost: ConnectedThunkCreator<typeof createPostImport>,
+  openModal: ConnectedThunkCreator<typeof openModalImport>,
   fetchAllPosts: ConnectedThunkCreator<typeof fetchAllPostsImport>,
   updatePostById: ConnectedThunkCreator<typeof updatePostByIdImport>,
-  deletePostById: ConnectedThunkCreator<typeof deletePostByIdImport>
 }
 
 export type SubmissionsProps = SubmissionsPassedProps & SubmissionsStateProps & SubmissionsDispatchProps;
 
 const Submissions = ({
   userPosts, isLoading,
-  fetchAllPosts, updatePostById
+  openModal, fetchAllPosts, updatePostById
 }: SubmissionsProps): JSX.Element => {
   const router = useRouter();
 
@@ -102,6 +102,33 @@ const Submissions = ({
         </div>
 
         <div className={styles.contentContainer}>
+          {(!status || status === 'rejected') && (
+            <SubmissionSection
+              title="Rejected"
+              posts={getFilteredPosts('rejected')}
+              status="rejected"
+              renderAdditionalPostButtons={(_id) => ([
+                <button
+                  type="button"
+                  onClick={() => openModal('ERROR_MODAL', { title: 'test', content: 'test content' })}
+                  className={styles.rejectionButton}
+                  key="0"
+                >
+                  <img src="/icons/comment.svg" alt="view rejection reasoning" />
+                  <p>Reasoning</p>
+                </button>,
+                <button
+                  type="button"
+                  onClick={() => updatePostById(_id, { status: 'pending' })}
+                  key="1"
+                >
+                  <img src="/icons/resubmit.svg" alt="resubmit post" />
+                  <p>Resubmit</p>
+                </button>
+              ])}
+            />
+          )}
+
           {(!status || status === 'draft') && (
             <SubmissionSection
               title="Drafts"
@@ -125,24 +152,6 @@ const Submissions = ({
               title="Pending"
               posts={getFilteredPosts('pending')}
               status="pending"
-            />
-          )}
-
-          {(!status || status === 'rejected') && (
-            <SubmissionSection
-              title="Rejected"
-              posts={getFilteredPosts('rejected')}
-              status="rejected"
-              renderAdditionalPostButtons={(_id) => ([
-                <button
-                  type="button"
-                  onClick={() => updatePostById(_id, { status: 'pending' })}
-                  key="0"
-                >
-                  <img src="/icons/resubmit.svg" alt="resubmit post" />
-                  <p>Resubmit</p>
-                </button>
-              ])}
             />
           )}
 
