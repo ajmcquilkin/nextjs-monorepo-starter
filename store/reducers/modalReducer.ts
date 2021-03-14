@@ -9,7 +9,9 @@ const initialState: ModalState = {
 
   bgColor: '#FFFFFF',
   action: null,
-  postId: null
+  redirect: '',
+
+  postId: null,
 };
 
 const modalReducer = (state = initialState, action: Actions): ModalState => {
@@ -26,6 +28,8 @@ const modalReducer = (state = initialState, action: Actions): ModalState => {
 
         bgColor: action.payload.data.config.bgColor || initialState.bgColor,
         action: action.payload.data.config.action || initialState.action,
+        redirect: action.payload.data.config.redirect || initialState.redirect,
+
         postId: action.payload.data.config.postId || initialState.postId
       };
 
@@ -39,6 +43,8 @@ const modalReducer = (state = initialState, action: Actions): ModalState => {
 
         bgColor: initialState.bgColor,
         action: initialState.action,
+        redirect: initialState.redirect,
+
         postId: initialState.postId
       };
 
