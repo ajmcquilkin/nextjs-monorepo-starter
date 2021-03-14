@@ -15,7 +15,10 @@ import { RootState } from 'types/state';
 const postsLoadingSelector = createLoadingSelector(['FETCH_POSTS', 'FETCH_POST', 'DELETE_POST']);
 
 const mapStateToProps = (state: RootState): SubmissionsStateProps => ({
-  userPosts: Object.values(state.post.posts).filter((post) => post.submitterNetId?.toLowerCase() === state.user.netId?.toLowerCase()),
+  userPosts: Object.values(state.post.posts).filter((post) => (
+    post.submitterNetId?.toLowerCase() === state.user.netId?.toLowerCase()
+    && post._id !== 'form'
+  )),
   isLoading: postsLoadingSelector(state)
 });
 

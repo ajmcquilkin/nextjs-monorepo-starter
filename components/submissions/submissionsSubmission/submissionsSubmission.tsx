@@ -1,10 +1,8 @@
 import Link from 'next/link';
 import sanitizeHtml from 'sanitize-html';
 
-import {
-  createPost as createPostImport,
-  deletePostById as deletePostByIdImport
-} from 'store/actionCreators/postActionCreators';
+import { openModal as openModalImport } from 'store/actionCreators/modalActionCreators';
+import { createPost as createPostImport } from 'store/actionCreators/postActionCreators';
 
 import { getColorsForStatus, getFullDate, uppercaseFirstLetter } from 'utils';
 
@@ -24,8 +22,8 @@ export interface SubmissionStateProps {
 }
 
 export interface SubmissionDispatchProps {
+  openModal: ConnectedThunkCreator<typeof openModalImport>,
   createPost: ConnectedThunkCreator<typeof createPostImport>,
-  deletePostById: ConnectedThunkCreator<typeof deletePostByIdImport>
 }
 
 export type SubmissionProps = SubmissionPassedProps & SubmissionStateProps & SubmissionDispatchProps;
@@ -33,7 +31,7 @@ export type SubmissionProps = SubmissionPassedProps & SubmissionStateProps & Sub
 const Submission = ({
   postContent,
   renderAdditionalButtons, renderAdditionalIcons,
-  createPost, deletePostById
+  openModal, createPost
 }: SubmissionProps): JSX.Element => {
   const sanitizedHTML = sanitizeHtml(postContent.fullContent);
 
@@ -88,7 +86,7 @@ const Submission = ({
 
           <button
             type="button"
-            onClick={() => deletePostById(postContent._id)}
+            onClick={() => openModal('DISCARD_POST_MODAL', { postId: postContent._id, action: 'DELETE' })}
           >
             <img src="/icons/discard.svg" alt="discard post" />
             <p>Discard</p>

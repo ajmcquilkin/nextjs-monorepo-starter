@@ -17,6 +17,8 @@ export const useModal = (): ModalState & { closeModal: ConnectedThunkCreator<typ
 
     bgColor: modal.bgColor,
     action: modal.action,
+    redirect: modal.redirect,
+
     postId: modal.postId,
 
     closeModal: () => dispatch(closeModal())

@@ -15,6 +15,7 @@ export interface ModalConfig {
 
   bgColor: string,
   action: 'CREATE' | 'UPDATE' | 'DELETE' | null,
+  redirect: string,
 }
 
 export type Modal = ModalConfig & {
@@ -31,7 +32,8 @@ export type ModalState = {
 
   bgColor: Modal['bgColor'],
   postId: string | null,
-  action: Modal['action']
+  action: Modal['action'],
+  redirect: Modal['redirect']
 }
 
 /* -------- Action Types -------- */

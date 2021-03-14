@@ -23,12 +23,12 @@ export interface PostDeletionModalDispatchProps {
 export type PostDeletionModalProps = PostDeletionModalPassedProps & PostDeletionModalStateProps & PostDeletionModalDispatchProps;
 
 const PostDeletionModal = ({ deletePostById }: PostDeletionModalProps): JSX.Element => {
-  const { postId, closeModal } = useModal();
+  const { postId, redirect, closeModal } = useModal();
   const router = useRouter();
 
   const handleConfirm = () => {
-    if (postId && postId !== 'form') deletePostById(postId, { successCallback: () => { closeModal(); router.push('/submissions'); } });
-    else { closeModal(); router.push('/submissions'); }
+    if (postId && postId !== 'form') deletePostById(postId, { successCallback: () => { closeModal(); router.push(redirect || '/submissions'); } });
+    else { closeModal(); router.push(redirect || '/submissions'); }
   };
 
   return (

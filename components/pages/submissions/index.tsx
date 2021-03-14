@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
@@ -69,9 +70,9 @@ const Submissions = ({
       <div className={styles.submissionsContainer}>
         <div className={styles.titleContainer}>
           <h1>Your Submissions</h1>
-          <a href="https://communications.dartmouth.edu/faculty-and-staff/vox-daily-guidelines">
-            Submission Guidelines
-          </a>
+          <Link href="https://communications.dartmouth.edu/faculty-and-staff/vox-daily-guidelines">
+            <a target="_blank" rel="noopener noreferrer">Submission Guidelines</a>
+          </Link>
         </div>
 
         <div className={styles.filterBar}>
