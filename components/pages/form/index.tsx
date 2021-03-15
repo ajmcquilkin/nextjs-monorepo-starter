@@ -395,12 +395,6 @@ const Form = ({
                 </GenericSkeletonWrapper>
               </label>
 
-              <p className={styles.additionalInformation}>
-                Enter time in the &quot;
-                {serverTimeZone}
-                &quot; timezone
-              </p>
-
               <p className="formInputError">{requestedPublicationDateError}</p>
             </div>
           </FormSection>
@@ -462,12 +456,6 @@ const Form = ({
                   </GenericSkeletonWrapper>
                 </label>
 
-                <p className={styles.additionalInformation}>
-                  Enter time in the &quot;
-                  {serverTimeZone}
-                  &quot; timezone
-                </p>
-
                 <p className="formInputError">{eventDateError}</p>
               </div>
 
@@ -491,7 +479,7 @@ const Form = ({
 
                 <p className={styles.additionalInformation}>
                   Enter time in the &quot;
-                  {serverTimeZone}
+                  Hanover
                   &quot; timezone
                 </p>
 

@@ -444,7 +444,7 @@ const Compile = ({
               type="button"
               onClick={handleReleaseUpdate}
             >
-              <p>Save Release</p>
+              <p>Save</p>
             </button>
 
             <button

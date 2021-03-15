@@ -16,7 +16,7 @@ $main-radius: 8px;
     padding: 18px 36px;
     border-radius: $main-radius;
     border: 2px solid colors.$web-gray-two;
-    background: $snow-white;
+    background: colors.$snow-white;
 
     &.open {
       border-radius: $main-radius $main-radius 0px 0px;

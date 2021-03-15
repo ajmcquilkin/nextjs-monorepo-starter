@@ -95,7 +95,7 @@
 
     button {
       margin-right: 18px;
-      @include textStyling.siteButton();
+      @include variables.siteButton();
 
       background: none;
       border: none;
