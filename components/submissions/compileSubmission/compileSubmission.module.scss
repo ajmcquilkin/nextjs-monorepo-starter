@@ -1,4 +1,6 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
+@use "styles/variables.scss" as variables;
 
 $main-radius: 8px;
 
@@ -13,8 +15,8 @@ $main-radius: 8px;
 
     padding: 18px 36px;
     border-radius: $main-radius;
-    border: 2px solid $web-gray-two;
-    background: $snow-white;
+    border: 2px solid colors.$web-gray-two;
+    background: colors.$snow-white;
 
     &.open {
       border-radius: $main-radius $main-radius 0px 0px;
@@ -35,8 +37,8 @@ $main-radius: 8px;
     p {
       margin: auto 0px;
 
-      @include paragraphText();
-      color: $granite-gray;
+      @include textStyling.paragraphText();
+      color: colors.$granite-gray;
     }
 
     button {
@@ -45,7 +47,7 @@ $main-radius: 8px;
       cursor: pointer;
 
       svg {
-        fill: $granite-gray;
+        fill: colors.$granite-gray;
         transform: rotate(0deg);
         transition: 0.3s ease-in-out transform;
       }
@@ -55,7 +57,7 @@ $main-radius: 8px;
   .mainContentContainer {
     padding: 36px 48px;
     border-radius: 0px 0px $main-radius $main-radius;
-    border: 2px solid $web-gray-two;
+    border: 2px solid colors.$web-gray-two;
     border-top: none;
 
     .titleContainer {
@@ -63,13 +65,13 @@ $main-radius: 8px;
 
       h4 {
         margin: 0px 0px 3px;
-        @include headerFour();
+        @include textStyling.headerFour();
       }
 
       p {
         margin: 0px;
-        @include paragraphText();
-        color: $granite-gray;
+        @include textStyling.paragraphText();
+        color: colors.$granite-gray;
       }
     }
 
@@ -82,7 +84,7 @@ $main-radius: 8px;
         margin: 0px auto auto 0px;
         padding-right: 48px;
 
-        @include postContent();
+        @include textStyling.postContent();
       }
 
       img {
@@ -98,7 +100,7 @@ $main-radius: 8px;
 
       a {
         margin: auto auto auto 0px;
-        @include siteLink();
+        @include textStyling.siteLink();
       }
 
       .buttonContainer {
@@ -107,23 +109,23 @@ $main-radius: 8px;
 
         button {
           margin-left: 18px;
-          @include siteButton();
+          @include variables.siteButton();
 
           border: none;
           background: none;
           cursor: pointer;
 
           p {
-            color: $granite-gray;
+            color: colors.$granite-gray;
           }
         }
 
         .edit {
-          background: $spring-green;
+          background: colors.$spring-green;
         }
 
         .reject {
-          border: 1px solid $granite-gray;
+          border: 1px solid colors.$granite-gray;
         }
       }
     }

@@ -1,11 +1,13 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
+@use "styles/variables.scss" as variables;
 
 .submissionsContainer {
   display: flex;
   align-items: center;
   flex-direction: column;
 
-  @include mainPageLayout();
+  @include variables.mainPageLayout();
 
   .titleContainer {
     display: flex;
@@ -16,7 +18,7 @@
 
     h1 {
       margin: auto 0px 0px 0px;
-      @include headerOne();
+      @include textStyling.headerOne();
     }
 
     a {
@@ -26,7 +28,7 @@
       font-size: 16px;
       font-weight: 400;
       text-align: right;
-      color: $river-blue;
+      color: colors.$river-blue;
     }
   }
 
@@ -51,7 +53,7 @@
         flex-direction: row;
         padding: 9px 36px;
 
-        background-color: $dartmouth-green;
+        background-color: colors.$dartmouth-green;
         box-shadow: 3.34452px 5px 10px rgba(0, 0, 0, 0.05);
         border-radius: 12px;
 
@@ -68,7 +70,7 @@
           font-family: national, sans-serif;
           font-size: 18px;
           font-weight: 500;
-          color: $snow-white;
+          color: colors.$snow-white;
         }
       }
 
@@ -82,10 +84,10 @@
     width: 100%;
 
     .rejectionButton {
-      background-color: $tuck-orange !important;
+      background-color: colors.$tuck-orange !important;
 
       p {
-        color: $snow-white !important;
+        color: colors.$snow-white !important;
       }
     }
   }

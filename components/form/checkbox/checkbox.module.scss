@@ -1,7 +1,9 @@
 // Reference: https://www.w3schools.com/howto/howto_css_custom_checkbox.asp
 // Reference: https://www.w3schools.com/cssref/css_selectors.asp
 
-@import "styles/variables.scss";
+@use "styles/variables.scss" as variables;
+@use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
 
 $checkbox-size: 24px;
 
@@ -15,7 +17,7 @@ $checkbox-size: 24px;
 
   // Hover state
   &:hover input ~ .checkmark {
-    background-color: $web-gray-one;
+    background-color: colors.$web-gray-one;
   }
 
   .checkmark {
@@ -28,8 +30,8 @@ $checkbox-size: 24px;
     width: $checkbox-size;
 
     border-radius: 4px;
-    background-color: $snow-white;
-    border: 2px solid $web-gray-two;
+    background-color: colors.$snow-white;
+    border: 2px solid colors.$web-gray-two;
 
     &::after {
       content: "";
@@ -42,7 +44,7 @@ $checkbox-size: 24px;
       height: calc(#{$checkbox-size} / 2.5);
       transform: rotate(45deg);
 
-      border: solid $snow-white;
+      border: solid colors.$snow-white;
       border-width: 0 calc(#{$checkbox-size} / 8) calc(#{$checkbox-size} / 8) 0;
     }
   }
@@ -56,19 +58,19 @@ $checkbox-size: 24px;
     cursor: pointer;
 
     &:checked ~ .checkmark {
-      background-color: $dartmouth-green;
+      background-color: colors.$dartmouth-green;
       border: none;
     }
 
     &:checked ~ .checkmark::after {
       display: block;
-      background-color: $dartmouth-green;
+      background-color: colors.$dartmouth-green;
     }
   }
 
   p {
     margin: auto 0px;
-    @include paragraphText();
-    color: $granite-gray;
+    @include textStyling.paragraphText();
+    color: colors.$granite-gray;
   }
 }

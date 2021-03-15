@@ -1,9 +1,10 @@
-@import "styles/variables.scss";
+@use "styles/variables.scss" as variables;
+@use "styles/colors.scss" as colors;
 
 .footerContainer {
   margin-top: auto;
   width: 100%;
-  background-color: $dartmouth-green;
+  background-color: colors.$dartmouth-green;
 
   .footerContentContainer {
     display: flex;
@@ -12,7 +13,7 @@
 
     margin: 0 auto;
     padding: 36px 72px;
-    max-width: $page-width;
+    max-width: variables.$page-width;
 
     .footerContent {
       display: flex;
@@ -27,7 +28,7 @@
         font-size: 16px;
         font-weight: 400;
 
-        color: $snow-white;
+        color: colors.$snow-white;
         text-align: left;
       }
 
@@ -36,7 +37,7 @@
       }
     }
 
-    @media only screen and (max-width: $tablet-collapse) {
+    @media only screen and (max-width: variables.$tablet-collapse) {
       justify-content: center;
       flex-wrap: wrap;
 

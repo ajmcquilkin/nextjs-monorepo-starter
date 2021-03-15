@@ -1,4 +1,6 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
+@use "styles/variables.scss" as variables;
 
 .modalContainer {
   display: flex;
@@ -8,13 +10,13 @@
     display: flex;
     flex-direction: column;
     padding-bottom: 30px;
-    border-bottom: 1px solid $web-gray-two;
+    border-bottom: 1px solid colors.$web-gray-two;
 
     h1 {
       margin: 0px;
 
-      @include headerOne();
-      color: $forest-green;
+      @include textStyling.headerOne();
+      color: colors.$forest-green;
     }
   }
 
@@ -29,24 +31,24 @@
 
     button {
       margin: 0px 6px;
-      @include siteButton();
+      @include variables.siteButton();
       border: none;
       cursor: pointer;
 
       &.confirm {
-        color: $snow-white;
-        background-color: $dartmouth-green;
+        color: colors.$snow-white;
+        background-color: colors.$dartmouth-green;
       }
 
       &.reject {
-        color: $snow-white;
-        background-color: $dartmouth-green;
+        color: colors.$snow-white;
+        background-color: colors.$dartmouth-green;
       }
 
       &.cancel {
-        color: $granite-gray;
-        border: 1px solid $granite-gray;
-        background-color: $snow-white;
+        color: colors.$granite-gray;
+        border: 1px solid colors.$granite-gray;
+        background-color: colors.$snow-white;
       }
     }
   }

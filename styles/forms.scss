@@ -1,4 +1,5 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
 
 .formInputContainer {
   display: flex;
@@ -24,13 +25,13 @@
       p {
         margin-left: 12px;
 
-        @include paragraphText();
+        @include textStyling.paragraphText();
         font-size: 18px;
       }
     }
 
     .required {
-      color: $tuck-orange;
+      color: colors.$tuck-orange;
     }
 
     .labelText {
@@ -39,7 +40,7 @@
       font-family: national, sans-serif;
       font-size: 21px;
       font-weight: 400;
-      color: $granite-gray;
+      color: colors.$granite-gray;
     }
   }
 
@@ -48,25 +49,25 @@
     padding: 12px 24px;
     width: 100%;
 
-    @include paragraphText();
-    color: $granite-gray;
+    @include textStyling.paragraphText();
+    color: colors.$granite-gray;
 
-    background-color: $web-gray-two;
+    background-color: colors.$web-gray-two;
     border-radius: 8px;
     border: none;
 
     &::placeholder {
-      @include paragraphText();
-      color: $granite-gray;
+      @include textStyling.paragraphText();
+      color: colors.$granite-gray;
     }
 
     &.invalid {
-      border: 1px solid $tuck-orange;
+      border: 1px solid colors.$tuck-orange;
     }
   }
 
   .formInputError {
-    @include paragraphText();
-    color: $tuck-orange;
+    @include textStyling.paragraphText();
+    color: colors.$tuck-orange;
   }
 }

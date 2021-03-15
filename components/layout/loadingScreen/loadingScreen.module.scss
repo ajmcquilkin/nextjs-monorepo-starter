@@ -1,4 +1,4 @@
-@import "styles/variables.scss";
+@use "styles/textStyling.scss" as textStyling;
 
 .loadingScreenContainer {
   display: flex;
@@ -7,21 +7,21 @@
 
   h1 {
     margin: 0px auto 12px;
-    @include headerOne();
+    @include textStyling.headerOne();
     text-align: center;
   }
 
   h2 {
     margin: 0px auto 12px;
 
-    @include headerTwo();
+    @include textStyling.headerTwo();
     text-align: center;
   }
 
   a {
     margin: 0px auto;
 
-    @include siteLink();
+    @include textStyling.siteLink();
     text-align: center;
   }
 

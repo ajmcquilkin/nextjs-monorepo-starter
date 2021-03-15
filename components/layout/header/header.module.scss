@@ -1,9 +1,10 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
+@use "styles/variables.scss" as variables;
 
 .headerContainer {
   display: flex;
   flex-direction: row;
-  background-color: $dartmouth-green;
+  background-color: colors.$dartmouth-green;
 
   & > div {
     display: flex;
@@ -14,6 +15,7 @@
     display: flex;
     flex-direction: row;
     margin: 12px auto 12px 24px;
+    color: colors.$snow-white;
     text-decoration: none;
 
     img {
@@ -30,7 +32,6 @@
       font-family: national, sans-serif;
       font-size: 24px;
       font-weight: 700;
-      color: $snow-white;
     }
   }
 
@@ -38,20 +39,20 @@
     margin: auto 24px 0px 0px;
   }
 
-  @media only screen and (max-width: $tablet-collapse) {
+  @media only screen and (max-width: variables.$tablet-collapse) {
     .headerLinksContainer {
       display: none;
     }
   }
 
-  @media only screen and (max-width: $tablet-collapse) {
+  @media only screen and (max-width: variables.$tablet-collapse) {
     .headerSignoutContainer {
       display: none;
     }
   }
 }
 
-@media only screen and (max-width: $tablet-collapse) {
+@media only screen and (max-width: variables.$tablet-collapse) {
   .headerContainer {
     display: flex;
     justify-content: center;

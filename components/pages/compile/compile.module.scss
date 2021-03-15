@@ -1,24 +1,26 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
+@use "styles/variables.scss" as variables;
 
 .compileContainer {
   display: flex;
   flex-direction: column;
 
-  @include mainPageLayout();
+  @include variables.mainPageLayout();
 
   h1 {
     margin: 0px 0px 24px;
-    @include headerOne();
+    @include textStyling.headerOne();
   }
 
   h2 {
     margin: 0px 0px 15px;
-    @include headerTwo();
+    @include textStyling.headerTwo();
   }
 
   .subtitle {
-    @include paragraphText();
-    color: $granite-gray;
+    @include textStyling.paragraphText();
+    color: colors.$granite-gray;
   }
 
   section {
@@ -29,8 +31,8 @@
     .featuredPostClear {
       margin-top: 6px;
 
-      @include paragraphText();
-      color: $granite-gray;
+      @include textStyling.paragraphText();
+      color: colors.$granite-gray;
 
       background: none;
       border: none;
@@ -39,19 +41,19 @@
 
     .featuredPostEmpty {
       padding: 12px 24px;
-      border: 1px dashed $granite-gray;
+      border: 1px dashed colors.$granite-gray;
       border-radius: 8px;
 
-      @include paragraphText();
-      background-color: $snow-white;
-      color: $granite-gray;
+      @include textStyling.paragraphText();
+      background-color: colors.$snow-white;
+      color: colors.$granite-gray;
 
       &.hovered {
-        background-color: $web-gray-two;
+        background-color: colors.$web-gray-two;
       }
 
       &.valid {
-        background-color: $web-gray-one;
+        background-color: colors.$web-gray-one;
       }
 
       transition: 0.18s ease-in-out background-color;
@@ -63,8 +65,8 @@
   }
 
   .noContent {
-    @include paragraphText();
-    color: $granite-gray;
+    @include textStyling.paragraphText();
+    color: colors.$granite-gray;
   }
 
   .buttonContainer {
@@ -73,18 +75,18 @@
 
     button {
       margin-right: 15px;
-      @include siteButton();
+      @include variables.siteButton();
       border: none;
 
       &.confirm {
-        background: $dartmouth-green;
-        color: $snow-white;
+        background: colors.$dartmouth-green;
+        color: colors.$snow-white;
       }
 
       &.reject {
-        background: $snow-white;
-        color: $granite-gray;
-        border: 1px solid $granite-gray;
+        background: colors.$snow-white;
+        color: colors.$granite-gray;
+        border: 1px solid colors.$granite-gray;
       }
     }
   }

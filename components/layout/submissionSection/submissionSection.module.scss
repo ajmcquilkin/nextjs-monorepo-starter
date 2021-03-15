@@ -1,4 +1,4 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
 
 .submissionSectionContainer {
   margin-bottom: 60px;
@@ -9,7 +9,7 @@
     font-family: national, sans-serif;
     font-size: 24px;
     font-weight: 700;
-    color: $forest-green;
+    color: colors.$forest-green;
   }
 
   .submissionSpacingContainer {
@@ -20,6 +20,6 @@
     font-family: national, sans-serif;
     font-size: 16px;
     font-weight: 400;
-    color: $granite-gray;
+    color: colors.$granite-gray;
   }
 }

@@ -1,4 +1,6 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
+@use "styles/variables.scss" as variables;
+@use "styles/textStyling.scss" as textStyling;
 
 .homeSubmissionContainer {
   display: flex;
@@ -9,7 +11,7 @@
 
   margin: 36px 0px 0px;
   padding-bottom: 36px;
-  border-bottom: 1px solid $web-gray-two;
+  border-bottom: 1px solid colors.$web-gray-two;
 
   &:last-child {
     border-bottom: none;
@@ -24,7 +26,7 @@
 
     h3 {
       margin: 0px 0px 9px;
-      @include headerThree();
+      @include textStyling.headerThree();
     }
 
     .subheader {
@@ -33,12 +35,12 @@
       font-family: national, sans-serif;
       font-size: 16px;
       font-weight: 500;
-      color: $granite-gray;
+      color: colors.$granite-gray;
     }
 
     .content {
       margin-bottom: 12px;
-      @include postContent();
+      @include textStyling.postContent();
     }
 
     .linkContainer {
@@ -49,7 +51,7 @@
         margin: auto 15px auto 0px;
         height: 18px;
 
-        @media only screen and (max-width: $tablet-collapse) {
+        @media only screen and (max-width: variables.$tablet-collapse) {
           display: none;
         }
       }
@@ -58,7 +60,7 @@
         margin: auto 0px;
         width: 100%;
 
-        @include siteLink();
+        @include textStyling.siteLink();
         line-break: anywhere;
       }
     }
@@ -71,7 +73,7 @@
     height: 100%;
   }
 
-  @media only screen and (max-width: $tablet-collapse) {
+  @media only screen and (max-width: variables.$tablet-collapse) {
     flex-wrap: wrap-reverse;
 
     .featuredImage {

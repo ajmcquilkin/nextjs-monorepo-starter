@@ -1,4 +1,6 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
+@use "styles/variables.scss" as variables;
 
 .reviewSubmissionContainer {
   display: flex;
@@ -9,8 +11,8 @@
   border-left-width: 12px;
   border-left-style: solid;
 
-  background: $snow-white;
-  box-shadow: 0px 9.61789px 38.4715px $web-gray-two;
+  background: colors.$snow-white;
+  box-shadow: 0px 9.61789px 38.4715px colors.$web-gray-two;
 
   .titleContainer {
     display: flex;
@@ -20,7 +22,7 @@
 
     h3 {
       margin: 0px;
-      @include headerThree();
+      @include textStyling.headerThree();
     }
 
     p {
@@ -29,10 +31,10 @@
       font-family: national, sans-serif;
       font-size: 16px;
       font-weight: 400;
-      color: $granite-gray;
+      color: colors.$granite-gray;
 
       span {
-        color: $tuck-orange;
+        color: colors.$tuck-orange;
       }
     }
   }
@@ -43,7 +45,7 @@
     font-family: national, sans-serif;
     font-size: 16px;
     font-weight: 400;
-    color: $forest-green;
+    color: colors.$forest-green;
   }
 
   .sendingInfo {
@@ -56,11 +58,11 @@
 
     .content {
       margin-bottom: 18px;
-      @include postContent();
+      @include textStyling.postContent();
     }
 
     .contentLink {
-      @include siteLink();
+      @include textStyling.siteLink();
     }
   }
 
@@ -77,28 +79,28 @@
     button,
     a {
       margin-right: 18px;
-      @include siteButton();
+      @include variables.siteButton();
     }
 
     .approve {
-      background: $dartmouth-green;
+      background: colors.$dartmouth-green;
 
       p {
-        color: $snow-white;
+        color: colors.$snow-white;
       }
     }
 
     .edit {
-      background: $spring-green;
-      color: $forest-green;
+      background: colors.$spring-green;
+      color: colors.$forest-green;
       text-decoration: none;
     }
 
     .reject {
-      border: 1px solid $granite-gray;
+      border: 1px solid colors.$granite-gray;
 
       p {
-        color: $granite-gray;
+        color: colors.$granite-gray;
       }
     }
   }

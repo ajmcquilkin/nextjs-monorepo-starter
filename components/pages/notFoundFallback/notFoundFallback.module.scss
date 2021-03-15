@@ -1,4 +1,6 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
+@use "styles/variables.scss" as variables;
 
 .notFoundFallbackContainer {
   display: flex;
@@ -12,22 +14,21 @@
     font-family: national, sans-serif;
     font-size: 60px;
     font-weight: 400;
-    color: $granite-gray;
+    color: colors.$granite-gray;
   }
 
   p {
     margin: 0px 0px 24px 0px;
 
-    @include paragraphText();
-    color: $granite-gray;
+    @include textStyling.paragraphText();
+    color: colors.$granite-gray;
   }
 
   a {
     margin-right: auto;
 
-    @include siteButton();
-    color: $snow-white;
-    background-color: $dartmouth-green;
+    @include variables.siteButton();
+    color: colors.$snow-white;
     text-decoration: none;
   }
 }
