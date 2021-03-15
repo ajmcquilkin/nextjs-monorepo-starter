@@ -1,11 +1,12 @@
 @use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
 
 .postDeletionModalContainer {
   display: flex;
   flex-direction: column;
 
   p {
-    @include paragraphText();
+    @include textStyling.paragraphText();
     color: colors.$granite-gray;
   }
 }

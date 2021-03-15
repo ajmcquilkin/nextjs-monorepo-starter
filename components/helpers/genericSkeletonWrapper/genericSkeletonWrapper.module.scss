@@ -1,7 +1,8 @@
 @use 'styles/colors.scss' as colors;
+@use 'styles/variables.scss' as variables;
 
 .genericSkeletonWrapperContainer > .loading {
-    @include shimmerMixin();
+    @include variables.shimmerMixin();
     
     width: 70%;
     height: 36px;

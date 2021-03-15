@@ -1,12 +1,13 @@
 @use "styles/colors.scss" as colors;
 @use "styles/variables.scss" as variables;
+@use "styles/textStyling.scss" as textStyling;
 
 .homeContainer {
   display: flex;
   align-items: center;
   flex-direction: column;
 
-  @include mainPageLayout();
+  @include variables.mainPageLayout();
 
   .homeHeaderContentContainer {
     max-width: 400px;
@@ -110,7 +111,7 @@
           padding: 24px 0px;
 
           h1 {
-            @include headerOne();
+            @include textStyling.headerOne();
           }
 
           p {
@@ -134,7 +135,7 @@
       }
 
       p {
-        @include paragraphText();
+        @include textStyling.paragraphText();
         color: colors.$granite-gray;
         text-align: center;
       }
@@ -317,7 +318,7 @@
     }
 
     .noContent {
-      @include paragraphText();
+      @include textStyling.paragraphText();
       color: colors.$granite-gray;
     }
 

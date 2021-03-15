@@ -1,11 +1,13 @@
 @use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
+@use "styles/variables.scss" as variables;
 
 .submissionsContainer {
   display: flex;
   align-items: center;
   flex-direction: column;
 
-  @include mainPageLayout();
+  @include variables.mainPageLayout();
 
   .titleContainer {
     display: flex;
@@ -16,7 +18,7 @@
 
     h1 {
       margin: auto 0px 0px 0px;
-      @include headerOne();
+      @include textStyling.headerOne();
     }
 
     a {

@@ -1,10 +1,12 @@
 @use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
+@use "styles/variables.scss" as variables;
 
 .formContainer {
   display: flex;
   flex-direction: column;
 
-  @include mainPageLayout();
+  @include variables.mainPageLayout();
 
   .titleContainer {
     display: flex;
@@ -24,14 +26,14 @@
 
       p {
         margin: auto 0px;
-        @include paragraphText();
+        @include textStyling.paragraphText();
         color: colors.$forest-green;
       }
     }
 
     h1 {
       margin: 18px 0px;
-      @include headerOne();
+      @include textStyling.headerOne();
     }
 
     p {
@@ -39,7 +41,7 @@
       color: colors.$granite-gray;
 
       a {
-        @include siteLink();
+        @include textStyling.siteLink();
       }
     }
   }
@@ -82,7 +84,7 @@
   }
 
   .additionalInformation {
-    @include paragraphText();
+    @include textStyling.paragraphText();
     color: colors.$granite-gray;
   }
 
@@ -93,7 +95,7 @@
 
     button {
       margin-right: 18px;
-      @include siteButton();
+      @include textStyling.siteButton();
 
       background: none;
       border: none;
@@ -112,7 +114,7 @@
 
     .formCancelButton {
       background-color: colors.$snow-white;
-      color: $granite-gray;
+      color: colors.$granite-gray;
       border: 1.09969px solid colors.$granite-gray;
     }
   }

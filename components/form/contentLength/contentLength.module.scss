@@ -1,7 +1,8 @@
 @use "styles/variables.scss" as variables;
+@use "styles/textStyling.scss" as textStyling;
 
 .contentLengthContainer {
-  @include paragraphText();
+  @include textStyling.paragraphText();
   color: variables.$dartmouth-green;
 
   &.invalid {

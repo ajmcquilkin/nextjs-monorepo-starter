@@ -1,5 +1,6 @@
 @use "styles/colors.scss" as colors;
 @use "styles/variables.scss" as variables;
+@use "styles/textStyling.scss" as textStyling;
 
 .homeSubmissionContainer {
   display: flex;
@@ -25,7 +26,7 @@
 
     h3 {
       margin: 0px 0px 9px;
-      @include headerThree();
+      @include textStyling.headerThree();
     }
 
     .subheader {
@@ -39,7 +40,7 @@
 
     .content {
       margin-bottom: 12px;
-      @include postContent();
+      @include textStyling.postContent();
     }
 
     .linkContainer {
@@ -59,7 +60,7 @@
         margin: auto 0px;
         width: 100%;
 
-        @include siteLink();
+        @include textStyling.siteLink();
         line-break: anywhere;
       }
     }

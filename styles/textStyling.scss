@@ -1,31 +1,31 @@
-/* ---- Text Styling ---- */
+@use "styles/colors.scss" as colors;
 
 @mixin headerOne {
     font-family: national, sans-serif;
     font-size: 36px;
     font-weight: 700;
-    color: $forest-green;
+    color: colors.$forest-green;
   }
   
   @mixin headerTwo {
     font-family: national, sans-serif;
     font-size: 24px;
     font-weight: 700;
-    color: $forest-green;
+    color: colors.$forest-green;
   }
   
   @mixin headerThree {
     font-family: national, sans-serif;
     font-size: 21px;
     font-weight: 500;
-    color: $midnight-black;
+    color: colors.$midnight-black;
   }
   
   @mixin headerFour {
     font-family: national, sans-serif;
     font-size: 18px;
     font-weight: 500;
-    color: $forest-green;
+    color: colors.$forest-green;
   }
   
   @mixin paragraphText {
@@ -48,5 +48,5 @@
     font-family: national, sans-serif;
     font-size: 16px;
     font-weight: 300;
-    color: $river-blue;
+    color: colors.$river-blue;
   }

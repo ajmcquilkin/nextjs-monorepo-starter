@@ -1,4 +1,5 @@
 @use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
 
 .formInputContainer {
   display: flex;
@@ -24,7 +25,7 @@
       p {
         margin-left: 12px;
 
-        @include paragraphText();
+        @include textStyling.paragraphText();
         font-size: 18px;
       }
     }
@@ -48,7 +49,7 @@
     padding: 12px 24px;
     width: 100%;
 
-    @include paragraphText();
+    @include textStyling.paragraphText();
     color: colors.$granite-gray;
 
     background-color: colors.$web-gray-two;
@@ -56,7 +57,7 @@
     border: none;
 
     &::placeholder {
-      @include paragraphText();
+      @include textStyling.paragraphText();
       color: colors.$granite-gray;
     }
 
@@ -66,7 +67,7 @@
   }
 
   .formInputError {
-    @include paragraphText();
+    @include textStyling.paragraphText();
     color: colors.$tuck-orange;
   }
 }

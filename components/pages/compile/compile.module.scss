@@ -1,23 +1,25 @@
 @use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
+@use "styles/variables.scss" as variables;
 
 .compileContainer {
   display: flex;
   flex-direction: column;
 
-  @include mainPageLayout();
+  @include variables.mainPageLayout();
 
   h1 {
     margin: 0px 0px 24px;
-    @include headerOne();
+    @include textStyling.headerOne();
   }
 
   h2 {
     margin: 0px 0px 15px;
-    @include headerTwo();
+    @include textStyling.headerTwo();
   }
 
   .subtitle {
-    @include paragraphText();
+    @include textStyling.paragraphText();
     color: colors.$granite-gray;
   }
 
@@ -29,7 +31,7 @@
     .featuredPostClear {
       margin-top: 6px;
 
-      @include paragraphText();
+      @include textStyling.paragraphText();
       color: colors.$granite-gray;
 
       background: none;
@@ -42,7 +44,7 @@
       border: 1px dashed colors.$granite-gray;
       border-radius: 8px;
 
-      @include paragraphText();
+      @include textStyling.paragraphText();
       background-color: colors.$snow-white;
       color: colors.$granite-gray;
 
@@ -63,7 +65,7 @@
   }
 
   .noContent {
-    @include paragraphText();
+    @include textStyling.paragraphText();
     color: colors.$granite-gray;
   }
 
@@ -73,7 +75,7 @@
 
     button {
       margin-right: 15px;
-      @include siteButton();
+      @include variables.siteButton();
       border: none;
 
       &.confirm {

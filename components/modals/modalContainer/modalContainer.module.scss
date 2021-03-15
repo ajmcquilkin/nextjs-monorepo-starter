@@ -1,4 +1,6 @@
 @use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
+@use "styles/variables.scss" as variables;
 
 .modalContainer {
   display: flex;
@@ -13,7 +15,7 @@
     h1 {
       margin: 0px;
 
-      @include headerOne();
+      @include textStyling.headerOne();
       color: colors.$forest-green;
     }
   }
@@ -29,7 +31,7 @@
 
     button {
       margin: 0px 6px;
-      @include siteButton();
+      @include variables.siteButton();
       border: none;
       cursor: pointer;
 

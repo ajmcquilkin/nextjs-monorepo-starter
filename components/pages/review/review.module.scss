@@ -1,17 +1,19 @@
 @use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
+@use "styles/variables.scss" as variables;
 
 .reviewContainer {
   display: flex;
   flex-direction: column;
 
-  @include mainPageLayout();
+  @include variables.mainPageLayout();
 
   .titleContainer {
     margin-bottom: 36px;
 
     h1 {
       margin: 0px;
-      @include headerOne();
+      @include textStyling.headerOne();
     }
   }
 
@@ -31,7 +33,7 @@
 
       h2 {
         margin: auto auto auto 0px;
-        @include headerTwo();
+        @include textStyling.headerTwo();
       }
 
       .filterBarContainer {
@@ -46,7 +48,7 @@
     }
 
     .noContent {
-      @include paragraphText();
+      @include textStyling.paragraphText();
       color: colors.$granite-gray;
     }
   }

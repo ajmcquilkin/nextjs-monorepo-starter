@@ -1,4 +1,6 @@
 @use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
+@use "styles/variables.scss" as variables;
 
 .notFoundFallbackContainer {
   display: flex;
@@ -18,14 +20,14 @@
   p {
     margin: 0px 0px 24px 0px;
 
-    @include paragraphText();
+    @include textStyling.paragraphText();
     color: colors.$granite-gray;
   }
 
   a {
     margin-right: auto;
 
-    @include siteButton();
+    @include variables.siteButton();
     color: colors.$snow-white;
     text-decoration: none;
   }

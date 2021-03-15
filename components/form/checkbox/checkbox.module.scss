@@ -3,6 +3,7 @@
 
 @use "styles/variables.scss" as variables;
 @use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyling;
 
 $checkbox-size: 24px;
 
@@ -69,7 +70,7 @@ $checkbox-size: 24px;
 
   p {
     margin: auto 0px;
-    @include paragraphText();
+    @include textStyling.paragraphText();
     color: colors.$granite-gray;
   }
 }

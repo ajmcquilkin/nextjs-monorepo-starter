@@ -1,6 +1,6 @@
 @use "styles/variables.scss" as variables;
 @use "styles/colors.scss" as colors;
-@use "styles/textStyling.scss" as textStyles;
+@use "styles/textStyling.scss" as textStyling;
 
 .rteContainer {
   border-radius: 8px;
@@ -33,6 +33,6 @@
     border-radius: 0px 0px 8px 8px;
     background: colors.$web-gray-two;
 
-    @include paragraphText();
+    @include textStyling.paragraphText();
   }
 }
