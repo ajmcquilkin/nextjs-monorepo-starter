@@ -184,15 +184,28 @@ const Compile = ({
 
   const handleArrowReorder = (list: string[], setter: (value: string[]) => void) => (id: string, idx: number): KeyboardEventHandler<HTMLLIElement> => (e) => {
     let newIdx = idx;
-    if (e.key === 'ArrowDown') {
-      newIdx = idx + 1;
-    } else if (e.key === 'ArrowUp') {
-      newIdx = idx - 1;
-    } else if (e.key === ' ') {
-      if (selectedPost === id) setSelectedPost(null);
-      else setSelectedPost(id);
-    } else {
-      return; // Don't block other keys
+
+    switch (e.key) {
+      case 'ArrowDown':
+        newIdx = idx + 1;
+        break;
+
+      case 'ArrowUp':
+        newIdx = idx - 1;
+        break;
+
+      case ' ':
+        if (selectedPost === id) setSelectedPost(null);
+        else setSelectedPost(id);
+        break;
+
+      case 'f':
+        setFeaturedPost(id);
+        if (selectedPost === id) setSelectedPost(null);
+        break;
+
+      default:
+        return;
     }
 
     e.preventDefault();
