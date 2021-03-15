@@ -20,7 +20,7 @@ const LoadingScreen = ({
       </Link>
     )}
 
-    <img src="/icons/lone-pine.svg" alt="Dartmouth lone pine" />
+    <img src="/icons/lone-pine.svg" alt="Dartmouth lone pine" aria-hidden="true" />
   </div>
 );
 

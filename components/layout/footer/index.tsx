@@ -18,7 +18,11 @@ const Footer = (): JSX.Element => (
       </div>
 
       <div className={styles.footerContent}>
-        <img src="/icons/dali.svg" alt="dali lab logo" />
+        <img
+          src="/icons/dali.svg"
+          alt="dali lab logo"
+          aria-hidden="true"
+        />
       </div>
     </div>
   </footer>
