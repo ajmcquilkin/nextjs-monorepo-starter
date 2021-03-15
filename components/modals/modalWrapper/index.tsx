@@ -13,6 +13,8 @@ const mapStateToProps = (state: RootState): ModalWrapperStateProps => ({
 
   bgColor: state.modal.bgColor,
   action: state.modal.action,
+  redirect: state.modal.redirect,
+
   postId: state.modal.postId
 });
 

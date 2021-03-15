@@ -154,6 +154,7 @@ const Compile = ({
       isValid = false;
     }
 
+    if (!isValid) openModal('ERROR_MODAL', { title: 'Missing Required Information', content: 'Please fill in all required fields within the form to save a release.' });
     return isValid;
   };
 

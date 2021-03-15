@@ -27,6 +27,29 @@
     h3 {
       margin: 0px auto 0px 0px;
       @include textStyling.headerThree();
+    .titleContainer {
+      display: flex;
+      flex-direction: row;
+      margin-right: auto;
+
+      h3 {
+        margin: 0px 12px 0px 0px;
+        @include headerThree();
+      }
+
+      .iconContainer {
+        display: flex;
+        flex-direction: row;
+
+        button {
+          margin-right: 12px;
+          padding: 0px;
+
+          background: none;
+          border: none;
+          cursor: pointer;
+        }
+      }
     }
 
     p {

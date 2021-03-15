@@ -10,12 +10,13 @@ export interface SubmissionSectionProps {
   title: string,
   posts: Post[],
   status: PostStatus,
-  renderAdditionalPostButtons?: (_id: string) => JSX.Element[]
+  renderAdditionalPostButtons?: (_id: string) => JSX.Element[],
+  renderAdditionalPostIcons?: (_id: string) => JSX.Element[]
 }
 
 const SubmissionSection = ({
   title, posts, status,
-  renderAdditionalPostButtons
+  renderAdditionalPostButtons, renderAdditionalPostIcons
 }: SubmissionSectionProps): JSX.Element => {
   const isLoading = useSkeletonLoading();
 
@@ -33,6 +34,7 @@ const SubmissionSection = ({
                     <Submission
                       postContent={post}
                       renderAdditionalButtons={renderAdditionalPostButtons}
+                      renderAdditionalIcons={renderAdditionalPostIcons}
                     />
                   </div>
                 )) : <p className={styles.noContent}>No posts in this category.</p>}

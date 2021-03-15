@@ -3,7 +3,7 @@ import { Action } from './state';
 
 /* -------- Generic -------- */
 
-export type ModalType = 'ERROR_MODAL' | 'REJECTION_MODAL' | 'SUBMIT_POST_MODAL' | 'DISCARD_POST_MODAL';
+export type ModalType = 'ERROR_MODAL' | 'REJECTION_MODAL' | 'REJECTION_REASONING_MODAL' | 'SUBMIT_POST_MODAL' | 'DISCARD_POST_MODAL';
 
 export interface ModalConfig {
   title: string,
@@ -15,6 +15,7 @@ export interface ModalConfig {
 
   bgColor: string,
   action: 'CREATE' | 'UPDATE' | 'DELETE' | null,
+  redirect: string,
 }
 
 export type Modal = ModalConfig & {
@@ -31,7 +32,8 @@ export type ModalState = {
 
   bgColor: Modal['bgColor'],
   postId: string | null,
-  action: Modal['action']
+  action: Modal['action'],
+  redirect: Modal['redirect']
 }
 
 /* -------- Action Types -------- */

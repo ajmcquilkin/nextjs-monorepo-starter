@@ -1,10 +1,8 @@
 import Link from 'next/link';
 import sanitizeHtml from 'sanitize-html';
 
-import {
-  createPost as createPostImport,
-  deletePostById as deletePostByIdImport
-} from 'store/actionCreators/postActionCreators';
+import { openModal as openModalImport } from 'store/actionCreators/modalActionCreators';
+import { createPost as createPostImport } from 'store/actionCreators/postActionCreators';
 
 import { getColorsForStatus, getFullDate, uppercaseFirstLetter } from 'utils';
 
@@ -15,7 +13,8 @@ import styles from './submissionsSubmission.module.scss';
 
 export interface SubmissionPassedProps {
   postContent: Post,
-  renderAdditionalButtons?: (_id: string) => JSX.Element[]
+  renderAdditionalButtons?: (_id: string) => JSX.Element[],
+  renderAdditionalIcons?: (_id: string) => JSX.Element[]
 }
 
 export interface SubmissionStateProps {
@@ -23,15 +22,16 @@ export interface SubmissionStateProps {
 }
 
 export interface SubmissionDispatchProps {
+  openModal: ConnectedThunkCreator<typeof openModalImport>,
   createPost: ConnectedThunkCreator<typeof createPostImport>,
-  deletePostById: ConnectedThunkCreator<typeof deletePostByIdImport>
 }
 
 export type SubmissionProps = SubmissionPassedProps & SubmissionStateProps & SubmissionDispatchProps;
 
 const Submission = ({
   postContent,
-  createPost, deletePostById, renderAdditionalButtons
+  renderAdditionalButtons, renderAdditionalIcons,
+  openModal, createPost
 }: SubmissionProps): JSX.Element => {
   const sanitizedHTML = sanitizeHtml(postContent.fullContent);
 
@@ -43,7 +43,11 @@ const Submission = ({
   return (
     <div className={styles.submissionContainer} style={{ borderLeftColor: getColorsForStatus(postContent.status).primary }}>
       <div className={styles.header}>
-        <h3>{postContent.briefContent}</h3>
+        <div className={styles.titleContainer}>
+          <h3>{postContent.briefContent}</h3>
+          <div className={styles.iconContainer}>{renderAdditionalIcons ? renderAdditionalIcons(postContent._id) : null}</div>
+        </div>
+
         <p>
           {postContent.type === 'event' && postContent.eventDate
             && (
@@ -82,7 +86,7 @@ const Submission = ({
 
           <button
             type="button"
-            onClick={() => deletePostById(postContent._id)}
+            onClick={() => openModal('DISCARD_POST_MODAL', { postId: postContent._id, action: 'DELETE' })}
           >
             <img src="/icons/discard.svg" alt="discard post" />
             <p>Discard</p>

@@ -12,8 +12,11 @@
   }
 
   .headerBrandContainer {
+    display: flex;
+    flex-direction: row;
     margin: 12px auto 12px 24px;
     color: colors.$snow-white;
+    text-decoration: none;
 
     img {
       margin: auto 12px auto 0px;

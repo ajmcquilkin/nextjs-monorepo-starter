@@ -9,10 +9,12 @@ import SubmissionSection from 'components/layout/submissionSection';
 import SkeletonArea from 'components/helpers/skeletonArea';
 
 import {
-  createPost as createPostImport,
+  openModal as openModalImport,
+} from 'store/actionCreators/modalActionCreators';
+
+import {
   fetchAllPosts as fetchAllPostsImport,
   updatePostById as updatePostByIdImport,
-  deletePostById as deletePostByIdImport
 } from 'store/actionCreators/postActionCreators';
 
 import { Post, PostPublishType, PostStatus } from 'types/post';
@@ -30,17 +32,16 @@ export interface SubmissionsStateProps {
 }
 
 export interface SubmissionsDispatchProps {
-  createPost: ConnectedThunkCreator<typeof createPostImport>,
+  openModal: ConnectedThunkCreator<typeof openModalImport>,
   fetchAllPosts: ConnectedThunkCreator<typeof fetchAllPostsImport>,
   updatePostById: ConnectedThunkCreator<typeof updatePostByIdImport>,
-  deletePostById: ConnectedThunkCreator<typeof deletePostByIdImport>
 }
 
 export type SubmissionsProps = SubmissionsPassedProps & SubmissionsStateProps & SubmissionsDispatchProps;
 
 const Submissions = ({
   userPosts, isLoading,
-  fetchAllPosts, updatePostById
+  openModal, fetchAllPosts, updatePostById
 }: SubmissionsProps): JSX.Element => {
   const router = useRouter();
 
@@ -60,14 +61,18 @@ const Submissions = ({
       || post.fromName.toLowerCase().includes(query.toLowerCase())
     ));
 
+  const handleRequestRejectionReasoning = (_id: Post['_id']) => {
+    openModal('REJECTION_REASONING_MODAL', { postId: _id });
+  };
+
   return (
     <SkeletonArea isLoading={isLoading}>
       <div className={styles.submissionsContainer}>
         <div className={styles.titleContainer}>
           <h1>Your Submissions</h1>
-          <a href="https://communications.dartmouth.edu/faculty-and-staff/vox-daily-guidelines">
-            Submission Guidelines
-          </a>
+          <Link href="https://communications.dartmouth.edu/faculty-and-staff/vox-daily-guidelines">
+            <a target="_blank" rel="noopener noreferrer">Submission Guidelines</a>
+          </Link>
         </div>
 
         <div className={styles.filterBar}>
@@ -102,6 +107,33 @@ const Submissions = ({
         </div>
 
         <div className={styles.contentContainer}>
+          {(!status || status === 'rejected') && (
+            <SubmissionSection
+              title="Rejected"
+              posts={getFilteredPosts('rejected')}
+              status="rejected"
+              renderAdditionalPostButtons={(_id) => ([
+                <button
+                  type="button"
+                  onClick={() => updatePostById(_id, { status: 'pending' })}
+                  key="0"
+                >
+                  <img src="/icons/resubmit.svg" alt="resubmit post" />
+                  <p>Resubmit</p>
+                </button>
+              ])}
+              renderAdditionalPostIcons={(_id) => ([
+                <button
+                  type="button"
+                  onClick={() => handleRequestRejectionReasoning(_id)}
+                  key="0"
+                >
+                  <img src="/icons/info.svg" alt="additional rejection information" />
+                </button>
+              ])}
+            />
+          )}
+
           {(!status || status === 'draft') && (
             <SubmissionSection
               title="Drafts"
@@ -125,24 +157,6 @@ const Submissions = ({
               title="Pending"
               posts={getFilteredPosts('pending')}
               status="pending"
-            />
-          )}
-
-          {(!status || status === 'rejected') && (
-            <SubmissionSection
-              title="Rejected"
-              posts={getFilteredPosts('rejected')}
-              status="rejected"
-              renderAdditionalPostButtons={(_id) => ([
-                <button
-                  type="button"
-                  onClick={() => updatePostById(_id, { status: 'pending' })}
-                  key="0"
-                >
-                  <img src="/icons/resubmit.svg" alt="resubmit post" />
-                  <p>Resubmit</p>
-                </button>
-              ])}
             />
           )}
 

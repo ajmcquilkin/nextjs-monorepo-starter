@@ -82,5 +82,13 @@
 
   .contentContainer {
     width: 100%;
+
+    .rejectionButton {
+      background-color: $tuck-orange !important;
+
+      p {
+        color: $snow-white !important;
+      }
+    }
   }
 }
