@@ -60,8 +60,13 @@
     }
   }
 
-  .compilePost {
-    margin-bottom: 12px;
+  .postListContainer {
+    padding: 0px;
+    list-style: none;
+
+    .compilePost {
+      margin-bottom: 12px;
+    }
   }
 
   .noContent {

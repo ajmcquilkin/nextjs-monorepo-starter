@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useRouter } from 'next/router';
 import {
-  useEffect, useState, ChangeEvent, useCallback
+  useEffect, useState, ChangeEvent, useCallback, KeyboardEventHandler
 } from 'react';
 import unionWith from 'lodash.unionwith';
 
@@ -74,7 +74,9 @@ const Compile = ({
 
   const [quoteOfDay, setQuoteOfDay] = useState<Release['quoteOfDay']>('');
   const [quotedContext, setQuotedContext] = useState<Release['quotedContext']>('');
+
   const [featuredPost, setFeaturedPost] = useState<Release['featuredPost']>(null);
+  const [selectedPost, setSelectedPost] = useState<string | null>(null);
 
   const [news, setNews] = useState<string[]>(release?.news || []);
   const [announcements, setAnnouncements] = useState<string[]>(release?.announcements || []);
@@ -109,11 +111,9 @@ const Compile = ({
   }, [release]);
 
   useEffect(() => {
-    if (!release) {
-      setNews(combineIdArray(postResults.filter((post) => post.type === 'news').map((post) => post._id), news));
-      setAnnouncements(combineIdArray(postResults.filter((post) => post.type === 'announcement').map((post) => post._id), announcements));
-      setEvents(combineIdArray(postResults.filter((post) => post.type === 'event').map((post) => post._id), events));
-    }
+    setNews(combineIdArray(postResults.filter((post) => post.type === 'news').map((post) => post._id), news));
+    setAnnouncements(combineIdArray(postResults.filter((post) => post.type === 'announcement').map((post) => post._id), announcements));
+    setEvents(combineIdArray(postResults.filter((post) => post.type === 'event').map((post) => post._id), events));
   }, [postResults]);
 
   const upload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -182,7 +182,33 @@ const Compile = ({
     else createRelease(body);
   };
 
-  const movePost = useCallback((list: string[], setter: (value: string[]) => void) => (dragIndex: number, hoverIndex: number) => {
+  const handleArrowReorder = (list: string[], setter: (value: string[]) => void) => (id: string, idx: number): KeyboardEventHandler<HTMLLIElement> => (e) => {
+    let newIdx = idx;
+    if (e.key === 'ArrowDown') {
+      newIdx = idx + 1;
+    } else if (e.key === 'ArrowUp') {
+      newIdx = idx - 1;
+    } else if (e.key === ' ') {
+      if (selectedPost === id) setSelectedPost(null);
+      else setSelectedPost(id);
+    } else {
+      return; // Don't block other keys
+    }
+
+    e.preventDefault();
+    if (selectedPost !== id) return;
+
+    const immutableArray = [...list];
+    if (newIdx < 0 || list.length <= newIdx) {
+      newIdx = idx;
+    } else {
+      [immutableArray[idx], immutableArray[newIdx]] = [immutableArray[newIdx], immutableArray[idx]];
+    }
+
+    setter(immutableArray);
+  };
+
+  const movePostByHover = useCallback((list: string[], setter: (value: string[]) => void) => (dragIndex: number, hoverIndex: number) => {
     const immutableArray = [...list];
     [immutableArray[dragIndex], immutableArray[hoverIndex]] = [immutableArray[hoverIndex], immutableArray[dragIndex]];
     setter(immutableArray);
@@ -376,23 +402,44 @@ const Compile = ({
             </DraggablePostTarget>
           </CompileSection>
 
+          <span
+            id="compile-drag-description"
+            className="visually-hidden"
+          >
+            Select a post with the tab key then use
+            the arrow keys to reorder within the list
+          </span>
+
           <CompileSection title="News">
             {isLoading
               ? <SubmissionSkeleton status="approved" />
               : (
                 <>
-                  {news.length ? news.map((id, idx) => (
-                    <DraggablePost
-                      postContent={postMap?.[id]}
-                      type={DragItemTypes.NEWS}
-                      index={idx}
-                      movePost={movePost(news, setNews)}
-                      handleEdit={handleEdit}
-                      handleReject={handleReject}
-                      className={styles.compilePost}
-                      key={id}
-                    />
-                  )) : <p className={styles.noContent}>No content.</p>}
+                  {news.length ? (
+                    <ol role="listbox" className={styles.postListContainer}>
+                      {news.map((id, idx) => (
+                        <li
+                          role="option"
+                          aria-selected={selectedPost === id}
+                          draggable="true"
+                          aria-describedby="compile-drag-description"
+                          onKeyDown={handleArrowReorder(news, setNews)(id, idx)}
+                          tabIndex={0}
+                          key={id}
+                        >
+                          <DraggablePost
+                            postContent={postMap?.[id]}
+                            type={DragItemTypes.NEWS}
+                            index={idx}
+                            movePost={movePostByHover(news, setNews)}
+                            handleEdit={handleEdit}
+                            handleReject={handleReject}
+                            className={styles.compilePost}
+                          />
+                        </li>
+                      ))}
+                    </ol>
+                  ) : <p className={styles.noContent}>No content.</p>}
                 </>
               )}
           </CompileSection>
@@ -402,18 +449,31 @@ const Compile = ({
               ? <SubmissionSkeleton status="approved" />
               : (
                 <>
-                  {announcements.length ? announcements.map((id, idx) => (
-                    <DraggablePost
-                      postContent={postMap?.[id]}
-                      type={DragItemTypes.ANNOUNCEMENT}
-                      index={idx}
-                      movePost={movePost(announcements, setAnnouncements)}
-                      handleEdit={handleEdit}
-                      handleReject={handleReject}
-                      className={styles.compilePost}
-                      key={id}
-                    />
-                  )) : <p className={styles.noContent}>No content.</p>}
+                  {announcements.length ? (
+                    <ol role="listbox" className={styles.postListContainer}>
+                      {announcements.map((id, idx) => (
+                        <li
+                          role="option"
+                          aria-selected={selectedPost === id}
+                          draggable="true"
+                          aria-describedby="compile-drag-description"
+                          onKeyDown={handleArrowReorder(announcements, setAnnouncements)(id, idx)}
+                          tabIndex={0}
+                          key={id}
+                        >
+                          <DraggablePost
+                            postContent={postMap?.[id]}
+                            type={DragItemTypes.ANNOUNCEMENT}
+                            index={idx}
+                            movePost={movePostByHover(announcements, setAnnouncements)}
+                            handleEdit={handleEdit}
+                            handleReject={handleReject}
+                            className={styles.compilePost}
+                          />
+                        </li>
+                      ))}
+                    </ol>
+                  ) : <p className={styles.noContent}>No content.</p>}
                 </>
               )}
           </CompileSection>
@@ -423,18 +483,31 @@ const Compile = ({
               ? <SubmissionSkeleton status="approved" />
               : (
                 <>
-                  {events.length ? events.map((id, idx) => (
-                    <DraggablePost
-                      postContent={postMap?.[id]}
-                      type={DragItemTypes.EVENT}
-                      index={idx}
-                      movePost={movePost(events, setEvents)}
-                      handleEdit={handleEdit}
-                      handleReject={handleReject}
-                      className={styles.compilePost}
-                      key={id}
-                    />
-                  )) : <p className={styles.noContent}>No content.</p>}
+                  {events.length ? (
+                    <ol role="listbox" className={styles.postListContainer}>
+                      {events.map((id, idx) => (
+                        <li
+                          role="option"
+                          aria-selected={selectedPost === id}
+                          draggable="true"
+                          aria-describedby="compile-drag-description"
+                          onKeyDown={handleArrowReorder(events, setEvents)(id, idx)}
+                          tabIndex={0}
+                          key={id}
+                        >
+                          <DraggablePost
+                            postContent={postMap?.[id]}
+                            type={DragItemTypes.EVENT}
+                            index={idx}
+                            movePost={movePostByHover(events, setEvents)}
+                            handleEdit={handleEdit}
+                            handleReject={handleReject}
+                            className={styles.compilePost}
+                          />
+                        </li>
+                      ))}
+                    </ol>
+                  ) : <p className={styles.noContent}>No content.</p>}
                 </>
               )}
           </CompileSection>
