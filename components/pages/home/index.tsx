@@ -92,6 +92,7 @@ const Home = ({
           <div className={styles.homeDateSelectorContainer}>
             <div className={[styles.homeDateSelector, styles.left].join(' ')}>
               <button
+                aria-label={`view previous release for ${getFullDate(previousDate)}`}
                 type="button"
                 onClick={() => {
                   fetchReleaseByDate(previousDate, {
@@ -99,7 +100,7 @@ const Home = ({
                   });
                 }}
               >
-                <img src="/icons/left.svg" alt="left arrow" />
+                <img src="/icons/left.svg" alt="left arrow - previous release" aria-hidden="true" />
                 <p>{getFullDate(previousDate)}</p>
               </button>
             </div>
@@ -111,7 +112,7 @@ const Home = ({
                   onClick={() => { fetchReleaseByDate(nextDate); }}
                 >
                   <p>{getFullDate(nextDate)}</p>
-                  <img src="/icons/right.svg" alt="right arrow - next release" />
+                  <img src="/icons/right.svg" alt="right arrow - next release" aria-hidden="true" />
                 </button>
               </div>
             ) : null}
@@ -205,39 +206,51 @@ const Home = ({
           role="tabpanel"
           aria-hidden={active !== 'news'}
           aria-labelledby="news-tab"
+          aria-live="assertive"
+          aria-atomic="true"
+          aria-relevant="additions removals"
           style={{ display: active === 'news' ? 'block' : 'none' }}
           className={styles.postListContainer}
           id="news-content"
         >
           {news.length
             ? news.map((post) => <HomeSubmission key={post._id} content={post} />)
-            : <p className={styles.noContent}>No content</p>}
+            : <p className={styles.noContent}>No news items within this release.</p>}
         </div>
 
         <div
           role="tabpanel"
           aria-hidden={active !== 'announcement'}
           aria-labelledby="announcements-tab"
-          style={{ display: active === 'announcement' ? 'block' : 'none' }}
-          className={styles.postListContainer}
+          aria-live="assertive"
+          aria-atomic="true"
+          aria-relevant="additions removals"
           id="announcements-content"
         >
-          {announcements.length
-            ? announcements.map((post) => <HomeSubmission key={post._id} content={post} />)
-            : <p className={styles.noContent}>No content</p>}
+          <div
+            style={{ display: active === 'announcement' ? 'block' : 'none' }}
+            className={styles.postListContainer}
+          >
+            {announcements.length
+              ? announcements.map((post) => <HomeSubmission key={post._id} content={post} />)
+              : <p className={styles.noContent}>No announcements within this release.</p>}
+          </div>
         </div>
 
         <div
           role="tabpanel"
           aria-hidden={active !== 'event'}
           aria-labelledby="events-tab"
+          aria-live="assertive"
+          aria-atomic="true"
+          aria-relevant="additions removals"
           style={{ display: active === 'event' ? 'block' : 'none' }}
           className={styles.postListContainer}
           id="events-content"
         >
           {events.length
             ? events.map((post) => <HomeSubmission key={post._id} content={post} />)
-            : <p className={styles.noContent}>No content</p>}
+            : <p className={styles.noContent}>No events within this release.</p>}
         </div>
       </section>
     </div>
