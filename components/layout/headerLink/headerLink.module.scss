@@ -1,4 +1,4 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
 
 .headerLinkContainer {
   margin: auto 6px 0px;
@@ -11,12 +11,12 @@
   font-weight: 400;
   text-align: center;
 
-  color: $snow-white;
+  color: colors.$snow-white;
   text-decoration: none;
   background: none;
 
   &.active {
-    color: $dartmouth-green;
-    background: $snow-white;
+    color: colors.$dartmouth-green;
+    background: colors.$snow-white;
   }
 }

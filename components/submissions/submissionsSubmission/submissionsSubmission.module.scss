@@ -1,4 +1,4 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
 
 .submissionContainer {
   $left-border-width: 18px;
@@ -12,7 +12,7 @@
   padding: $container-padding $container-padding $container-padding
     calc((#{$left-border-width} / 3) + #{$container-padding});
 
-  box-shadow: 0px 8.36129px 33.4452px $web-gray-two;
+  box-shadow: 0px 8.36129px 33.4452px colors.$web-gray-two;
   border-radius: $left-border-width;
   border-left: $left-border-width solid;
 
@@ -32,7 +32,7 @@
 
       @include paragraphText();
       font-weight: 400;
-      color: $granite-gray;
+      color: colors.$granite-gray;
     }
   }
 
@@ -61,10 +61,10 @@
         @include siteButton();
 
         border: none;
-        background-color: $web-gray-two;
+        background-color: colors.$web-gray-two;
 
         p {
-          color: $granite-gray;
+          color: colors.$granite-gray;
         }
       }
     }

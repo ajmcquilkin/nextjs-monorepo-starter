@@ -1,4 +1,4 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
 
 .formInputContainer {
   display: flex;
@@ -30,7 +30,7 @@
     }
 
     .required {
-      color: $tuck-orange;
+      color: colors.$tuck-orange;
     }
 
     .labelText {
@@ -39,7 +39,7 @@
       font-family: national, sans-serif;
       font-size: 21px;
       font-weight: 400;
-      color: $granite-gray;
+      color: colors.$granite-gray;
     }
   }
 
@@ -49,24 +49,24 @@
     width: 100%;
 
     @include paragraphText();
-    color: $granite-gray;
+    color: colors.$granite-gray;
 
-    background-color: $web-gray-two;
+    background-color: colors.$web-gray-two;
     border-radius: 8px;
     border: none;
 
     &::placeholder {
       @include paragraphText();
-      color: $granite-gray;
+      color: colors.$granite-gray;
     }
 
     &.invalid {
-      border: 1px solid $tuck-orange;
+      border: 1px solid colors.$tuck-orange;
     }
   }
 
   .formInputError {
     @include paragraphText();
-    color: $tuck-orange;
+    color: colors.$tuck-orange;
   }
 }

@@ -1,4 +1,4 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
 
 .formContainer {
   display: flex;
@@ -25,7 +25,7 @@
       p {
         margin: auto 0px;
         @include paragraphText();
-        color: $forest-green;
+        color: colors.$forest-green;
       }
     }
 
@@ -36,7 +36,7 @@
 
     p {
       margin: 0px 0px 12px;
-      color: $granite-gray;
+      color: colors.$granite-gray;
 
       a {
         @include siteLink();
@@ -62,7 +62,7 @@
       h5,
       h6 {
         font-family: national, sans-serif;
-        color: $granite-gray;
+        color: colors.$granite-gray;
       }
     }
   }
@@ -73,7 +73,7 @@
 
   .formImageStatus {
     margin-top: 15px;
-    color: $granite-gray;
+    color: colors.$granite-gray;
 
     img {
       max-width: 60%;
@@ -83,7 +83,7 @@
 
   .additionalInformation {
     @include paragraphText();
-    color: $granite-gray;
+    color: colors.$granite-gray;
   }
 
   .actionButtonsContainer {
@@ -101,19 +101,19 @@
     }
 
     .formSubmitButton {
-      background-color: $dartmouth-green;
-      color: $snow-white;
+      background-color: colors.$dartmouth-green;
+      color: colors.$snow-white;
     }
 
     .formSaveButton {
-      background-color: $spring-green;
-      color: $dartmouth-green;
+      background-color: colors.$spring-green;
+      color: colors.$dartmouth-green;
     }
 
     .formCancelButton {
-      background-color: $snow-white;
+      background-color: colors.$snow-white;
       color: $granite-gray;
-      border: 1.09969px solid $granite-gray;
+      border: 1.09969px solid colors.$granite-gray;
     }
   }
 }

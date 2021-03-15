@@ -1,4 +1,4 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
 
 .reviewContainer {
   display: flex;
@@ -47,7 +47,7 @@
 
     .noContent {
       @include paragraphText();
-      color: $granite-gray;
+      color: colors.$granite-gray;
     }
   }
 }

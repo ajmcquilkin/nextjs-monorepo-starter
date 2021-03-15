@@ -1,4 +1,4 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
 
 .rejectionModalContainer {
   padding-top: 24px;
@@ -22,8 +22,8 @@
 
       @include paragraphText();
 
-      background-color: $web-gray-one;
-      border: 1px solid $granite-gray;
+      background-color: colors.$web-gray-one;
+      border: 1px solid colors.$granite-gray;
       border-radius: 8px;
     }
 

@@ -1,4 +1,4 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
 
 .submissionsContainer {
   display: flex;
@@ -26,7 +26,7 @@
       font-size: 16px;
       font-weight: 400;
       text-align: right;
-      color: $river-blue;
+      color: colors.$river-blue;
     }
   }
 
@@ -51,7 +51,7 @@
         flex-direction: row;
         padding: 9px 36px;
 
-        background-color: $dartmouth-green;
+        background-color: colors.$dartmouth-green;
         box-shadow: 3.34452px 5px 10px rgba(0, 0, 0, 0.05);
         border-radius: 12px;
 
@@ -68,7 +68,7 @@
           font-family: national, sans-serif;
           font-size: 18px;
           font-weight: 500;
-          color: $snow-white;
+          color: colors.$snow-white;
         }
       }
 

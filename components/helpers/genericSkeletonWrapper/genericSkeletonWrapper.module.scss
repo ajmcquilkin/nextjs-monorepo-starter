@@ -1,4 +1,4 @@
-@import 'styles/variables.scss';
+@use 'styles/colors.scss' as colors;
 
 .genericSkeletonWrapperContainer > .loading {
     @include shimmerMixin();
@@ -7,6 +7,6 @@
     height: 36px;
     margin-bottom: 24px;
     
-    background-color: $web-gray-two;
+    background-color: colors.$web-gray-two;
     border-radius: 8px;
 }

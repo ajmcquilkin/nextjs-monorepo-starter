@@ -1,4 +1,6 @@
-@import "styles/variables.scss";
+@use "styles/variables.scss" as variables;
+@use "styles/colors.scss" as colors;
+@use "styles/textStyling.scss" as textStyles;
 
 $checkbox-size: 24px;
 
@@ -12,7 +14,7 @@ $checkbox-size: 24px;
   cursor: pointer;
 
   &:hover input ~ .radioSelector {
-    background-color: $web-gray-one;
+    background-color: colors.$web-gray-one;
   }
 
   input {
@@ -24,7 +26,7 @@ $checkbox-size: 24px;
     cursor: pointer;
 
     &:checked ~ .radioSelector {
-      background-color: $dartmouth-green;
+      background-color: colors.$dartmouth-green;
     }
 
     &:checked ~ .radioSelector::after {
@@ -38,7 +40,7 @@ $checkbox-size: 24px;
     left: 2px;
     width: $checkbox-size;
     height: $checkbox-size;
-    background-color: $web-gray-two;
+    background-color: colors.$web-gray-two;
     border-radius: 50%;
 
     &::after {
@@ -52,13 +54,13 @@ $checkbox-size: 24px;
       width: calc(#{$checkbox-size} / 3);
       height: calc(#{$checkbox-size} / 3);
       border-radius: 50%;
-      background: $snow-white;
+      background: colors.$snow-white;
     }
   }
 
   p {
     margin: auto 0px;
     @include paragraphText();
-    color: $granite-gray;
+    color: colors.$granite-gray;
   }
 }

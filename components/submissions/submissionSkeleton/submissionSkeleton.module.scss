@@ -1,6 +1,5 @@
 // Reference: https://stackoverflow.com/questions/39733287/how-can-i-do-a-css3-shimmer-animation-to-an-html-target-object
-
-@import 'styles/variables.scss';
+@use "styles/colors.scss" as colors;
 
 .submissionSkeletonContainer {
     display: flex;
@@ -12,8 +11,8 @@
     border-radius: 16px;
     border-left: 16px solid;
 
-    background: $snow-white;
-    box-shadow: 0px 8.36129px 33.4452px $web-gray-two;
+    background: colors.$snow-white;
+    box-shadow: 0px 8.36129px 33.4452px colors.$web-gray-two;
 
     .submissionSkeletonTitle {
         @include shimmerMixin();

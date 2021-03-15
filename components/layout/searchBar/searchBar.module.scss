@@ -1,4 +1,4 @@
-@import "styles/variables.scss";
+@use "styles/colors.scss" as colors;
 
 .searchBarContainer {
   display: flex;
@@ -24,10 +24,10 @@
     font-family: national, sans-serif;
     font-size: 16px;
     font-weight: 400;
-    color: $granite-gray;
+    color: colors.$granite-gray;
 
     border: none;
     border-radius: 16px;
-    background-color: $web-gray-two;
+    background-color: colors.$web-gray-two;
   }
 }
