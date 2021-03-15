@@ -8,9 +8,7 @@ import SubmissionSection from 'components/layout/submissionSection';
 
 import SkeletonArea from 'components/helpers/skeletonArea';
 
-import {
-  openModal as openModalImport,
-} from 'store/actionCreators/modalActionCreators';
+import { openModal as openModalImport } from 'store/actionCreators/modalActionCreators';
 
 import {
   fetchAllPosts as fetchAllPostsImport,
@@ -66,7 +64,7 @@ const Submissions = ({
   };
 
   return (
-    <SkeletonArea isLoading={isLoading}>
+    <SkeletonArea name="submissions page" isLoading={isLoading}>
       <div className={styles.submissionsContainer}>
         <div className={styles.titleContainer}>
           <h1>Your Submissions</h1>
@@ -106,7 +104,12 @@ const Submissions = ({
           </div>
         </div>
 
-        <div className={styles.contentContainer}>
+        <div
+          aria-live="polite"
+          aria-atomic="true"
+          aria-relevant="all"
+          className={styles.contentContainer}
+        >
           {(!status || status === 'rejected') && (
             <SubmissionSection
               title="Rejected"
@@ -118,17 +121,18 @@ const Submissions = ({
                   onClick={() => updatePostById(_id, { status: 'pending' })}
                   key="0"
                 >
-                  <img src="/icons/resubmit.svg" alt="resubmit post" />
+                  <img src="/icons/resubmit.svg" alt="resubmit post" aria-hidden="true" />
                   <p>Resubmit</p>
                 </button>
               ])}
               renderAdditionalPostIcons={(_id) => ([
                 <button
+                  aria-label="view rejection reasoning"
                   type="button"
                   onClick={() => handleRequestRejectionReasoning(_id)}
                   key="0"
                 >
-                  <img src="/icons/info.svg" alt="additional rejection information" />
+                  <img src="/icons/info.svg" alt="additional rejection information" aria-hidden="true" />
                 </button>
               ])}
             />
@@ -145,7 +149,7 @@ const Submissions = ({
                   onClick={() => router.push(`/form/${_id}`)}
                   key="0"
                 >
-                  <img src="/icons/edit.svg" alt="edit post" />
+                  <img src="/icons/edit.svg" alt="edit post" aria-hidden="true" />
                   <p>Edit</p>
                 </button>
               ])}
@@ -175,7 +179,6 @@ const Submissions = ({
               status="published"
             />
           )}
-
         </div>
       </div>
     </SkeletonArea>

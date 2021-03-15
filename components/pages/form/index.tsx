@@ -289,7 +289,7 @@ const Form = ({
 
   return (
     <div className={styles.formContainer}>
-      <SkeletonArea isLoading={postIsLoading}>
+      <SkeletonArea name="form page" isLoading={postIsLoading}>
         <div className={styles.titleContainer}>
           <button type="button" onClick={() => router.push('/submissions')}>
             <img src="/icons/left.svg" alt="back to submissions" />

@@ -21,9 +21,15 @@ const SubmissionSection = ({
   const isLoading = useSkeletonLoading();
 
   return (
-    <div className={styles.submissionSectionContainer}>
+    <div
+      className={styles.submissionSectionContainer}
+    >
       <h2>{`${title} (${posts.length})`}</h2>
-      <div>
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        aria-relevant="all"
+      >
         {isLoading
           ? <SubmissionSkeleton status={status} />
           : (

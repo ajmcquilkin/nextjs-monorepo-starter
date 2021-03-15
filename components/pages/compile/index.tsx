@@ -193,7 +193,7 @@ const Compile = ({
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <SkeletonArea isLoading={isLoading}>
+      <SkeletonArea name="compile page" isLoading={isLoading}>
         <div className={styles.compileContainer}>
           <h1>Compile</h1>
 
