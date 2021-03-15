@@ -479,9 +479,11 @@ const Form = ({
                 </label>
 
                 <p className={styles.additionalInformation}>
-                  Enter time in the &quot;
-                  Hanover
-                  &quot; timezone
+                  Enter time in the &quot;US/Eastern&quot; timezone
+                  {' '}
+                  (&quot;
+                  {serverTimeZone}
+                  &quot;)
                 </p>
 
                 <p className="formInputError">{eventTimeError}</p>
@@ -497,6 +499,8 @@ const Form = ({
                   {' '}
                   <span className="required">*</span>
                 </p>
+
+                <p className={styles.additionalInformation}>Please refrain from using all caps in the title.</p>
 
                 <GenericSkeletonWrapper>
                   <input
