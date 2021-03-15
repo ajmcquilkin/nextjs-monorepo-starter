@@ -1,18 +1,22 @@
-import { createContext, ReactNode, useContext } from 'react';
+import { connect } from 'react-redux';
 
-export const SkeletonContext = createContext(false);
+import SkeletonArea, {
+  SkeletonAreaPassedProps, SkeletonAreaStateProps, SkeletonAreaDispatchProps,
+  SkeletonContext, useSkeletonLoading
+} from 'components/helpers/skeletonArea/skeletonArea';
 
-export interface SkeletonAreaProps {
-  isLoading: boolean,
-  children: ReactNode
-}
+import { RootState } from 'types/state';
+import { dispatchAnnouncement } from 'store/actionCreators/announcementActionCreators';
 
-export const useSkeletonLoading = (): boolean => useContext(SkeletonContext);
+const mapStateToProps = (_state: RootState): SkeletonAreaStateProps => ({
 
-const SkeletonArea = ({ isLoading, children }: SkeletonAreaProps): JSX.Element => (
-  <SkeletonContext.Provider value={isLoading}>
-    {children}
-  </SkeletonContext.Provider>
-);
+});
 
-export default SkeletonArea;
+const mapDispatchToProps: SkeletonAreaDispatchProps = {
+  dispatchAnnouncement
+};
+
+const connector = connect<SkeletonAreaStateProps, SkeletonAreaDispatchProps, SkeletonAreaPassedProps>(mapStateToProps, mapDispatchToProps);
+
+export { SkeletonContext, useSkeletonLoading };
+export default connector(SkeletonArea);

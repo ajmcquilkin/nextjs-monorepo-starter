@@ -6,6 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import thunk, { ThunkMiddleware } from 'redux-thunk';
 
+import AnnouncementLiveText from 'components/helpers/announcementLiveText';
 import AuthWrapper from 'components/helpers/authWrapper';
 import MainWrapper from 'components/layout/mainWrapper';
 import ModalWrapper from 'components/modals/modalWrapper';
@@ -33,6 +34,7 @@ Modal.setAppElement('#root');
 const App = ({ Component, pageProps }: AppProps): JSX.Element => (
   <div id="root">
     <Provider store={store}>
+      <AnnouncementLiveText />
       <MainWrapper>
         <AuthWrapper>
           <ModalWrapper />

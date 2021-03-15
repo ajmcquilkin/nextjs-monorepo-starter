@@ -27,6 +27,7 @@ const Header = ({ isStaff, isReviewer }: HeaderProps): JSX.Element => (
         <img
           src="/icons/dPineWhite.svg"
           alt="Vox Daily"
+          aria-hidden="true"
         />
         <p>VOX DAILY</p>
       </a>

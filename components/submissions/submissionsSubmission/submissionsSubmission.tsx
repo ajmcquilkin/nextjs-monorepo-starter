@@ -80,7 +80,7 @@ const Submission = ({
             type="button"
             onClick={() => duplicatePost()}
           >
-            <img src="/icons/duplicate.svg" alt="duplicate post" />
+            <img src="/icons/duplicate.svg" alt="duplicate post" aria-hidden="true" />
             <p>Duplicate</p>
           </button>
 
@@ -88,7 +88,7 @@ const Submission = ({
             type="button"
             onClick={() => openModal('DISCARD_POST_MODAL', { postId: postContent._id, action: 'DELETE' })}
           >
-            <img src="/icons/discard.svg" alt="discard post" />
+            <img src="/icons/discard.svg" alt="discard post" aria-hidden="true" />
             <p>Discard</p>
           </button>
         </div>
