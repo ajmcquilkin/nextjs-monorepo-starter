@@ -6,7 +6,11 @@ export interface StyleButtonProps {
 }
 
 const StyleButton = ({ label, style, onToggle }: StyleButtonProps): JSX.Element => (
-  <button type="button" onClick={() => onToggle(style)}>
+  <button
+    aria-label={`rich text editor ${label} selector`}
+    type="button"
+    onClick={() => onToggle(style)}
+  >
     {label}
   </button>
 );

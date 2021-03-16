@@ -15,6 +15,7 @@ import GenericSkeletonWrapper from 'components/helpers/genericSkeletonWrapper';
 
 import FormSection from 'components/form/formSection';
 import ContentLength from 'components/form/contentLength';
+import FormError from 'components/form/formError';
 import RadioSelector from 'components/form/radioSelector';
 import RichTextEditor from 'components/form/richTextEditor';
 import FormGroup from 'components/layout/formGroup';
@@ -105,6 +106,7 @@ const Form = ({
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
 
   const [imageUploading, setImageUploading] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string>('');
 
   // * Required fields
   const [fromNameError, setFromNameError] = useState<string>('');
@@ -227,7 +229,7 @@ const Form = ({
       }
     }
 
-    if (!isValid) openModal('ERROR_MODAL', { title: 'Missing Required Information', content: 'Please fill in all required fields within the form to create or update a submission.' });
+    setSubmitError('Cannot submit, missing required form fields');
     return isValid;
   };
 
@@ -291,8 +293,12 @@ const Form = ({
     <div className={styles.formContainer}>
       <SkeletonArea name="form page" isLoading={postIsLoading}>
         <div className={styles.titleContainer}>
-          <button type="button" onClick={() => router.push('/submissions')}>
-            <img src="/icons/left.svg" alt="back to submissions" />
+          <button
+            aria-label="back to submissions"
+            type="button"
+            onClick={() => router.push('/submissions')}
+          >
+            <img src="/icons/left.svg" alt="back to submissions" aria-hidden="true" />
             <p>Submissions</p>
           </button>
 
@@ -300,7 +306,9 @@ const Form = ({
           <p>
             View Vox Submission Guidelines
             {' '}
-            <Link href="https://communications.dartmouth.edu/faculty-and-staff/vox-daily-guidelines"><a>here</a></Link>
+            <Link href="https://communications.dartmouth.edu/faculty-and-staff/vox-daily-guidelines">
+              <a>here</a>
+            </Link>
             .
           </p>
         </div>
@@ -309,60 +317,70 @@ const Form = ({
           <FormSection title="Sender Information">
             <div className="formInputContainer">
               <label>
-                <p className="labelText">
-                  From Name
-                  {' '}
-                  <span className="required">*</span>
-                </p>
+                From Name
+                {' '}
+                <span className="required" aria-hidden="true">*</span>
 
-                <GenericSkeletonWrapper>
-                  <input
-                    placeholder="Type department or division name here"
-                    required
-                    type="text"
-                    value={fromName}
-                    onChange={(e) => setFromName(e.target.value)}
-                  />
-
-                </GenericSkeletonWrapper>
+                <div className="labelContent">
+                  <GenericSkeletonWrapper>
+                    <input
+                      placeholder="Type department or division name here"
+                      required
+                      type="text"
+                      value={fromName}
+                      onChange={(e) => setFromName(e.target.value)}
+                    />
+                  </GenericSkeletonWrapper>
+                </div>
               </label>
 
-              <p className="formInputError">{fromNameError}</p>
+              <FormError message={fromNameError} />
             </div>
 
             <div className="formInputContainer">
               <label>
-                <p className="labelText">
-                  From Address
-                  {' '}
-                  <span className="required">*</span>
-                </p>
+                From Address
+                {' '}
+                <span className="required" aria-hidden="true">*</span>
 
-                <GenericSkeletonWrapper>
-                  <input
-                    placeholder="Type email of sending individual or department"
-                    required
-                    type="email"
-                    value={fromAddress}
-                    onChange={(e) => setFromAddress(e.target.value)}
-                  />
-                </GenericSkeletonWrapper>
+                <div className="labelContent">
+                  <GenericSkeletonWrapper>
+                    <input
+                      placeholder="Type email of sending individual or department"
+                      required
+                      type="email"
+                      value={fromAddress}
+                      onChange={(e) => setFromAddress(e.target.value)}
+                    />
+                  </GenericSkeletonWrapper>
+                </div>
               </label>
 
-              <p className="formInputError">{fromAddressError}</p>
+              <FormError message={fromAddressError} />
             </div>
           </FormSection>
 
           <FormSection title="Recipient Information">
+            <span className="visually-hidden">
+              Use the tab key to focus groups.
+              Use the space key to select and deselect groups.
+            </span>
+
             <div className="formInputContainer">
               <div className={['label', 'large'].join(' ')}>
-                <p className="labelText">To</p>
+                <p className="labelText" id="groups-label">Recipient Groups</p>
               </div>
 
               <GenericSkeletonWrapper>
-                <ul className={styles.formGroupListContainer}>
+                <ul
+                  aria-labelledby="groups-label"
+                  className={styles.formGroupListContainer}
+                >
                   {groups.map((group) => (
-                    <li key={group.name} className={styles.formGroupList}>
+                    <li
+                      className={styles.formGroupList}
+                      key={group.name}
+                    >
                       <FormGroup
                         group={group}
                         headerDepth={3}
@@ -379,30 +397,33 @@ const Form = ({
           <FormSection title="Post Information">
             <div className="formInputContainer">
               <label>
-                <p className="labelText">
-                  Select Publish Date
-                  {' '}
-                  <span className="required">*</span>
-                </p>
+                Select Publish Date
+                {' '}
+                <span className="required" aria-hidden="true">*</span>
 
-                <GenericSkeletonWrapper>
-                  <input
-                    type="date"
-                    required
-                    value={handleEncodeDate(requestedPublicationDate)}
-                    min={handleEncodeDate(addNDays(Date.now(), 1))}
-                    onChange={(e) => setRequestedPublicationDate(handleDecodeDate(e.target.value))}
-                  />
-                </GenericSkeletonWrapper>
+                <div className="labelContent">
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="date"
+                      required
+                      value={handleEncodeDate(requestedPublicationDate)}
+                      min={handleEncodeDate(addNDays(Date.now(), 1))}
+                      onChange={(e) => setRequestedPublicationDate(handleDecodeDate(e.target.value))}
+                    />
+                  </GenericSkeletonWrapper>
+                </div>
               </label>
 
-              <p className="formInputError">{requestedPublicationDateError}</p>
+              <FormError message={requestedPublicationDateError} />
             </div>
           </FormSection>
 
           <FormSection title="Post Type">
             <GenericSkeletonWrapper>
-              <div className={['formInputContainer', 'row'].join(' ')}>
+              <div
+                aria-label="select post type"
+                className={['formInputContainer', 'row'].join(' ')}
+              >
                 {isReviewer && (
                   <RadioSelector
                     name="form-type"
@@ -440,42 +461,42 @@ const Form = ({
             <FormSection title="Event Information">
               <div className="formInputContainer">
                 <label>
-                  <p className="labelText">
-                    Select Event Date
-                    {' '}
-                    <span className="required">*</span>
-                  </p>
+                  Select Event Date
+                  {' '}
+                  <span className="required" aria-hidden="true">*</span>
 
-                  <GenericSkeletonWrapper>
-                    <input
-                      type="date"
-                      required
-                      value={handleEncodeDate(eventDate ?? addNDays(Date.now(), 1))}
-                      min={handleEncodeDate(addNDays(Date.now(), 1))}
-                      onChange={(e) => setEventDate(handleDecodeDate(e.target.value))}
-                    />
-                  </GenericSkeletonWrapper>
+                  <div className="labelContent">
+                    <GenericSkeletonWrapper>
+                      <input
+                        type="date"
+                        required
+                        value={handleEncodeDate(eventDate ?? addNDays(Date.now(), 1))}
+                        min={handleEncodeDate(addNDays(Date.now(), 1))}
+                        onChange={(e) => setEventDate(handleDecodeDate(e.target.value))}
+                      />
+                    </GenericSkeletonWrapper>
+                  </div>
                 </label>
 
-                <p className="formInputError">{eventDateError}</p>
+                <FormError message={eventDateError} />
               </div>
 
               <div className="formInputContainer">
                 <label>
-                  <p className="labelText">
-                    Select Event Time
-                    {' '}
-                    <span className="required">*</span>
-                  </p>
+                  Select Event Time
+                  {' '}
+                  <span className="required" aria-hidden="true">*</span>
 
-                  <GenericSkeletonWrapper>
-                    <input
-                      type="time"
-                      required
-                      value={handleEncodeTime(eventTime ?? 0)}
-                      onChange={(e) => setEventTime(handleDecodeTime(e.target.value))}
-                    />
-                  </GenericSkeletonWrapper>
+                  <div className="labelContent">
+                    <GenericSkeletonWrapper>
+                      <input
+                        type="time"
+                        required
+                        value={handleEncodeTime(eventTime ?? 0)}
+                        onChange={(e) => setEventTime(handleDecodeTime(e.target.value))}
+                      />
+                    </GenericSkeletonWrapper>
+                  </div>
                 </label>
 
                 <p className={styles.additionalInformation}>
@@ -486,7 +507,7 @@ const Form = ({
                   &quot;)
                 </p>
 
-                <p className="formInputError">{eventTimeError}</p>
+                <FormError message={eventTimeError} />
               </div>
             </FormSection>
           ) : null}
@@ -494,23 +515,23 @@ const Form = ({
           <FormSection title="Post Content">
             <div className="formInputContainer">
               <label>
-                <p className="labelText">
-                  Headline
-                  {' '}
-                  <span className="required">*</span>
-                </p>
+                Headline
+                {' '}
+                <span className="required" aria-hidden="true">*</span>
 
                 <p className={styles.additionalInformation}>Please refrain from using all caps in the title.</p>
 
-                <GenericSkeletonWrapper>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Enter headline text"
-                    value={briefContent}
-                    onChange={(e) => setBriefContent(e.target.value)}
-                  />
-                </GenericSkeletonWrapper>
+                <div className="labelContent">
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Enter headline text"
+                      value={briefContent}
+                      onChange={(e) => setBriefContent(e.target.value)}
+                    />
+                  </GenericSkeletonWrapper>
+                </div>
               </label>
 
               <ContentLength
@@ -518,35 +539,32 @@ const Form = ({
                 maxContentLength={50}
               />
 
-              <p className="formInputError">{briefContentError}</p>
+              <FormError message={briefContentError} />
             </div>
 
             <div className="formInputContainer">
-              <div className="formInputContainer">
-                <label htmlFor="form-editor-container">
-                  <p className="labelText">Post Content</p>
-                </label>
+              <p className="label" id="rte-label">Post Content</p>
 
-                <GenericSkeletonWrapper>
-                  <div id="form-editor-container">
-                    <RichTextEditor
-                      incomingState={editorState}
-                      onChange={(state) => setEditorState(state)}
-                    />
-                  </div>
+              <GenericSkeletonWrapper>
+                <RichTextEditor
+                  incomingState={editorState}
+                  onChange={(state) => setEditorState(state)}
+                />
 
-                  <ContentLength
-                    contentLength={editorState.getCurrentContent()?.getPlainText()?.length || 0}
-                    maxContentLength={maxContentLength}
-                  />
+                <ContentLength
+                  contentLength={editorState.getCurrentContent()?.getPlainText()?.length || 0}
+                  maxContentLength={maxContentLength}
+                />
 
-                  <p className="formInputError">{fullContentError}</p>
-                </GenericSkeletonWrapper>
-              </div>
+                <FormError message={fullContentError} />
+              </GenericSkeletonWrapper>
+            </div>
 
-              <div className="formInputContainer">
-                <label>
-                  <p className="labelText">URL</p>
+            <div className="formInputContainer">
+              <label>
+                URL
+
+                <div className="labelContent">
                   <GenericSkeletonWrapper>
                     <input
                       type="text"
@@ -556,62 +574,65 @@ const Form = ({
                       className={!url || isValidUrl(url) ? '' : 'invalid'}
                     />
                   </GenericSkeletonWrapper>
-                </label>
+                </div>
+              </label>
 
-                <p className="formInputError">{urlError}</p>
-              </div>
+              <FormError message={urlError} />
             </div>
           </FormSection>
 
           <FormSection title="Post Graphics">
             <div className="formInputContainer">
               <label>
-                <p className="labelText">Attach Image</p>
-                <GenericSkeletonWrapper>
-                  <input
-                    type="file"
-                    alt="Select image to upload"
-                    id="headerImage"
-                    onChange={(e) => { upload(e); }}
-                  />
-                </GenericSkeletonWrapper>
+                Attach Image
+
+                <div className="labelContent">
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="file"
+                      alt="Select image to upload"
+                      id="headerImage"
+                      onChange={(e) => { upload(e); }}
+                    />
+                  </GenericSkeletonWrapper>
+                </div>
               </label>
 
               <GenericSkeletonWrapper>
                 <div className={styles.formImageStatus}>
                   {imageUploading
-                    ? <div>Image is uploading...</div>
+                    ? <p>Image is uploading...</p>
                     : (
                       <>
                         {featuredImage
                           ? <img src={featuredImage} alt="optional header preview" />
-                          : <div>No uploaded image.</div>}
+                          : <p>No uploaded image.</p>}
                       </>
                     )}
                 </div>
               </GenericSkeletonWrapper>
 
-              <p className="formInputError">{featuredImageError}</p>
+              <FormError message={featuredImageError} />
             </div>
 
             {featuredImage && (
               <div className="formInputContainer">
                 <label>
-                  <p className="labelText">
-                    Image Description
-                    {' '}
-                    <span className="required">*</span>
-                  </p>
+                  Image Description
+                  {' '}
+                  <span className="required" aria-hidden="true">*</span>
 
-                  <GenericSkeletonWrapper>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Briefly describe the featured image for this post"
-                      value={featuredImageAlt}
-                      onChange={(e) => setFeaturedImageAlt(e.target.value)}
-                    />
-                  </GenericSkeletonWrapper>
+                  <div className="labelContent">
+                    <GenericSkeletonWrapper>
+                      <input
+                        type="text"
+                        required
+                        placeholder="Briefly describe the featured image for this post"
+                        value={featuredImageAlt}
+                        onChange={(e) => setFeaturedImageAlt(e.target.value)}
+                      />
+                    </GenericSkeletonWrapper>
+                  </div>
                 </label>
 
                 <ContentLength
@@ -619,7 +640,7 @@ const Form = ({
                   maxContentLength={50}
                 />
 
-                <p className="formInputError">{featuredImageAltError}</p>
+                <FormError message={featuredImageAltError} />
               </div>
             )}
           </FormSection>
@@ -651,6 +672,8 @@ const Form = ({
                   <p>Discard Post</p>
                 </button>
               </div>
+
+              <FormError message={submitError} />
             </GenericSkeletonWrapper>
           </section>
         </form>

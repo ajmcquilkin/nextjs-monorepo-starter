@@ -8,9 +8,12 @@
 $checkbox-size: 24px;
 
 .checkboxContainer {
-  margin-bottom: 18px;
+  margin: auto 0px 18px;
   padding-left: calc(#{$checkbox-size} + 12px);
   position: relative;
+
+  @include textStyling.paragraphText();
+  color: colors.$granite-gray;
 
   user-select: none;
   cursor: pointer;
@@ -70,11 +73,5 @@ $checkbox-size: 24px;
       display: block;
       background-color: colors.$dartmouth-green;
     }
-  }
-
-  p {
-    margin: auto 0px;
-    @include textStyling.paragraphText();
-    color: colors.$granite-gray;
   }
 }
