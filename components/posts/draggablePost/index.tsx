@@ -68,6 +68,7 @@ const DraggablePost = ({
   return (
     <div
       style={{ opacity: isDragging ? 0.5 : 1 }}
+      aria-label={`post with title ${postContent.briefContent}` || `post with id ${postContent._id}`}
       ref={ref}
     >
       {isLoading

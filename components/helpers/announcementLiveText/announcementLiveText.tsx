@@ -1,12 +1,23 @@
 import { useState, useEffect } from 'react';
 
-export interface AnnouncementLiveTextProps {
+export interface AnnouncementLiveTextStateProps {
   content: string
 }
+
+export interface AnnouncementLiveTextDispatchProps {
+
+}
+
+export interface AnnouncementLiveTextPassedProps {
+
+}
+
+export type AnnouncementLiveTextProps = AnnouncementLiveTextStateProps & AnnouncementLiveTextDispatchProps & AnnouncementLiveTextPassedProps;
 
 const AnnouncementLiveText = ({ content }: AnnouncementLiveTextProps): JSX.Element => {
   const [displayContent, setDisplayContent] = useState<string | null>(null);
 
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (content) {
       setDisplayContent(content);

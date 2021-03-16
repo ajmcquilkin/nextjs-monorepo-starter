@@ -8,9 +8,10 @@ import unionWith from 'lodash.unionwith';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import SkeletonArea from 'components/helpers/skeletonArea';
+import AnnouncementLiveText from 'components/helpers/announcementLiveText/announcementLiveText';
 import GenericDropTarget from 'components/helpers/genericDropTarget';
 import GenericSkeletonWrapper from 'components/helpers/genericSkeletonWrapper';
+import SkeletonArea from 'components/helpers/skeletonArea';
 import SubmissionSkeleton from 'components/submissions/submissionSkeleton';
 
 import ContentLength from 'components/form/contentLength';
@@ -48,11 +49,11 @@ export interface CompileStateProps {
 }
 
 export interface CompileDispatchProps {
+  openModal: ConnectedThunkCreator<typeof openModalImport>,
   fetchReleaseByDate: ConnectedThunkCreator<typeof fetchReleaseByDateImport>,
   createRelease: ConnectedThunkCreator<typeof createReleaseImport>,
   updateReleaseById: ConnectedThunkCreator<typeof updateReleaseByIdImport>,
-  fetchPostsByDate: ConnectedThunkCreator<typeof fetchPostsByDateImport>,
-  openModal: ConnectedThunkCreator<typeof openModalImport>
+  fetchPostsByDate: ConnectedThunkCreator<typeof fetchPostsByDateImport>
 }
 
 export type CompileProps = CompilePassedProps & CompileStateProps & CompileDispatchProps;
@@ -61,11 +62,12 @@ const combineIdArray = (incoming: string[], existing: string[]): string[] => uni
 
 const Compile = ({
   postMap, release, postResults, isLoading,
-  fetchReleaseByDate, createRelease, updateReleaseById, fetchPostsByDate, openModal
+  openModal, fetchReleaseByDate, createRelease, updateReleaseById, fetchPostsByDate
 }: CompileProps): JSX.Element => {
   const router = useRouter();
 
   const [imageUploading, setImageUploading] = useState<boolean>(false);
+  const [dndMessage, setDndMessage] = useState<string>('');
 
   const [subject, setSubject] = useState<Release['subject']>('');
   const [headerImage, setHeaderImage] = useState<Release['headerImage']>('');
@@ -182,7 +184,8 @@ const Compile = ({
     else createRelease(body);
   };
 
-  const handleArrowReorder = (list: string[], setter: (value: string[]) => void) => (id: string, idx: number): KeyboardEventHandler<HTMLLIElement> => (e) => {
+  const handleArrowReorder = (list: string[], setter: (value: string[]) => void, id: string, idx: number): KeyboardEventHandler<HTMLLIElement> => (e) => {
+    const postTitle = postMap[id]?.briefContent || 'not found';
     let newIdx = idx;
 
     switch (e.key) {
@@ -195,14 +198,22 @@ const Compile = ({
         break;
 
       case ' ':
-        if (selectedPost === id) setSelectedPost(null);
-        else setSelectedPost(id);
-        break;
+        if (selectedPost === id) {
+          setDndMessage(`Deselected post at position ${idx} with title ${postTitle}. Press space to select.`);
+          setSelectedPost(null);
+        } else {
+          setDndMessage(`Selected post at position ${idx} with title ${postTitle}. Use the arrow keys to move post. Press space to deselect.`);
+          setSelectedPost(id);
+        }
+
+        e.preventDefault();
+        return;
 
       case 'f':
         setFeaturedPost(id);
+        setDndMessage(`Set post at position ${idx} as featured post with title ${postTitle}`);
         if (selectedPost === id) setSelectedPost(null);
-        break;
+        return;
 
       default:
         return;
@@ -211,14 +222,12 @@ const Compile = ({
     e.preventDefault();
     if (selectedPost !== id) return;
 
-    const immutableArray = [...list];
-    if (newIdx < 0 || list.length <= newIdx) {
-      newIdx = idx;
-    } else {
+    if (newIdx >= 0 && newIdx < list.length) {
+      const immutableArray = [...list];
       [immutableArray[idx], immutableArray[newIdx]] = [immutableArray[newIdx], immutableArray[idx]];
+      setDndMessage(`Moved post with title ${postTitle} from position ${idx} to position ${newIdx}`);
+      setter(immutableArray);
     }
-
-    setter(immutableArray);
   };
 
   const movePostByHover = useCallback((list: string[], setter: (value: string[]) => void) => (dragIndex: number, hoverIndex: number) => {
@@ -434,20 +443,26 @@ const Compile = ({
             Press the f key to set a post as the featured post.
           </span>
 
+          <AnnouncementLiveText content={dndMessage} />
+
           <CompileSection title="News">
             {isLoading
               ? <SubmissionSkeleton status="approved" />
               : (
                 <>
                   {news.length ? (
-                    <ol role="listbox" className={styles.postListContainer}>
+                    <ol
+                      role="listbox"
+                      aria-label="news"
+                      className={styles.postListContainer}
+                    >
                       {news.map((id, idx) => (
                         <li
                           role="option"
                           aria-selected={selectedPost === id}
                           draggable="true"
                           aria-describedby="compile-drag-description"
-                          onKeyDown={handleArrowReorder(news, setNews)(id, idx)}
+                          onKeyDown={handleArrowReorder(news, setNews, id, idx)}
                           tabIndex={0}
                           key={id}
                         >
@@ -474,14 +489,18 @@ const Compile = ({
               : (
                 <>
                   {announcements.length ? (
-                    <ol role="listbox" className={styles.postListContainer}>
+                    <ol
+                      role="listbox"
+                      aria-label="announcements"
+                      className={styles.postListContainer}
+                    >
                       {announcements.map((id, idx) => (
                         <li
                           role="option"
                           aria-selected={selectedPost === id}
                           draggable="true"
                           aria-describedby="compile-drag-description"
-                          onKeyDown={handleArrowReorder(announcements, setAnnouncements)(id, idx)}
+                          onKeyDown={handleArrowReorder(announcements, setAnnouncements, id, idx)}
                           tabIndex={0}
                           key={id}
                         >
@@ -508,14 +527,18 @@ const Compile = ({
               : (
                 <>
                   {events.length ? (
-                    <ol role="listbox" className={styles.postListContainer}>
+                    <ol
+                      role="listbox"
+                      aria-label="events"
+                      className={styles.postListContainer}
+                    >
                       {events.map((id, idx) => (
                         <li
                           role="option"
                           aria-selected={selectedPost === id}
                           draggable="true"
                           aria-describedby="compile-drag-description"
-                          onKeyDown={handleArrowReorder(events, setEvents)(id, idx)}
+                          onKeyDown={handleArrowReorder(events, setEvents, id, idx)}
                           tabIndex={0}
                           key={id}
                         >

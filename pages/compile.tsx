@@ -19,11 +19,11 @@ const mapStateToProps = (state: RootState): CompileStateProps => ({
 });
 
 const mapDispatchToProps: CompileDispatchProps = {
+  openModal,
   fetchReleaseByDate,
   createRelease,
   updateReleaseById,
-  fetchPostsByDate,
-  openModal
+  fetchPostsByDate
 };
 
 const connector = connect<CompileStateProps, CompileDispatchProps, CompilePassedProps>(mapStateToProps, mapDispatchToProps);
