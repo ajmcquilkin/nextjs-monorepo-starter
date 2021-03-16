@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import Home, { HomePassedProps, HomeStateProps, HomeDispatchProps } from 'components/pages/home';
 
+import { dispatchAnnouncement } from 'store/actionCreators/announcementActionCreators';
 import { openModal } from 'store/actionCreators/modalActionCreators';
 import { fetchReleaseByDate } from 'store/actionCreators/releaseActionCreators';
 import { createLoadingSelector } from 'store/actionCreators/requestActionCreators';
@@ -17,6 +18,7 @@ const mapStateToProps = (state: RootState): HomeStateProps => ({
 });
 
 const mapDispatchToProps: HomeDispatchProps = {
+  dispatchAnnouncement,
   openModal,
   fetchReleaseByDate
 };

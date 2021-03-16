@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import LoadingScreen from 'components/layout/loadingScreen';
 import HomeSubmission from 'components/submissions/homeSubmission';
 
+import { dispatchAnnouncement as dispatchAnnouncementImport } from 'store/actionCreators/announcementActionCreators';
 import { openModal as openModalImport } from 'store/actionCreators/modalActionCreators';
 import { fetchReleaseByDate as fetchReleaseByDateImport } from 'store/actionCreators/releaseActionCreators';
 
@@ -25,6 +26,7 @@ export interface HomeStateProps {
 }
 
 export interface HomeDispatchProps {
+  dispatchAnnouncement: ConnectedThunkCreator<typeof dispatchAnnouncementImport>,
   openModal: ConnectedThunkCreator<typeof openModalImport>,
   fetchReleaseByDate: ConnectedThunkCreator<typeof fetchReleaseByDateImport>
 }
@@ -33,7 +35,7 @@ export type HomeProps = HomePassedProps & HomeStateProps & HomeDispatchProps;
 
 const Home = ({
   release, postMap, releaseIsLoading,
-  openModal, fetchReleaseByDate
+  dispatchAnnouncement, openModal, fetchReleaseByDate
 }: HomeProps): JSX.Element => {
   const [active, setActive] = useState<PostPublishType>('news');
   const [code, setCode] = useState<Code>(null);
@@ -44,7 +46,16 @@ const Home = ({
     });
   }, []);
 
-  if (releaseIsLoading) {
+  if (!release && code) {
+    return (
+      <LoadingScreen
+        title="No release exists for today"
+        subtitle="Check back soon for an upcoming release."
+      />
+    );
+  }
+
+  if (releaseIsLoading || !release) {
     return (
       <LoadingScreen
         title="Loading release..."
@@ -53,14 +64,7 @@ const Home = ({
     );
   }
 
-  if (!release || code === 404) {
-    return (
-      <LoadingScreen
-        title="No release exists for today"
-        subtitle="Check back soon for an upcoming release."
-      />
-    );
-  }
+  dispatchAnnouncement('Release loaded');
 
   const news = release.news.map((id) => postMap?.[id]);
   const announcements = release.announcements.map((id) => postMap?.[id]);
@@ -122,7 +126,7 @@ const Home = ({
             <div className={styles.homeHeaderTopBar} />
 
             <div className={styles.homeTitleTextContainer}>
-              <h1>Vox Daily News</h1>
+              <h1>{release.subject || 'Vox Daily News'}</h1>
               <p>{getFullDate(release.date)}</p>
             </div>
 
@@ -151,7 +155,7 @@ const Home = ({
 
         {release.quoteOfDay ? (
           <div className={styles.homeQuoteContainer}>
-            <h4>QUOTE OF THE DAY</h4>
+            <h2>QUOTE OF THE DAY</h2>
             <blockquote>{release.quoteOfDay}</blockquote>
             <p>{release.quotedContext}</p>
           </div>

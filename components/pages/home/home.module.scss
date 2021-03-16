@@ -112,6 +112,7 @@
 
           h1 {
             @include textStyling.headerOne();
+            word-wrap: break-word;
           }
 
           p {
