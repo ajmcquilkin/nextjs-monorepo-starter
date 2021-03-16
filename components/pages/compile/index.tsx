@@ -115,13 +115,46 @@ const Compile = ({
 
     setNews(combineIdArray(convertToNovel(release?.news || []), news));
     setAnnouncements(combineIdArray(convertToNovel(release?.announcements || []), announcements));
-    setEvents(combineIdArray(convertToNovel(release?.events || []), events));
+
+    setEvents(
+      combineIdArray(convertToNovel(release?.events || []), events)
+        .sort((a, b) => ((postMap[a.id]?.eventDate ?? -1) - (postMap[b.id]?.eventDate ?? -1)))
+    );
   }, [release]);
 
   useEffect(() => {
-    setNews(combineIdArray(convertToNovel(postResults.filter((post) => post.type === 'news').map((post) => post._id), true), news));
-    setAnnouncements(combineIdArray(convertToNovel(postResults.filter((post) => post.type === 'announcement').map((post) => post._id), true), announcements));
-    setEvents(combineIdArray(convertToNovel(postResults.filter((post) => post.type === 'event').map((post) => post._id), true), events));
+    setNews(
+      combineIdArray(
+        convertToNovel(
+          postResults
+            .filter((post) => post.type === 'news')
+            .map((post) => post._id),
+          true
+        ), news
+      )
+    );
+
+    setAnnouncements(
+      combineIdArray(
+        convertToNovel(
+          postResults
+            .filter((post) => post.type === 'announcement')
+            .map((post) => post._id),
+          true
+        ), announcements
+      )
+    );
+
+    setEvents(
+      combineIdArray(
+        convertToNovel(
+          postResults
+            .filter((post) => post.type === 'event')
+            .map((post) => post._id),
+          true
+        ), events
+      ).sort((a, b) => ((postMap[a.id]?.eventDate ?? -1) - (postMap[b.id]?.eventDate ?? -1)))
+    );
   }, [postResults]);
 
   const upload = async (e: ChangeEvent<HTMLInputElement>) => {
