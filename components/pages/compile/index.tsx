@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import {
   useEffect, useState, ChangeEvent, useCallback, KeyboardEventHandler
 } from 'react';
+import { Helmet } from 'react-helmet';
 import unionWith from 'lodash.unionwith';
 
 import { DndProvider } from 'react-dnd';
@@ -29,7 +30,9 @@ import {
 } from 'store/actionCreators/releaseActionCreators';
 import { fetchPostsByDate as fetchPostsByDateImport } from 'store/actionCreators/postActionCreators';
 
-import { addNDays, DragItemTypes, getFullDate } from 'utils';
+import {
+  addNDays, DragItemTypes, getFullDate, siteMetaTitle
+} from 'utils';
 import uploadImage from 'utils/s3';
 
 import { Post } from 'types/post';
@@ -242,6 +245,10 @@ const Compile = ({
 
   return (
     <DndProvider backend={HTML5Backend}>
+      <Helmet>
+        <title>{`Compile - ${siteMetaTitle}`}</title>
+      </Helmet>
+
       <SkeletonArea name="compile page" isLoading={isLoading}>
         <div className={styles.compileContainer}>
           <h1>Compile</h1>
