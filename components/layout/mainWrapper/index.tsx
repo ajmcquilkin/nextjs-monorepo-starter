@@ -11,7 +11,10 @@ const MainWrapper = ({ children }: MainWrapperProps): JSX.Element => (
   <div className={styles.mainWrapperContainer}>
     <Header />
 
-    <main>
+    <main
+      aria-live="polite"
+      aria-relevant="all"
+    >
       {children}
     </main>
 
