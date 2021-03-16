@@ -20,7 +20,11 @@ const CompileSubmission = ({ postContent, handleEdit, handleReject }: CompileSub
       <div className={[styles.collapsedContentContainer, isOpen ? styles.open : ''].join(' ')}>
         <img className={styles.grabIcon} src="/icons/grab.svg" alt="selection dots" role="presentation" />
         <p>{postContent.briefContent}</p>
-        <button type="button" onClick={() => setIsOpen(!isOpen)}>
+        <button
+          aria-label="view more post information"
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+        >
           <svg
             width="10"
             height="5"
@@ -37,7 +41,11 @@ const CompileSubmission = ({ postContent, handleEdit, handleReject }: CompileSub
         </button>
       </div>
 
-      <div aria-hidden={!isOpen}>
+      <div
+        aria-hidden={!isOpen}
+        aria-live="polite"
+        aria-relevant="additions removals"
+      >
         {isOpen && (
           <div className={styles.mainContentContainer}>
             <div className={styles.titleContainer}>

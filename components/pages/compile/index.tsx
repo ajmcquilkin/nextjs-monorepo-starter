@@ -1,16 +1,17 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useRouter } from 'next/router';
 import {
-  useEffect, useState, ChangeEvent, useCallback
+  useEffect, useState, ChangeEvent, useCallback, KeyboardEventHandler
 } from 'react';
 import unionWith from 'lodash.unionwith';
 
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import SkeletonArea from 'components/helpers/skeletonArea';
+import AnnouncementLiveText from 'components/helpers/announcementLiveText/announcementLiveText';
 import GenericDropTarget from 'components/helpers/genericDropTarget';
 import GenericSkeletonWrapper from 'components/helpers/genericSkeletonWrapper';
+import SkeletonArea from 'components/helpers/skeletonArea';
 import SubmissionSkeleton from 'components/submissions/submissionSkeleton';
 
 import ContentLength from 'components/form/contentLength';
@@ -48,11 +49,11 @@ export interface CompileStateProps {
 }
 
 export interface CompileDispatchProps {
+  openModal: ConnectedThunkCreator<typeof openModalImport>,
   fetchReleaseByDate: ConnectedThunkCreator<typeof fetchReleaseByDateImport>,
   createRelease: ConnectedThunkCreator<typeof createReleaseImport>,
   updateReleaseById: ConnectedThunkCreator<typeof updateReleaseByIdImport>,
-  fetchPostsByDate: ConnectedThunkCreator<typeof fetchPostsByDateImport>,
-  openModal: ConnectedThunkCreator<typeof openModalImport>
+  fetchPostsByDate: ConnectedThunkCreator<typeof fetchPostsByDateImport>
 }
 
 export type CompileProps = CompilePassedProps & CompileStateProps & CompileDispatchProps;
@@ -61,11 +62,12 @@ const combineIdArray = (incoming: string[], existing: string[]): string[] => uni
 
 const Compile = ({
   postMap, release, postResults, isLoading,
-  fetchReleaseByDate, createRelease, updateReleaseById, fetchPostsByDate, openModal
+  openModal, fetchReleaseByDate, createRelease, updateReleaseById, fetchPostsByDate
 }: CompileProps): JSX.Element => {
   const router = useRouter();
 
   const [imageUploading, setImageUploading] = useState<boolean>(false);
+  const [dndMessage, setDndMessage] = useState<string>('');
 
   const [subject, setSubject] = useState<Release['subject']>('');
   const [headerImage, setHeaderImage] = useState<Release['headerImage']>('');
@@ -74,7 +76,9 @@ const Compile = ({
 
   const [quoteOfDay, setQuoteOfDay] = useState<Release['quoteOfDay']>('');
   const [quotedContext, setQuotedContext] = useState<Release['quotedContext']>('');
+
   const [featuredPost, setFeaturedPost] = useState<Release['featuredPost']>(null);
+  const [selectedPost, setSelectedPost] = useState<string | null>(null);
 
   const [news, setNews] = useState<string[]>(release?.news || []);
   const [announcements, setAnnouncements] = useState<string[]>(release?.announcements || []);
@@ -109,11 +113,9 @@ const Compile = ({
   }, [release]);
 
   useEffect(() => {
-    if (!release) {
-      setNews(combineIdArray(postResults.filter((post) => post.type === 'news').map((post) => post._id), news));
-      setAnnouncements(combineIdArray(postResults.filter((post) => post.type === 'announcement').map((post) => post._id), announcements));
-      setEvents(combineIdArray(postResults.filter((post) => post.type === 'event').map((post) => post._id), events));
-    }
+    setNews(combineIdArray(postResults.filter((post) => post.type === 'news').map((post) => post._id), news));
+    setAnnouncements(combineIdArray(postResults.filter((post) => post.type === 'announcement').map((post) => post._id), announcements));
+    setEvents(combineIdArray(postResults.filter((post) => post.type === 'event').map((post) => post._id), events));
   }, [postResults]);
 
   const upload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -182,7 +184,53 @@ const Compile = ({
     else createRelease(body);
   };
 
-  const movePost = useCallback((list: string[], setter: (value: string[]) => void) => (dragIndex: number, hoverIndex: number) => {
+  const handleArrowReorder = (list: string[], setter: (value: string[]) => void, id: string, idx: number): KeyboardEventHandler<HTMLLIElement> => (e) => {
+    const postTitle = postMap[id]?.briefContent || 'not found';
+    let newIdx = idx;
+
+    switch (e.key) {
+      case 'ArrowDown':
+        newIdx = idx + 1;
+        break;
+
+      case 'ArrowUp':
+        newIdx = idx - 1;
+        break;
+
+      case ' ':
+        if (selectedPost === id) {
+          setDndMessage(`Deselected post at position ${idx} with title ${postTitle}. Press space to select.`);
+          setSelectedPost(null);
+        } else {
+          setDndMessage(`Selected post at position ${idx} with title ${postTitle}. Use the arrow keys to move post. Press space to deselect.`);
+          setSelectedPost(id);
+        }
+
+        e.preventDefault();
+        return;
+
+      case 'f':
+        setFeaturedPost(id);
+        setDndMessage(`Set post at position ${idx} as featured post with title ${postTitle}`);
+        if (selectedPost === id) setSelectedPost(null);
+        return;
+
+      default:
+        return;
+    }
+
+    e.preventDefault();
+    if (selectedPost !== id) return;
+
+    if (newIdx >= 0 && newIdx < list.length) {
+      const immutableArray = [...list];
+      [immutableArray[idx], immutableArray[newIdx]] = [immutableArray[newIdx], immutableArray[idx]];
+      setDndMessage(`Moved post with title ${postTitle} from position ${idx} to position ${newIdx}`);
+      setter(immutableArray);
+    }
+  };
+
+  const movePostByHover = useCallback((list: string[], setter: (value: string[]) => void) => (dragIndex: number, hoverIndex: number) => {
     const immutableArray = [...list];
     [immutableArray[dragIndex], immutableArray[hoverIndex]] = [immutableArray[hoverIndex], immutableArray[dragIndex]];
     setter(immutableArray);
@@ -199,27 +247,27 @@ const Compile = ({
 
           <section>
             <h2>{getFullDate(releaseDate)}</h2>
-            <p className={styles.subtitle}>Click on the dots on the left and drag and drop to re-order.</p>
+            <p aria-hidden="true" className={styles.subtitle}>Click on the dots on the left and drag and drop to re-order.</p>
           </section>
 
           <CompileSection title="General">
             <div className="formInputContainer">
-              <label>
-                <p className="labelText">
-                  Release Headline
-                  {' '}
-                  <span className="required">*</span>
-                </p>
+              <label className="labelText">
+                Release Headline
+                {' '}
+                <span className="required" aria-hidden="true">*</span>
 
-                <GenericSkeletonWrapper>
-                  <input
-                    placeholder="Enter subject line for email"
-                    type="text"
-                    required
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                  />
-                </GenericSkeletonWrapper>
+                <div className="labelContent">
+                  <GenericSkeletonWrapper>
+                    <input
+                      placeholder="Enter subject line for email"
+                      type="text"
+                      required
+                      value={subject}
+                      onChange={(e) => setSubject(e.target.value)}
+                    />
+                  </GenericSkeletonWrapper>
+                </div>
 
                 <p className="formInputError">{subjectError}</p>
               </label>
@@ -227,47 +275,51 @@ const Compile = ({
 
             <div className="formInputContainer">
               <label>
-                <p className="labelText">Header Image</p>
+                Header Image
 
-                <GenericSkeletonWrapper>
-                  <input
-                    type="file"
-                    alt="Select image to upload"
-                    accept="image/*"
-                    id="headerImage"
-                    onChange={(e) => { upload(e); }}
-                  />
+                <div className="labelContent">
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="file"
+                      alt="Select image to upload"
+                      accept="image/*"
+                      id="headerImage"
+                      onChange={(e) => { upload(e); }}
+                    />
 
-                  <div>
-                    {imageUploading === true ? <p>Uploading...</p> : null}
-                    {headerImage ? (
-                      <>
-                        <img
-                          src={headerImage}
-                          alt={headerImageAlt}
-                          width={400}
-                        />
-                        <p>Uploaded Image</p>
-                      </>
-                    ) : null}
-                  </div>
-                </GenericSkeletonWrapper>
+                    <div>
+                      {imageUploading === true ? <p>Uploading...</p> : null}
+                      {headerImage ? (
+                        <>
+                          <img
+                            src={headerImage}
+                            alt={headerImageAlt}
+                            width={400}
+                          />
+                          <p>Uploaded Image</p>
+                        </>
+                      ) : null}
+                    </div>
+                  </GenericSkeletonWrapper>
+                </div>
               </label>
             </div>
 
             {headerImage && (
               <div className="formInputContainer">
                 <label>
-                  <p className="labelText">Image Caption</p>
+                  Image Caption
 
-                  <GenericSkeletonWrapper>
-                    <input
-                      type="text"
-                      placeholder="Give a caption for the featured image"
-                      value={headerImageCaption}
-                      onChange={(e) => setHeaderImageCaption(e.target.value)}
-                    />
-                  </GenericSkeletonWrapper>
+                  <div className="labelContent">
+                    <GenericSkeletonWrapper>
+                      <input
+                        type="text"
+                        placeholder="Give a caption for the featured image"
+                        value={headerImageCaption}
+                        onChange={(e) => setHeaderImageCaption(e.target.value)}
+                      />
+                    </GenericSkeletonWrapper>
+                  </div>
                 </label>
               </div>
             )}
@@ -275,22 +327,22 @@ const Compile = ({
             <GenericSkeletonWrapper>
               {headerImage && (
                 <div className="formInputContainer">
-                  <label className="large">
-                    <p className="labelText">
-                      Image Description
-                      {' '}
-                      <span className="required">*</span>
-                    </p>
+                  <label>
+                    Image Description
+                    {' '}
+                    <span className="required" aria-hidden="true">*</span>
 
-                    <GenericSkeletonWrapper>
-                      <input
-                        type="text"
-                        required
-                        placeholder="Briefly describe the featured image"
-                        value={headerImageAlt}
-                        onChange={(e) => setHeaderImageAlt(e.target.value)}
-                      />
-                    </GenericSkeletonWrapper>
+                    <div className="labelContent">
+                      <GenericSkeletonWrapper>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Briefly describe the featured image"
+                          value={headerImageAlt}
+                          onChange={(e) => setHeaderImageAlt(e.target.value)}
+                        />
+                      </GenericSkeletonWrapper>
+                    </div>
                   </label>
 
                   <ContentLength
@@ -307,31 +359,37 @@ const Compile = ({
           <CompileSection title="Quote of the Day (optional)">
             <div className="formInputContainer">
               <label>
-                <p className="labelText">Quote Text</p>
-                <GenericSkeletonWrapper>
-                  <input
-                    type="text"
-                    placeholder="Enter quote of the day"
-                    value={quoteOfDay}
-                    onChange={(e) => setQuoteOfDay(e.target.value)}
-                  />
-                </GenericSkeletonWrapper>
+                Quote Text
+
+                <div className="labelContent">
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="text"
+                      placeholder="Enter quote of the day"
+                      value={quoteOfDay}
+                      onChange={(e) => setQuoteOfDay(e.target.value)}
+                    />
+                  </GenericSkeletonWrapper>
+                </div>
               </label>
             </div>
 
             <div className="formInputContainer">
 
-              <GenericSkeletonWrapper>
-                <label>
-                  <p className="labelText">Quote Attribution</p>
-                  <input
-                    type="text"
-                    placeholder="Give context about the quoted individual"
-                    value={quotedContext}
-                    onChange={(e) => setQuotedContext(e.target.value)}
-                  />
-                </label>
-              </GenericSkeletonWrapper>
+              <label>
+                Quote Attribution
+
+                <div className="labelContent">
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="text"
+                      placeholder="Give context about the quoted individual"
+                      value={quotedContext}
+                      onChange={(e) => setQuotedContext(e.target.value)}
+                    />
+                  </GenericSkeletonWrapper>
+                </div>
+              </label>
             </div>
           </CompileSection>
 
@@ -368,7 +426,7 @@ const Compile = ({
                           hoveredClassName={styles.hovered}
                           validClassName={styles.valid}
                         >
-                          Drag featured post here
+                          <span aria-hidden="true">Drag featured post here</span>
                         </GenericDropTarget>
                       )}
                   </div>
@@ -376,23 +434,51 @@ const Compile = ({
             </DraggablePostTarget>
           </CompileSection>
 
+          <span
+            id="compile-drag-description"
+            className="visually-hidden"
+          >
+            Press space to select a post.
+            Use the arrow keys to move the post up or down in the list.
+            Press the f key to set a post as the featured post.
+          </span>
+
+          <AnnouncementLiveText content={dndMessage} />
+
           <CompileSection title="News">
             {isLoading
               ? <SubmissionSkeleton status="approved" />
               : (
                 <>
-                  {news.length ? news.map((id, idx) => (
-                    <DraggablePost
-                      postContent={postMap?.[id]}
-                      type={DragItemTypes.NEWS}
-                      index={idx}
-                      movePost={movePost(news, setNews)}
-                      handleEdit={handleEdit}
-                      handleReject={handleReject}
-                      className={styles.compilePost}
-                      key={id}
-                    />
-                  )) : <p className={styles.noContent}>No content.</p>}
+                  {news.length ? (
+                    <ol
+                      role="listbox"
+                      aria-label="news"
+                      className={styles.postListContainer}
+                    >
+                      {news.map((id, idx) => (
+                        <li
+                          role="option"
+                          aria-selected={selectedPost === id}
+                          draggable="true"
+                          aria-describedby="compile-drag-description"
+                          onKeyDown={handleArrowReorder(news, setNews, id, idx)}
+                          tabIndex={0}
+                          key={id}
+                        >
+                          <DraggablePost
+                            postContent={postMap?.[id]}
+                            type={DragItemTypes.NEWS}
+                            index={idx}
+                            movePost={movePostByHover(news, setNews)}
+                            handleEdit={handleEdit}
+                            handleReject={handleReject}
+                            className={styles.compilePost}
+                          />
+                        </li>
+                      ))}
+                    </ol>
+                  ) : <p className={styles.noContent}>No content.</p>}
                 </>
               )}
           </CompileSection>
@@ -402,18 +488,35 @@ const Compile = ({
               ? <SubmissionSkeleton status="approved" />
               : (
                 <>
-                  {announcements.length ? announcements.map((id, idx) => (
-                    <DraggablePost
-                      postContent={postMap?.[id]}
-                      type={DragItemTypes.ANNOUNCEMENT}
-                      index={idx}
-                      movePost={movePost(announcements, setAnnouncements)}
-                      handleEdit={handleEdit}
-                      handleReject={handleReject}
-                      className={styles.compilePost}
-                      key={id}
-                    />
-                  )) : <p className={styles.noContent}>No content.</p>}
+                  {announcements.length ? (
+                    <ol
+                      role="listbox"
+                      aria-label="announcements"
+                      className={styles.postListContainer}
+                    >
+                      {announcements.map((id, idx) => (
+                        <li
+                          role="option"
+                          aria-selected={selectedPost === id}
+                          draggable="true"
+                          aria-describedby="compile-drag-description"
+                          onKeyDown={handleArrowReorder(announcements, setAnnouncements, id, idx)}
+                          tabIndex={0}
+                          key={id}
+                        >
+                          <DraggablePost
+                            postContent={postMap?.[id]}
+                            type={DragItemTypes.ANNOUNCEMENT}
+                            index={idx}
+                            movePost={movePostByHover(announcements, setAnnouncements)}
+                            handleEdit={handleEdit}
+                            handleReject={handleReject}
+                            className={styles.compilePost}
+                          />
+                        </li>
+                      ))}
+                    </ol>
+                  ) : <p className={styles.noContent}>No content.</p>}
                 </>
               )}
           </CompileSection>
@@ -423,18 +526,35 @@ const Compile = ({
               ? <SubmissionSkeleton status="approved" />
               : (
                 <>
-                  {events.length ? events.map((id, idx) => (
-                    <DraggablePost
-                      postContent={postMap?.[id]}
-                      type={DragItemTypes.EVENT}
-                      index={idx}
-                      movePost={movePost(events, setEvents)}
-                      handleEdit={handleEdit}
-                      handleReject={handleReject}
-                      className={styles.compilePost}
-                      key={id}
-                    />
-                  )) : <p className={styles.noContent}>No content.</p>}
+                  {events.length ? (
+                    <ol
+                      role="listbox"
+                      aria-label="events"
+                      className={styles.postListContainer}
+                    >
+                      {events.map((id, idx) => (
+                        <li
+                          role="option"
+                          aria-selected={selectedPost === id}
+                          draggable="true"
+                          aria-describedby="compile-drag-description"
+                          onKeyDown={handleArrowReorder(events, setEvents, id, idx)}
+                          tabIndex={0}
+                          key={id}
+                        >
+                          <DraggablePost
+                            postContent={postMap?.[id]}
+                            type={DragItemTypes.EVENT}
+                            index={idx}
+                            movePost={movePostByHover(events, setEvents)}
+                            handleEdit={handleEdit}
+                            handleReject={handleReject}
+                            className={styles.compilePost}
+                          />
+                        </li>
+                      ))}
+                    </ol>
+                  ) : <p className={styles.noContent}>No content.</p>}
                 </>
               )}
           </CompileSection>
