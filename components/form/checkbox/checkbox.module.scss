@@ -20,6 +20,10 @@ $checkbox-size: 24px;
     background-color: colors.$web-gray-one;
   }
 
+  &:focus-within input ~ .checkmark {
+    border-color: colors.$granite-gray;
+  }
+
   .checkmark {
     position: absolute;
     top: 50%;

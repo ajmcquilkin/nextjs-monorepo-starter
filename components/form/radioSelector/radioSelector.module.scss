@@ -7,7 +7,7 @@ $checkbox-size: 24px;
 .radioSelectorContainer {
   position: relative;
   margin-bottom: 18px;
-  padding-left: calc(#{$checkbox-size} + 12px);
+  padding: 0px 2px 4px calc(#{$checkbox-size} + 12px);
 
   font-size: 16px;
   user-select: none;
@@ -15,6 +15,10 @@ $checkbox-size: 24px;
 
   &:hover input ~ .radioSelector {
     background-color: colors.$web-gray-one;
+  }
+
+  &:focus-within {
+    border-bottom: 2px dashed colors.$granite-gray;
   }
 
   input {
