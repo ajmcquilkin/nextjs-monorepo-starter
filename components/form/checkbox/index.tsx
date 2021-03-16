@@ -13,7 +13,9 @@ export interface CheckboxProps {
 const Checkbox = ({
   isChecked, value, onCheck, className = ''
 }: CheckboxProps): JSX.Element => (
-  <label className={[styles.checkboxContainer, className].join(' ')}>
+  <label className={[styles.checkboxContainer, 'small', className].join(' ')}>
+    {value}
+
     <input
       type="checkbox"
       value={value}
@@ -21,7 +23,6 @@ const Checkbox = ({
       onChange={() => onCheck()}
     />
     <span className={styles.checkmark} />
-    <p>{value}</p>
   </label>
 );
 

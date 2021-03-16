@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 
 import {
   Editor, EditorState,
@@ -18,8 +18,6 @@ export interface RichTextEditorProps {
 
 const RichTextEditor = ({ onChange, incomingState }: RichTextEditorProps): JSX.Element => {
   const editor = useRef<Editor>(null);
-  const focusEditor = (): void => { editor.current?.focus(); };
-  useEffect(() => { focusEditor(); }, []);
 
   const handleChange = (state: EditorState): void => {
     onChange(state);
@@ -43,6 +41,16 @@ const RichTextEditor = ({ onChange, incomingState }: RichTextEditorProps): JSX.E
 
   return (
     <div className={styles.rteContainer}>
+      <Editor
+        ref={editor}
+        ariaLabelledBy="rte-label"
+        editorState={incomingState}
+        onChange={handleChange}
+        handleKeyCommand={handleKeyCommand}
+        blockStyleFn={getBlockStyle}
+        spellCheck
+      />
+
       <div className={styles.rteMenuContainer}>
         <InlineStyleControls
           editorState={incomingState}
@@ -54,15 +62,6 @@ const RichTextEditor = ({ onChange, incomingState }: RichTextEditorProps): JSX.E
           onToggle={toggleBlockType}
         />
       </div>
-
-      <Editor
-        ref={editor}
-        editorState={incomingState}
-        onChange={handleChange}
-        handleKeyCommand={handleKeyCommand}
-        blockStyleFn={getBlockStyle}
-        spellCheck
-      />
     </div>
   );
 };

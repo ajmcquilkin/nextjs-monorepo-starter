@@ -3,6 +3,8 @@
 @use "styles/textStyling.scss" as textStyling;
 
 .rteContainer {
+  display: flex;
+  flex-direction: column-reverse;
   border-radius: 8px;
 
   .rteMenuContainer {

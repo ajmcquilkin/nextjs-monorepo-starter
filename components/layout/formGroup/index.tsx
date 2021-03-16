@@ -13,15 +13,19 @@ export interface FormGroupProps {
 }
 
 const FormGroup = ({
-  group, headerDepth, selectedElements, setSelectedState
+  group: { name, list }, headerDepth, selectedElements, setSelectedState
 }: FormGroupProps): JSX.Element => (
   <div className={styles.formGroupContainer}>
-    {createElement(`h${headerDepth}`, { className: styles.header }, group.name)}
-    <ul>
+    {createElement(`h${headerDepth}`, { className: styles.header }, name)}
+    <ul role="listbox" aria-label={name}>
       <div className={styles.groupListContainer}>
-        {group?.list?.map((g) => (typeof g === 'string'
+        {list?.map((g) => (typeof g === 'string'
           ? (
-            <li key={g}>
+            <li
+              role="option"
+              aria-selected={!!selectedElements[g]}
+              key={g}
+            >
               <Checkbox
                 value={g}
                 isChecked={!!selectedElements[g]}

@@ -15,6 +15,7 @@ import SkeletonArea from 'components/helpers/skeletonArea';
 import SubmissionSkeleton from 'components/submissions/submissionSkeleton';
 
 import ContentLength from 'components/form/contentLength';
+import FormError from 'components/form/formError';
 import CompileSection from 'components/layout/compileSection';
 import DraggablePost from 'components/posts/draggablePost';
 import DraggablePostTarget from 'components/posts/draggablePostTarget';
@@ -269,7 +270,7 @@ const Compile = ({
                   </GenericSkeletonWrapper>
                 </div>
 
-                <p className="formInputError">{subjectError}</p>
+                <FormError message={subjectError} />
               </label>
             </div>
 
@@ -350,7 +351,7 @@ const Compile = ({
                     maxContentLength={50}
                   />
 
-                  <p className="formInputError">{headerImageAltError}</p>
+                  <FormError message={headerImageAltError} />
                 </div>
               )}
             </GenericSkeletonWrapper>

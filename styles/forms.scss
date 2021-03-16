@@ -60,9 +60,9 @@
       border: 1px solid colors.$tuck-orange;
     }
   }
+}
 
-  .formInputError {
-    @include textStyling.paragraphText();
-    color: colors.$tuck-orange;
-  }
+.genericError {
+  @include textStyling.paragraphText();
+  color: colors.$tuck-orange;
 }
