@@ -1,5 +1,6 @@
 import sanitizeHTML from 'sanitize-html';
-import { Types } from 'mongoose';
+import pickBy from 'lodash.pickby';
+import { FilterQuery, Types } from 'mongoose';
 
 import * as releaseController from 'controllers/releaseController';
 
@@ -96,6 +97,33 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
 
   foundPost.lastEdited = Date.now();
   return (await foundPost.save()).toJSON();
+};
+
+export const updateMany = async (filter: FilterQuery<PostDocument>, fields: Partial<Post>): Promise<void> => {
+  const {
+    fromName, fromAddress, submitterNetId, type, fullContent,
+    briefContent, url, requestedPublicationDate, recipientGroups, status,
+    rejectionComment, rejectionReason, featuredImage, featuredImageAlt, eventDate, eventTime
+  } = fields;
+
+  await PostModel.updateMany(filter, pickBy({
+    fromName,
+    fromAddress,
+    submitterNetId,
+    type,
+    fullContent,
+    briefContent,
+    url,
+    requestedPublicationDate,
+    recipientGroups,
+    status,
+    rejectionComment,
+    rejectionReason,
+    featuredImage,
+    featuredImageAlt,
+    eventDate,
+    eventTime
+  }, (value) => !!value));
 };
 
 export const remove = async (id: string): Promise<void> => {
