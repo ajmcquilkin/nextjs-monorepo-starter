@@ -34,7 +34,7 @@ const HomeSubmission = ({ content }: HomeSubmissionProps): JSX.Element => {
 
         {content.url && (
           <div className={styles.linkContainer}>
-            <img src="/icons/link.svg" alt="link chain" />
+            <img src="/icons/link.svg" alt="link chain" aria-hidden="true" />
             <Link href={content.url}><a>{content.url}</a></Link>
           </div>
         )}
