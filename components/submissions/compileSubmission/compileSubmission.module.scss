@@ -39,6 +39,12 @@ $main-radius: 8px;
 
       @include textStyling.paragraphText();
       color: colors.$granite-gray;
+
+      .newContentLabel {
+        color: colors.$tuck-orange;
+        font-size: 13px;
+        padding-left: 8px;
+      }
     }
 
     button {
