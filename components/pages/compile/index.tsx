@@ -238,27 +238,27 @@ const Compile = ({
 
           <section>
             <h2>{getFullDate(releaseDate)}</h2>
-            <p className={styles.subtitle}>Click on the dots on the left and drag and drop to re-order.</p>
+            <p aria-hidden="true" className={styles.subtitle}>Click on the dots on the left and drag and drop to re-order.</p>
           </section>
 
           <CompileSection title="General">
             <div className="formInputContainer">
-              <label>
-                <p className="labelText">
-                  Release Headline
-                  {' '}
-                  <span className="required">*</span>
-                </p>
+              <label className="labelText">
+                Release Headline
+                {' '}
+                <span className="required" aria-hidden="true">*</span>
 
-                <GenericSkeletonWrapper>
-                  <input
-                    placeholder="Enter subject line for email"
-                    type="text"
-                    required
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                  />
-                </GenericSkeletonWrapper>
+                <div className="labelContent">
+                  <GenericSkeletonWrapper>
+                    <input
+                      placeholder="Enter subject line for email"
+                      type="text"
+                      required
+                      value={subject}
+                      onChange={(e) => setSubject(e.target.value)}
+                    />
+                  </GenericSkeletonWrapper>
+                </div>
 
                 <p className="formInputError">{subjectError}</p>
               </label>
@@ -266,47 +266,51 @@ const Compile = ({
 
             <div className="formInputContainer">
               <label>
-                <p className="labelText">Header Image</p>
+                Header Image
 
-                <GenericSkeletonWrapper>
-                  <input
-                    type="file"
-                    alt="Select image to upload"
-                    accept="image/*"
-                    id="headerImage"
-                    onChange={(e) => { upload(e); }}
-                  />
+                <div className="labelContent">
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="file"
+                      alt="Select image to upload"
+                      accept="image/*"
+                      id="headerImage"
+                      onChange={(e) => { upload(e); }}
+                    />
 
-                  <div>
-                    {imageUploading === true ? <p>Uploading...</p> : null}
-                    {headerImage ? (
-                      <>
-                        <img
-                          src={headerImage}
-                          alt={headerImageAlt}
-                          width={400}
-                        />
-                        <p>Uploaded Image</p>
-                      </>
-                    ) : null}
-                  </div>
-                </GenericSkeletonWrapper>
+                    <div>
+                      {imageUploading === true ? <p>Uploading...</p> : null}
+                      {headerImage ? (
+                        <>
+                          <img
+                            src={headerImage}
+                            alt={headerImageAlt}
+                            width={400}
+                          />
+                          <p>Uploaded Image</p>
+                        </>
+                      ) : null}
+                    </div>
+                  </GenericSkeletonWrapper>
+                </div>
               </label>
             </div>
 
             {headerImage && (
               <div className="formInputContainer">
                 <label>
-                  <p className="labelText">Image Caption</p>
+                  Image Caption
 
-                  <GenericSkeletonWrapper>
-                    <input
-                      type="text"
-                      placeholder="Give a caption for the featured image"
-                      value={headerImageCaption}
-                      onChange={(e) => setHeaderImageCaption(e.target.value)}
-                    />
-                  </GenericSkeletonWrapper>
+                  <div className="labelContent">
+                    <GenericSkeletonWrapper>
+                      <input
+                        type="text"
+                        placeholder="Give a caption for the featured image"
+                        value={headerImageCaption}
+                        onChange={(e) => setHeaderImageCaption(e.target.value)}
+                      />
+                    </GenericSkeletonWrapper>
+                  </div>
                 </label>
               </div>
             )}
@@ -314,22 +318,22 @@ const Compile = ({
             <GenericSkeletonWrapper>
               {headerImage && (
                 <div className="formInputContainer">
-                  <label className="large">
-                    <p className="labelText">
-                      Image Description
-                      {' '}
-                      <span className="required">*</span>
-                    </p>
+                  <label>
+                    Image Description
+                    {' '}
+                    <span className="required" aria-hidden="true">*</span>
 
-                    <GenericSkeletonWrapper>
-                      <input
-                        type="text"
-                        required
-                        placeholder="Briefly describe the featured image"
-                        value={headerImageAlt}
-                        onChange={(e) => setHeaderImageAlt(e.target.value)}
-                      />
-                    </GenericSkeletonWrapper>
+                    <div className="labelContent">
+                      <GenericSkeletonWrapper>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Briefly describe the featured image"
+                          value={headerImageAlt}
+                          onChange={(e) => setHeaderImageAlt(e.target.value)}
+                        />
+                      </GenericSkeletonWrapper>
+                    </div>
                   </label>
 
                   <ContentLength
@@ -346,31 +350,37 @@ const Compile = ({
           <CompileSection title="Quote of the Day (optional)">
             <div className="formInputContainer">
               <label>
-                <p className="labelText">Quote Text</p>
-                <GenericSkeletonWrapper>
-                  <input
-                    type="text"
-                    placeholder="Enter quote of the day"
-                    value={quoteOfDay}
-                    onChange={(e) => setQuoteOfDay(e.target.value)}
-                  />
-                </GenericSkeletonWrapper>
+                Quote Text
+
+                <div className="labelContent">
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="text"
+                      placeholder="Enter quote of the day"
+                      value={quoteOfDay}
+                      onChange={(e) => setQuoteOfDay(e.target.value)}
+                    />
+                  </GenericSkeletonWrapper>
+                </div>
               </label>
             </div>
 
             <div className="formInputContainer">
 
-              <GenericSkeletonWrapper>
-                <label>
-                  <p className="labelText">Quote Attribution</p>
-                  <input
-                    type="text"
-                    placeholder="Give context about the quoted individual"
-                    value={quotedContext}
-                    onChange={(e) => setQuotedContext(e.target.value)}
-                  />
-                </label>
-              </GenericSkeletonWrapper>
+              <label>
+                Quote Attribution
+
+                <div className="labelContent">
+                  <GenericSkeletonWrapper>
+                    <input
+                      type="text"
+                      placeholder="Give context about the quoted individual"
+                      value={quotedContext}
+                      onChange={(e) => setQuotedContext(e.target.value)}
+                    />
+                  </GenericSkeletonWrapper>
+                </div>
+              </label>
             </div>
           </CompileSection>
 
@@ -407,7 +417,7 @@ const Compile = ({
                           hoveredClassName={styles.hovered}
                           validClassName={styles.valid}
                         >
-                          Drag featured post here
+                          <span aria-hidden="true">Drag featured post here</span>
                         </GenericDropTarget>
                       )}
                   </div>
@@ -419,8 +429,9 @@ const Compile = ({
             id="compile-drag-description"
             className="visually-hidden"
           >
-            Select a post with the tab key then use
-            the arrow keys to reorder within the list
+            Press space to select a post.
+            Use the arrow keys to move the post up or down in the list.
+            Press the f key to set a post as the featured post.
           </span>
 
           <CompileSection title="News">
