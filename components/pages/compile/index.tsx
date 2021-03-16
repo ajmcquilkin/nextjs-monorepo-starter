@@ -32,7 +32,7 @@ import { fetchPostsByDate as fetchPostsByDateImport } from 'store/actionCreators
 import { addNDays, DragItemTypes, getFullDate } from 'utils';
 import uploadImage from 'utils/s3';
 
-import { Post } from 'types/post';
+import { NovelPostReference, Post } from 'types/post';
 import { Release } from 'types/release';
 import { ConnectedThunkCreator } from 'types/state';
 
@@ -59,7 +59,12 @@ export interface CompileDispatchProps {
 
 export type CompileProps = CompilePassedProps & CompileStateProps & CompileDispatchProps;
 
-const combineIdArray = (incoming: string[], existing: string[]): string[] => unionWith(incoming, existing, (a, b) => a === b);
+const convertToNovel = (arr: string[], isNew = false): NovelPostReference[] => arr.map((id) => ({ id, isNew }));
+
+const combineIdArray = (incoming: NovelPostReference[], existing: NovelPostReference[]): NovelPostReference[] => unionWith(
+  incoming, existing,
+  (a: NovelPostReference, b: NovelPostReference) => a.id === b.id
+);
 
 const Compile = ({
   postMap, release, postResults, isLoading,
@@ -81,9 +86,9 @@ const Compile = ({
   const [featuredPost, setFeaturedPost] = useState<Release['featuredPost']>(null);
   const [selectedPost, setSelectedPost] = useState<string | null>(null);
 
-  const [news, setNews] = useState<string[]>(release?.news || []);
-  const [announcements, setAnnouncements] = useState<string[]>(release?.announcements || []);
-  const [events, setEvents] = useState<string[]>(release?.events || []);
+  const [news, setNews] = useState<NovelPostReference[]>([]);
+  const [announcements, setAnnouncements] = useState<NovelPostReference[]>([]);
+  const [events, setEvents] = useState<NovelPostReference[]>([]);
 
   const releaseDate = addNDays(Date.now(), 1);
 
@@ -108,15 +113,48 @@ const Compile = ({
     setQuotedContext(release?.quotedContext || '');
     setFeaturedPost(release?.featuredPost || null);
 
-    setNews(combineIdArray(release?.news || [], news));
-    setAnnouncements(combineIdArray(release?.announcements || [], announcements));
-    setEvents(combineIdArray(release?.events || [], events));
+    setNews(combineIdArray(convertToNovel(release?.news || []), news));
+    setAnnouncements(combineIdArray(convertToNovel(release?.announcements || []), announcements));
+
+    setEvents(
+      combineIdArray(convertToNovel(release?.events || []), events)
+        .sort((a, b) => ((postMap[a.id]?.eventDate ?? -1) - (postMap[b.id]?.eventDate ?? -1)))
+    );
   }, [release]);
 
   useEffect(() => {
-    setNews(combineIdArray(postResults.filter((post) => post.type === 'news').map((post) => post._id), news));
-    setAnnouncements(combineIdArray(postResults.filter((post) => post.type === 'announcement').map((post) => post._id), announcements));
-    setEvents(combineIdArray(postResults.filter((post) => post.type === 'event').map((post) => post._id), events));
+    setNews(
+      combineIdArray(
+        convertToNovel(
+          postResults
+            .filter((post) => post.type === 'news')
+            .map((post) => post._id),
+          true
+        ), news
+      )
+    );
+
+    setAnnouncements(
+      combineIdArray(
+        convertToNovel(
+          postResults
+            .filter((post) => post.type === 'announcement')
+            .map((post) => post._id),
+          true
+        ), announcements
+      )
+    );
+
+    setEvents(
+      combineIdArray(
+        convertToNovel(
+          postResults
+            .filter((post) => post.type === 'event')
+            .map((post) => post._id),
+          true
+        ), events
+      ).sort((a, b) => ((postMap[a.id]?.eventDate ?? -1) - (postMap[b.id]?.eventDate ?? -1)))
+    );
   }, [postResults]);
 
   const upload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -130,7 +168,7 @@ const Compile = ({
       setHeaderImage(url);
       if (release) { updateReleaseById(release._id, { headerImage: url }); }
     } catch (error) {
-      console.error(error.message);
+      openModal('ERROR_MODAL', { title: 'Image Upload Error', content: error.message });
     }
   };
 
@@ -176,16 +214,16 @@ const Compile = ({
       featuredPost,
       date: releaseDate,
 
-      news,
-      announcements,
-      events
+      news: news.map(({ id }) => id),
+      announcements: announcements.map(({ id }) => id),
+      events: events.map(({ id }) => id)
     };
 
     if (release) updateReleaseById(release._id, body);
     else createRelease(body);
   };
 
-  const handleArrowReorder = (list: string[], setter: (value: string[]) => void, id: string, idx: number): KeyboardEventHandler<HTMLLIElement> => (e) => {
+  const handleArrowReorder = (list: NovelPostReference[], setter: (value: NovelPostReference[]) => void, id: string, idx: number): KeyboardEventHandler<HTMLLIElement> => (e) => {
     const postTitle = postMap[id]?.briefContent || 'not found';
     let newIdx = idx;
 
@@ -231,7 +269,7 @@ const Compile = ({
     }
   };
 
-  const movePostByHover = useCallback((list: string[], setter: (value: string[]) => void) => (dragIndex: number, hoverIndex: number) => {
+  const movePostByHover = useCallback((list: NovelPostReference[], setter: (value: NovelPostReference[]) => void) => (dragIndex: number, hoverIndex: number) => {
     const immutableArray = [...list];
     [immutableArray[dragIndex], immutableArray[hoverIndex]] = [immutableArray[hoverIndex], immutableArray[dragIndex]];
     setter(immutableArray);
@@ -457,7 +495,7 @@ const Compile = ({
                       aria-label="news"
                       className={styles.postListContainer}
                     >
-                      {news.map((id, idx) => (
+                      {news.map(({ id, isNew }, idx) => (
                         <li
                           role="option"
                           aria-selected={selectedPost === id}
@@ -474,6 +512,7 @@ const Compile = ({
                             movePost={movePostByHover(news, setNews)}
                             handleEdit={handleEdit}
                             handleReject={handleReject}
+                            isNew={isNew}
                             className={styles.compilePost}
                           />
                         </li>
@@ -495,7 +534,7 @@ const Compile = ({
                       aria-label="announcements"
                       className={styles.postListContainer}
                     >
-                      {announcements.map((id, idx) => (
+                      {announcements.map(({ id, isNew }, idx) => (
                         <li
                           role="option"
                           aria-selected={selectedPost === id}
@@ -512,6 +551,7 @@ const Compile = ({
                             movePost={movePostByHover(announcements, setAnnouncements)}
                             handleEdit={handleEdit}
                             handleReject={handleReject}
+                            isNew={isNew}
                             className={styles.compilePost}
                           />
                         </li>
@@ -533,7 +573,7 @@ const Compile = ({
                       aria-label="events"
                       className={styles.postListContainer}
                     >
-                      {events.map((id, idx) => (
+                      {events.map(({ id, isNew }, idx) => (
                         <li
                           role="option"
                           aria-selected={selectedPost === id}
@@ -550,6 +590,7 @@ const Compile = ({
                             movePost={movePostByHover(events, setEvents)}
                             handleEdit={handleEdit}
                             handleReject={handleReject}
+                            isNew={isNew}
                             className={styles.compilePost}
                           />
                         </li>

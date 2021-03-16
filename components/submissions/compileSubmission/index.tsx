@@ -8,10 +8,14 @@ import styles from './compileSubmission.module.scss';
 export interface CompileSubmissionProps {
   postContent: Post,
   handleEdit: (_id: string) => void,
-  handleReject: (_id: string) => void
+  handleReject: (_id: string) => void,
+  isNew?: boolean
 }
 
-const CompileSubmission = ({ postContent, handleEdit, handleReject }: CompileSubmissionProps): JSX.Element => {
+const CompileSubmission = ({
+  postContent, handleEdit, handleReject,
+  isNew = false
+}: CompileSubmissionProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const sanitizedHTML = sanitizeHtml(postContent.fullContent);
 
@@ -19,7 +23,10 @@ const CompileSubmission = ({ postContent, handleEdit, handleReject }: CompileSub
     <div className={styles.compileSubmissionContainer}>
       <div className={[styles.collapsedContentContainer, isOpen ? styles.open : ''].join(' ')}>
         <img className={styles.grabIcon} src="/icons/grab.svg" alt="selection dots" role="presentation" />
-        <p>{postContent.briefContent}</p>
+        <p>
+          {postContent.briefContent}
+          {isNew && <span className={styles.newContentLabel}>New Post!</span>}
+        </p>
         <button
           aria-label="view more post information"
           type="button"

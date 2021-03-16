@@ -284,7 +284,7 @@ const Form = ({
         setFeaturedImage(imageURL);
         if (post) { updatePostById(post._id, { featuredImage: imageURL }); }
       } catch (error) {
-        console.error(error.message);
+        openModal('ERROR_MODAL', { title: 'Image Upload Error', content: error.message });
       }
     }
   };
