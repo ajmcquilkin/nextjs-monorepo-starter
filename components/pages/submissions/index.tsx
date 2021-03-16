@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 
 import FilterBar from 'components/layout/filterBar';
 import SearchBar from 'components/layout/searchBar';
@@ -18,6 +19,7 @@ import {
 import { Post, PostPublishType, PostStatus } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
 
+import { siteMetaTitle } from 'utils';
 import styles from './submissions.module.scss';
 
 export interface SubmissionsPassedProps {
@@ -65,6 +67,9 @@ const Submissions = ({
 
   return (
     <SkeletonArea name="submissions page" isLoading={isLoading}>
+      <Helmet>
+        <title>{`Submissions - ${siteMetaTitle}`}</title>
+      </Helmet>
       <div className={styles.submissionsContainer}>
         <div className={styles.titleContainer}>
           <h1>Your Submissions</h1>

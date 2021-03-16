@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 
 import FilterBar from 'components/layout/filterBar';
 import SearchBar from 'components/layout/searchBar';
@@ -13,6 +14,7 @@ import { fetchWithStatus as fetchWithStatusImport, updatePostById as updatePostB
 import { Post, PostPublishType, PostStatus } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
 
+import { siteMetaTitle } from 'utils';
 import styles from './review.module.scss';
 
 export interface ReviewPassedProps {
@@ -55,6 +57,9 @@ const Review = ({
 
   return (
     <div className={styles.reviewContainer}>
+      <Helmet>
+        <title>{`Review - ${siteMetaTitle}`}</title>
+      </Helmet>
       <div className={styles.titleContainer}>
         <h1>Review</h1>
       </div>
