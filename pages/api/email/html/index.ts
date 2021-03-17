@@ -20,9 +20,11 @@ const handler = createDefaultHandler()
   .get(async (req, res) => {
     const { authorization = '' } = req.headers;
 
-    if (!__EMAIL_API_KEY__) throw new Error('No valid internal API key found');
-    if (!authorization) throw new ForbiddenResourceError();
-    if (authorization !== __EMAIL_API_KEY__) throw new BadCredentialsError();
+    if (__MODE__ !== 'dev') {
+      if (!__EMAIL_API_KEY__) throw new Error('No valid internal API key found');
+      if (!authorization) throw new ForbiddenResourceError();
+      if (authorization !== __EMAIL_API_KEY__) throw new BadCredentialsError();
+    }
 
     const { group, date } = req.query;
     const groupsArray = generateGroupsArray(group);
@@ -67,8 +69,8 @@ const handler = createDefaultHandler()
       .replace(/<div>/g, '<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td>')
       .replace(/<\/div>/g, '</td></tr></table>');
 
-    return res.status(200).json(createSuccessPayload<GenerateEmailData>({ html: generatedHTML }));
-    // return res.status(200).send(generatedHTML);
+    // return res.status(200).json(createSuccessPayload<GenerateEmailData>({ html: generatedHTML }));
+    return res.status(200).send(generatedHTML);
   });
 
 export default handler;

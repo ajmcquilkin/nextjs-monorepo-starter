@@ -14,9 +14,11 @@ const handler = createDefaultHandler()
   .get(async (req, res) => {
     const { authorization = '' } = req.headers;
 
-    if (!__EMAIL_API_KEY__) throw new Error('No valid internal API key found');
-    if (!authorization) throw new ForbiddenResourceError();
-    if (authorization !== __EMAIL_API_KEY__) throw new BadCredentialsError();
+    if (__MODE__ !== 'dev') {
+      if (!__EMAIL_API_KEY__) throw new Error('No valid internal API key found');
+      if (!authorization) throw new ForbiddenResourceError();
+      if (authorization !== __EMAIL_API_KEY__) throw new BadCredentialsError();
+    }
 
     const { group, date } = req.query;
     const groupsArray = generateGroupsArray(group);
