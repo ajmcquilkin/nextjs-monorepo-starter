@@ -1,3 +1,4 @@
+import { Dispatch } from 'redux';
 import axios, { AxiosError } from 'axios';
 
 import { Empty } from 'types/generic';
@@ -8,8 +9,8 @@ import {
 import { ServerPayload } from 'types/server';
 
 export type AsyncActionCreatorConfig<Data, AddlPayload> = {
-  successCallback?: (res: RequestReturnType<Data>) => void,
-  failureCallback?: (error: AxiosError<ServerPayload<Data>>) => void,
+  successCallback?: (res: RequestReturnType<Data>, dispatch: Dispatch<Actions>) => void,
+  failureCallback?: (error: AxiosError<ServerPayload<Data>>, dispatch: Dispatch<Actions>) => void,
   additionalPayloadFields?: AddlPayload
 }
 
@@ -45,7 +46,7 @@ export const createAsyncActionCreator = async <Data, AddlPayload = any>(
       payload: generateSuccessPayload<Data, AddlPayload>(response, config.additionalPayloadFields)
     } as Actions);
 
-    if (config.successCallback) { config.successCallback(response); }
+    if (config.successCallback) { config.successCallback(response, dispatch); }
   } catch (error) {
     let errorName = '';
     let errorMessage = '';
@@ -92,7 +93,7 @@ export const createAsyncActionCreator = async <Data, AddlPayload = any>(
     }
 
     if (config.failureCallback) {
-      config.failureCallback(error);
+      config.failureCallback(error, dispatch);
     } else {
       dispatch({
         type: 'OPEN_MODAL',

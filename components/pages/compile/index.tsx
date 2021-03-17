@@ -102,8 +102,16 @@ const Compile = ({
   // * Validated fields
 
   useEffect(() => {
-    fetchReleaseByDate(releaseDate, { failureCallback: () => ({}) });
     fetchPostsByDate(releaseDate, { failureCallback: () => ({}) });
+    fetchReleaseByDate(releaseDate, {
+      failureCallback: (_res, dispatch) => {
+        dispatch({
+          type: 'FETCH_RELEASE',
+          status: 'SUCCESS',
+          payload: { data: null }
+        });
+      }
+    });
   }, []);
 
   useEffect(() => {

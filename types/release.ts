@@ -40,7 +40,7 @@ export interface ReleaseState {
 export const FETCH_RELEASE = 'FETCH_RELEASE';
 export const DELETE_RELEASE = 'DELETE_RELEASE';
 
-export type FetchReleaseData = PopulatedRelease;
+export type FetchReleaseData = PopulatedRelease | null;
 export type DeleteReleaseData = { id: string };
 
 type FetchReleaseAction = Action<typeof FETCH_RELEASE, FetchReleaseData>

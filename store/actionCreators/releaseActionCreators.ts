@@ -2,7 +2,7 @@ import { AsyncActionCreatorConfig, createAsyncActionCreator } from 'store/action
 import * as releaseRequests from 'store/requests/releaseRequests';
 
 import { Empty } from 'types/generic';
-import { Release, DeleteReleaseData, FetchReleaseData } from 'types/release';
+import { Release, FetchReleaseData } from 'types/release';
 import { ThunkResult } from 'types/state';
 
 export const fetchReleaseById = (
@@ -40,13 +40,4 @@ export const updateReleaseById = (
   dispatch, 'FETCH_RELEASE',
   () => releaseRequests.updateReleaseByIdRequest(id, update),
   additionalConfig
-);
-
-export const deleteReleaseById = (
-  id: string,
-  additionalConfig: AsyncActionCreatorConfig<Empty, DeleteReleaseData> = {}
-): ThunkResult => (dispatch) => createAsyncActionCreator<Empty, DeleteReleaseData>(
-  dispatch, 'DELETE_POST',
-  () => releaseRequests.deleteReleaseByIdRequest(id),
-  { ...additionalConfig, additionalPayloadFields: { id }, },
 );
