@@ -13,7 +13,7 @@
     }
 
     .mainTableRow {
-      padding: 0 24px 24px 24px;
+      padding: 0 24px 48px 24px;
       margin: 0 0 0 0;
       width: 100%
     }
@@ -149,13 +149,13 @@
 
           <tr>
             <td>
-              <h1 style="margin: 12px 0 3px 0; text-align: center;">Vox Daily</h1>
+              <h1 style="margin: 18px 0 3px 0; text-align: center;">Vox Daily</h1>
             </td>
           </tr>
 
           <tr>
             <td>
-              <h2 style="margin: 0 0 12px 0; text-align: center;">{{__DATE}}</h2>
+              <h2 style="margin: 0 0 18px 0; text-align: center;">{{__DATE}}</h2>
             </td>
           </tr>
 
@@ -174,7 +174,7 @@
             <td>
               <h3 style="color: #00693E">Daily Summary</h3>
               <table role="presentation" class="sectionSpacerPadding" width="100%" cellpadding="0" cellspacing="0"
-                border="0">
+                border="0" style="padding: 0px 0px 0px 0px;">
                 <tr>
                   <td class="spacer" bgcolor="#00693E"></td>
                 </tr>
@@ -230,26 +230,27 @@
     <!-- Quote of the Day -->
     <tr>
       <td>
-        <table role="presentation" style="padding: 0 0 36px 0;" cellpadding="0" cellspacing="0" border="0">
-          <tr bgcolor="#00693E">
+        <table width="100%" role="presentation" style="padding: 0 0 36px 0;" cellpadding="0" cellspacing="0" border="0">
+          <tr bgcolor="#00341F">
             <td>
-              <table role="presentation" style="padding: 30px 36px 0 36px; margin: 0 auto 0 auto;" cellpadding="0"
-                cellspacing="0" border="0">
+              <table role="presentation" width="100%" style="padding: 30px 36px 0 36px;" cellpadding="0" cellspacing="0"
+                border="0">
                 <tr>
-                  <td><img class="qodImage" src="/icons/left-email-small.svg" /></td>
+                  <td><img class="qodImage" src="/icons/left-email.svg" role="presentation" /></td>
                   <td>
-                    <h2 style="width: 132px; text-align: center; color: #FFFFFF; padding: 0 0 12px 0;">
+                    <h2 width="132px"
+                      style="margin: 0px auto 0px auto; text-align: center; color: #FFFFFF; padding: 0 0 12px 0;">
                       QUOTE OF THE DAY
                     </h2>
                   </td>
-                  <td><img class="qodImage" src="/icons/right-email-small.svg" /></td>
+                  <td><img class="qodImage" src="/icons/right-email.svg" role="presentation" /></td>
                 </tr>
               </table>
             </td>
           </tr>
 
           <tr>
-            <td bgcolor="#00341F">
+            <td bgcolor="#0D1E1C">
               <table width="72%" style="padding: 48px 0 48px 0; margin: 0 auto 0 auto;" role="presentation" width="300"
                 cellpadding="0" cellspacing="0" border="0">
                 <tr>
@@ -321,7 +322,6 @@
     <tr>
       <td>
         <table role="presentation" class="mainTableRow" cellpadding="0" cellspacing="0" border="0">
-
           <tr>
             <td>
               <h3 style="text-transform: uppercase;">Events</h3>
@@ -332,6 +332,33 @@
                 </tr>
               </table>
               {{__EVENTS}}
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr>
+      <td bgcolor="#0D1E1C">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
+          style="padding: 48px 48px 48px 48px">
+          <tr>
+            <td>
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin: 0px auto 0px auto;">
+                <tr>
+                  <td>
+                    <img src="/lone-pine.png" height="240px" alt="dartmouth lone pine"
+                      style="margin: 0px 0px 48px 0px;" />
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p style="color: #FFFFFF; text-align: center; margin: 0px 0px 0px 0px; font-size: 13px;">
+                Copyright ©{{__COPYRIGHT}} Trustees of Dartmouth College
+              </p>
             </td>
           </tr>
         </table>
