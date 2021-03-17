@@ -29,8 +29,6 @@
   </p>
 </p>
 
-## UPDATE ME
-
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
@@ -48,12 +46,26 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li>
+      <a href="#usage">Usage</a>
+      <ul>
+        <li><a href="#general-usage">General Usage</a></li>
+        <li><a href="#site-pages">Site Pages</a></li>
+      </ul>
+    </li>
+    <li><a href="#environment-variables">Required Environment Variables</a></li>
+    <li><a href="#data-models">Data Models</a></li>
+    <li>
+      <a href="#usage">Core Functionality</a>
+      <ul>
+        <li><a href="#general-functional-groups">General Functional Groups</a></li>
+        <li><a href="#frontend-functional-groups">Frontend Functional Groups</a></li>
+        <li><a href="#backend-functional-groups">Backend Functional Groups</a></li>
+      </ul>
+    </li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
@@ -116,7 +128,7 @@ The following pieces of software are required to run this application:
 
 ## Usage
 
-### General
+### General Usage
 
 Users of the application will need to authenticate with the application using the CAS protocol. The returned payload from this service will need the following fields:
 
@@ -136,7 +148,7 @@ Staff will only be able to create, edit, and delete their own posts, but not int
 
 Reviewers will be able to create their own posts, but will also be able to edit and delete the posts of other users. Additionally, they are able to approve all posts **except their own**. They will also be able to create and edit releases.
 
-### Pages
+### Site Pages
 
 This project is split into the following major pages:
 
@@ -150,7 +162,7 @@ Users will only be shown the pages they are authorized to access, and even if th
 
 <!-- ENV VARIABLES -->
 
-## Required Environment Variables
+## Environment Variables
 
 The following variables are expected to be defined by the application when starting the server. More information on environment variables in NextJS can be found [here](https://nextjs.org/docs/basic-features/environment-variables).
 
