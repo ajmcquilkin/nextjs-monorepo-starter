@@ -88,13 +88,13 @@ export default class CASAuthentication {
   };
 
   private _handle = async (req: ServerRequestType, res: ServerResponseType, next: NextHandler): Promise<void> => {
-    if (req.session[this.sessionName]) return next();
-
     if (this.isDevMode || __ENABLE_CAS_DEV_MODE__) {
       req.session[this.sessionName] = this.devModeUser;
       req.session[this.sessionInfoField] = this.devModeInfo;
       return next();
     }
+
+    if (req.session[this.sessionName]) return next();
 
     if (req.query?.ticket) {
       await this._handleTicket(req, res, next);
