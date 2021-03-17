@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect, ChangeEvent } from 'react';
+import { Helmet } from 'react-helmet';
 import { useDispatch } from 'react-redux';
 import { validate } from 'email-validator';
 
@@ -38,7 +39,7 @@ import {
 import {
   maxContentLength, addNDays, isValidUrl, maxFileSize,
   handleEncodeDate, handleDecodeDate, handleEncodeTime, handleDecodeTime,
-  encodeRecipientGroups, decodeRecipientGroups
+  encodeRecipientGroups, decodeRecipientGroups, siteMetaTitle
 } from 'utils';
 import uploadImage from 'utils/s3';
 import { serverTimeZone } from 'utils/time';
@@ -284,13 +285,16 @@ const Form = ({
         setFeaturedImage(imageURL);
         if (post) { updatePostById(post._id, { featuredImage: imageURL }); }
       } catch (error) {
-        console.error(error.message);
+        openModal('ERROR_MODAL', { title: 'Image Upload Error', content: error.message });
       }
     }
   };
 
   return (
     <div className={styles.formContainer}>
+      <Helmet>
+        <title>{ id === 'new' ? (`New Post - ${siteMetaTitle}`) : (`Edit Post - ${siteMetaTitle}`)}</title>
+      </Helmet>
       <SkeletonArea name="form page" isLoading={postIsLoading}>
         <div className={styles.titleContainer}>
           <button

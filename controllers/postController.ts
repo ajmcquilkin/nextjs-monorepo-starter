@@ -80,13 +80,13 @@ export const update = async (id: string, fields: Partial<Post>): Promise<Post> =
   if (recipientGroups) foundPost.recipientGroups = recipientGroups;
 
   if (status) foundPost.status = status;
-  if (rejectionComment) foundPost.rejectionComment = rejectionComment;
-  if (rejectionReason) foundPost.rejectionReason = rejectionReason;
+  if (rejectionComment !== undefined) foundPost.rejectionComment = rejectionComment;
+  if (rejectionReason !== undefined) foundPost.rejectionReason = rejectionReason;
 
   if (featuredImage) foundPost.featuredImage = featuredImage;
   if (featuredImageAlt) foundPost.featuredImageAlt = featuredImageAlt;
-  if (eventDate) foundPost.eventDate = eventDate;
-  if (eventTime) foundPost.eventTime = eventTime;
+  if (eventDate !== undefined) foundPost.eventDate = eventDate;
+  if (eventTime !== undefined) foundPost.eventTime = eventTime;
 
   if (requestedPublicationDate) foundPost.requestedPublicationDate = +getDefaultMidnightDate(requestedPublicationDate);
   if (fullContent) foundPost.fullContent = sanitizeHTML(fullContent);
@@ -123,7 +123,7 @@ export const updateMany = async (filter: FilterQuery<PostDocument>, fields: Part
     featuredImageAlt,
     eventDate,
     eventTime
-  }, (value) => !!value));
+  }, (value) => value !== undefined));
 };
 
 export const remove = async (id: string): Promise<void> => {

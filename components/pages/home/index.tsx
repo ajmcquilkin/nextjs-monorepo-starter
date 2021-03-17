@@ -38,28 +38,33 @@ const Home = ({
   dispatchAnnouncement, openModal, fetchReleaseByDate
 }: HomeProps): JSX.Element => {
   const [active, setActive] = useState<PostPublishType>('news');
-  const [code, setCode] = useState<Code>(null);
 
   useEffect(() => {
     fetchReleaseByDate(Date.now(), {
-      failureCallback: (res) => { setCode(res.response?.status || null); }
+      failureCallback: (_res, dispatch) => {
+        dispatch({
+          type: 'FETCH_RELEASE',
+          status: 'SUCCESS',
+          payload: { data: null }
+        });
+      }
     });
   }, []);
 
-  if (!release && code) {
-    return (
-      <LoadingScreen
-        title="No release exists for today"
-        subtitle="Check back soon for an upcoming release."
-      />
-    );
-  }
-
-  if (releaseIsLoading || !release) {
+  if (releaseIsLoading) {
     return (
       <LoadingScreen
         title="Loading release..."
         subtitle="Please wait while we fetch the requested release."
+      />
+    );
+  }
+
+  if (!release) {
+    return (
+      <LoadingScreen
+        title="No release exists for today"
+        subtitle="Check back soon for an upcoming release."
       />
     );
   }

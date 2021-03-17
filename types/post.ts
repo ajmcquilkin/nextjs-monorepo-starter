@@ -41,6 +41,7 @@ export interface Post {
 }
 
 export type PostDocument = Post & Document<string>;
+export type NovelPostReference = { id: string, isNew: boolean };
 
 /* -------- State -------- */
 

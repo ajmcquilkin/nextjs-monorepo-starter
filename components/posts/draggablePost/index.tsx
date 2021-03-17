@@ -18,13 +18,14 @@ export interface DraggablePostProps {
   handleEdit: (_id: string) => void,
   handleReject: (_id: string) => void,
 
+  isNew?: boolean,
   className?: string
 }
 
 const DraggablePost = ({
   postContent, type, index,
   movePost, handleEdit, handleReject,
-  className = ''
+  isNew = false, className = ''
 }: DraggablePostProps): JSX.Element => {
   const ref = useRef<HTMLDivElement>(null);
   const isLoading = useSkeletonLoading();
@@ -79,8 +80,8 @@ const DraggablePost = ({
               postContent={postContent}
               handleEdit={handleEdit}
               handleReject={handleReject}
+              isNew={isNew}
             />
-
           </div>
         )}
     </div>

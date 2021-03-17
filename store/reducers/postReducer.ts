@@ -24,7 +24,7 @@ const postReducer = (state = initialState, action: Actions): PostState => {
     case 'FETCH_RELEASE':
       return {
         ...state,
-        posts: action.payload.data.posts.reduce((accum, post) => ({
+        posts: (action.payload.data?.posts || []).reduce((accum, post) => ({
           ...accum,
           [post._id]: post
         }), state.posts)

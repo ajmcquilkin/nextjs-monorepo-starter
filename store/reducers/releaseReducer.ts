@@ -12,8 +12,7 @@ const releaseReducer = (state = initialState, action: Actions): ReleaseState => 
     case 'FETCH_RELEASE':
       return {
         ...state,
-        // ?? Maybe change the structure of release state so its not a record
-        release: action.payload.data.release
+        release: action.payload.data?.release || null
       };
     case 'DELETE_RELEASE':
       return {

@@ -10,6 +10,8 @@ export const maxContentLength = 500;
 
 export const maxFileSize = 5242880; // 5MB
 
+export const siteMetaTitle = 'Vox Daily | Dartmouth';
+
 export const DragItemTypes = {
   NEWS: 'news',
   ANNOUNCEMENT: 'announcement',

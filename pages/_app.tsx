@@ -1,5 +1,6 @@
 import { AppProps } from 'next/app';
 import Modal from 'react-modal';
+import { Helmet } from 'react-helmet';
 
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -12,6 +13,7 @@ import MainWrapper from 'components/layout/mainWrapper';
 import ModalWrapper from 'components/modals/modalWrapper';
 
 import rootReducer from 'store/reducers';
+import { siteMetaTitle } from 'utils';
 import { useDefaultTimezone } from 'utils/time';
 
 import { Actions, RootState } from 'types/state';
@@ -33,6 +35,17 @@ Modal.setAppElement('#root');
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => (
   <div id="root">
+    <Helmet>
+      <title>{siteMetaTitle}</title>
+      <meta name="description" content="Your daily digest for what’s happening at Dartmouth and beyond." />
+      <link rel="shortcut icon" type="img/png" href="/favicon.png" />
+
+      <meta name="og:title" content={siteMetaTitle} />
+      <meta name="og:image" content="/banner.png" />
+      <meta name="og:url" content={__APP_URL__} />
+      <meta name="og:description" content="Your daily digest for what’s happening at Dartmouth and beyond." />
+    </Helmet>
+
     <Provider store={store}>
       <AnnouncementLiveText />
       <MainWrapper>
