@@ -64,6 +64,16 @@ Styling will always be present within the `componentNameLowerCamel.module.scss` 
 > **Note:** this project uses SCSS modules (SCSS with CSS modules), which mean styles are imported in the following manner:
 
 ```typescript
+import styles from "./form.module.scss";
+
+/* ... */
+
+return <div className={styles.container}>Content</div>;
+```
+
+Components must _always_ export their prop types along with the component JSX. These prop types will always be defined alongside the component's JSX. Below is an example of a redux-independent component layout:
+
+```typescript
 import { PostPublishType, PostStatus } from "types/post";
 import styles from "./filterBar.module.scss";
 
@@ -77,16 +87,6 @@ const FilterBar = ({ status }: FilterBarProps): JSX.Element => (
 
 export default FilterBar;
 ```
-
-```typescript
-import styles from "./form.module.scss";
-
-/* ... */
-
-return <div className={styles.container}>Content</div>;
-```
-
-Components must _always_ export their prop types along with the component JSX. These prop types will always be defined alongside the component's JSX. Above is also an example of a redux-independent component layout.
 
 > **Note:** This project uses absolute imports for typescript files, but uses relative imports for component-specific styling files. This is to allow support for [SCSS module intellisense plugins](https://marketplace.visualstudio.com/items?itemName=clinyong.vscode-css-modules) within VSCode.
 
