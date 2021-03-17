@@ -29,7 +29,10 @@
   </p>
 </p>
 
+# Overview
+
 <!-- TABLE OF CONTENTS -->
+
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
@@ -46,6 +49,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+    <li><a href="#building">Building</a></li>
     <li>
       <a href="#usage">Usage</a>
       <ul>
@@ -124,6 +128,34 @@ The following pieces of software are required to run this application:
 
    The repository is expecting certain variables to be defined within NodeJS' `process.env` object. NextJS automatically loads variables into `process.env` from an `.env.local` file at the root of the project. More information can be found below in the [Required Environment Variables](#required-environment-variables) section.
 
+<!-- BUILDING -->
+
+## Building
+
+To use the application in development mode, run the following command:
+
+```shell
+yarn dev
+```
+
+The application can be deployed either as a collection of serverless functions corresponding to each route in the `/pages` directory, or as a single NodeJS server. To build the application as serverless functions, run the following command:
+
+```shell
+yarn export
+```
+
+To build the application as a single NodeJS server, run the following command:
+
+```shell
+yarn build
+```
+
+After either build method, the server can be started with the following command:
+
+```shell
+yarn start
+```
+
 <!-- USAGE EXAMPLES -->
 
 ## Usage
@@ -152,11 +184,11 @@ Reviewers will be able to create their own posts, but will also be able to edit 
 
 This project is split into the following major pages:
 
-- **Home** - Allows users to view the current release (min. `authenticated` scope)
-- **Submissions** - Allows staff and faculty to view the status of their posts (min. `staff` scope)
-- **Form** - Allows staff and faculty to create and edit posts (min. `staff` scope)
-- **Review** - Allows reviewers to approve and deny posts for publication (min. `reviewer` scope)
-- **Compile** - Allows reviewers to curate the next pending release (min. `reviewer` scope)
+- **Home** (`/`) - Allows users to view the current release (min. `authenticated` scope)
+- **Submissions** (`/submissions`) - Allows staff and faculty to view the status of their posts (min. `staff` scope)
+- **Form** (`/form/[id]`) - Allows staff and faculty to create and edit posts (min. `staff` scope)
+- **Review** (`/review`) - Allows reviewers to approve and deny posts for publication (min. `reviewer` scope)
+- **Compile** (`/compile`) - Allows reviewers to curate the next pending release (min. `reviewer` scope)
 
 Users will only be shown the pages they are authorized to access, and even if they enter the URL manually will not be able to interact meaningfully with the page.
 
