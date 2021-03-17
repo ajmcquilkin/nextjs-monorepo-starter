@@ -248,6 +248,12 @@ This application is split into the following major functional components. Each o
 - **Models** (`/models`) - Helpers determining and enforcing the shape of stored database data, referenced by the controllers
 - **Route Handlers** (`/pages`) - Endpoints responsible for serving site functionality (data or frontend routes), using controllers (backend) or components (frontend)
 
+<!-- ACCESSIBILITY -->
+
+## Accessibility
+
+This application is fully keyboard accessible and has strong screen reader accessibility. This has been validated on all application pages, and was validated using the open-source [NVDA screen reader](https://www.nvaccess.org/download/).
+
 <!-- ROADMAP -->
 
 ## Roadmap
