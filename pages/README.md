@@ -118,6 +118,8 @@ const handler = createDefaultHandler()
 export default handler;
 ```
 
+Additional information on the specific requests being made can be found [here](https://www.figma.com/file/Jl9VxFfWZWHOkE1L8o2DJ4/ITC-Vox-21W?node-id=244%3A150).
+
 ### Response Payload Standardization
 
 All backend routes are expected to return data in the following form:
