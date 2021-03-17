@@ -230,7 +230,7 @@ const Form = ({
       }
     }
 
-    setSubmitError('Cannot submit, missing required form fields');
+    if (!isValid) setSubmitError('Cannot submit, missing required form fields');
     return isValid;
   };
 
