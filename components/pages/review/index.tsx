@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 
 import FilterBar from 'components/layout/filterBar';
 import SearchBar from 'components/layout/searchBar';
@@ -9,6 +10,7 @@ import SubmissionSkeleton from 'components/submissions/submissionSkeleton';
 
 import { openModal as openModalImport } from 'store/actionCreators/modalActionCreators';
 import { fetchWithStatus as fetchWithStatusImport, updatePostById as updatePostByIdImport } from 'store/actionCreators/postActionCreators';
+import { siteMetaTitle } from 'utils';
 
 import { Post, PostPublishType, PostStatus } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
@@ -55,6 +57,9 @@ const Review = ({
 
   return (
     <div className={styles.reviewContainer}>
+      <Helmet>
+        <title>{`Review - ${siteMetaTitle}`}</title>
+      </Helmet>
       <div className={styles.titleContainer}>
         <h1>Review</h1>
       </div>
