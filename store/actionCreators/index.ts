@@ -6,7 +6,6 @@ import {
   RequestReturnType, GlobalDispatch, Code
 } from 'types/state';
 import { ServerPayload } from 'types/server';
-import { ServerResponse } from 'http';
 
 export type AsyncActionCreatorConfig<Data, AddlPayload> = {
   successCallback?: (res: RequestReturnType<Data>) => void,
