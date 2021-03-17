@@ -73,9 +73,9 @@
 
 ## About The Project
 
-<!-- ![ITC Vox Overview 1](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/bbdcfb3e-2006-4310-9362-5bb5608cce94/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210317%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210317T014244Z&X-Amz-Expires=86400&X-Amz-Signature=3b58b4579eb21886c5660bfff859c4d4683285b93a2541c3328506d4f7d8bded&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22)
+![ITC Vox Overview 1](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/bbdcfb3e-2006-4310-9362-5bb5608cce94/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210317%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210317T014244Z&X-Amz-Expires=86400&X-Amz-Signature=3b58b4579eb21886c5660bfff859c4d4683285b93a2541c3328506d4f7d8bded&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22)
 ![ITC Vox Overview 2](https://www.notion.so/signed/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F3e4c3b72-0e88-4f37-965e-6f8aa2672601%2FUntitled.png?table=block&id=b7154621-c05a-4446-a23c-c805f03578ec&name=Untitled.png&userId=7411db3c-7d46-4831-82b4-33cbdb6cea83&cache=v2)
-![ITC Vox Overview 3](https://www.notion.so/signed/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fa6376dad-29d3-4626-928d-ee73e57d6a3b%2FUntitled.png?table=block&id=9a4d1b25-4b7e-4a84-90e0-f4601e0a083c&name=Untitled.png&userId=7411db3c-7d46-4831-82b4-33cbdb6cea83&cache=v2) -->
+![ITC Vox Overview 3](https://www.notion.so/signed/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fa6376dad-29d3-4626-928d-ee73e57d6a3b%2FUntitled.png?table=block&id=9a4d1b25-4b7e-4a84-90e0-f4601e0a083c&name=Untitled.png&userId=7411db3c-7d46-4831-82b4-33cbdb6cea83&cache=v2)
 
 ### Built With
 
