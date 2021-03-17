@@ -40,7 +40,6 @@ const handler = createDefaultHandler()
     }: Post = req.body;
 
     if (status === 'approved' && !info.isReviewer) throw new ForbiddenResourceError('Insufficient permissions to approve post');
-    if (status === 'approved' && submitterNetId.toLowerCase() === foundPost.submitterNetId.toLowerCase()) throw new ForbiddenResourceError('Insufficient permissions to approve own post');
 
     const updatedPost = await postController.update(id as string, {
       fromName,

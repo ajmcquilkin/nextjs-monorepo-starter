@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import sanitizeHtml from 'sanitize-html';
 
+import { getFullDate, handleEncodeTime } from 'utils';
 import { Post } from 'types/post';
 
 import styles from './homeSubmission.module.scss';
@@ -19,12 +20,14 @@ const HomeSubmission = ({ content }: HomeSubmissionProps): JSX.Element => {
           <h3>{content.briefContent}</h3>
           <p className={styles.subheader}>
             {content.fromName}
-            {content.recipientGroups.length ? (
+            {content.eventDate && content.eventTime ? (
               <>
                 {' '}
                 &bull;
                 {' '}
-                {content.recipientGroups.join(', ')}
+                {getFullDate(content.eventDate)}
+                {', '}
+                {handleEncodeTime(content.eventTime)}
               </>
             ) : null}
           </p>

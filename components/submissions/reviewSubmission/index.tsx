@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import sanitizeHtml from 'sanitize-html';
 
-import { getColorsForStatus, getFullDate, uppercaseFirstLetter } from 'utils';
+import { getColorsForStatus, getFullDate, uppercaseFirstLetter, handleEncodeTime } from 'utils';
 import { Post } from 'types/post';
 
 import styles from './reviewSubmission.module.scss';
@@ -20,9 +20,16 @@ const ReviewSubmission = ({ content, onApprove, onReject }: ReviewSubmissionProp
       <div className={styles.titleContainer}>
         <h3>{content.briefContent}</h3>
         <p>
-          {getFullDate(content.requestedPublicationDate)}
-          {' '}
-          &bull;
+          {content.eventDate && content.eventTime ? (
+              <>
+                {' '}
+                {getFullDate(content.eventDate)}
+                {', '}
+                {handleEncodeTime(content.eventTime)}
+                {' '}
+                &bull;
+              </>
+            ) : null}
           {' '}
           {uppercaseFirstLetter(content.type)}
           {' '}

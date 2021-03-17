@@ -4,7 +4,7 @@ import sanitizeHtml from 'sanitize-html';
 import { openModal as openModalImport } from 'store/actionCreators/modalActionCreators';
 import { createPost as createPostImport } from 'store/actionCreators/postActionCreators';
 
-import { getColorsForStatus, getFullDate, uppercaseFirstLetter } from 'utils';
+import { getColorsForStatus, getFullDate, uppercaseFirstLetter, handleEncodeTime } from 'utils';
 
 import { Post } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
@@ -37,7 +37,7 @@ const Submission = ({
 
   const duplicatePost = (): void => {
     const { _id, ...fields } = postContent;
-    createPost(fields);
+    createPost({ ...fields, status: 'draft' });
   };
 
   return (
@@ -49,10 +49,12 @@ const Submission = ({
         </div>
 
         <p>
-          {postContent.type === 'event' && postContent.eventDate
+          {postContent.type === 'event' && postContent.eventDate && postContent.eventTime
             && (
               <>
                 {getFullDate(postContent.eventDate)}
+                {', '}
+                {handleEncodeTime(postContent.eventTime)}
                 {' '}
                 &bull;
                 {' '}

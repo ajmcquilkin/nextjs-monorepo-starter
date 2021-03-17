@@ -4,6 +4,7 @@ import sanitizeHtml from 'sanitize-html';
 
 import { Post } from 'types/post';
 import styles from './compileSubmission.module.scss';
+import { getFullDate, handleEncodeTime } from 'utils';
 
 export interface CompileSubmissionProps {
   postContent: Post,
@@ -55,7 +56,20 @@ const CompileSubmission = ({ postContent, handleEdit, handleReject }: CompileSub
                 {' '}
                 &bull;
                 {' '}
+                {postContent.eventDate && postContent.eventTime ? (
+                  <>
+                  {' '}
+                  {getFullDate(postContent.eventDate)}
+                  {', '}
+                  {handleEncodeTime(postContent.eventTime)}
+                  {' '}
+                  &bull;
+                  {' '}
+                  </>
+                ) : null}
+                {' '}
                 {postContent.recipientGroups.join(', ')}
+                {' '}
               </p>
             </div>
 

@@ -118,11 +118,11 @@ const Submissions = ({
               renderAdditionalPostButtons={(_id) => ([
                 <button
                   type="button"
-                  onClick={() => updatePostById(_id, { status: 'pending' })}
+                  onClick={() => router.push(`/form/${_id}`)}
                   key="0"
                 >
-                  <img src="/icons/resubmit.svg" alt="resubmit post" aria-hidden="true" />
-                  <p>Resubmit</p>
+                  <img src="/icons/edit.svg" alt="edit post" aria-hidden="true" />
+                  <p>Edit</p>
                 </button>
               ])}
               renderAdditionalPostIcons={(_id) => ([
