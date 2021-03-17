@@ -35,8 +35,7 @@ const handler = createDefaultHandler()
     const generatedHTML: Email = templateHTML
       // Data replacement
       .replace(/{{__DATE}}/g, getFullDate())
-      .replace(/{{__HEADERIMAGE}}/g, release.headerImage || 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.thoughtco.com%2Fthmb%2Fbc9Klx19dMQgfRh2I5xT0qorJ_w%3D%2F1500x1000%2Ffilters%3Ano_upscale()%3Amax_bytes(150000)%3Astrip_icc()%2FDartmouthCollegeNH-58b46ae15f9b586046288090.jpg&f=1&nofb=1')
-      .replace(/{{__CAPTION}}/g, release.headerImageCaption)
+      .replace(/{{__CAPTION}}/g, release.quoteOfDay)
       .replace(/{{__CAPTIONCONTEXT}}/g, release.quotedContext)
       .replace(/{{__URL}}/g, __APP_URL__)
 
@@ -56,6 +55,8 @@ const handler = createDefaultHandler()
       .replace(/{{__NEWS}}/g, generateContentSectionHTML(filteredPosts.filter((post) => post.type === 'news')))
       .replace(/{{__ANNOUNCEMENTS}}/g, generateContentSectionHTML(filteredPosts.filter((post) => post.type === 'announcement')))
       .replace(/{{__EVENTS}}/g, generateContentSectionHTML(filteredPosts.filter((post) => post.type === 'event')))
+
+      .replace(/{{__COPYRIGHT}}/g, (new Date()).getFullYear().toString())
 
       // Tag replacement
       .replace(/<strong>/g, '<b>')
