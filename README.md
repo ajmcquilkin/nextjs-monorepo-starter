@@ -233,22 +233,22 @@ This application is split into the following major functional components. Each o
 
 ### General Functional Groups
 
-- **Types** (`/types`) - Typescript types governing data flow and type security throughout the appliation
-- **Utils** (`/utils`) - General utility functions for standardizing application logic
+- **Types** ([/types](/types/README.md)) - Typescript types governing data flow and type security throughout the appliation
+- **Utils** ([/utils](/utils/README.md)) - General utility functions for standardizing application logic
 
 ### Frontend Functional Groups
 
-- **Components** (`/components`) - ReactJS components for rendering the frontend logic to the user
-- **Action Creators** (`/store/actionCreators`) - Redux helpers for dispatching data to the frontend data store
-- **Reducers** (`/store/reducers`) - Redux helpers for updating the frontend data store based on dispatched information
-- **Requests** (`/store/requests`) - General HTTP request helpers for fetching data from backend data sources
+- **Components** ([/components](/components/README.md)) - ReactJS components for rendering the frontend logic to the user
+- **Action Creators** ([/store/actionCreators](/store/actionCreators/README.md)) - Redux helpers for dispatching data to the frontend data store
+- **Reducers** ([/store/reducers](/store/reducers/README.md)) - Redux helpers for updating the frontend data store based on dispatched information
+- **Requests** ([/store/requests](/store/requests/README.md)) - General HTTP request helpers for fetching data from backend data sources
 
 ### Backend Functional Groups
 
-- **Controllers** (`/controllers`) - Functions _solely_ responsible for interacting with the database
-- **Errors** (`/errors`) - Custom error classes responsible for transferring custom error information within the backend
-- **Models** (`/models`) - Helpers determining and enforcing the shape of stored database data, referenced by the controllers
-- **Route Handlers** (`/pages`) - Endpoints responsible for serving site functionality (data or frontend routes), using controllers (backend) or components (frontend)
+- **Controllers** ([/controllers](/controllers/README.md)) - Functions _solely_ responsible for interacting with the database
+- **Errors** ([/errors](/errors/README.md)) - Custom error classes responsible for transferring custom error information within the backend
+- **Models** ([/models](/models/README.md)) - Helpers determining and enforcing the shape of stored database data, referenced by the controllers
+- **Route Handlers** ([/pages](/pages/README.md)) - Endpoints responsible for serving site functionality (data or frontend routes), using controllers (backend) or components (frontend)
 
 <!-- ACCESSIBILITY -->
 
