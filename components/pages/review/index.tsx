@@ -10,11 +10,11 @@ import SubmissionSkeleton from 'components/submissions/submissionSkeleton';
 
 import { openModal as openModalImport } from 'store/actionCreators/modalActionCreators';
 import { fetchWithStatus as fetchWithStatusImport, updatePostById as updatePostByIdImport } from 'store/actionCreators/postActionCreators';
+import { siteMetaTitle } from 'utils';
 
 import { Post, PostPublishType, PostStatus } from 'types/post';
 import { ConnectedThunkCreator } from 'types/state';
 
-import { siteMetaTitle } from 'utils';
 import styles from './review.module.scss';
 
 export interface ReviewPassedProps {
