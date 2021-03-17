@@ -36,12 +36,13 @@
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#frontend-overview">Frontend Overview</a></li>
+    <li><a href="#backend-overview">Backend Overview</a></li>
     <li>
-      <a href="#overview">Overview</a>
+      <a href="#backend-routes">Backend Routes</a>
       <ul>
-        <li><a href="#frontend-overview">Frontend Overview</a></li>
-        <li><a href="#backend-overview">Backend Overview</a></li>
-        <li><a href="#backend-routes">Backend Routes</a></li>
+        <li><a href="#response-payload-standardization">Response Payload Standardization</a></li>
       </ul>
     </li>
   </ol>
@@ -53,7 +54,7 @@
 
 Within NextJS, all application routes are handled within the `/pages/` directory. This includes all frontend routes ([see here](../README.md)) as well as all API endpoint routes. NextJS designates the `/pages/api` directory as always handling any backend functionality associated with the application, and as such no frontend routes are located within this directory.
 
-### Frontend Overview
+## Frontend Overview
 
 NextJS allows for the application to render content to the end user in any of the following three methods:
 
@@ -65,13 +66,13 @@ This application primarily uses CSR to render the frontend in conjunction with S
 
 For more information on how to implement these rendering methods within NextJS, [see here](https://nextjs.org/docs/basic-features/pages).
 
-### Backend Overview
+## Backend Overview
 
 As mentioned, the backend of this application is located within the `/pages/api` directory. Each file or subdirectory within this directory corresponds to a new route, which can each contain multiple endpoints.
 
 This application uses a custom framework based on the [next-connect](https://www.npmjs.com/package/next-connect) NPM package which implements the [connect middleware paradigm](https://github.com/senchalabs/connect) within NextJS. This is done with the custom `createDefaultHandler` function, which allows an express-like experience within NextJS.
 
-### Backend Routes
+## Backend Routes
 
 A basic endpoint will have the following structure:
 
@@ -115,4 +116,29 @@ const handler = createDefaultHandler()
   });
 
 export default handler;
+```
+
+### Response Payload Standardization
+
+All backend routes are expected to return data in the following form:
+
+```typescript
+export interface ServerPayload<D> {
+  data: D,
+  meta?: {
+    success: boolean,
+    message?: string,
+    isAuthenticated?: boolean
+  }
+}
+```
+
+Response data will be contained within the `data` field, and meta information is contained within the `meta` field. This `meta` field is currently used within the frontend `requests` handlers, and can be expanded to include more relevant site information.
+
+To enforce this payload shape, use the `createSuccessPayload` as shown below:
+
+```typescript
+const { id } = req.query;
+const foundPost = await postController.read(id as string);
+return res.status(200).json(createSuccessPayload<FetchPostData>({ post: foundPost }));
 ```

@@ -126,7 +126,7 @@ The following pieces of software are required to run this application:
 
 3. Configure Environment Variables
 
-   The repository is expecting certain variables to be defined within NodeJS' `process.env` object. NextJS automatically loads variables into `process.env` from an `.env.local` file at the root of the project. More information can be found below in the [Required Environment Variables](#required-environment-variables) section.
+   The repository is expecting certain variables to be defined within NodeJS' `process.env` object. NextJS automatically loads variables into `process.env` from an `.env.local` file at the root of the project. More information can be found below in the [Environment Variables](#environment-variables) section.
 
 <!-- BUILDING -->
 
@@ -211,6 +211,8 @@ The following variables are expected to be defined by the application when start
 - **APP_URL** - Location of application hosting (e.g. `"http://localhost:3000"`)
 - **ENABLE_CAS_DEV_MODE** - bypasses CAS server when processing requests (e.g. `true`, defaults to `false`)
 - **EMAIL_API_KEY** - API key protecting email generation, data return, and release publishing endpoints (e.g. `"test"`)
+
+These environment variables are loaded into the application via the [Webpack Define Plugin](https://webpack.js.org/plugins/define-plugin/) within the `next.config.js` file, which guarantees there will be a defined value for each of the variables. These defined variables are then given types in the `/types/moudles/global.d.ts` file, after which they can be used within the application as normal variables. Note that there are some variables exposed to the frontend and some that are not within this configuration file.
 
 <!-- DATA MODELS -->
 

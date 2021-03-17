@@ -36,9 +36,8 @@
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
-    <li>
-      <a href="#overview">Overview</a>
-    </li>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#requests">Requests</a></li>
   </ol>
 </details>
 
@@ -103,3 +102,31 @@ To summarize, the `createAsyncActionCreator` function takes the following parame
 - **additionalPayloadFields** - user-defined additional payload fields to attach to the `action.payload` field
 
 These action creators can be used within components in the standard way using `mapDispatchToProps` and the `connect` function from `react-redux`.
+
+## Requests
+
+The action creators in the `/store/actionCreators/requestActionCreators.ts` file function differently from other action creators. Since the `requestReducer` manages only internal data, the methods within this file focus on interacting with that data. Besides setting and clearing errors based on action types, this function exposts the following functions:
+
+```typescript
+const createLoadingSelector: (watchActionTypes: ActionTypes[]) => (state: RootState) => boolean;
+const createErrorSelector: (watchActionTypes: ActionTypes[]) => (state: RootState) => string;
+const createErrorCodeSelector: (watchActionTypes: ActionTypes[]) => (state: RootState) => Code;
+```
+
+All of these functions take an array of action types to "watch", and will return values corresponding to the state of these actions within the `requests` reducer.
+
+- The `createLoadingSelector` polls the passed `ActionType` variables and returns whether _any_ of them are marked as loading within the `requests` reducer.
+
+- The `createErrorSelector` polls the passed `ActionType` variables and returns the _first_ found error message (if any), based on the order of the `watchActionTypes` array (default: `''`).
+
+- The `createErrorCodeSelector` polls the passed `ActionType` variables and returns the _first_ found error code (code < 200 || code >= 400), if any (default: `null`)
+
+These functions are doubly-executed functions ("thunks") intended to be configured then used within a `mapStateToProps` function. Multiple selectors can be used within a single `mapStateToProps` function.
+
+```typescript
+const postLoadingSelector = createLoadingSelector(['FETCH_POST', 'DELETE_POST']);
+
+const mapStateToProps = (state: RootState, ownProps: FormProps): FormStateProps => ({
+  postIsLoading: postLoadingSelector(state)
+});
+```
