@@ -153,7 +153,7 @@ export const update = async (id: string, fields: Partial<Release>): Promise<Popu
 
   if (quoteOfDay) foundRelease.quoteOfDay = quoteOfDay;
   if (quotedContext) foundRelease.quotedContext = quotedContext;
-  if (featuredPost) foundRelease.featuredPost = featuredPost;
+  if (featuredPost !== undefined) foundRelease.featuredPost = featuredPost;
 
   if (news) foundRelease.news = news;
   if (announcements) foundRelease.announcements = announcements;
