@@ -42,15 +42,15 @@ const handler = createDefaultHandler()
       // HTML replacement
       .replace(/{{__NEWSTITLES}}/g, generateTitleSectionHTML(filteredPosts
         .filter((post) => post.type === 'news')
-        .reduce((accum, { briefContent, url }) => ([...accum, { title: briefContent, link: url }]), [])))
+        .reduce((accum, { briefContent, url }) => ([...accum, { title: briefContent, link: url || __APP_URL__ }]), [])))
 
       .replace(/{{__ANNOUNCEMENTSTITLES}}/g, generateTitleSectionHTML(filteredPosts
         .filter((post) => post.type === 'announcement')
-        .reduce((accum, { briefContent, url }) => ([...accum, { title: briefContent, link: url }]), [])))
+        .reduce((accum, { briefContent, url }) => ([...accum, { title: briefContent, link: url || __APP_URL__ }]), [])))
 
       .replace(/{{__EVENTSTITLES}}/g, generateTitleSectionHTML(filteredPosts
         .filter((post) => post.type === 'event')
-        .reduce((accum, { briefContent, url, fromName }) => ([...accum, { title: briefContent, link: url, extra: fromName }]), [])))
+        .reduce((accum, { briefContent, url, fromName }) => ([...accum, { title: briefContent, link: url || __APP_URL__, extra: fromName }]), [])))
 
       .replace(/{{__NEWS}}/g, generateContentSectionHTML(filteredPosts.filter((post) => post.type === 'news')))
       .replace(/{{__ANNOUNCEMENTS}}/g, generateContentSectionHTML(filteredPosts.filter((post) => post.type === 'announcement')))
