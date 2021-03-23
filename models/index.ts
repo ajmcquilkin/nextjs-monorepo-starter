@@ -1,5 +1,3 @@
-import PostModel from 'models/postModel';
-import ReleaseModel from 'models/releaseModel';
+import ResourceModel from 'models/resourceModel';
 
-export { PostModel };
-export { ReleaseModel };
+export { ResourceModel };

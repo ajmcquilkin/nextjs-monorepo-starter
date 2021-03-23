@@ -1,15 +1,13 @@
-import Header from 'components/layout/header';
-import Footer from 'components/layout/footer';
-
+import { ReactNode } from 'react';
 import styles from './mainWrapper.module.scss';
 
 interface MainWrapperProps {
-  children: JSX.Element
+  children: ReactNode
 }
 
 const MainWrapper = ({ children }: MainWrapperProps): JSX.Element => (
   <div className={styles.mainWrapperContainer}>
-    <Header />
+    <header>Header</header>
 
     <main
       aria-live="polite"
@@ -18,7 +16,7 @@ const MainWrapper = ({ children }: MainWrapperProps): JSX.Element => (
       {children}
     </main>
 
-    <Footer />
+    <footer>Footer</footer>
   </div>
 );
 

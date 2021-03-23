@@ -1,10 +1,10 @@
-import BaseError from './BaseError';
-import BadCredentialsError from './BadCredentialsError';
-import ForbiddenResourceError from './ForbiddenResourceError';
+import BaseError from 'errors/BaseError';
+import BadCredentialsError from 'errors/BadCredentialsError';
+import ForbiddenResourceError from 'errors/ForbiddenResourceError';
 
-import DocumentNotFoundError from './DocumentNotFoundError';
-import IncompleteRequestError from './IncompleteRequestError';
-import UniqueFieldError from './UniqueFieldError';
+import DocumentNotFoundError from 'errors/DocumentNotFoundError';
+import IncompleteRequestError from 'errors/IncompleteRequestError';
+import UniqueFieldError from 'errors/UniqueFieldError';
 
 export {
   BaseError, BadCredentialsError, ForbiddenResourceError,

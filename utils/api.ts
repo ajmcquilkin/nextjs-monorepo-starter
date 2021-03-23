@@ -7,7 +7,6 @@ import { handleError } from 'controllers/errorController';
 
 import { casInstance } from 'utils/auth';
 import { dbConnectionOptions } from 'utils/db';
-import { useDefaultTimezone } from 'utils/time';
 
 import { ServerRequestType, ServerResponseType, ServerSuccessPayload } from 'types/server';
 
@@ -33,23 +32,17 @@ export interface DefaultHandlerConfigOptions {
   requireAuth?: boolean
 }
 
-/* eslint-disable indent */
 export const createDefaultHandler = <Data = unknown>({
   requireAuth = true
-}: DefaultHandlerConfigOptions = {}): NextConnect<ServerRequestType, ServerResponseType<ServerSuccessPayload<Data>>> => {
-  useDefaultTimezone();
-
-  return nc({
-    onError: handleError
-  }).use(session).use(requireAuth ? casInstance.authenticate : (_req, _res, next) => next());
-};
-/* eslint-enable indent */
+}: DefaultHandlerConfigOptions = {}): NextConnect<ServerRequestType, ServerResponseType<ServerSuccessPayload<Data>>> => nc({
+  onError: handleError
+}).use(session).use(requireAuth ? casInstance.authenticate : (_req, _res, next) => next());
 
 export const createSuccessPayload = <T>(data: T): ServerSuccessPayload<T> => ({
   data, meta: { success: true }
 });
 
 export const requireUrlParam = (param: string) => (req: ServerRequestType, _res: ServerResponseType, next: NextHandler): void => {
-  if (!req.query?.[param]) throw new IncompleteRequestError(`${param}`, `Missing "${param}" url parameter`);
+  if (!(param in req.query)) throw new IncompleteRequestError(`${param}`, `Missing "${param}" url parameter`);
   next();
 };

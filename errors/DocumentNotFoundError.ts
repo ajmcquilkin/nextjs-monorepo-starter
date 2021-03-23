@@ -1,4 +1,4 @@
-import BaseError from './BaseError';
+import BaseError from 'errors/BaseError';
 
 class DocumentNotFoundError extends BaseError {
   id: string;

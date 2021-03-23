@@ -1,3 +1,3 @@
-import NotFoundFallback from 'components/pages/notFoundFallback';
+import Fallback from 'components/pages/fallback';
 
-export default NotFoundFallback;
+export default Fallback;

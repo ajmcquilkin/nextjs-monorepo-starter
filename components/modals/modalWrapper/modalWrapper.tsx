@@ -1,17 +1,10 @@
 import ReactModal from 'react-modal';
 
-import ErrorModal from 'components/modals/errorModal';
-import RejectionModal from 'components/modals/rejectionModal';
-import RejectionReasoningModal from 'components/modals/rejectionReasoningModal';
-import PostDeletionModal from 'components/modals/postDeletionModal';
-import SubmitPostModal from 'components/modals/submitPostModal';
-
 import { closeModal as closeModalImport } from 'store/actionCreators/modalActionCreators';
 
 import { ModalState } from 'types/modal';
 import { ConnectedThunkCreator } from 'types/state';
-
-import styles from './modalWrapper.module.scss';
+import ModalContainer from 'components/modals/modalContainer';
 
 export interface ModalWrapperPassedProps {
 
@@ -38,24 +31,16 @@ const modalWrapperStyles: React.CSSProperties = {
 };
 
 const ModalWrapper = ({
-  type, title, bgColor, closeModal
+  type, title, closeModal
 }: ModalWrapperProps): JSX.Element => {
   const getModalContent = (): JSX.Element => {
     switch (type) {
-      case 'ERROR_MODAL':
-        return <ErrorModal />;
-
-      case 'REJECTION_MODAL':
-        return <RejectionModal />;
-
-      case 'REJECTION_REASONING_MODAL':
-        return <RejectionReasoningModal />;
-
-      case 'SUBMIT_POST_MODAL':
-        return <SubmitPostModal />;
-
-      case 'DISCARD_POST_MODAL':
-        return <PostDeletionModal />;
+      case 'SAMPLE_MODAL':
+        return (
+          <ModalContainer title="Sample Modal!">
+            This is a sample modal!
+          </ModalContainer>
+        );
 
       default:
         return <div />;
@@ -68,15 +53,13 @@ const ModalWrapper = ({
       contentLabel={title}
       shouldCloseOnOverlayClick
       onRequestClose={() => closeModal()}
-      className={styles.modalWrapperContainer}
       style={{
         content: {
           ...modalWrapperStyles,
-          backgroundColor: bgColor
         }
       }}
     >
-      <button className={styles.closeButton} type="button" onClick={() => closeModal()}>
+      <button type="button" onClick={() => closeModal()}>
         <img src="/icons/close.svg" alt="close modal" />
       </button>
 

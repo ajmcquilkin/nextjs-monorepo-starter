@@ -4,8 +4,7 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 import { AnnouncementActions, AnnouncementActionTypes, AnnouncementState } from 'types/announcement';
 import { ModalActions, ModalActionTypes, ModalState } from 'types/modal';
-import { PostActions, PostActionTypes, PostState } from 'types/post';
-import { ReleaseActions, ReleaseActionTypes, ReleaseState } from 'types/release';
+import { ResourceActions, ResourceActionTypes, ResourceState } from 'types/resource';
 import { UserActions, UserActionTypes, UserState } from 'types/user';
 
 import { ServerPayload } from 'types/server';
@@ -32,8 +31,8 @@ export type RequestReturnType<D> = AxiosResponse<ServerPayload<D>>;
 
 /* -------- Action Types -------- */
 
-export type Actions = AnnouncementActions | ModalActions | PostActions | ReleaseActions | UserActions;
-export type ActionTypes = AnnouncementActionTypes | ModalActionTypes | PostActionTypes | ReleaseActionTypes | UserActionTypes;
+export type Actions = AnnouncementActions | ModalActions | ResourceActions | UserActions;
+export type ActionTypes = AnnouncementActionTypes | ModalActionTypes | ResourceActionTypes | UserActionTypes;
 
 export interface ActionPayload<D = any> {
   data: D,
@@ -56,9 +55,8 @@ export interface RequestState {
 export interface RootState {
   announcement: AnnouncementState,
   modal: ModalState,
-  post: PostState,
-  release: ReleaseState
   request: RequestState,
+  resource: ResourceState,
   user: UserState,
 }
 

@@ -4,7 +4,7 @@ import axios, { AxiosError } from 'axios';
 import { Empty } from 'types/generic';
 import {
   ActionTypes, ActionPayload, Actions,
-  RequestReturnType, GlobalDispatch, Code
+  RequestReturnType, GlobalDispatch
 } from 'types/state';
 import { ServerPayload } from 'types/server';
 
@@ -44,30 +44,18 @@ export const createAsyncActionCreator = async <Data, AddlPayload = any>(
       type,
       status: 'SUCCESS',
       payload: generateSuccessPayload<Data, AddlPayload>(response, config.additionalPayloadFields)
-    } as Actions);
+    });
 
     if (config.successCallback) { config.successCallback(response, dispatch); }
   } catch (error) {
-    let errorName = '';
-    let errorMessage = '';
-    let errorCode: Code = '';
-
     if (axios.isAxiosError(error)) {
       dispatch({
         type,
         status: 'FAILURE',
         payload: generateFailurePayload<Empty>(error)
       });
-
-      errorName = error.name;
-      errorMessage = (error as AxiosError<ServerPayload<Data>>).response?.data?.meta?.message || 'No associated message';
-      errorCode = error.response?.status || error.code || '';
     } else if (error instanceof Error) {
-      errorName = error.name;
-      errorMessage = error.message;
-      errorCode = 'ERR';
-
-      dispatch(() => ({
+      dispatch({
         type,
         status: 'FAILURE',
         payload: {
@@ -75,39 +63,19 @@ export const createAsyncActionCreator = async <Data, AddlPayload = any>(
           message: error.message,
           code: error.name,
         }
-      }));
+      });
     } else {
-      errorName = 'Unknown Error';
-      errorMessage = 'An unknown error has occured. If this message persists, contact a system administrator.';
-      errorCode = 'UNKNOWN';
-
-      dispatch(() => ({
+      dispatch({
         type,
         status: 'FAILURE',
         payload: {
           data: {},
-          code: errorCode,
-          message: errorMessage
-        }
-      }));
-    }
-
-    if (config.failureCallback) {
-      config.failureCallback(error, dispatch);
-    } else {
-      dispatch({
-        type: 'OPEN_MODAL',
-        status: 'SUCCESS',
-        payload: {
-          data: {
-            type: 'ERROR_MODAL',
-            config: {
-              title: `${errorCode}: ${errorName}`,
-              content: errorMessage
-            }
-          }
+          code: 'No code available',
+          message: error.message
         }
       });
     }
+
+    if (config.failureCallback) config.failureCallback(error, dispatch);
   }
 };

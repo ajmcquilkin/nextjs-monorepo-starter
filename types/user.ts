@@ -1,5 +1,5 @@
-import { Empty } from './generic';
-import { Action } from './state';
+import { Empty } from 'types/generic';
+import { Action } from 'types/state';
 
 /* -------- Generic -------- */
 

@@ -8,7 +8,6 @@ import { validateUser as validateUserImport } from 'store/actionCreators/userAct
 import { casInstance } from 'utils/auth';
 
 import { ConnectedThunkCreator, RootState } from 'types/state';
-import LoadingScreen from 'components/layout/loadingScreen';
 
 export interface AuthWrapperPassedProps {
   children: ReactNode
@@ -40,18 +39,10 @@ const AuthWrapper = ({
   return (
     <AuthSwitch
       renderLoading={() => (
-        <LoadingScreen
-          title="Authenticating..."
-          subtitle="Please do not leave this page."
-        />
+        <div>Loading...</div>
       )}
       renderFailure={() => (
-        <LoadingScreen
-          title="Authentication Failure"
-          subtitle="We couldn't verify your identity."
-          linkText="Contact an Administrator"
-          linkUrl="https://services.dartmouth.edu/TDClient/1806/Portal/Home/"
-        />
+        <div>Loading failed :\</div>
       )}
     >
       {children}

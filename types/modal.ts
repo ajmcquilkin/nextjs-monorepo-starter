@@ -1,9 +1,9 @@
-import { Empty } from './generic';
-import { Action } from './state';
+import { Empty } from 'types/generic';
+import { Action } from 'types/state';
 
 /* -------- Generic -------- */
 
-export type ModalType = 'ERROR_MODAL' | 'REJECTION_MODAL' | 'REJECTION_REASONING_MODAL' | 'SUBMIT_POST_MODAL' | 'DISCARD_POST_MODAL';
+export type ModalType = 'SAMPLE_MODAL';
 
 export interface ModalConfig {
   title: string,
@@ -11,11 +11,7 @@ export interface ModalConfig {
 
   confirm: string,
   reject: string,
-  cancel: string,
-
-  bgColor: string,
-  action: 'CREATE' | 'UPDATE' | 'DELETE' | null,
-  redirect: string,
+  cancel: string
 }
 
 export type Modal = ModalConfig & {
@@ -26,14 +22,8 @@ export type Modal = ModalConfig & {
 
 export type ModalState = {
   type: Modal['type'],
-
   title: Modal['title'],
-  content: Modal['content'],
-
-  bgColor: Modal['bgColor'],
-  postId: string | null,
-  action: Modal['action'],
-  redirect: Modal['redirect']
+  content: Modal['content']
 }
 
 /* -------- Action Types -------- */

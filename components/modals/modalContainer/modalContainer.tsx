@@ -3,8 +3,6 @@ import { ReactNode } from 'react';
 import { closeModal as closeModalImport } from 'store/actionCreators/modalActionCreators';
 import { ConnectedThunkCreator } from 'types/state';
 
-import styles from './modalContainer.module.scss';
-
 export interface ModalContainerPassedProps {
   title?: string,
   confirmText?: string,
@@ -29,21 +27,16 @@ const ModalContainer = ({
   title, confirmText, rejectText, cancelText, children,
   onConfirm, onReject, closeModal
 }: ModalContainerProps): JSX.Element => (
-  <div className={styles.modalContainer}>
+  <div>
     {title && (
-      <div className={styles.titleContainer}>
-        <h1>{title}</h1>
-      </div>
+      <div><h1>{title}</h1></div>
     )}
 
-    <div className={styles.contentContainer}>
-      {children}
-    </div>
+    <div>{children}</div>
 
-    <div className={styles.buttonContainer}>
+    <div>
       {confirmText && onConfirm && (
         <button
-          className={styles.confirm}
           type="button"
           onClick={() => onConfirm()}
         >
@@ -53,7 +46,6 @@ const ModalContainer = ({
 
       {rejectText && onReject && (
         <button
-          className={styles.reject}
           type="button"
           onClick={() => onReject()}
         >
@@ -62,7 +54,6 @@ const ModalContainer = ({
       )}
 
       <button
-        className={styles.cancel}
         type="button"
         onClick={() => closeModal()}
       >

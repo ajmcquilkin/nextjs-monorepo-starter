@@ -1,6 +1,6 @@
 import { Session } from 'express-session';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { User } from './user';
+import { User } from 'types/user';
 
 export interface ServerSessionInfo {
   name: User['name'], // First M. Last

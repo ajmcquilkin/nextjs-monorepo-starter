@@ -1,4 +1,4 @@
-import BaseError from './BaseError';
+import BaseError from 'errors/BaseError';
 
 class IncompleteRequestError extends BaseError {
   field: string;

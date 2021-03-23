@@ -9,11 +9,7 @@ module.exports = {
         __AUTH_SECRET__: JSON.stringify(process.env.AUTH_SECRET || ''),
         __SESSION_SECRET__: JSON.stringify(process.env.SESSION_SECRET || ''),
         __MONGODB_URI__: JSON.stringify(process.env.MONGODB_URI || ''),
-        __S3_BUCKET__: JSON.stringify(process.env.S3_BUCKET || ''),
-        __AWS_ACCESS_KEY_ID__: JSON.stringify(process.env.AWS_ACCESS_KEY_ID || ''),
-        __AWS_SECRET_ACCESS_KEY__: JSON.stringify(process.env.AWS_SECRET_ACCESS_KEY || ''),
         __ENABLE_CAS_DEV_MODE__: JSON.stringify(process.env.ENABLE_CAS_DEV_MODE || false),
-        __EMAIL_API_KEY__: JSON.stringify(process.env.EMAIL_API_KEY || null)
       } : {}),
 
       // !!! ONLY place INSECURE values here
