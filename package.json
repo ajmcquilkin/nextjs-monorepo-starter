@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p $PORT",
-    "test": "eslint ./**.js"
+    "test": "jest --passWithNoTests"
   },
   "cacheDirectories": [
     ".next/cache"
@@ -34,7 +34,9 @@
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.13.0",
     "@types/express-session": "^1.17.3",
+    "@types/jest": "^26.0.21",
     "@types/lodash.omit": "^4.5.6",
     "@types/lodash.unionwith": "^4.6.6",
     "@types/mongoose": "^5.10.3",
@@ -46,12 +48,14 @@
     "@types/xml2js": "^0.4.8",
     "@typescript-eslint/eslint-plugin": "^4.13.0",
     "@typescript-eslint/parser": "^4.13.0",
+    "babel-jest": "^26.6.3",
     "eslint": "^7.17.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-import-resolver-typescript": "^2.3.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.22.0",
+    "jest": "^26.6.3",
     "typescript": "^4.1.3"
   }
 }
