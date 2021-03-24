@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { requestTimeout } from 'utils/constants';
 import { RequestReturnType } from 'types/state';
-import { requestTimeout } from 'utils';
 
 export const createBackendAxiosRequest = async <D>(
   config: AxiosRequestConfig

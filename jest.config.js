@@ -60,15 +60,24 @@ module.exports = {
   // globalTeardown: undefined,
 
   // A set of global variables that need to be available in all test environments
-  // globals: {},
+  globals: {
+    __AUTH_SECRET__: 'adfhasdkfjh3o4j4h25o8usd89fc789y798h(&*hgh m&* H87g76f^&*Gvh&GFDT56fydhfH(dh09FSf))',
+    __SESSION_SECRET__: 'adfhasdkfjh3o4j4h25o8usd89fc789y798h(&*hgh m&* H87g76f^&*Gvh&GFDT56fydhfH(dh09FSf))',
+    __MONGODB_URI__: 'mongodb://localhost:27017/nextjs-monorepo-starter',
+    __ENABLE_CAS_DEV_MODE__: true,
+    __MODE__: 'dev',
+    __APP_URL__: 'http://localhost:3000',
+    __REGENERATION_INTERVAL__: 3600
+  },
 
   // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
   // maxWorkers: "50%",
 
   // An array of directory names to be searched recursively up from the requiring module's location
-  // moduleDirectories: [
-  //   "node_modules"
-  // ],
+  moduleDirectories: [
+    'node_modules',
+    '.'
+  ],
 
   // An array of file extensions your modules use
   // moduleFileExtensions: [
@@ -128,7 +137,9 @@ module.exports = {
   // setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  // setupFilesAfterEnv: [],
+  // setupFilesAfterEnv: [
+  //   'dotenv/config'
+  // ],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,

@@ -12,22 +12,6 @@ import { ServerRequestType, ServerResponseType, ServerSuccessPayload } from 'typ
 
 const MongoStore = MongoStoreThunk(createSession);
 
-const session = createSession({
-  secret: __SESSION_SECRET__,
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: false },
-  unset: 'destroy',
-  store: new MongoStore({
-    url: __MONGODB_URI__,
-    mongoOptions: {
-      useNewUrlParser: dbConnectionOptions.useNewUrlParser,
-      useUnifiedTopology: dbConnectionOptions.useUnifiedTopology
-    },
-    secret: __AUTH_SECRET__ // encrypts DB traffic
-  }),
-});
-
 export interface DefaultHandlerConfigOptions {
   requireAuth?: boolean
 }
@@ -36,7 +20,23 @@ export const createDefaultHandler = <Data = unknown>({
   requireAuth = true
 }: DefaultHandlerConfigOptions = {}): NextConnect<ServerRequestType, ServerResponseType<ServerSuccessPayload<Data>>> => nc({
   onError: handleError
-}).use(session).use(requireAuth ? casInstance.authenticate : (_req, _res, next) => next());
+}).use(
+  createSession({
+    secret: __SESSION_SECRET__,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false },
+    unset: 'destroy',
+    store: new MongoStore({
+      url: __MONGODB_URI__,
+      mongoOptions: {
+        useNewUrlParser: dbConnectionOptions.useNewUrlParser,
+        useUnifiedTopology: dbConnectionOptions.useUnifiedTopology
+      },
+      secret: __AUTH_SECRET__ // encrypts DB traffic
+    }),
+  })
+).use(requireAuth ? casInstance.authenticate : (_req, _res, next) => next());
 
 export const createSuccessPayload = <T>(data: T): ServerSuccessPayload<T> => ({
   data, meta: { success: true }
