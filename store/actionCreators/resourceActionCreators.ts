@@ -1,43 +1,21 @@
-import { createAsyncActionCreator, AsyncActionCreatorConfig } from 'store/actionCreators';
-import * as resourceRequests from 'store/requests/resourceRequests';
+import { ResourceActions, EditableResource } from 'types/resource';
 
-import { Empty } from 'types/generic';
-import { FetchResourceData, DeleteResourceData, EditableResource } from 'types/resource';
-import { ThunkResult } from 'types/state';
+export const createResource = (fields: EditableResource): ResourceActions => ({
+  type: 'CREATE_RESOURCE_REQUEST',
+  payload: { data: { fields } }
+});
 
-export const fetchResourceById = (
-  id: string,
-  additionalConfig: AsyncActionCreatorConfig<FetchResourceData, Empty> = {}
-): ThunkResult => (dispatch) => createAsyncActionCreator(
-  dispatch, 'FETCH_RESOURCE',
-  () => resourceRequests.fetchResourceByIdRequest(id),
-  additionalConfig
-);
+export const fetchResourceById = (id: string): ResourceActions => ({
+  type: 'FETCH_RESOURCE_REQUEST',
+  payload: { data: { id } }
+});
 
-export const createResource = (
-  fields: EditableResource,
-  additionalConfig: AsyncActionCreatorConfig<FetchResourceData, Empty> = {}
-): ThunkResult => (dispatch) => createAsyncActionCreator(
-  dispatch, 'FETCH_RESOURCE',
-  () => resourceRequests.createResource(fields),
-  additionalConfig
-);
+export const updateResourceById = (id: string, fields: EditableResource): ResourceActions => ({
+  type: 'UPDATE_RESOURCE_REQUEST',
+  payload: { data: { id, fields } }
+});
 
-export const updateResourceById = (
-  id: string,
-  fields: EditableResource,
-  additionalConfig: AsyncActionCreatorConfig<FetchResourceData, Empty> = {}
-): ThunkResult => (dispatch) => createAsyncActionCreator(
-  dispatch, 'FETCH_RESOURCE',
-  () => resourceRequests.updateResourceByIdRequest(id, fields),
-  additionalConfig
-);
-
-export const deleteResourceById = (
-  id: string,
-  additionalConfig: AsyncActionCreatorConfig<DeleteResourceData, Empty> = {}
-): ThunkResult => (dispatch) => createAsyncActionCreator(
-  dispatch, 'DELETE_RESOURCE',
-  () => resourceRequests.deleteResourceByIdRequest(id),
-  additionalConfig
-);
+export const deleteResourceById = (id: string): ResourceActions => ({
+  type: 'DELETE_RESOURCE_REQUEST',
+  payload: { data: { id } }
+});

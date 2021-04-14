@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 import { BaseError, DocumentNotFoundError } from 'errors';
 import { ResourceModel } from 'models';
 
-import { Resource, EditableResource, ResourceDocument } from 'types/resource';
+import { EditableResource, ResourceDocument } from 'types/resource';
 
 export const create = async (fields: EditableResource): Promise<ResourceDocument> => {
   const { content, link } = fields;

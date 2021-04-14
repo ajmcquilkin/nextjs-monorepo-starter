@@ -9,10 +9,8 @@ const initialState: ResourceState = {
 };
 
 const resourceReducer = (state = initialState, action: Actions): ResourceState => {
-  if (action.status !== 'SUCCESS') return state;
-
   switch (action.type) {
-    case 'FETCH_RESOURCE':
+    case 'FETCH_RESOURCE_SUCCESS':
       return {
         ...state,
         resources: {
@@ -21,7 +19,7 @@ const resourceReducer = (state = initialState, action: Actions): ResourceState =
         }
       };
 
-    case 'FETCH_RESOURCES':
+    case 'FETCH_RESOURCES_SUCCESS':
       return {
         ...state,
         resources: action.payload.data.resources.reduce((accum, resource) => ({
@@ -30,7 +28,7 @@ const resourceReducer = (state = initialState, action: Actions): ResourceState =
         }), state.resources)
       };
 
-    case 'FETCH_RESOURCE_RESULTS':
+    case 'FETCH_RESOURCE_RESULTS_SUCCESS':
       return {
         ...state,
         results: action.payload.data.results,
@@ -41,7 +39,7 @@ const resourceReducer = (state = initialState, action: Actions): ResourceState =
         }), state.resources)
       };
 
-    case 'DELETE_RESOURCE':
+    case 'DELETE_RESOURCE_SUCCESS':
       return {
         ...state,
         resources: omit(state.resources, action.payload.data.id)

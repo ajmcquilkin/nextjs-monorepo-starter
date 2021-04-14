@@ -1,19 +1,16 @@
 import { FormEventHandler, useState } from 'react';
-
 import { fetchResourceById as fetchResourceByIdType } from 'store/actionCreators/resourceActionCreators';
-
 import { Resource } from 'types/resource';
-import { ConnectedThunkCreator } from 'types/state';
 
 export interface ReduxStateProps {
   resourceMap: Record<string, Resource>,
 
   isLoading: boolean,
-  errorMessage: string
+  errorMessages: string[]
 }
 
 export interface ReduxDispatchProps {
-  fetchResourceById: ConnectedThunkCreator<typeof fetchResourceByIdType>
+  fetchResourceById: typeof fetchResourceByIdType
 }
 
 export interface ReduxPassedProps {
@@ -23,7 +20,7 @@ export interface ReduxPassedProps {
 export type ReduxProps = ReduxStateProps & ReduxDispatchProps & ReduxPassedProps;
 
 const Redux = ({
-  resourceMap, isLoading, errorMessage, fetchResourceById
+  resourceMap, isLoading, errorMessages, fetchResourceById
 }: ReduxProps): JSX.Element => {
   const [id, setId] = useState<string>('');
 
@@ -46,7 +43,7 @@ const Redux = ({
           </div>
         )}
 
-      { errorMessage && <p>{errorMessage}</p>}
+      { errorMessages && <p>{errorMessages[0]}</p>}
 
       <form onSubmit={handleRequestResource}>
         <input type="text" value={id} onChange={(e) => setId(e.target.value)} />

@@ -13,7 +13,7 @@ const resourceErrorSelector = createErrorSelector(['FETCH_RESOURCE']);
 const mapStateToProps = (state: RootState): ReduxStateProps => ({
   resourceMap: state.resource.resources,
   isLoading: resourceLoadingSelector(state),
-  errorMessage: resourceErrorSelector(state)
+  errorMessages: resourceErrorSelector(state)
 });
 
 const mapDispatchToProps: ReduxDispatchProps = {

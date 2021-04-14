@@ -5,28 +5,28 @@ import { Helmet } from 'react-helmet';
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
-import thunk, { ThunkMiddleware } from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 
 import AnnouncementLiveText from 'components/helpers/announcementLiveText';
-// import AuthWrapper from 'components/helpers/authWrapper';
 import MainWrapper from 'components/layout/mainWrapper';
 import ModalWrapper from 'components/modals/modalWrapper';
 
 import rootReducer from 'store/reducers';
-
-import { Actions, RootState } from 'types/state';
+import rootSaga from 'store/sagas';
 
 import '../styles/globals.scss';
 
-// Reference: https://stackoverflow.com/questions/50294265/type-error-with-redux-thunk-when-using-connect
+const sagaMiddleware = createSagaMiddleware();
+
 const store = createStore(
   rootReducer, {},
   composeWithDevTools(
-    applyMiddleware(thunk as ThunkMiddleware<RootState, Actions>),
+    applyMiddleware(sagaMiddleware)
   )
 );
 
-// http://reactcommunity.org/react-modal/accessibility/
+sagaMiddleware.run(rootSaga);
+
 Modal.setAppElement('#root');
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => (
@@ -46,6 +46,7 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => (
       <AnnouncementLiveText />
       <MainWrapper>
         <ModalWrapper />
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <Component {...pageProps} />
       </MainWrapper>
     </Provider>
