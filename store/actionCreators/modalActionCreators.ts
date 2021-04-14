@@ -1,18 +1,11 @@
-import { ModalState, ModalType } from 'types/modal';
-import { ThunkResult } from 'types/state';
+import { ModalActions, ModalState, ModalType } from 'types/modal';
 
-export const openModal = (type: ModalType, config: Partial<ModalState>): ThunkResult => (dispatch): void => {
-  dispatch({
-    type: 'OPEN_MODAL',
-    payload: { data: { type, config } },
-    status: 'SUCCESS'
-  });
-};
+export const openModal = (type: ModalType, config: Partial<ModalState>): ModalActions => ({
+  type: 'OPEN_MODAL',
+  payload: { type, config }
+});
 
-export const closeModal = (): ThunkResult => (dispatch): void => {
-  dispatch({
-    type: 'CLOSE_MODAL',
-    payload: { data: {} },
-    status: 'SUCCESS'
-  });
-};
+export const closeModal = (): ModalActions => ({
+  type: 'CLOSE_MODAL',
+  payload: {}
+});

@@ -4,6 +4,7 @@ import {
 } from 'redux-saga/effects';
 
 import * as resourceRequests from 'store/requests/resourceRequests';
+import { getErrorPayload } from 'utils/store';
 
 import { ResourceActions, FetchResourceData } from 'types/resource';
 import { Actions, ActionTypes, RequestReturnType } from 'types/state';
@@ -17,7 +18,7 @@ function* createResource(action: ResourceActions) {
     const response: RequestReturnType<FetchResourceData> = yield call(resourceRequests.createResource, action.payload.data.fields);
     yield put<Actions>({ type: 'CREATE_RESOURCE_SUCCESS', payload: { data: { resource: response.data.data.resource } } });
   } catch (error) {
-    yield put<Actions>({ type: 'CREATE_RESOURCE_FAILURE', payload: { message: error.message, code: error.response?.status || error.code || error.name || null } });
+    yield put<Actions>({ type: 'CREATE_RESOURCE_FAILURE', payload: getErrorPayload(error) });
   }
 }
 
@@ -28,7 +29,7 @@ function* fetchResourceById(action: ResourceActions) {
     const response: RequestReturnType<FetchResourceData> = yield call(resourceRequests.fetchResourceByIdRequest, action.payload.data.id);
     yield put<Actions>({ type: 'FETCH_RESOURCE_SUCCESS', payload: { data: { resource: response.data.data.resource } } });
   } catch (error) {
-    yield put<Actions>({ type: 'FETCH_RESOURCE_FAILURE', payload: { message: error.message, code: error.response?.status || error.code || error.name || null } });
+    yield put<Actions>({ type: 'FETCH_RESOURCE_FAILURE', payload: getErrorPayload(error) });
   }
 }
 
@@ -39,7 +40,7 @@ function* updateResourceById(action: ResourceActions) {
     const response: RequestReturnType<FetchResourceData> = yield call(resourceRequests.updateResourceByIdRequest, action.payload.data.id, action.payload.data.fields);
     yield put<Actions>({ type: 'UPDATE_RESOURCE_SUCCESS', payload: { data: { resource: response.data.data.resource } } });
   } catch (error) {
-    yield put<Actions>({ type: 'UPDATE_RESOURCE_FAILURE', payload: { message: error.message, code: error.response?.status || error.code || error.name || null } });
+    yield put<Actions>({ type: 'UPDATE_RESOURCE_FAILURE', payload: getErrorPayload(error) });
   }
 }
 
@@ -50,7 +51,7 @@ function* deleteResourceById(action: ResourceActions) {
     yield call(resourceRequests.deleteResourceByIdRequest, action.payload.data.id);
     yield put<Actions>({ type: 'DELETE_RESOURCE_SUCCESS', payload: { data: { id: action.payload.data.id } } });
   } catch (error) {
-    yield put<Actions>({ type: 'DELETE_RESOURCE_FAILURE', payload: { message: error.message, code: error.response?.status || error.code || error.name || null } });
+    yield put<Actions>({ type: 'DELETE_RESOURCE_FAILURE', payload: getErrorPayload(error) });
   }
 }
 

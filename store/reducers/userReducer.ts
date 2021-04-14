@@ -12,10 +12,8 @@ const initialState: UserState = {
 };
 
 const userReducer = (state = initialState, action: Actions): UserState => {
-  if (action.status !== 'SUCCESS') { return state; }
-
   switch (action.type) {
-    case 'AUTH_USER':
+    case 'AUTH_USER_SUCCESS':
       return {
         ...state,
         name: action.payload.data.name,

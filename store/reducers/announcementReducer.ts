@@ -6,14 +6,12 @@ const initialState: AnnouncementState = {
 };
 
 const announcementReducer = (state = initialState, action: Actions): AnnouncementState => {
-  if (action.status !== 'SUCCESS') { return state; }
-
   switch (action.type) {
     case 'SET_ANNOUNCEMENT':
-      return { ...state, activeAnnouncement: action.payload.data.announcement };
+      return { ...state, activeAnnouncement: action.payload.announcement };
 
     case 'CLEAR_ANNOUNCEMENT':
-      return { ...state, activeAnnouncement: '' };
+      return { ...state, activeAnnouncement: initialState.activeAnnouncement };
 
     default:
       return state;

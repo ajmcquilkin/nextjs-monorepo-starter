@@ -1,9 +1,9 @@
 import {
-  createContext, ReactNode, useContext, useEffect, useState
+  createContext, ReactNode,
+  useContext, useEffect, useState
 } from 'react';
 
 import { dispatchAnnouncement as dispatchAnnouncementImport } from 'store/actionCreators/announcementActionCreators';
-import { ConnectedThunkCreator } from 'types/state';
 
 export const SkeletonContext = createContext(false);
 export const useSkeletonLoading = (): boolean => useContext(SkeletonContext);
@@ -19,7 +19,7 @@ export interface SkeletonAreaStateProps {
 }
 
 export interface SkeletonAreaDispatchProps {
-  dispatchAnnouncement: ConnectedThunkCreator<typeof dispatchAnnouncementImport>,
+  dispatchAnnouncement: typeof dispatchAnnouncementImport,
 }
 
 export type SkeletonAreaProps = SkeletonAreaPassedProps & SkeletonAreaStateProps & SkeletonAreaDispatchProps;

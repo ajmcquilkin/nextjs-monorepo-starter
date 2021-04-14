@@ -1,5 +1,5 @@
 import { Empty } from 'types/generic';
-import { Action } from 'types/state';
+import { Action, AsyncActionType, AsyncAction } from 'types/state';
 
 /* -------- Generic -------- */
 
@@ -32,8 +32,9 @@ export type AuthUserData = {
 
 export type DeauthUserData = Empty;
 
-type AuthUserAction = Action<typeof AUTH_USER, AuthUserData>
+type AuthUserActions = AsyncAction<typeof AUTH_USER, AuthUserData>
 type DeauthUserAction = Action<typeof DEAUTH_USER, DeauthUserData>
 
-export type UserActions = AuthUserAction | DeauthUserAction;
-export type UserActionTypes = typeof AUTH_USER | typeof DEAUTH_USER;
+export type UserActions = AuthUserActions | DeauthUserAction;
+export type UserActionTypes = AsyncActionType<typeof AUTH_USER> | typeof DEAUTH_USER;
+export type UserActionSubTypes = typeof AUTH_USER | typeof DEAUTH_USER;

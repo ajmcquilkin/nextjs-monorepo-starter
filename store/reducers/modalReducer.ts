@@ -8,15 +8,13 @@ const initialState: ModalState = {
 };
 
 const modalReducer = (state = initialState, action: Actions): ModalState => {
-  if (action.status !== 'SUCCESS') return state;
-
   switch (action.type) {
     case 'OPEN_MODAL':
       return {
         ...state,
-        type: action.payload.data.type,
-        title: action.payload.data.config.title || '',
-        content: action.payload.data.config.content || '',
+        type: action.payload.type,
+        title: action.payload.config.title || '',
+        content: action.payload.config.content || '',
       };
 
     case 'CLOSE_MODAL':

@@ -1,20 +1,15 @@
-import { Announcement } from 'types/announcement';
-import { ThunkResult } from 'types/state';
+import { Announcement, AnnouncementActions } from 'types/announcement';
 
-export const dispatchAnnouncement = (announcement: Announcement): ThunkResult => (dispatch): void => {
+export const dispatchAnnouncement = (announcement: Announcement): AnnouncementActions => {
   if (__MODE__ === 'dev') { console.info(announcement); }
 
-  dispatch({
+  return ({
     type: 'SET_ANNOUNCEMENT',
-    payload: { data: { announcement } },
-    status: 'SUCCESS'
+    payload: { announcement }
   });
 };
 
-export const clearAnnouncements = (): ThunkResult => (dispatch): void => {
-  dispatch({
-    type: 'CLEAR_ANNOUNCEMENT',
-    payload: { data: {} },
-    status: 'SUCCESS'
-  });
-};
+export const clearAnnouncements = (): AnnouncementActions => ({
+  type: 'CLEAR_ANNOUNCEMENT',
+  payload: {}
+});

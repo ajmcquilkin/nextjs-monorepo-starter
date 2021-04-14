@@ -1,10 +1,9 @@
 import ReactModal from 'react-modal';
 
+import ModalContainer from 'components/modals/modalContainer';
 import { closeModal as closeModalImport } from 'store/actionCreators/modalActionCreators';
 
 import { ModalState } from 'types/modal';
-import { ConnectedThunkCreator } from 'types/state';
-import ModalContainer from 'components/modals/modalContainer';
 
 export interface ModalWrapperPassedProps {
 
@@ -15,7 +14,7 @@ export type ModalWrapperStateProps = ModalState & {
 }
 
 export interface ModalWrapperDispatchProps {
-  closeModal: ConnectedThunkCreator<typeof closeModalImport>
+  closeModal: typeof closeModalImport
 }
 
 export type ModalWrapperProps = ModalWrapperPassedProps & ModalWrapperStateProps & ModalWrapperDispatchProps;

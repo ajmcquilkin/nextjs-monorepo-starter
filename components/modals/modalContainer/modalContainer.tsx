@@ -1,7 +1,5 @@
 import { ReactNode } from 'react';
-
 import { closeModal as closeModalImport } from 'store/actionCreators/modalActionCreators';
-import { ConnectedThunkCreator } from 'types/state';
 
 export interface ModalContainerPassedProps {
   title?: string,
@@ -18,7 +16,7 @@ export interface ModalContainerStateProps {
 }
 
 export interface ModalContainerDispatchProps {
-  closeModal: ConnectedThunkCreator<typeof closeModalImport>
+  closeModal: typeof closeModalImport
 }
 
 export type ModalContainerProps = ModalContainerPassedProps & ModalContainerStateProps & ModalContainerDispatchProps;

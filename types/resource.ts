@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 import { hasField, hasKey, isValidObject } from 'types/generic';
-import { Action, ActionType } from 'types/state';
+import { AsyncAction, AsyncActionType } from 'types/state';
 
 /* -------- Generic -------- */
 
@@ -60,13 +60,13 @@ export type FetchResourcesData = { resources: Resource[] };
 export type DeleteResourceData = { id: string };
 export type FetchResourceResultsData = { resources: Resource[], results: string[], numResults: number };
 
-type CreateResourceActions = Action<typeof CREATE_RESOURCE, FetchResourceData, { fields: EditableResource }>
-type FetchResourceActions = Action<typeof FETCH_RESOURCE, FetchResourceData, { id: string }>
-type UpdateResourceActions = Action<typeof UPDATE_RESOURCE, FetchResourceData, { id: string, fields: EditableResource }>
-type DeleteResourceActions = Action<typeof DELETE_RESOURCE, DeleteResourceData, { id: string }>
+type CreateResourceActions = AsyncAction<typeof CREATE_RESOURCE, FetchResourceData, { fields: EditableResource }>
+type FetchResourceActions = AsyncAction<typeof FETCH_RESOURCE, FetchResourceData, { id: string }>
+type UpdateResourceActions = AsyncAction<typeof UPDATE_RESOURCE, FetchResourceData, { id: string, fields: EditableResource }>
+type DeleteResourceActions = AsyncAction<typeof DELETE_RESOURCE, DeleteResourceData, { id: string }>
 
-type FetchResourcesActions = Action<typeof FETCH_RESOURCES, FetchResourcesData>
-type FetchResourceResultsActions = Action<typeof FETCH_RESOURCE_RESULTS, FetchResourceResultsData>
+type FetchResourcesActions = AsyncAction<typeof FETCH_RESOURCES, FetchResourcesData>
+type FetchResourceResultsActions = AsyncAction<typeof FETCH_RESOURCE_RESULTS, FetchResourceResultsData>
 
 export type ResourceActions =
   CreateResourceActions |
@@ -77,12 +77,12 @@ export type ResourceActions =
   DeleteResourceActions;
 
 export type ResourceActionTypes =
-  ActionType<typeof CREATE_RESOURCE> |
-  ActionType<typeof FETCH_RESOURCE> |
-  ActionType<typeof UPDATE_RESOURCE> |
-  ActionType<typeof FETCH_RESOURCE_RESULTS> |
-  ActionType<typeof FETCH_RESOURCE> |
-  ActionType<typeof DELETE_RESOURCE>;
+  AsyncActionType<typeof CREATE_RESOURCE> |
+  AsyncActionType<typeof FETCH_RESOURCE> |
+  AsyncActionType<typeof UPDATE_RESOURCE> |
+  AsyncActionType<typeof FETCH_RESOURCE_RESULTS> |
+  AsyncActionType<typeof FETCH_RESOURCE> |
+  AsyncActionType<typeof DELETE_RESOURCE>;
 
 export type ResourceActionSubTypes =
   typeof CREATE_RESOURCE |
