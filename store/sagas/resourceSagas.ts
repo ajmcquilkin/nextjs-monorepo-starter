@@ -76,10 +76,14 @@ function* watchDeleteResourceById() {
 /* -------- Global -------- */
 
 export default function* resourceSaga(): Generator<AllEffect<Generator<StrictEffect<any, any>, void, void>>, void, any> {
-  yield all([
-    watchCreateResourceById(),
-    watchFetchResourceById(),
-    watchUpdateResourceById(),
-    watchDeleteResourceById(),
-  ]);
+  try {
+    yield all([
+      watchCreateResourceById(),
+      watchFetchResourceById(),
+      watchUpdateResourceById(),
+      watchDeleteResourceById(),
+    ]);
+  } catch (error) {
+    console.error(error);
+  }
 }

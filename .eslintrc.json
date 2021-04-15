@@ -3,6 +3,7 @@
   "extends": [
     "airbnb",
     "plugin:@typescript-eslint/recommended",
+    "plugin:redux-saga/recommended",
     "plugin:react/recommended"
   ],
   "env": {
@@ -12,6 +13,7 @@
   },
   "plugins": [
     "@typescript-eslint",
+    "redux-saga",
     "react"
   ],
   "rules": {
@@ -19,28 +21,45 @@
     "linebreak-style": "off",
     "react/destructuring-assignment": "off",
     "no-underscore-dangle": "off",
-    "max-len": ["error", { "code": 200 }],
+    "max-len": [
+      "error",
+      {
+        "code": 200
+      }
+    ],
     "jsx-a11y/anchor-is-valid": "off",
-    "indent": ["error", 2, { "SwitchCase": 1 }],
-
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
     "import/extensions": "off",
-    "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }],
+    "react/jsx-filename-extension": [
+      2,
+      {
+        "extensions": [
+          ".jsx",
+          ".tsx"
+        ]
+      }
+    ],
     "react/jsx-props-no-spreading": "warn",
     "react/require-default-props": "off",
     "import/prefer-default-export": "off",
-
     // Bugfix https://stackoverflow.com/questions/63961803/eslint-says-all-enums-in-typescript-app-are-already-declared-in-the-upper-scope
     "no-shadow": "off",
-    "@typescript-eslint/no-shadow": ["error"],
+    "@typescript-eslint/no-shadow": [
+      "error"
+    ],
     "@typescript-eslint/no-empty-interface": "off",
-
     // Disable prop-types as we use TypeScript for type checking
     "react/prop-types": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
-
     // needed for NextJS's jsx without react import
     "react/react-in-jsx-scope": "off"
   },

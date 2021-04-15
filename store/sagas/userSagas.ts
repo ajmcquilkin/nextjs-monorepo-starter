@@ -40,7 +40,11 @@ function* watchAuthUser() {
 /* -------- Global -------- */
 
 export default function* resourceSaga(): Generator<AllEffect<Generator<StrictEffect<any, any>, void, void>>, void, any> {
-  yield all([
-    watchAuthUser()
-  ]);
+  try {
+    yield all([
+      watchAuthUser()
+    ]);
+  } catch (error) {
+    console.error(error);
+  }
 }
