@@ -5,11 +5,13 @@ export const dispatchAnnouncement = (announcement: Announcement): AnnouncementAc
 
   return ({
     type: 'SET_ANNOUNCEMENT',
-    payload: { announcement }
+    payload: { announcement },
+    status: 'SUCCESS'
   });
 };
 
 export const clearAnnouncements = (): AnnouncementActions => ({
   type: 'CLEAR_ANNOUNCEMENT',
-  payload: {}
+  payload: {},
+  status: 'SUCCESS'
 });

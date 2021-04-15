@@ -1,8 +1,5 @@
 import { useRouter } from 'next/router';
-import {
-  StrictEffect, AllEffect,
-  put, call, takeLatest, all
-} from 'redux-saga/effects';
+import { put, call, takeLatest } from 'redux-saga/effects';
 
 import * as userRequests from 'store/requests/userRequests';
 
@@ -15,7 +12,8 @@ import { UserActions, AuthUserData } from 'types/user';
 /* -------- Effects -------- */
 
 function* authUser(action: UserActions) {
-  if (action.type !== 'AUTH_USER_REQUEST') return;
+  if (action.type !== 'AUTH_USER') return;
+  if (action.status !== 'REQUEST') return;
 
   try {
     const response: RequestReturnType<AuthUserData> = yield call(userRequests.validateUserRequest);
@@ -25,26 +23,20 @@ function* authUser(action: UserActions) {
       router.push(casInstance.getAuthenticationServerUrl());
     }
 
-    yield put<Actions>({ type: 'AUTH_USER_SUCCESS', payload: { data: response.data.data } });
+    yield put<Actions>({ type: 'AUTH_USER', payload: { data: response.data.data }, status: 'SUCCESS' });
   } catch (error) {
-    yield put<Actions>({ type: 'AUTH_USER_FAILURE', payload: getErrorPayload(error) });
+    yield put<Actions>({ type: 'AUTH_USER', payload: getErrorPayload(error), status: 'FAILURE' });
   }
 }
 
 /* -------- Watchers -------- */
 
 function* watchAuthUser() {
-  yield takeLatest<ActionTypes>('AUTH_USER_REQUEST', authUser);
+  yield takeLatest<ActionTypes>('AUTH_USER', authUser);
 }
 
 /* -------- Global -------- */
 
-export default function* resourceSaga(): Generator<AllEffect<Generator<StrictEffect<any, any>, void, void>>, void, any> {
-  try {
-    yield all([
-      watchAuthUser()
-    ]);
-  } catch (error) {
-    console.error(error);
-  }
+export default function* userSaga() {
+  yield watchAuthUser();
 }

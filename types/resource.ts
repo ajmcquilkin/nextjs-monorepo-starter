@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 import { hasField, hasKey, isValidObject } from 'types/generic';
-import { AsyncAction, AsyncActionType } from 'types/state';
+import { AsyncAction } from 'types/state';
 
 /* -------- Generic -------- */
 
@@ -77,17 +77,9 @@ export type ResourceActions =
   DeleteResourceActions;
 
 export type ResourceActionTypes =
-  AsyncActionType<typeof CREATE_RESOURCE> |
-  AsyncActionType<typeof FETCH_RESOURCE> |
-  AsyncActionType<typeof UPDATE_RESOURCE> |
-  AsyncActionType<typeof FETCH_RESOURCE_RESULTS> |
-  AsyncActionType<typeof FETCH_RESOURCE> |
-  AsyncActionType<typeof DELETE_RESOURCE>;
-
-export type ResourceActionSubTypes =
   typeof CREATE_RESOURCE |
   typeof FETCH_RESOURCE |
   typeof UPDATE_RESOURCE |
-  typeof DELETE_RESOURCE |
-  typeof FETCH_RESOURCES |
-  typeof FETCH_RESOURCE_RESULTS;
+  typeof FETCH_RESOURCE_RESULTS |
+  typeof FETCH_RESOURCE |
+  typeof DELETE_RESOURCE;

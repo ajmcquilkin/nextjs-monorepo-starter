@@ -1,9 +1,15 @@
 import { all } from 'redux-saga/effects';
-import resourceSaga from 'store/sagas/resourceSagas';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+import resourceSaga from 'store/sagas/resourceSagas';
+import userSaga from 'store/sagas/userSagas';
+
 export default function* rootSaga() {
-  yield all([
-    resourceSaga()
-  ]);
+  try {
+    yield all([
+      resourceSaga(),
+      userSaga()
+    ]);
+  } catch (error) {
+    console.error(error);
+  }
 }
